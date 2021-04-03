@@ -21,14 +21,10 @@ namespace CafeMVC.Web.Controllers
         {
             ViewData["Złoty"] = "zł";
             var sniadania = new Menu() { Id = 1, Name = "Śniadania" };
-            sniadania.ListOfProducts = new List<Product>
-            {
-               
-                new Product { Id = 1, Name = "Owsianka", Price = 10 },
-                new Product { Id = 2, Name = "Granola i owoce w Jogurcie", Price = 10 },
-                new Product { Id = 3, Name = "Tost z szynką i serem", Price = 12 }
-            };
-
+            sniadania.ListOfProducts.Add(new Product { Id = 1, Name = "Owsianka", Price = 10 });
+            sniadania.ListOfProducts.Add(new Product { Id = 2, Name = "Granola i owoce w Jogurcie", Price = 10 });
+            sniadania.ListOfProducts.Add(new Product { Id = 3, Name = "Tost z szynką i serem", Price = 12 });
+            
             return View(sniadania.ListOfProducts);
         }
         public IActionResult ProductView(int id)
@@ -46,6 +42,15 @@ namespace CafeMVC.Web.Controllers
             };
             sniadania.ListOfProducts.Add(owsianka);
             return View(sniadania.ListOfProducts[id-1]);
+        }
+        public IActionResult OrderView()
+        {
+            var orderView = new OrderView();
+            orderView.MenuList.Add(new Menu { Id = 1, Name = "Śniadania" });
+            orderView.MenuList.Add(new Menu { Id = 2, Name = "Bajglo-Burgery" });
+            orderView.MenuList.Add(new Menu { Id = 3, Name = "Naleśniki" });
+            orderView.MenuList.Add(new Menu { Id = 4, Name = "Napoje Gorące" });
+            return View(orderView);
         }
         public IActionResult Index()
         {

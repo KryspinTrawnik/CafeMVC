@@ -13,7 +13,12 @@ namespace CafeMVC.Web.Models
         public string Name { get; set; }
 
         public List<Product> ListOfProducts {get; set; }
+        
+        public Menu()
+        {
+            ListOfProducts = new List<Product>();
+        }
     }
-    
+   
 
 }

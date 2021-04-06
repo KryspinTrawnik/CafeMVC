@@ -9,13 +9,10 @@ namespace CafeMVC.Web.Models
     {
         public List<Menu> MenuList {get; set;}
 
-        public List<PromotionDeal> PromotionDeals { get; set; }
 
         public OrderView()
         {
             MenuList = new List<Menu>();
-
-            PromotionDeals = new List<PromotionDeal>();
         }
     }
 }

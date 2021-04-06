@@ -17,19 +17,22 @@ namespace CafeMVC.Web.Controllers
         {
             _logger = logger;
         }
-        public IActionResult Menu()
+        public IActionResult Menu(int id)
         {
             ViewData["Złoty"] = "zł";
+            var MenuList = new List<Menu>();
             var sniadania = new Menu() { Id = 1, Name = "Śniadania" };
             sniadania.ListOfProducts.Add(new Product { Id = 1, Name = "Owsianka", Price = 10 });
             sniadania.ListOfProducts.Add(new Product { Id = 2, Name = "Granola i owoce w Jogurcie", Price = 10 });
             sniadania.ListOfProducts.Add(new Product { Id = 3, Name = "Tost z szynką i serem", Price = 12 });
-            
-            return View(sniadania.ListOfProducts);
+            MenuList.Add(sniadania);
+            return View(MenuList[id-1].ListOfProducts);
         }
         public IActionResult ProductView(int id)
         {
+           
             ViewBag.Space = ", ";
+            ViewData["Currency"] = "zł";
             var sniadania = new Menu() { Id = 1, Name = "Śniadania" };
             sniadania.ListOfProducts = new List<Product>();
             var owsianka = new Product { Id = 1, Name = "Owsianka", Price = 10 };
@@ -50,7 +53,7 @@ namespace CafeMVC.Web.Controllers
             orderView.MenuList.Add(new Menu { Id = 2, Name = "Bajglo-Burgery" });
             orderView.MenuList.Add(new Menu { Id = 3, Name = "Naleśniki" });
             orderView.MenuList.Add(new Menu { Id = 4, Name = "Napoje Gorące" });
-            return View(orderView);
+            return View(orderView.MenuList);
         }
         public IActionResult Index()
         {

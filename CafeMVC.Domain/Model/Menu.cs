@@ -11,5 +11,9 @@ namespace CafeMVC.Domain.Model
         public int Id { get; set; }
 
         public string Name { get; set; }
+
+        public virtual MenuType MenuType { get; set; }
+
+        public virtual ICollection<Product> Products { get; set; }
     }
 }

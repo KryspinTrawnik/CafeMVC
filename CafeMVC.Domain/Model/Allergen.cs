@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CafeMVC.Domain.Model
 {
-    public class Allergens
+    public class Allergen
     {
         public int Id { get; set; }
 

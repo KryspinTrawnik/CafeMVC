@@ -18,6 +18,10 @@ namespace CafeMVC.Domain.Model
 
         public string Note { get; set; }
 
+        public virtual int UserId { get; set; }
+
+        public virtual User User { get; set; }
+
         public virtual ICollection<Address> Addresses { get; set; }
 
         public virtual ICollection<Product> Products { get; set; }

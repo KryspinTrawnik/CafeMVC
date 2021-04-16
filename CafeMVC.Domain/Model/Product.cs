@@ -18,11 +18,11 @@ namespace CafeMVC.Domain.Model
 
         public virtual Type Type { get; set; }
 
-        public virtual DietInformation DietInformation {get; set;}
+        public DietInformation DietInformation {get; set;}
 
-        public virtual ICollection<Ingredient> Ingredients { get; set; }
+        public ICollection<Ingredient> Ingredients { get; set; }
 
-        public virtual ICollection<Allergen> Allergens { get; set; }
+        public ICollection<Allergen> Allergens { get; set; }
 
     }
 }

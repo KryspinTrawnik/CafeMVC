@@ -8,6 +8,8 @@ namespace CafeMVC.Domain.Model
 
         public string Name { get; set; }
 
-        public virtual ICollection<Address> Addresses { get; set; }
+        public int AddersRef { get; set; }
+
+        public Address Address { get; set; }
     }
 }

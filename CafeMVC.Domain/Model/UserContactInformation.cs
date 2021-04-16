@@ -10,11 +10,11 @@ namespace CafeMVC.Domain.Model
     {
         public int Id { get; set; }
 
-        public string ContactDetailInformatio { get; set; }
+        public string ContactDetailInformation { get; set; }
 
-        public int ContactDetailTypId { get; set; }
+        public virtual int ContactDetailTypId { get; set; }
 
-        public ContactDetailInfotmationType ContactDetailInfotmationType {get; set;}
+        public virtual ContactDetailInfotmationType ContactDetailInfotmationType {get; set;}
 
         public int UserId { get; set; }
 

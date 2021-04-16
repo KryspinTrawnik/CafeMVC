@@ -5,5 +5,9 @@
         public int Id { get; set; }
 
         public string Type { get; set;  }
+
+        public int UserContactInformationRef { get; set; }
+
+        public UserContactInformation UserContactInformation { get; set; }
     }
 }

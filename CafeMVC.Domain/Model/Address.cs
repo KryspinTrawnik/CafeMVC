@@ -16,6 +16,8 @@ namespace CafeMVC.Domain.Model
 
         public string Country { get; set; }
 
+        public  int TypeId { get; set; }
+
         public virtual AddressType AddressType { get; set; }
     }
 }

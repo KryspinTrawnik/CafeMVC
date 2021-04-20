@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CafeMVC.Domain.Model
 {
-    public class ProductType
+    public class ProductType : BaseModel
     {
         public int Id { get; set; }
 

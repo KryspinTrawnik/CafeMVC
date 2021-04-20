@@ -6,14 +6,20 @@ using System.Threading.Tasks;
 
 namespace CafeMVC.Domain.Interfaces
 {
-    public interface IRepository<T>
+    public interface IGenericRepository<T>
     {
         void AddItem(T item);
 
         void DeleteItem(int id);
 
+        void UpdateItem(T item);
+
+        void Save();
+
         T GetItemById(int id);
 
-        IQueryable<T> GetAllType()
+        IQueryable<T> GetAllType();
+
+        
     }
 }

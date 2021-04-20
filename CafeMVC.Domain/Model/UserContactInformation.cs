@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace CafeMVC.Domain.Model
 {
-    public class UserContactInformation
+    public class UserContactInformation :BaseModel
     {
-        public int Id { get; set; }
-
         public string ContactDetailInformation { get; set; }
 
         public virtual int ContactDetailTypId { get; set; }

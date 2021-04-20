@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace CafeMVC.Domain.Model
 {
-    public class Order
+    public class Order : BaseModel
     {
-        public int Id { get; set; }
-
         public DateTime LeadTime { get; set; }
 
         public double Price { get; set; }

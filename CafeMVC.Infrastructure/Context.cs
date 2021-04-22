@@ -1,11 +1,6 @@
 ﻿using CafeMVC.Domain.Model;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CafeMVC.Infrastructure
 {
@@ -34,6 +29,7 @@ namespace CafeMVC.Infrastructure
         public DbSet<User> Users { get; set; }
 
         public DbSet<UserContactInformation> UserContactInformation { get; set; }
+
 
         public Context(DbContextOptions options) : base(options)
         {

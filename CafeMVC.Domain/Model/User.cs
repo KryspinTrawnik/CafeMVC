@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace CafeMVC.Domain.Model
 {
@@ -15,5 +11,7 @@ namespace CafeMVC.Domain.Model
         public ICollection<Address> Addresses { get; set; }
 
         public virtual UserContactInformation UserContactInformation {get; set;}
+
+        public ICollection<Order> Orders { get; set; }
     }
 }

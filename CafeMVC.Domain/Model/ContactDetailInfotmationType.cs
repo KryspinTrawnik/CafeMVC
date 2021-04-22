@@ -1,6 +1,4 @@
-﻿using CafeMVC.Domain.Interfaces;
-
-namespace CafeMVC.Domain.Model
+﻿namespace CafeMVC.Domain.Model
 {
     public class ContactDetailInfotmationType :BaseModel
     {

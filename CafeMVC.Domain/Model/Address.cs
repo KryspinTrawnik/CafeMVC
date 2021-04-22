@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace CafeMVC.Domain.Model
+﻿namespace CafeMVC.Domain.Model
 {
     public class Address
     {

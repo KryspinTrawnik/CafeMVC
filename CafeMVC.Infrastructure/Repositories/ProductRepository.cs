@@ -1,10 +1,6 @@
 ﻿using CafeMVC.Domain.Interfaces;
 using CafeMVC.Domain.Model;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CafeMVC.Infrastructure.Repositories
 {
@@ -12,6 +8,26 @@ namespace CafeMVC.Infrastructure.Repositories
     {
         public ProductRepository(Context context) : base(context)
         {
+        }
+
+        public void AddNewAllergen()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void AddNewIngredient()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IQueryable<Allergen> GetAllAllergens(Product product)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IQueryable<Ingredient> GetAllIngredients(Product product)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

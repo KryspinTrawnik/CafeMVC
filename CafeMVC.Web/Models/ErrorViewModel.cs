@@ -1,5 +1,3 @@
-using System;
-
 namespace CafeMVC.Web.Models
 {
     public class ErrorViewModel

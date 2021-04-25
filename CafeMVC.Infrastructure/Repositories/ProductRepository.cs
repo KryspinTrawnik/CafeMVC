@@ -8,26 +8,47 @@ namespace CafeMVC.Infrastructure.Repositories
     {
         public ProductRepository(Context context) : base(context)
         {
+            
         }
 
-        public void AddNewAllergen()
+        public void InsertAllergenToProduct(Allergen allergen, int productId)
         {
-            throw new System.NotImplementedException();
+            Product updatedProduct = GetItemById(productId);
+            updatedProduct.Allergens.Add(allergen);
+            UpdateItem(updatedProduct);
         }
 
-        public void AddNewIngredient()
+        public void InsertIngredientToProduct(Ingredient ingredient, int productId)
         {
-            throw new System.NotImplementedException();
+
+            Product updatedProduct = GetItemById(productId);
+            updatedProduct.Ingredients.Add(ingredient);
+            UpdateItem(updatedProduct);
         }
 
-        public IQueryable<Allergen> GetAllAllergens(Product product)
+        public IQueryable<Allergen> GetAllAllergensFromProduct(int productId)
         {
-            throw new System.NotImplementedException();
+            
+            return (IQueryable<Allergen>)GetItemById(productId).Allergens.ToList();
         }
 
-        public IQueryable<Ingredient> GetAllIngredients(Product product)
+        public IQueryable<Ingredient> GetAllIngredientsFromProduct(int productId)
         {
-            throw new System.NotImplementedException();
+            
+            return (IQueryable<Ingredient>)GetItemById(productId).Ingredients.ToList();
         }
+
+        public IQueryable<Ingredient>GetAllIngredients()
+        {
+            return (IQueryable<Ingredient>)_context.Ingredients.ToList();
+        }
+
+
+        public IQueryable<Allergen>GetAllAllergens()
+        {
+            return (IQueryable<Allergen>)_context.Allergens.ToList();
+        }
+
+       
     }
 }

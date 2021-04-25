@@ -6,8 +6,8 @@ namespace CafeMVC.Infrastructure.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        private readonly Context _context;
-        private readonly DbSet<T> table;
+        public readonly Context _context;
+        public readonly DbSet<T> table;
 
         public GenericRepository(Context context)
         {
@@ -17,12 +17,14 @@ namespace CafeMVC.Infrastructure.Repositories
         public void AddItem(T item)
         {
             table.Add(item);
+            _context.SaveChanges();
         }
 
         public void DeleteItem(int id)
         {
             T existitng = table.Find(id);
             table.Remove(existitng);
+            _context.SaveChanges();
         }
 
         public IQueryable<T> GetAllType()
@@ -39,6 +41,7 @@ namespace CafeMVC.Infrastructure.Repositories
         {
             table.Attach(item);
             _context.Entry(item).State = EntityState.Modified;
+            _context.SaveChanges();
 
         }
 

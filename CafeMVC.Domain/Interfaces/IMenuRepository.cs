@@ -9,10 +9,10 @@ namespace CafeMVC.Domain.Interfaces
 {
     public interface IMenuRepository : IGenericRepository<Menu>
     {
-        void AddNewProduct(Product product, Menu menu);
+        void AddNewProduct(Product product, int menuId);
 
-        IQueryable<Product> GetAllProduct(Menu menu);
+        IQueryable<Product> GetAllProduct(int menuId);
 
-        void DeleteProductFromMenu(int ProductId);
+        void DeleteProductFromMenu(int menuId, int productId);
     }
 }

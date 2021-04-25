@@ -9,7 +9,7 @@ namespace CafeMVC.Domain.Interfaces
 {
     public interface IUserRepository : IGenericRepository<User>
     {
-        IQueryable<Order> GetOrdersOfUser(User user);
+        IQueryable<Order> GetOrdersByUser(int userId);
 
 
     }

@@ -13,5 +13,24 @@ namespace CafeMVC.Infrastructure.Repositories
         public MenuRepository(Context context) : base(context)
         {
         }
+
+        public void AddNewProduct(Product product, int menuId)
+        {
+            var menu = GetItemById(menuId);
+            menu.Products.Add(product);
+            UpdateItem(menu);
+        }
+
+        public void DeleteProductFromMenu(int menuId, int productId)
+        {
+            var menu = GetItemById(menuId);
+            menu.Products.Remove(menu.Products.ToList().Find(x => x.Id == productId));
+        }
+
+        public IQueryable<Product> GetAllProduct(int menuId)
+        {
+            var menu = GetItemById(menuId);
+            return (IQueryable<Product>)menu.Products.ToList();
+        }
     }
 }

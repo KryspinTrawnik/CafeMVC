@@ -13,5 +13,11 @@ namespace CafeMVC.Infrastructure.Repositories
         public OrderRepository(Context context) : base(context)
         {
         }
+
+        public IQueryable<Order> GetNotDoneOrders()
+        {
+            return (IQueryable<Order>)GetAllType().Where(x => x.HasBeenDone == false).ToList();
+
+        }
     }
 }

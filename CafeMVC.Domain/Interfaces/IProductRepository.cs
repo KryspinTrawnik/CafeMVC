@@ -5,14 +5,16 @@ namespace CafeMVC.Domain.Interfaces
 {
     public interface IProductRepository : IGenericRepository<Product>
     {
-        void AddNewIngredient();
+        void InsertIngredientToProduct(Ingredient ingredient, int productId);
 
-        IQueryable<Ingredient> GetAllIngredients(Product product);
+        IQueryable<Ingredient> GetAllIngredientsFromProduct(int productId);
 
-        void AddNewAllergen();
+        void InsertAllergenToProduct(Allergen allergen, int productId);
 
-        IQueryable<Allergen> GetAllAllergens(Product product);
+        IQueryable<Allergen> GetAllAllergensFromProduct(int productId);
 
+        IQueryable<Allergen> GetAllAllergens();
 
+        IQueryable<Ingredient> GetAllIngredients();
     }
 }

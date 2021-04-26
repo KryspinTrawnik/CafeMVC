@@ -16,7 +16,7 @@ namespace CafeMVC.Infrastructure.Repositories
 
         public IQueryable<Order> GetOrdersByUser(int userId)
         {
-            throw new NotImplementedException();
+            return (IQueryable<Order>)GetItemById(userId).Orders.ToList();  
         }
     }
 }

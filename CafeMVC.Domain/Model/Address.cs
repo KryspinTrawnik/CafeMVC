@@ -1,6 +1,6 @@
 ﻿namespace CafeMVC.Domain.Model
 {
-    public class Address
+    public class Address :BaseModel
     {
         public string BuildingNumber { get; set; }
 
@@ -16,6 +16,6 @@
 
         public  int TypeId { get; set; }
 
-        public virtual AddressType AddressType { get; set; }
+        public  AddressType AddressType { get; set; }
     }
 }

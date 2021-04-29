@@ -14,7 +14,7 @@ namespace CafeMVC.Infrastructure
 
         public DbSet<ContactDetailInfotmationType> ContactDetailInfotmationTypes { get; set; }
 
-        public DbSet<DietInformation> dietInformation { get; set; }
+        public DbSet<DietInformation> DietInformation { get; set; }
 
         public DbSet<Ingredient> Ingredients { get; set; }
 
@@ -45,6 +45,12 @@ namespace CafeMVC.Infrastructure
             builder.Entity<UserContactInformation>()
                 .HasOne(a => a.ContactDetailInfotmationType).WithOne(b => b.UserContactInformation)
                 .HasForeignKey<ContactDetailInfotmationType>(c => c.UserContactInformationRef);
+            builder.Entity<Product>()
+                .HasOne(a => a.DietInformation).WithOne(b => b.Product)
+                .HasForeignKey<DietInformation>(c => c.ProductRef);
+            builder.Entity<Product>()
+                .HasOne(a => a.ProductType).WithOne(b => b.Product)
+                .HasForeignKey<ProductType>(c => c.ProductRef);
 
 
             base.OnModelCreating(builder);      

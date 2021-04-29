@@ -11,7 +11,7 @@ namespace CafeMVC.Domain.Model
 
         public int TypeId { get; set; }
 
-        public virtual Type Type { get; set; }
+        public ProductType ProductType{ get; set; }
 
         public DietInformation DietInformation {get; set;}
 

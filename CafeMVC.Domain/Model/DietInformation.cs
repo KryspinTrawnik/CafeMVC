@@ -1,6 +1,6 @@
 ﻿namespace CafeMVC.Domain.Model
 {
-    public class DietInformation
+    public class DietInformation : BaseModel
     {
         public bool IsVegetarian { get; set; }
 

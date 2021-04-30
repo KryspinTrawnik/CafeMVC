@@ -16,7 +16,7 @@ namespace CafeMVC.Infrastructure.Repositories
 
         public IQueryable<Order> GetOrdersByUser(int userId)
         {
-            return (IQueryable<Order>)GetItemById(userId).Orders.ToList();  
+            return GetItemById(userId).Orders.AsQueryable();  
         }
     }
 }

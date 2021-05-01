@@ -29,24 +29,24 @@ namespace CafeMVC.Infrastructure.Repositories
         public IQueryable<Allergen> GetAllAllergensFromProduct(int productId)
         {
             
-            return (IQueryable<Allergen>)GetItemById(productId).Allergens.ToList();
+            return GetItemById(productId).Allergens.AsQueryable();
         }
 
         public IQueryable<Ingredient> GetAllIngredientsFromProduct(int productId)
         {
             
-            return (IQueryable<Ingredient>)GetItemById(productId).Ingredients.ToList();
+            return GetItemById(productId).Ingredients.AsQueryable();
         }
 
         public IQueryable<Ingredient>GetAllIngredients()
         {
-            return (IQueryable<Ingredient>)_context.Ingredients.ToList();
+            return _context.Ingredients;
         }
 
 
         public IQueryable<Allergen>GetAllAllergens()
         {
-            return (IQueryable<Allergen>)_context.Allergens.ToList();
+            return _context.Allergens;
         }
 
        

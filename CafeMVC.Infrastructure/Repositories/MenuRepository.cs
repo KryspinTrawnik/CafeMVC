@@ -30,7 +30,7 @@ namespace CafeMVC.Infrastructure.Repositories
         public IQueryable<Product> GetAllProduct(int menuId)
         {
             var menu = GetItemById(menuId);
-            return (IQueryable<Product>)menu.Products.ToList();
+            return menu;
         }
     }
 }

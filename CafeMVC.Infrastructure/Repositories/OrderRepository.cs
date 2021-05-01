@@ -16,7 +16,7 @@ namespace CafeMVC.Infrastructure.Repositories
 
         public IQueryable<Order> GetNotDoneOrders()
         {
-            return (IQueryable<Order>)GetAllType().Where(x => x.HasBeenDone == false).ToList();
+            return GetAllType().Where(x => x.HasBeenDone == false);
 
         }
     }

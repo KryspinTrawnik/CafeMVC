@@ -12,5 +12,23 @@ namespace CafeMVC.Web.Controllers
         {
             return View();
         }
+
+        public IActionResult OrderMenuView()
+        {
+            var ListOfMenus = menuService.GetAllMenuType();
+            return View();
+        }
+        [HttpGet]
+        public IActionResult OrderVieWProductOfMenu(int menuTypeId)
+        {
+            var ListOfProductByMenu = menuService.GetAllProductOfMenuType(int menuTypeId);
+            return View(ListOfProductByMenu);
+        }
+        [HttpPost]
+        public IActionResult OrderVieWProductOfMenu(OrderModel orderModel)
+        {
+            var ListOfProductByMenu = menuService.GetAllProductOfMenuType(int menuTypeId);
+            return View();
+        }
     }
 }

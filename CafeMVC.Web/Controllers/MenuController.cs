@@ -10,7 +10,43 @@ namespace CafeMVC.Web.Controllers
     {
         public IActionResult Index()
         {
+            var ListOfMenus = menuService.GetAllMenuType();
+            return View(ListOfMenus);
+        }
+        
+        public IActionResult VieWProductsByMenuType(int menuTypeId)
+        {
+            var ListOfProductByMenu = menuService.GetAllProductOfMenuType(int menuTypeId);
+            return View(ListOfProductByMenu);
+        }
+
+        public IActionResult ViewProduct(int productId)
+        {
+            var viewProduct = menuService.GetProductById(productId);
+            return View(viewProduct);
+        }
+        [HttpGet]
+        public IActionResult AddNewProduct()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult AddNewProduct(ProductModel productModel)
+        {
+            menuService.AddNewProduct(productModel);
+            return View();
+        }
+        [HttpGet]
+        public IActionResult AddNewMenu()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult AddNewMenu(MenutModel menuModel)
+        {
+            menuService.AddNewMenu(menuModel);
             return View();
         }
     }
+
 }

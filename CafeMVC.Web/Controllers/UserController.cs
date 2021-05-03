@@ -12,5 +12,27 @@ namespace CafeMVC.Web.Controllers
         {
             return View();
         }
+        // add user
+        // add address
+        // change address
+        // view list of users
+        
+        [HttpGet]
+        public IActionResult ViewUserDetails(int userId)
+        {
+            var userForView = userServiece.GetUserById(userId);
+            return View(userModel);                  
+        }
+        [HttpGet]
+        public IActionResult AddNewUser()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult AddNewUser(UserModel userModel)
+        {
+            userService.AddNewUser(userModel);
+            return View()
+        }
     }
 }

@@ -54,5 +54,25 @@ namespace CafeMVC.Web.Controllers
             orderService.AddProductToOrder(productForView);
             return View();
         }
+        [HttpDelete]
+        public IActionResult RemoveProductFromOrder(int productId)
+        {
+            orderService.RemoveProduct(productId);
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult OrderSummary(int orderId)
+        {
+            var orderForSummary = orderService.GetOrderbyId(orderId);
+            return View(orderForSummary);
+        }
+        [HttpPost]
+        public IActionResult OrderSummary(OrderForView orderForView)
+        {
+            orderService.ConfirmOrder(orderForView);
+            return View();
+        }
+
     }
 }

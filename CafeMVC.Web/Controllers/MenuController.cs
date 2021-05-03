@@ -14,7 +14,7 @@ namespace CafeMVC.Web.Controllers
             return View(ListOfMenus);
         }
         
-        public IActionResult VieWProductOfMenu(int menuTypeId)
+        public IActionResult VieWProductsByMenuType(int menuTypeId)
         {
             var ListOfProductByMenu = menuService.GetAllProductOfMenuType(int menuTypeId);
             return View(ListOfProductByMenu);

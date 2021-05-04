@@ -47,6 +47,54 @@ namespace CafeMVC.Web.Controllers
             menuService.AddNewMenu(menuModel);
             return View();
         }
+        [HttpGet]
+        public IActionResult AddNewIngredient()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult AddNewIngredient(IngredienttModel ingredientModel)
+        {
+            menuService.AddNewMenu(ingredientModel);
+            return View();
+        }
+        [HttpGet]
+        public IActionResult ChangeNameOfProduct( int productId)
+        {
+            var productForChange = menuService.GetProductById(productId);
+            return View();
+        }
+        [HttpPatch]
+        public IActionResult ChangeNameOfProduct( ProductModel productModel)
+        {
+            menuService.UpdateProductName(productModel);
+            return View();
+        }
+        [HttpGet]
+        public IActionResult AddIngredientsToProduct(int productId)
+        {
+            var productForChange = menuService.GetProductById(productId);
+            return View();
+        }
+        [HttpPatch]
+        public IActionResult AddIngredientsToProduct(ProductModel productModel)
+        {
+            menuService.AddIngredients(productModel);
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult DeleteIngredientsToProduct(int productId)
+        {
+            var productForChange = menuService.GetProductById(productId);
+            return View();
+        }
+        [HttpPatch]
+        public IActionResult AddIngredientsToProduct(ProductModel productModel)
+        {
+            menuService.AddIngredients(productModel);
+            return View();
+        }
     }
 
 }

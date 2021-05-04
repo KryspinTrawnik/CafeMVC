@@ -75,5 +75,12 @@ namespace CafeMVC.Web.Controllers
             return View();
         }
 
+
+        [HttpGet]
+        public IActionResult ChangeLeadTime(int orderId)
+        {
+            var orderForSummary = orderService.GetOrderbyId(orderId);
+            return View(orderForSummary);
+        }
     }
 }

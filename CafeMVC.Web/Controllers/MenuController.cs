@@ -25,57 +25,75 @@ namespace CafeMVC.Web.Controllers
             var viewProduct = menuService.GetProductById(productId);
             return View(viewProduct);
         }
+
         [HttpGet]
         public IActionResult AddNewProduct()
         {
             return View();
         }
+
         [HttpPost]
         public IActionResult AddNewProduct(ProductModel productModel)
         {
             menuService.AddNewProduct(productModel);
             return View();
         }
+
+        [HttpGet]
+        public IActionResult AddNewProductToMenu()
+        {
+            var listOfAllProducts = menuService.GetAllProducts();
+            var listOfAllMenuType = menuService.GetAllMenuType();
+            return View(listOfAllProducts, listOfAllMenuType);
+        }
+        
         [HttpGet]
         public IActionResult AddNewMenu()
         {
             return View();
         }
+        
         [HttpPost]
         public IActionResult AddNewMenu(MenutModel menuModel)
         {
             menuService.AddNewMenu(menuModel);
             return View();
         }
+        
         [HttpGet]
         public IActionResult AddNewIngredient()
         {
             return View();
         }
+        
         [HttpPost]
         public IActionResult AddNewIngredient(IngredienttModel ingredientModel)
         {
             menuService.AddNewMenu(ingredientModel);
             return View();
         }
+        
         [HttpGet]
         public IActionResult ChangeNameOfProduct( int productId)
         {
             var productForChange = menuService.GetProductById(productId);
             return View();
         }
+        
         [HttpPatch]
         public IActionResult ChangeNameOfProduct( ProductModel productModel)
         {
             menuService.UpdateProductName(productModel);
             return View();
         }
+        
         [HttpGet]
         public IActionResult AddIngredientsToProduct(int productId)
         {
             var productForChange = menuService.GetProductById(productId);
             return View();
         }
+        
         [HttpPatch]
         public IActionResult AddIngredientsToProduct(ProductModel productModel)
         {
@@ -89,6 +107,7 @@ namespace CafeMVC.Web.Controllers
             var productForChange = menuService.GetProductById(productId);
             return View();
         }
+        
         [HttpPatch]
         public IActionResult AddIngredientsToProduct(ProductModel productModel)
         {

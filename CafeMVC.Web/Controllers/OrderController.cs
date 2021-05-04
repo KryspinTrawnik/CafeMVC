@@ -10,7 +10,8 @@ namespace CafeMVC.Web.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            var allOrdersForView = menuService.GetAllOrders();
+            return View(allOrdersForView);
         }
 
         public IActionResult OrderMenuView()

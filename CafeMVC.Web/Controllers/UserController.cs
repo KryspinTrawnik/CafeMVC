@@ -10,9 +10,9 @@ namespace CafeMVC.Web.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            var ListOfUsers = userService.GetAllUsers();
+            return View(ListOfUsers);
         }
-        // add user
         // add address
         // change address
         // view list of users
@@ -23,16 +23,30 @@ namespace CafeMVC.Web.Controllers
             var userForView = userServiece.GetUserById(userId);
             return View(userModel);                  
         }
+
         [HttpGet]
         public IActionResult AddNewUser()
         {
             return View();
         }
+
         [HttpPost]
         public IActionResult AddNewUser(UserModel userModel)
         {
             userService.AddNewUser(userModel);
-            return View()
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult ChangeAddress()
+        {
+            return View();
+        }
+        [HttpPatch]
+        public IActionResult ChangeAddress(AddressModel address)
+        {
+            userService.ChangeUserAddress(address);
+            return View();
         }
     }
 }

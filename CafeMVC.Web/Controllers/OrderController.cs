@@ -25,30 +25,21 @@ namespace CafeMVC.Web.Controllers
             var ListOfProductByMenu = menuService.GetAllProductOfMenuType(int menuTypeId);
             return View(ListOfProductByMenu);
         }
-        [HttpPost]
-        public IActionResult OrderVieWProductsByMenuType(int orderId, ProductForView productForView)
-        {
-            orderService.AddProductToOrder(orderId, productForView);
-            return View();
-        }
+        
         [HttpGet]
         public IActionResult VieWProductDetails(int productId)
         {
             var product = menuService.GetProductDetails(productId);
             return View(product);
         }
-        [HttpPost]
-        public IActionResult VieWProductDetails(ProductForView productForView)
-        {
-            orderService.AddProductToOrder(productForView);
-            return View();
-        }
+        
         [HttpGet]
         public IActionResult ViewOrderProducts(int orderId)
         {
             var orderProductsList = orderService.GetAllProducts(orderID);
             View(orderProductsList);
         }
+
         [HttpPut]
         public IActionResult ViewOrderProducts(int orderId, ProductForView productForView)
         {
@@ -68,6 +59,7 @@ namespace CafeMVC.Web.Controllers
             var orderForSummary = orderService.GetOrderbyId(orderId);
             return View(orderForSummary);
         }
+
         [HttpPost]
         public IActionResult OrderSummary(OrderForView orderForView)
         {
@@ -75,12 +67,18 @@ namespace CafeMVC.Web.Controllers
             return View();
         }
 
-
         [HttpGet]
         public IActionResult ChangeLeadTime(int orderId)
         {
-            var orderForSummary = orderService.GetOrderbyId(orderId);
-            return View(orderForSummary);
+            var LeadtimeOfOrder = orderService.GetOrderbyId(orderId).LeadTime;
+            return View(LeadtimeOfOrder);
+        }
+
+        [HttpPost]
+        public IActionResult ChangeLeadTime(DateTime leadTimeOfOrder, int orderId)
+        {
+            orderService.ChangeLeadTime(orderId, leadTimeOfOrder);
+            return View();
         }
     }
 }

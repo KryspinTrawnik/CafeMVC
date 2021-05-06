@@ -36,7 +36,30 @@ namespace CafeMVC.Web.Controllers
             userService.AddNewUser(userModel);
             return View();
         }
+        [HttpGet]
+        public IActionResult AddNewContactDetail()
+        {
+            return View();
+        }
 
+        [HttpPost]
+        public IActionResult AddNewContactDetail(ContactDetailForVM contactDetail, int userId)
+        {
+            userService.AddNewContactDetail(contactDetail, userId);
+            return View();
+        }
+        [HttpGet]
+        public IActionResult AddNewAddress()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddNewAddress(AddressForVM address, int userId)
+        {
+            userService.AddNewAddress(address, userId);
+            return View();
+        }
         [HttpGet]
         public IActionResult ChangeAddress()
         {
@@ -48,5 +71,6 @@ namespace CafeMVC.Web.Controllers
             userService.ChangeUserAddress(address);
             return View();
         }
+
     }
 }

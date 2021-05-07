@@ -80,5 +80,19 @@ namespace CafeMVC.Web.Controllers
             orderService.ChangeLeadTime(orderId, leadTimeOfOrder);
             return View();
         }
+        [HttpGet]
+        public IActionResult CanceleOrder(int orderId)
+        {
+            var orderToBeCancelled = orderService.GetOrderbyId(orderId);
+            return View(orderToBeCancelled);
+        }
+
+        [HttpDelete]
+        public IActionResult CanceleOrder(OrderForVM orderToBeCancelled)
+        {
+            orderService.CanceleOrder(orderToBeCancelled);
+            return View();
+        }
+
     }
 }

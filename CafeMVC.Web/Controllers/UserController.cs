@@ -13,8 +13,6 @@ namespace CafeMVC.Web.Controllers
             var ListOfUsers = userService.GetAllUsers();
             return View(ListOfUsers);
         }
-        // add address
-        // change address
         // view list of users
         
         [HttpGet]
@@ -48,6 +46,18 @@ namespace CafeMVC.Web.Controllers
             userService.AddNewContactDetail(contactDetail, userId);
             return View();
         }
+
+        [HttpGet]
+        public IActionResult RemoveContactDetail()
+        {
+            return View();
+        }
+        [HttpDelete]
+        public IActionResult RemoveContactDetail(ContactDetailForVM contactDetail, int userId)
+        {
+            userService.RemoveAddress(address);
+            return View();
+        }
         [HttpGet]
         public IActionResult AddNewAddress()
         {
@@ -66,11 +76,21 @@ namespace CafeMVC.Web.Controllers
             return View();
         }
         [HttpPatch]
-        public IActionResult ChangeAddress(AddressModel address)
+        public IActionResult ChangeAddress(AddressModel address, int userId)
         {
             userService.ChangeUserAddress(address);
             return View();
         }
-
+        [HttpGet]
+        public IActionResult RemoveAddress()
+        {
+            return View();
+        }
+        [HttpDelete]
+        public IActionResult RemoveAddress(AddressModel address)
+        {
+            userService.RemoveAddress(address);
+            return View();
+        }
     }
 }

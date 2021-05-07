@@ -55,7 +55,7 @@ namespace CafeMVC.Web.Controllers
         [HttpDelete]
         public IActionResult RemoveContactDetail(ContactDetailForVM contactDetail, int userId)
         {
-            userService.RemoveAddress(address);
+            userService.RemoveContactDetail(contactDetail, userId);
             return View();
         }
         [HttpGet]
@@ -87,9 +87,9 @@ namespace CafeMVC.Web.Controllers
             return View();
         }
         [HttpDelete]
-        public IActionResult RemoveAddress(AddressModel address)
+        public IActionResult RemoveAddress(AddressModel address, int userId)
         {
-            userService.RemoveAddress(address);
+            userService.RemoveAddress(address, userId);
             return View();
         }
     }

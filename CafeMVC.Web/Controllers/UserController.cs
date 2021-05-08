@@ -13,8 +13,7 @@ namespace CafeMVC.Web.Controllers
             var ListOfUsers = userService.GetAllUsers();
             return View(ListOfUsers);
         }
-        // view list of users
-        
+  
         [HttpGet]
         public IActionResult ViewUserDetails(int userId)
         {

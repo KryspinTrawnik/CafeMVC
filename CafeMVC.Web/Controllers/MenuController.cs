@@ -26,18 +26,6 @@ namespace CafeMVC.Web.Controllers
             return View(viewProduct);
         }
 
-        [HttpGet]
-        public IActionResult AddNewProduct()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult AddNewProduct(ProductModel productModel)
-        {
-            menuService.AddNewProduct(productModel);
-            return View();
-        }
 
         [HttpGet]
         public IActionResult AddNewProductToMenu()
@@ -73,47 +61,11 @@ namespace CafeMVC.Web.Controllers
             return View();
         }
         
-        [HttpGet]
-        public IActionResult ChangeNameOfProduct( int productId)
-        {
-            var productForChange = menuService.GetProductById(productId);
-            return View();
-        }
         
-        [HttpPatch]
-        public IActionResult ChangeNameOfProduct( ProductModel productModel)
-        {
-            menuService.UpdateProductName(productModel);
-            return View();
-        }
         
-        [HttpGet]
-        public IActionResult AddIngredientsToProduct(int productId)
-        {
-            var productForChange = menuService.GetProductById(productId);
-            return View();
-        }
-        
-        [HttpPatch]
-        public IActionResult AddIngredientsToProduct(int productId, int ingredientId)
-        {
-            menuService.AddIngredients(productId, ingredientId);
-            return View();
-        }
+       
 
-        [HttpGet]
-        public IActionResult DeleteIngredientsFromProduct(int productId)
-        {
-            var productForChange = menuService.GetProductById(productId);
-            return View();
-        }
         
-        [HttpPatch]
-        public IActionResult AddIngredientsFromProduct(ProductModel productModel, int productId)
-        {
-            menuService.AddIngredients(productModel);
-            return View();
-        }
     }
 
 }

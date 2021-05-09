@@ -19,6 +19,7 @@ namespace CafeMVC.Web.Controllers
             var ListOfMenus = menuService.GetAllMenuType();
             return View();
         }
+
         [HttpGet]
         public IActionResult OrderVieWProductOfMenu(int menuTypeId)
         {
@@ -40,12 +41,6 @@ namespace CafeMVC.Web.Controllers
             View(orderProductsList);
         }
 
-        [HttpPut]
-        public IActionResult ViewOrderProducts(int orderId, ProductForView productForView)
-        {
-            orderService.AddProductToOrder(productForView);
-            return View();
-        }
         [HttpDelete]
         public IActionResult RemoveProductFromOrder(int productId)
         {

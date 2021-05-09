@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace CafeMVC.Domain.Interfaces
 {
-    public interface IUserRepository : IGenericRepository<User>
+    public interface ICustomerRepository : IGenericRepository<Customer>
     {
-        IQueryable<Order> GetOrdersByUser(int userId);
+        IQueryable<Order> GetOrdersByCustomer(int customerId);
 
 
     }

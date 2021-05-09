@@ -5,8 +5,8 @@
 
         public string Name { get; set;  }
 
-        public int UserContactInformationRef { get; set; }
+        public int CustomerContactInformationRef { get; set; }
 
-        public UserContactInformation UserContactInformation { get; set; }
+        public CustomerContactInformation UserContactInformation { get; set; }
     }
 }

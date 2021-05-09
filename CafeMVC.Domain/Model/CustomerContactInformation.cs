@@ -1,6 +1,6 @@
 ﻿namespace CafeMVC.Domain.Model
 {
-    public class UserContactInformation :BaseModel
+    public class CustomerContactInformation :BaseModel
     {
         public string ContactDetailInformation { get; set; }
 
@@ -8,8 +8,8 @@
 
         public virtual ContactDetailInfotmationType ContactDetailInfotmationType {get; set;}
 
-        public int UserId { get; set; }
+        public int CustomerId { get; set; }
 
-        public User User { get; set; }
+        public Customer Customer { get; set; }
     }
 }

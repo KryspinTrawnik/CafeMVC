@@ -2,7 +2,7 @@
 
 namespace CafeMVC.Domain.Model
 {
-    public class User  : BaseModel
+    public class Customer  : BaseModel
     {
         public string FirstName { get; set; }
 
@@ -10,7 +10,7 @@ namespace CafeMVC.Domain.Model
 
         public ICollection<Address> Addresses { get; set; }
 
-        public virtual UserContactInformation UserContactInformation {get; set;}
+        public virtual CustomerContactInformation UserContactInformation {get; set;}
 
         public ICollection<Order> Orders { get; set; }
     }

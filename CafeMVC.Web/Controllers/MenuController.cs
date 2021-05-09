@@ -95,21 +95,21 @@ namespace CafeMVC.Web.Controllers
         }
         
         [HttpPatch]
-        public IActionResult AddIngredientsToProduct(ProductModel productModel)
+        public IActionResult AddIngredientsToProduct(int productId, int ingredientId)
         {
-            menuService.AddIngredients(productModel);
+            menuService.AddIngredients(productId, ingredientId);
             return View();
         }
 
         [HttpGet]
-        public IActionResult DeleteIngredientsToProduct(int productId)
+        public IActionResult DeleteIngredientsFromProduct(int productId)
         {
             var productForChange = menuService.GetProductById(productId);
             return View();
         }
         
         [HttpPatch]
-        public IActionResult AddIngredientsToProduct(ProductModel productModel)
+        public IActionResult AddIngredientsFromProduct(ProductModel productModel, int productId)
         {
             menuService.AddIngredients(productModel);
             return View();

@@ -13,12 +13,12 @@ namespace CafeMVC.Web.Controllers
             var listOfCustomers = customerService.GetAllCustomers();
             return View(listOfCustomers);
         }
-  
+
         [HttpGet]
         public IActionResult ViewUserDetails(int customerId)
         {
             var customerForView = customerServiece.GetCustomerById(customerId);
-            return View(customerForView);                  
+            return View(customerForView);
         }
 
         [HttpGet]
@@ -35,12 +35,25 @@ namespace CafeMVC.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult ViewCustomer(int ccustomerId
+        public IActionResult ViewCustomer(int customerId)
         {
-            var customerToView = customerService.GetCustomerById()
+            var customerToView = customerService.GetCustomerById(customerId);
             return View();
         }
-    }
+
+        [HttpGet]
+        public IActionResult DeleteCustomer()
+        {
+            return View();
+        }
+
+        [HttpDelete]
+        public IActionResult DeleteCustomer(int customerId)
+        {
+           customerService.Delete(customerId);
+            return View();
+        }
+
         [HttpGet]
         public IActionResult AddNewContactDetail()
         {
@@ -51,6 +64,19 @@ namespace CafeMVC.Web.Controllers
         public IActionResult AddNewContactDetail(ContactDetailForVM contactDetail, int customerId)
         {
             customerService.AddNewContactDetail(contactDetail, customerId);
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult ChangeContactDetail()
+        {
+            return View();
+        }
+
+        [HttpPatch]
+        public IActionResult ChangeContactDetail(ContactDetailForVM contactDetail, int customerId)
+        {
+            customerService.ChangeContactDetails(contactDetail, customerId);
             return View();
         }
 
@@ -99,5 +125,6 @@ namespace CafeMVC.Web.Controllers
             customerService.RemoveAddress(address, customerId);
             return View();
         }
+    
     }
 }

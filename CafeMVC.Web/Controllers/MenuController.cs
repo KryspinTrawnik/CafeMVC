@@ -13,40 +13,51 @@ namespace CafeMVC.Web.Controllers
             var ListOfMenus = menuService.GetAllMenuType();
             return View(ListOfMenus);
         }
-        
+
+        [HttpGet]
         public IActionResult VieWProductsByMenuType(int menuTypeId)
         {
             var ListOfProductByMenu = menuService.GetAllProductOfMenuType(int menuTypeId);
             return View(ListOfProductByMenu);
         }
 
+        [HttpGet]
         public IActionResult ViewProduct(int productId)
         {
-            var viewProduct = menuService.GetProductById(productId);
+            var viewProduct = productService.GetProductById(productId);
             return View(viewProduct);
         }
 
         [HttpGet]
-        public IActionResult AddNewProduct()
+        public IActionResult ViewMenuProductsByDieteInfo(int menuTypeId, DieteInfoModel dieteInfo)
         {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult AddNewProduct(ProductModel productModel)
-        {
-            menuService.AddNewProduct(productModel);
-            return View();
+            var productsByDieteInfo = menuService.GetProductByDieteInfo(dieteInfo);
+            return View(productsByDieteInfo);
         }
 
         [HttpGet]
         public IActionResult AddNewProductToMenu()
         {
-            var listOfAllProducts = menuService.GetAllProducts();
-            var listOfAllMenuType = menuService.GetAllMenuType();
-            return View(listOfAllProducts, listOfAllMenuType);
+            return View();
         }
-        
+        [HttpPost]
+        public IActionResult AddNewProductToMenu(ProductModel product, int menuId)
+        {
+            menuService.AddProductToMenu(product, menuId);
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult DeleteProductFromMenu()
+        {
+            return View();
+        }
+        [HttpDelete]
+        public IActionResult DeleteProductFromMenu(ProductModel product, int menuId)
+        {
+            menuService.DeleteProductFromMenu(product, menuId);
+            return View();
+        }
         [HttpGet]
         public IActionResult AddNewMenu()
         {
@@ -59,61 +70,29 @@ namespace CafeMVC.Web.Controllers
             menuService.AddNewMenu(menuModel);
             return View();
         }
-        
+
         [HttpGet]
-        public IActionResult AddNewIngredient()
+        public IActionResult DeleteMenu()
         {
             return View();
         }
-        
-        [HttpPost]
-        public IActionResult AddNewIngredient(IngredienttModel ingredientModel)
+        [HttpDelete]
+        public IActionResult DeleteMenu(int menuId)
         {
-            menuService.AddNewMenu(ingredientModel);
-            return View();
-        }
-        
-        [HttpGet]
-        public IActionResult ChangeNameOfProduct( int productId)
-        {
-            var productForChange = menuService.GetProductById(productId);
-            return View();
-        }
-        
-        [HttpPatch]
-        public IActionResult ChangeNameOfProduct( ProductModel productModel)
-        {
-            menuService.UpdateProductName(productModel);
-            return View();
-        }
-        
-        [HttpGet]
-        public IActionResult AddIngredientsToProduct(int productId)
-        {
-            var productForChange = menuService.GetProductById(productId);
-            return View();
-        }
-        
-        [HttpPatch]
-        public IActionResult AddIngredientsToProduct(int productId, int ingredientId)
-        {
-            menuService.AddIngredients(productId, ingredientId);
+            menuService.DeleteMenu(menuId);
             return View();
         }
 
         [HttpGet]
-        public IActionResult DeleteIngredientsFromProduct(int productId)
+        public IActionResult ChangeMenu()
         {
-            var productForChange = menuService.GetProductById(productId);
             return View();
         }
-        
         [HttpPatch]
-        public IActionResult AddIngredientsFromProduct(ProductModel productModel, int productId)
+        public IActionResult ChangeMenu(MenuModel menuModel)
         {
-            menuService.AddIngredients(productModel);
+            menuService.ChangeMenu(menuModel);
             return View();
         }
     }
-
 }

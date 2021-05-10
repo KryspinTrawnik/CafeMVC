@@ -115,7 +115,18 @@ namespace CafeMVC.Web.Controllers
             ingredientAndAllergenService.AddNewIngredient(ingredient);
             return View();
         }
+        [HttpGet]
+        public IActionResult AddNewAllergen()
+        {
+            return View();
+        }
 
+        [HttpPost]
+        public IActionResult AddNewAllergen(AllergenModel allergen)
+        {
+            ingredientAndAllergenService.AddNewAllergen(allergen);
+            return View();
+        }
 
     }
 }

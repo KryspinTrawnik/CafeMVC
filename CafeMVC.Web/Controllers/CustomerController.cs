@@ -115,16 +115,21 @@ namespace CafeMVC.Web.Controllers
             return View();
         }
         [HttpGet]
-        public IActionResult RemoveAddress()
+        public IActionResult DeleteAddress()
         {
             return View();
         }
         [HttpDelete]
-        public IActionResult RemoveAddress(AddressModel address, int customerId)
+        public IActionResult DeleteAddress(AddressModel address, int customerId)
         {
             customerService.RemoveAddress(address, customerId);
             return View();
         }
-    
+        [HttpGet]
+        public IActionResult ViewAddress()
+        {
+            return View();
+        }
+
     }
 }

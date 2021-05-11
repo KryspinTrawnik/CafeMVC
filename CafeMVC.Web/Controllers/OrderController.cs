@@ -37,14 +37,31 @@ namespace CafeMVC.Web.Controllers
         [HttpGet]
         public IActionResult ViewOrderProducts(int orderId)
         {
-            var orderProductsList = orderService.GetAllProducts(orderID);
-            View(orderProductsList);
+            var orderProductsList = orderService.GetAllProducts(orderId);
+            return View(orderProductsList);
         }
 
-        [HttpDelete]
-        public IActionResult RemoveProductFromOrder(int productId)
+        [HttpGet]
+        public IActionResult AddProductToOrder()
         {
-            orderService.RemoveProduct(productId);
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddProductToOrder(int orderId, int productId)
+        {
+            orderService.AddProductToOrder(orderId, productId);
+            return View();
+        }
+        [HttpGet]
+        public IActionResult DeleteProductFromOrder()
+        {
+            return View();
+        }
+        [HttpDelete]
+        public IActionResult DeleteProductFromOrder(int productId, int orderId)
+        {
+            orderService.RemoveProduct(productId, orderId);
             return View();
         }
 
@@ -58,8 +75,8 @@ namespace CafeMVC.Web.Controllers
         [HttpPost]
         public IActionResult OrderSummary(OrderForView orderForView)
         {
-            orderService.ConfirmOrder(orderForView);
-            return View();
+            var orderConfirmation = orderService.ConfirmOrder(orderForView);
+            return View(orderConfirmation);
         }
 
         [HttpGet]
@@ -69,10 +86,48 @@ namespace CafeMVC.Web.Controllers
             return View(LeadtimeOfOrder);
         }
 
-        [HttpPost]
+        [HttpPatch]
         public IActionResult ChangeLeadTime(DateTime leadTimeOfOrder, int orderId)
         {
             orderService.ChangeLeadTime(orderId, leadTimeOfOrder);
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult ChangeDeliveryAddress()
+        {
+            return View();
+        }
+
+        [HttpPatch]
+        public IActionResult ChangeDeliveryAddress(DeliveryAddress address, int orderId)
+        {
+            orderService.ChangeDeliveryTime(orderId, address);
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult AddAnntotation()
+        {
+            return View();
+        }
+
+        [HttpPatch]
+        public IActionResult AddAnntotation(string annotation, int orderId)
+        {
+            orderService.AddAnnotation(orderId, annotation);
+            return View();
+        }
+        [HttpGet]
+        public IActionResult ChangeAnntotation()
+        {
+            return View();
+        }
+
+        [HttpPatch]
+        public IActionResult ChangeAnntotation(string annotation, int orderId)
+        {
+            orderService.ChangeAnnotation(orderId, annotation);
             return View();
         }
         [HttpGet]

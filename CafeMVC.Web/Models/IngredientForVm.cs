@@ -1,6 +1,6 @@
 ﻿namespace CafeMVC.Web.Models
 {
-    public class Ingredient
+    public class IngredientForVm
     {
         public int Id { get; set; }
 

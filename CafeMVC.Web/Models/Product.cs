@@ -17,9 +17,9 @@ namespace CafeMVC.Web.Models
         public double Price { get; set;}
 
         [DisplayName("Składniki")]
-        public List<Ingredient> Ingredients { get; set; }
+        public List<IngredientForVm> Ingredients { get; set; }
 
-        public List<Allergens> Allergens { get; set; }
+        public List<AllergensForVM> Allergens { get; set; }
     }
 }
 

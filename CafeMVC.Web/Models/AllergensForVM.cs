@@ -1,6 +1,6 @@
 ﻿namespace CafeMVC.Web.Models
 {
-    public class Allergens
+    public class AllergensForVM
     {
         int Id { get; set; }
 

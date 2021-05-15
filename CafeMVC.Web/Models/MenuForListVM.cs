@@ -3,19 +3,14 @@ using System.ComponentModel;
 
 namespace CafeMVC.Web.Models
 {
-    public class Menu
+    public class MenuForListVM
     {
         [DisplayName("Nr")]
         public int Id { get; set; }
         [DisplayName("Menu")]
         public string Name { get; set; }
 
-        public List<Product> ListOfProducts {get; set; }
-        
-        public Menu()
-        {
-            ListOfProducts = new List<Product>();
-        }
+      
     }
    
 

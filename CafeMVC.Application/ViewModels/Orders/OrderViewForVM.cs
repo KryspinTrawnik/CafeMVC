@@ -2,12 +2,12 @@
 
 namespace CafeMVC.Web.Models
 {
-    public class OrderView
+    public class OrderViewForVM
     {
         public List<MenuForListVM> MenuList {get; set;}
 
 
-        public OrderView()
+        public OrderViewForVM()
         {
             MenuList = new List<MenuForListVM>();
         }

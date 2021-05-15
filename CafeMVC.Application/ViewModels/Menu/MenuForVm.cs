@@ -11,7 +11,7 @@ namespace CafeMVC.Web.Models
 
         public string Name { get; set; }
 
-        public List<ProductForVM> Products { get; set; }
+        public List<ProductForListVM> Products { get; set; }
     }
 
 }

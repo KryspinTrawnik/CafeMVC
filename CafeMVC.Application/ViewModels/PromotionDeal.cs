@@ -10,7 +10,7 @@ namespace CafeMVC.Web.Models
 
        public double Price { get; set; }
 
-       public List<Product> Products { get; set; }
+       public List<ProductForVM> Products { get; set; }
 
     }
 }

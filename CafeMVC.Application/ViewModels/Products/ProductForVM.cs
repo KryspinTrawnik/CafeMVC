@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace CafeMVC.Web.Models
 {
-    public class ProductForVM
+    public class ProductForVm
     {   
         [DisplayName("Numer")]
         public int Id { get; set; }

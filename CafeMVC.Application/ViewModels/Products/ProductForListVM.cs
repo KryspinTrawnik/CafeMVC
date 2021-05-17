@@ -1,6 +1,6 @@
 ﻿namespace CafeMVC.Web.Models
 {
-    public class ProductForListVM
+    public class ProductForListVm
     {
     }
 }

@@ -11,7 +11,7 @@ namespace CafeMVC.Web.Models
 
         public double TotalPrice { get; set; }
 
-        public List<ProductForListVM> OrderedProduct { get; set; }
+        public List<ProductForListVm> OrderedProduct { get; set; }
 
         public DateTime DateOfOrder { get; set; }
 

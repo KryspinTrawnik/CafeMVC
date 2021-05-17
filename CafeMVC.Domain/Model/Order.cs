@@ -15,9 +15,9 @@ namespace CafeMVC.Domain.Model
 
         public string Note { get; set; }
 
-        public virtual int CustomerId { get; set; }
+        public int CustomerId { get; set; }
 
-        public virtual Customer Customer { get; set; }
+        public Customer Customer { get; set; }
 
         public ICollection<Address> Addresses { get; set; }
 
@@ -25,5 +25,6 @@ namespace CafeMVC.Domain.Model
 
         public int OrderConfirmation { get; set; }
 
+        public bool IsCollection { get; set; }
     }
 }

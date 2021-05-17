@@ -6,15 +6,14 @@ using System.Threading.Tasks;
 
 namespace CafeMVC.Application.ViewModels.Orders
 {
-    public class OrderForUserListVm
+     public class OpenOrdersForListVm
     {
         public int Id { get; set; }
 
-        public DateTime DateOfOrder { get; set; }
+        public DateTime TimeOfOrder { get; set; }
 
-        public int ProductsCount { get; set; }
+        public int NumberOfProduct { get; set; }
 
-        public double Price { get; set; }
-    }   
+        public bool IsCollection { get; set; }
+    }
 }
-                        

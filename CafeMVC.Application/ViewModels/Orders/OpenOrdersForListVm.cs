@@ -10,7 +10,7 @@ namespace CafeMVC.Application.ViewModels.Orders
     {
         public int Id { get; set; }
 
-        public DateTime TimeOfOrder { get; set; }
+        public DateTime DateOfOrder { get; set; }
 
         public int NumberOfProduct { get; set; }
 

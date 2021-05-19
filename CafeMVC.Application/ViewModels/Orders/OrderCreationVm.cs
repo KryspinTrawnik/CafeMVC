@@ -19,7 +19,7 @@ namespace CafeMVC.Application.ViewModels.Orders
 
         public int CustomerId { get; set; }
 
-        public List<AddressVm> Addresses { get; set; }
+        public List<AddressForCreationVm> Addresses { get; set; }
 
         public List<ProductForListVm> MyProperty { get; set; }
     }

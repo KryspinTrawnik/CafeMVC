@@ -1,4 +1,4 @@
-﻿using CafeMVC.Web.Models;
+﻿using CafeMVC.Application.ViewModels.Products;
 using System;
 using System.Collections.Generic;
 using System.Linq;

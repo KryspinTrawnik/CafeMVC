@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace CafeMVC.Web.Models
+namespace CafeMVC.Application.ViewModels.Menu
 {
     public class MenuForListVM
     {

@@ -1,7 +1,8 @@
-﻿using System;
+﻿using CafeMVC.Application.ViewModels.Products;
+using System;
 using System.Collections.Generic;
 
-namespace CafeMVC.Web.Models
+namespace CafeMVC.Application.ViewModels.Orders
 {
     public class OrderViewForVM
     {

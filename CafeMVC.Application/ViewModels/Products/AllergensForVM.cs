@@ -1,4 +1,4 @@
-﻿namespace CafeMVC.Web.Models
+﻿namespace CafeMVC.Application.ViewModels.Products
 {
     public class AllergensForVM
     {

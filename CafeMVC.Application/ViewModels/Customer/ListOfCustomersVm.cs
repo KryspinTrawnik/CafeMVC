@@ -1,4 +1,4 @@
-﻿using CafeMVC.Application.ViewModels.Orders;
+﻿using CafeMVC.Application.ViewModels.Customer;
 using System;
 using System.Collections.Generic;
 using System.Linq;

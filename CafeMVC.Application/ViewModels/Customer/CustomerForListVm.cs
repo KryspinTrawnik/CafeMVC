@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CafeMVC.Application.ViewModels.Orders
+namespace CafeMVC.Application.ViewModels.Customer
 {
     public class CustomerForListVm
     {

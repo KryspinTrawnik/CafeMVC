@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace CafeMVC.Web.Models
+namespace CafeMVC.Application.ViewModels.Products
 {
     public class ProductForListVm
     {

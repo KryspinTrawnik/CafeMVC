@@ -1,13 +1,9 @@
 ﻿using CafeMVC.Application.ViewModels.Orders;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CafeMVC.Application.ViewModels.Customer
 {
-    public class CustomerDashboardVM
+    public class CustomerDashboardVm
     {
         public int Id { get; set; }
 

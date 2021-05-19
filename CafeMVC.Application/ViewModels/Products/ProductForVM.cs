@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace CafeMVC.Web.Models
+namespace CafeMVC.Application.ViewModels.Products
 {
     public class ProductForVm
     {   
@@ -10,8 +10,6 @@ namespace CafeMVC.Web.Models
 
         [DisplayName("Produkt")]
         public string Name { get; set; }
-
-        public int Type { get; set; }
         
         [DisplayName("Cena")]
         public double Price { get; set;}

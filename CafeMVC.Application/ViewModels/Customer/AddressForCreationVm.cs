@@ -1,4 +1,4 @@
-﻿namespace CafeMVC.Application.ViewModels.Orders
+﻿namespace CafeMVC.Application.ViewModels.Customer
 {
     public class AddressForCreationVm
     {

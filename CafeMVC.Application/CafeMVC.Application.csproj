@@ -5,11 +5,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ViewModels\Customer\ListOfCustomersVm.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Interfaces\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\CafeMVC.Domain\CafeMVC.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="ViewModels\Customer\ListOfCustomersVm.cs" />
   </ItemGroup>
 
 </Project>

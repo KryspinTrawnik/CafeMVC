@@ -12,6 +12,6 @@ namespace CafeMVC.Application.ViewModels.Products
 
         public List<IngredientForVm> Ingredients { get; set; }
 
-        public DietInfoForVM DietInformation { get; set; }
+        public DietInfoForVm DietInformation { get; set; }
     }
 }

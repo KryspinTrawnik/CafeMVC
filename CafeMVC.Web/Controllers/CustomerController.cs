@@ -50,7 +50,7 @@ namespace CafeMVC.Web.Controllers
         [HttpDelete]
         public IActionResult DeleteCustomer(int customerId)
         {
-           customerService.Delete(customerId);
+           customerService.DeleteCustomer(customerId);
             return View();
         }
 

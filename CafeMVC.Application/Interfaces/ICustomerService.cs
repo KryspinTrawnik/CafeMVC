@@ -11,10 +11,24 @@ namespace CafeMVC.Application.Interfaces
     {
         List<CustomerForListVm> GetAllCustomers();
 
-        CustomerDetailsVm GetCustomerById(int customerId);
+        CustomerDetailsVm GetCustomerDetail(int customerId);
+
+        CustomerDashboardVm GetCustomerDashboard(int customerId);
 
         void AddNewCustomer(CustomerForCreationVm customer);
 
         void DeleteCustomer(int customerId);
+
+        void AddNewContactDetail(ContactDetailForVm contactDetail, int customerId);
+
+        void ChangeContactDetails(int contactDetailId, int customerId);
+
+        void RemoveContactDetail(int contactDetailId, int customerId);
+
+        void AddNewAddress(AddressForCreationVm address, int customerId);
+
+        void ChangeAddress(int address, int customerId);
+
+        void DeleteAddress(int address, int customerId);
     }
 }

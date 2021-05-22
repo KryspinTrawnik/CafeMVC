@@ -14,8 +14,6 @@ namespace CafeMVC.Application.ViewModels.Customer
 
         public List<AddressForListVm> AddressForListVm { get; set; }
 
-        public List<PhoneNumberVm> PhoneNumbers { get; set; }
-
-        public List<EmailVm> AddressEmails { get; set; }
+        public List<ContactDetailForVm> ContactDetails { get; set; }
     }
 }

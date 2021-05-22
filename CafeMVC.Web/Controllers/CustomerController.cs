@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CafeMVC.Application.Interfaces;
+using CafeMVC.Application.ViewModels.Customer;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,17 +10,26 @@ namespace CafeMVC.Web.Controllers
 {
     public class CustomerController : Controller
     {
+        private readonly ICustomerService _customerService;
+
         public IActionResult Index()
         {
-            var listOfCustomers = customerService.GetAllCustomers();
+            var listOfCustomers = _customerService.GetAllCustomers();
             return View(listOfCustomers);
         }
 
         [HttpGet]
         public IActionResult ViewUserDetails(int customerId)
         {
-            var customerForView = customerServiece.GetCustomerById(customerId);
+            var customerForView = _customerService.GetCustomerDetail(customerId);
             return View(customerForView);
+        }
+
+        [HttpGet]
+        public IActionResult CustomerDashboard(int customerId)
+        {
+            var customerViewForDashboard = _customerService.GetCustomerDashboard(customerId);
+            return View(customerViewForDashboard);
         }
 
         [HttpGet]
@@ -28,16 +39,16 @@ namespace CafeMVC.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddNewCustomer(CustomerModel CustomerModel)
+        public IActionResult AddNewCustomer(CustomerForCreationVm customer)
         {
-            customerService.AddNewCustomer(CustomerModel);
+            _customerService.AddNewCustomer(customer);
             return View();
         }
 
         [HttpGet]
         public IActionResult ViewCustomer(int customerId)
         {
-            var customerToView = customerService.GetCustomerById(customerId);
+            var customerToView = _customerService.GetCustomerDetail(customerId);
             return View();
         }
 
@@ -50,7 +61,7 @@ namespace CafeMVC.Web.Controllers
         [HttpDelete]
         public IActionResult DeleteCustomer(int customerId)
         {
-           customerService.DeleteCustomer(customerId);
+           _customerService.DeleteCustomer(customerId);
             return View();
         }
 
@@ -61,9 +72,9 @@ namespace CafeMVC.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddNewContactDetail(ContactDetailForVM contactDetail, int customerId)
+        public IActionResult AddNewContactDetail(ContactDetailForVm contactDetail, int customerId)
         {
-            customerService.AddNewContactDetail(contactDetail, customerId);
+            _customerService.AddNewContactDetail(contactDetail, customerId);
             return View();
         }
 
@@ -74,9 +85,9 @@ namespace CafeMVC.Web.Controllers
         }
 
         [HttpPatch]
-        public IActionResult ChangeContactDetail(ContactDetailForVM contactDetail, int customerId)
+        public IActionResult ChangeContactDetail(int contactDetailId, int customerId)
         {
-            customerService.ChangeContactDetails(contactDetail, customerId);
+            _customerService.ChangeContactDetails(contactDetailId, customerId);
             return View();
         }
 
@@ -86,9 +97,9 @@ namespace CafeMVC.Web.Controllers
             return View();
         }
         [HttpDelete]
-        public IActionResult RemoveContactDetail(ContactDetailForVM contactDetail, int customerId)
+        public IActionResult RemoveContactDetail(int contactDetailId, int customerId)
         {
-            customerService.RemoveContactDetail(contactDetail, customerId);
+            _customerService.RemoveContactDetail(contactDetailId, customerId);
             return View();
         }
         [HttpGet]
@@ -98,9 +109,9 @@ namespace CafeMVC.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddNewAddress(AddressForVM address, int customerId)
+        public IActionResult AddNewAddress(AddressForCreationVm address, int customerId)
         {
-            customerService.AddNewAddress(address, customerId);
+            _customerService.AddNewAddress(address, customerId);
             return View();
         }
         [HttpGet]
@@ -109,9 +120,9 @@ namespace CafeMVC.Web.Controllers
             return View();
         }
         [HttpPatch]
-        public IActionResult ChangeAddress(AddressModel address, int customerId)
+        public IActionResult ChangeAddress(int addressId, int customerId)
         {
-            customerService.ChangeUserAddress(address);
+            _customerService.ChangeAddress(addressId, customerId);
             return View();
         }
         [HttpGet]
@@ -120,9 +131,9 @@ namespace CafeMVC.Web.Controllers
             return View();
         }
         [HttpDelete]
-        public IActionResult DeleteAddress(AddressModel address, int customerId)
+        public IActionResult DeleteAddress(int addressId, int customerId)
         {
-            customerService.RemoveAddress(address, customerId);
+            _customerService.DeleteAddress(addressId, customerId);
             return View();
         }
         [HttpGet]

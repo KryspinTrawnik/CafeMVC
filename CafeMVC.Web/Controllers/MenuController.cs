@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CafeMVC.Application.Interfaces;
+using CafeMVC.Application.ViewModels.Menu;
+using CafeMVC.Application.ViewModels.Products;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,16 +11,18 @@ namespace CafeMVC.Web.Controllers
 {
     public class MenuController : Controller
     {
+        private readonly IMenuService _menuService;
+
         public IActionResult Index()
         {
-            var ListOfMenus = menuService.GetAllMenuType();
+            var ListOfMenus = _menuService.GetAllMenuType();
             return View(ListOfMenus);
         }
 
         [HttpGet]
         public IActionResult VieWProductsByMenuType(int menuTypeId)
         {
-            var ListOfProductByMenu = menuService.GetAllProductOfMenuType(int menuTypeId);
+            var ListOfProductByMenu = _menuService.GetAllProductOfMenu(menuTypeId);
             return View(ListOfProductByMenu);
         }
 
@@ -29,9 +34,9 @@ namespace CafeMVC.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult ViewMenuProductsByDieteInfo(int menuTypeId, DieteInfoModel dieteInfo)
+        public IActionResult ViewMenuProductsByDieteInfo(int menuTypeId, DietInfoForVm dieteInfo)
         {
-            var productsByDieteInfo = menuService.GetProductByDieteInfo(dieteInfo);
+            var productsByDieteInfo = _menuService.GetProductByDieteInfo(dieteInfo, menuTypeId);
             return View(productsByDieteInfo);
         }
 
@@ -41,9 +46,9 @@ namespace CafeMVC.Web.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult AddNewProductToMenu(ProductModel product, int menuId)
+        public IActionResult AddNewProductToMenu(ProductForListVm product, int menuId)
         {
-            menuService.AddProductToMenu(product, menuId);
+            _menuService.AddProductToMenu(product, menuId);
             return View();
         }
 
@@ -53,9 +58,9 @@ namespace CafeMVC.Web.Controllers
             return View();
         }
         [HttpDelete]
-        public IActionResult DeleteProductFromMenu(ProductModel product, int menuId)
+        public IActionResult DeleteProductFromMenu(ProductForListVm product, int menuId)
         {
-            menuService.DeleteProductFromMenu(product, menuId);
+            _menuService.DeleteProductFromMenu(product, menuId);
             return View();
         }
         [HttpGet]
@@ -65,9 +70,9 @@ namespace CafeMVC.Web.Controllers
         }
         
         [HttpPost]
-        public IActionResult AddNewMenu(MenutModel menuModel)
+        public IActionResult AddNewMenu(MenuCreationVm menuModel)
         {
-            menuService.AddNewMenu(menuModel);
+            _menuService.AddNewMenu(menuModel);
             return View();
         }
 
@@ -79,7 +84,7 @@ namespace CafeMVC.Web.Controllers
         [HttpDelete]
         public IActionResult DeleteMenu(int menuId)
         {
-            menuService.DeleteMenu(menuId);
+            _menuService.DeleteMenu(menuId);
             return View();
         }
 
@@ -91,7 +96,7 @@ namespace CafeMVC.Web.Controllers
         [HttpPatch]
         public IActionResult ChangeMenu(MenuModel menuModel)
         {
-            menuService.ChangeMenu(menuModel);
+            _menuService.ChangeMenu(menuModel);
             return View();
         }
     }

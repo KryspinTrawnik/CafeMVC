@@ -6,14 +6,10 @@ using System.Threading.Tasks;
 
 namespace CafeMVC.Application.ViewModels.Customer
 {
-    public class CustomerDetailsVm
+    public class ContactDetailType
     {
         public int Id { get; set; }
 
-        public string FullName { get; set; }
-
-        public List<AddressForListVm> AddressForListVm { get; set; }
-
-        public List<ContactDetailForVm> ContactDetails { get; set; }
+        public string Name { get; set; }
     }
 }

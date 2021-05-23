@@ -20,6 +20,11 @@ namespace CafeMVC.Application.Interfaces
 
         void DeleteProductFromMenu(ProductForListVm product, int menuId);
 
-        void AddNewMenu(MenuCreationVm menuModel); 
+        void AddNewMenu(MenuCreationVm menuModel);
+
+        void DeleteMenu(int menuId);
+
+        void ChangeMenu(MenuForVm menuModel);
+
     }
 }

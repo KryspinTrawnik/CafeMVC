@@ -89,12 +89,13 @@ namespace CafeMVC.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult ChangeMenu()
+        public IActionResult ChangeMenu(int menuId)
         {
+            var menu =_menuService.GetAllProductOfMenu(menuId);
             return View();
         }
         [HttpPatch]
-        public IActionResult ChangeMenu(MenuModel menuModel)
+        public IActionResult ChangeMenu(MenuForVm menuModel)
         {
             _menuService.ChangeMenu(menuModel);
             return View();

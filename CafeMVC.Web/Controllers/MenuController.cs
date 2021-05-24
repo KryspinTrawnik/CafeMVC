@@ -22,7 +22,7 @@ namespace CafeMVC.Web.Controllers
         [HttpGet]
         public IActionResult VieWProductsByMenuType(int menuTypeId)
         {
-            var ListOfProductByMenu = _menuService.GetAllProductOfMenu(menuTypeId);
+            var ListOfProductByMenu = _menuService.GetAllProducstOfMenu(menuTypeId);
             return View(ListOfProductByMenu);
         }
 
@@ -36,7 +36,7 @@ namespace CafeMVC.Web.Controllers
         [HttpGet]
         public IActionResult ViewMenuProductsByDieteInfo(int menuTypeId, DietInfoForVm dieteInfo)
         {
-            var productsByDieteInfo = _menuService.GetProductByDieteInfo(dieteInfo, menuTypeId);
+            var productsByDieteInfo = _menuService.GetProductsByDieteInfo(dieteInfo, menuTypeId);
             return View(productsByDieteInfo);
         }
 
@@ -91,7 +91,7 @@ namespace CafeMVC.Web.Controllers
         [HttpGet]
         public IActionResult ChangeMenu(int menuId)
         {
-            var menu =_menuService.GetAllProductOfMenu(menuId);
+            var menu =_menuService.GetAllProducstOfMenu(menuId);
             return View();
         }
         [HttpPatch]

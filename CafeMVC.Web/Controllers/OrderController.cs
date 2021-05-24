@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CafeMVC.Application.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,36 +9,41 @@ namespace CafeMVC.Web.Controllers
 {
     public class OrderController : Controller
     {
+        private readonly IMenuService _menuService;
+
+        private readonly IOrderService _orderService;
+
+        private readonly IProductService _productService;
         public IActionResult Index()
         {
-            var allOrdersForView = menuService.GetAllOrders();
+            var allOrdersForView = _orderService.GetAllOrders();
             return View(allOrdersForView);
         }
-
-        public IActionResult OrderMenuView()
+        [HttpGet]
+        public IActionResult OrderMenuView(int menuId)
         {
-            var ListOfMenus = menuService.GetAllMenuType();
-            return View();
+            var ListOfMenus = _menuService.GetAllProducstOfMenu(menuId);
+            return View(ListOfMenus);
         }
 
         [HttpGet]
         public IActionResult OrderVieWProductOfMenu(int menuTypeId)
         {
-            var ListOfProductByMenu = menuService.GetAllProductOfMenuType(int menuTypeId);
+            var ListOfProductByMenu = _menuService.GetAllProducstOfMenu(menuTypeId);
             return View(ListOfProductByMenu);
         }
         
         [HttpGet]
         public IActionResult VieWProductDetails(int productId)
         {
-            var product = menuService.GetProductDetails(productId);
+            var product = _productService.GetProductDetails(productId);
             return View(product);
         }
         
         [HttpGet]
         public IActionResult ViewOrderProducts(int orderId)
         {
-            var orderProductsList = orderService.GetAllProducts(orderId);
+            var orderProductsList = _orderService.GetAllProducts(orderId);
             return View(orderProductsList);
         }
 
@@ -50,7 +56,7 @@ namespace CafeMVC.Web.Controllers
         [HttpPost]
         public IActionResult AddProductToOrder(int orderId, int productId)
         {
-            orderService.AddProductToOrder(orderId, productId);
+            _orderService.AddProductToOrder(orderId, productId);
             return View();
         }
         [HttpGet]
@@ -61,7 +67,7 @@ namespace CafeMVC.Web.Controllers
         [HttpDelete]
         public IActionResult DeleteProductFromOrder(int productId, int orderId)
         {
-            orderService.RemoveProduct(productId, orderId);
+            _orderService.RemoveProduct(productId, orderId);
             return View();
         }
 

@@ -11,10 +11,25 @@ namespace CafeMVC.Application.Interfaces
     public interface IOrderService
     {
         ListOfOrdersVm GetAllOrders();
-        
+
         ListOfProductsVm GetAllProducts(int orderId);
 
         void AddProductToOrder(int orderId, int productId);
+
         void RemoveProduct(int productId, int orderId);
+
+        OrderSummaryForVm GetOrderbyId(int orderId);
+
+        int AddOrder(OrderSummaryForVm orderForView);
+
+        void ChangeLeadTime(int orderId, DateTime leadTimeOfOrder);
+
+        void ChangeDeliveryTime(int orderId, string deliveryAddress);
+
+        void AddAnnotation(int orderId, string annotation);
+
+        void ChangeAnnotation(int orderId, string annotation);
+
+        void CanceleOrder(int orderId);
     }
 }

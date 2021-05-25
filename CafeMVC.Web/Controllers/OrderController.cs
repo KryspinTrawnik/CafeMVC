@@ -1,4 +1,5 @@
 ﻿using CafeMVC.Application.Interfaces;
+using CafeMVC.Application.ViewModels.Orders;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -69,46 +70,47 @@ namespace CafeMVC.Web.Controllers
         {
             _orderService.RemoveProduct(productId, orderId);
             return View();
-        }
 
+        }
         [HttpGet]
         public IActionResult OrderSummary(int orderId)
         {
-            var orderForSummary = orderService.GetOrderbyId(orderId);
+            var orderForSummary = _orderService.GetOrderbyId(orderId);
             return View(orderForSummary);
         }
 
         [HttpPost]
-        public IActionResult OrderSummary(OrderForView orderForView)
+        public IActionResult OrderSummary(OrderSummaryForVm orderForView)
         {
-            var orderConfirmation = orderService.ConfirmOrder(orderForView);
+             var orderConfirmation =_orderService.AddOrder(orderForView);
             return View(orderConfirmation);
         }
 
         [HttpGet]
         public IActionResult ChangeLeadTime(int orderId)
         {
-            var LeadtimeOfOrder = orderService.GetOrderbyId(orderId).LeadTime;
+            var LeadtimeOfOrder = _orderService.GetOrderbyId(orderId).DeliveryTime;
             return View(LeadtimeOfOrder);
         }
 
         [HttpPatch]
         public IActionResult ChangeLeadTime(DateTime leadTimeOfOrder, int orderId)
         {
-            orderService.ChangeLeadTime(orderId, leadTimeOfOrder);
+            _orderService.ChangeLeadTime(orderId, leadTimeOfOrder);
             return View();
         }
 
         [HttpGet]
-        public IActionResult ChangeDeliveryAddress()
+        public IActionResult ChangeDeliveryAddress(int orderId)
         {
-            return View();
+            var DeliveryAddress = _orderService.GetOrderbyId(orderId).DeliveryAddress;
+            return View(DeliveryAddress);
         }
 
         [HttpPatch]
-        public IActionResult ChangeDeliveryAddress(DeliveryAddress address, int orderId)
+        public IActionResult ChangeDeliveryAddress(string deliveryAddress, int orderId)
         {
-            orderService.ChangeDeliveryTime(orderId, address);
+            _orderService.ChangeDeliveryTime(orderId, deliveryAddress);
             return View();
         }
 
@@ -121,7 +123,7 @@ namespace CafeMVC.Web.Controllers
         [HttpPatch]
         public IActionResult AddAnntotation(string annotation, int orderId)
         {
-            orderService.AddAnnotation(orderId, annotation);
+            _orderService.AddAnnotation(orderId, annotation);
             return View();
         }
         [HttpGet]
@@ -133,20 +135,19 @@ namespace CafeMVC.Web.Controllers
         [HttpPatch]
         public IActionResult ChangeAnntotation(string annotation, int orderId)
         {
-            orderService.ChangeAnnotation(orderId, annotation);
+            _orderService.ChangeAnnotation(orderId, annotation);
             return View();
         }
         [HttpGet]
-        public IActionResult CanceleOrder(int orderId)
+        public IActionResult CanceleOrder()
         {
-            var orderToBeCancelled = orderService.GetOrderbyId(orderId);
-            return View(orderToBeCancelled);
+            return View();
         }
 
         [HttpDelete]
-        public IActionResult CanceleOrder(OrderForVM orderToBeCancelled)
+        public IActionResult CanceleOrder(int orderId)
         {
-            orderService.CanceleOrder(orderToBeCancelled);
+            _orderService.CanceleOrder(orderId);
             return View();
         }
 

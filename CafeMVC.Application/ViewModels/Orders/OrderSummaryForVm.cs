@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CafeMVC.Application.ViewModels.Orders
 {
-    public class OrderSummaryView
+    public class OrderSummaryForVm
     {
         public int Id { get; set; }
 

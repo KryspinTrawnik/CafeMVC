@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CafeMVC.Application.Interfaces;
+using CafeMVC.Application.ViewModels.Products;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +10,10 @@ namespace CafeMVC.Web.Controllers
 {
     public class ProductController : Controller
     {
+        private readonly IProductService _productService;
         public IActionResult Index()
         {
-            var allProductsList = productService.GetAllProducts();
+            var allProductsList = _productService.GetAllProducts();
             return View();
         }
         [HttpGet]
@@ -20,23 +23,23 @@ namespace CafeMVC.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddNewProduct(ProductModel productModel)
+        public IActionResult AddNewProduct(ProductForViewVm product)
         {
-            productService.AddNewProduct(productModel);
+            _productService.AddNewProduct(product);
             return View();
         }
 
         [HttpGet]
         public IActionResult ChangeNameOfProduct(int productId)
         {
-            var productForChange = productService.GetProductById(productId);
-            return View();
+            var productForChange = _productService.GetProductById(productId);
+            return View(productForChange);
         }
 
         [HttpPatch]
-        public IActionResult ChangeNameOfProduct(ProductModel productModel)
+        public IActionResult ChangeNameOfProduct(ProductForViewVm productModel)
         {
-            productService.UpdateProductName(productModel);
+            _productService.UpdateProduct(productModel);
             return View();
         }
         [HttpGet]
@@ -46,16 +49,17 @@ namespace CafeMVC.Web.Controllers
         }
 
         [HttpDelete]
-        public IActionResult DeleteProduct(ProductModel productModel)
+        public IActionResult DeleteProduct(int productId)
         {
-            productService.UpdateProductName(productModel);
+            _productService.DeleteProduct(productId);
             return View();
         }
 
         [HttpGet]
         public IActionResult ViewProduct(int productId)
         {
-            var productView = productService.GetProductById(productId);
+            var productView = _productService.GetProductById(productId);
+            return View(productView);
         }
 
         [HttpGet]
@@ -67,7 +71,7 @@ namespace CafeMVC.Web.Controllers
         [HttpPost]
         public IActionResult AddIngredientsToProduct(int productId, int ingredientId)
         {
-            productService.AddIngredientToProduct(productId, ingredientId);
+            _productService.AddIngredientToProduct(productId, ingredientId);
             return View();
         }
 
@@ -80,7 +84,7 @@ namespace CafeMVC.Web.Controllers
         [HttpDelete]
         public IActionResult DeleteIngredientsFromProduct( int productId, int ingredientId)
         {
-            productService.AddIngredients(productId, ingredientId);
+            _productService.DeleteIngredient(productId, ingredientId);
             return View();
         }
 
@@ -91,15 +95,15 @@ namespace CafeMVC.Web.Controllers
         }
 
         [HttpPatch]
-        public IActionResult ChangeDietInformation(int productId, DietInformation dietInformation)
+        public IActionResult ChangeDietInformation(int productId, DietInfoForViewVm dietInformation)
         {
-            ingredientAndAllergenService.ChangeDietInformation(productId, ingredientId);
+            _productService.ChangeDietInformation(productId, dietInformation);
             return View();
         }
         [HttpGet]
         public IActionResult ViewAllIngredients()
         {
-            var allIngredientsList = ingredientAndAllergenService.GetAllIngredients();
+            var allIngredientsList = _productService.GetAllIngredients();
             return View(allIngredientsList);
         }
 
@@ -110,9 +114,9 @@ namespace CafeMVC.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddNewIngredient(IngredientModel ingredient)
+        public IActionResult AddNewIngredient(IngredientForViewVm ingredient)
         {
-            ingredientAndAllergenService.AddNewIngredient(ingredient);
+            _productService.AddNewIngredient(ingredient);
             return View();
         }
         [HttpGet]
@@ -122,9 +126,9 @@ namespace CafeMVC.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddNewAllergen(AllergenModel allergen)
+        public IActionResult AddNewAllergen(AllergenForViewVm allergen)
         {
-            ingredientAndAllergenService.AddNewAllergen(allergen);
+            _productService.AddNewAllergen(allergen);
             return View();
         }
 

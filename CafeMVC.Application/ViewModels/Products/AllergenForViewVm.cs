@@ -1,6 +1,6 @@
 ﻿namespace CafeMVC.Application.ViewModels.Products
 {
-    public class AllergenForVm
+    public class AllergenForViewVm
     {
         int Id { get; set; }
 

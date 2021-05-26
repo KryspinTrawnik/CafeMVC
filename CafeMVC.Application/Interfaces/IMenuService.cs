@@ -14,7 +14,7 @@ namespace CafeMVC.Application.Interfaces
 
         MenuForVm GetAllProducstOfMenu(int menuTypeId);
 
-        MenuForVm GetProductsByDieteInfo(DietInfoForVm dieteInfo, int menuTypeId);
+        MenuForVm GetProductsByDieteInfo(DietInfoForViewVm dieteInfo, int menuTypeId);
 
         void AddProductToMenu(ProductForListVm product, int menuId);
 

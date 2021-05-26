@@ -9,6 +9,28 @@ namespace CafeMVC.Application.Interfaces
 {
     public interface IProductService
     {
-        ProductForVm GetProductDetails(int productId);
+        ProductForViewVm GetProductDetails(int productId);
+
+        ListOfProductsVm GetAllProducts();
+
+        void AddNewProduct(ProductForViewVm product);
+
+        ProductForViewVm GetProductById(int productId);
+
+        void UpdateProduct(ProductForViewVm productModel);
+
+        void DeleteProduct(int productId);
+
+        void AddIngredientToProduct(int productId, int ingredientId);
+
+        void DeleteIngredient(int productId, int ingredientId);
+
+        void ChangeDietInformation(int productId, DietInfoForViewVm dietInformation);
+
+        ListOfIngredientsVm GetAllIngredients();
+
+        void AddNewIngredient(IngredientForViewVm ingredient);
+        
+        void AddNewAllergen(AllergenForViewVm allergen);
     }
 }

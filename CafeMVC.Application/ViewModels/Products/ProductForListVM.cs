@@ -10,8 +10,8 @@ namespace CafeMVC.Application.ViewModels.Products
 
         public double Price { get; set; }
 
-        public List<IngredientForVm> Ingredients { get; set; }
+        public List<IngredientForViewVm> Ingredients { get; set; }
 
-        public DietInfoForVm DietInformation { get; set; }
+        public DietInfoForViewVm DietInformation { get; set; }
     }
 }

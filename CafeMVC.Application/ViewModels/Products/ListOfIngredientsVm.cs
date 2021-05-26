@@ -9,6 +9,6 @@ namespace CafeMVC.Application.ViewModels.Products
 {
     public class ListOfIngredientsVm
     {
-        public List<IngredientForVm> Ingredients { get; set; }
+        public List<IngredientForViewVm> Ingredients { get; set; }
     }
 }

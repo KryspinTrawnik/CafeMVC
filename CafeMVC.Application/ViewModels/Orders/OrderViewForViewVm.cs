@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace CafeMVC.Application.ViewModels.Orders
 {
-    public class OrderViewForVM
+    public class OrderViewForViewVm
     {
         public int Id { get; set; }
 

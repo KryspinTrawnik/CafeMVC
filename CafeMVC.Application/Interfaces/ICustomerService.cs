@@ -13,13 +13,13 @@ namespace CafeMVC.Application.Interfaces
 
         CustomerDetailsVm GetCustomerDetail(int customerId);
 
-        CustomerDashboardVm GetCustomerDashboard(int customerId);
+        CustomerForDashboardVm GetCustomerDashboard(int customerId);
 
         void AddNewCustomer(CustomerForCreationVm customer);
 
         void DeleteCustomer(int customerId);
 
-        void AddNewContactDetail(ContactDetailForVm contactDetail, int customerId);
+        void AddNewContactDetail(ContactDetailForViewVm contactDetail, int customerId);
 
         void ChangeContactDetails(int contactDetailId, int customerId);
 

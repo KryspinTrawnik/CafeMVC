@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CafeMVC.Application.ViewModels.Menu
 {
-    public class ListOfMenusForVm
+    public class ListOfMenusVm
     {
         public List<MenuForListVM> ListOfAllMenus { get; set; }
 

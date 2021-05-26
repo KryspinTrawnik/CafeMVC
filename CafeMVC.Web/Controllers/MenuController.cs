@@ -70,7 +70,7 @@ namespace CafeMVC.Web.Controllers
         }
         
         [HttpPost]
-        public IActionResult AddNewMenu(MenuCreationVm menuModel)
+        public IActionResult AddNewMenu(MenuForCreationVm menuModel)
         {
             _menuService.AddNewMenu(menuModel);
             return View();
@@ -95,7 +95,7 @@ namespace CafeMVC.Web.Controllers
             return View();
         }
         [HttpPatch]
-        public IActionResult ChangeMenu(MenuForVm menuModel)
+        public IActionResult ChangeMenu(MenuForViewVm menuModel)
         {
             _menuService.ChangeMenu(menuModel);
             return View();

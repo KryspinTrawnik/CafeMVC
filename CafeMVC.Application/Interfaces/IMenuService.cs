@@ -10,21 +10,21 @@ namespace CafeMVC.Application.Interfaces
 {
     public interface IMenuService
     {
-        ListOfMenusForVm GetAllMenuType();
+        ListOfMenusVm GetAllMenuType();
 
-        MenuForVm GetAllProducstOfMenu(int menuTypeId);
+        MenuForViewVm GetAllProducstOfMenu(int menuTypeId);
 
-        MenuForVm GetProductsByDieteInfo(DietInfoForViewVm dieteInfo, int menuTypeId);
+        MenuForViewVm GetProductsByDieteInfo(DietInfoForViewVm dieteInfo, int menuTypeId);
 
         void AddProductToMenu(ProductForListVm product, int menuId);
 
         void DeleteProductFromMenu(ProductForListVm product, int menuId);
 
-        void AddNewMenu(MenuCreationVm menuModel);
+        void AddNewMenu(MenuForCreationVm menuModel);
 
         void DeleteMenu(int menuId);
 
-        void ChangeMenu(MenuForVm menuModel);
+        void ChangeMenu(MenuForViewVm menuModel);
 
     }
 }

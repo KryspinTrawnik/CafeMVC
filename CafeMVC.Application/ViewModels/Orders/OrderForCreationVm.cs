@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CafeMVC.Application.ViewModels.Orders
 {
-    public class OrderCreationVm
+    public class OrderForCreationVm
     {
         public int Id { get; set; }
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CafeMVC.Application.ViewModels.Customer
 {
-    public class ContactDetailForVm
+    public class ContactDetailForViewVm
     {
         public int Id { get; set; }
 

@@ -2,7 +2,7 @@
 
 namespace CafeMVC.Application.ViewModels.Products
 {
-    public class DietInfoForVm
+    public class DietInfoForViewVm
     {
         public List<byte> DietInformationImages { get; set; }
     }

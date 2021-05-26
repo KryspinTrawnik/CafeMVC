@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace CafeMVC.Application.ViewModels.Customer
 {
-    public class CustomerDashboardVm
+    public class CustomerForDashboardVm
     {
         public int Id { get; set; }
 

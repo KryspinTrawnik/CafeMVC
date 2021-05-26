@@ -1,6 +1,6 @@
 ﻿namespace CafeMVC.Application.ViewModels.Products
 {
-    public class IngredientForVm
+    public class IngredientForViewVm
     {
         public int Id { get; set; }
 

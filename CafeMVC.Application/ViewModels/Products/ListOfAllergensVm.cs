@@ -8,7 +8,7 @@ namespace CafeMVC.Application.ViewModels.Products
 {
     public class ListOfAllergensVm
     {
-        public List<AllergenForVm> ListOfAllAllergens { get; set; }
+        public List<AllergenForViewVm> ListOfAllAllergens { get; set; }
 
         public int Count { get; set; }
     }

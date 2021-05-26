@@ -80,7 +80,7 @@ namespace CafeMVC.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult OrderSummary(OrderSummaryForVm orderForView)
+        public IActionResult OrderSummary(OrderSummaryForViewVm orderForView)
         {
              var orderConfirmation =_orderService.AddOrder(orderForView);
             return View(orderConfirmation);

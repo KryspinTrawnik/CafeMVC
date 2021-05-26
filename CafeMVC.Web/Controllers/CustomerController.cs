@@ -72,7 +72,7 @@ namespace CafeMVC.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddNewContactDetail(ContactDetailForVm contactDetail, int customerId)
+        public IActionResult AddNewContactDetail(ContactDetailForViewVm contactDetail, int customerId)
         {
             _customerService.AddNewContactDetail(contactDetail, customerId);
             return View();

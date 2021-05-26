@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CafeMVC.Application.ViewModels.Menu
 {
-    public class MenuForVm
+    public class MenuForViewVm
     {
         public int Id { get; set; }
 

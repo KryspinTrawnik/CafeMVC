@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace CafeMVC.Application.ViewModels.Products
 {
-    public class ProductForVm
+    public class ProductForViewVm
     {   
         public int Id { get; set; }
 
@@ -11,9 +11,9 @@ namespace CafeMVC.Application.ViewModels.Products
         
         public double Price { get; set;}
 
-        public List<IngredientForVm> Ingredients { get; set; }
+        public List<IngredientForViewVm> Ingredients { get; set; }
 
-        public List<AllergenForVm> Allergens { get; set; }
+        public List<AllergenForViewVm> Allergens { get; set; }
     }
 }
 

@@ -12,7 +12,7 @@ namespace CafeMVC.Web.Controllers
     public class MenuController : Controller
     {
         private readonly IMenuService _menuService;
-
+        private readonly IProductService _productService;
         public IActionResult Index()
         {
             var ListOfMenus = _menuService.GetAllMenuType();
@@ -29,12 +29,12 @@ namespace CafeMVC.Web.Controllers
         [HttpGet]
         public IActionResult ViewProduct(int productId)
         {
-            var viewProduct = productService.GetProductById(productId);
+            var viewProduct = _productService.GetProductById(productId);
             return View(viewProduct);
         }
 
         [HttpGet]
-        public IActionResult ViewMenuProductsByDieteInfo(int menuTypeId, DietInfoForVm dieteInfo)
+        public IActionResult ViewMenuProductsByDieteInfo(int menuTypeId, DietInfoForViewVm dieteInfo)
         {
             var productsByDieteInfo = _menuService.GetProductsByDieteInfo(dieteInfo, menuTypeId);
             return View(productsByDieteInfo);
@@ -70,7 +70,7 @@ namespace CafeMVC.Web.Controllers
         }
         
         [HttpPost]
-        public IActionResult AddNewMenu(MenuCreationVm menuModel)
+        public IActionResult AddNewMenu(MenuForCreationVm menuModel)
         {
             _menuService.AddNewMenu(menuModel);
             return View();
@@ -95,7 +95,7 @@ namespace CafeMVC.Web.Controllers
             return View();
         }
         [HttpPatch]
-        public IActionResult ChangeMenu(MenuForVm menuModel)
+        public IActionResult ChangeMenu(MenuForViewVm menuModel)
         {
             _menuService.ChangeMenu(menuModel);
             return View();

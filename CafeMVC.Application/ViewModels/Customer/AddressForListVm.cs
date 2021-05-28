@@ -1,4 +1,5 @@
-﻿using CafeMVC.Application.Interfaces.Mapping;
+﻿using AutoMapper;
+using CafeMVC.Application.Interfaces.Mapping;
 
 namespace CafeMVC.Application.ViewModels.Customer
 {
@@ -7,6 +8,13 @@ namespace CafeMVC.Application.ViewModels.Customer
         public int Id { get; set; }
 
         public string Type { get; set; }
+
+        public void Mapping(Profile profile)
+        {
+            profile.CreateMap<CafeMVC.Domain.Model.Address, AddressForListVm>()
+                .ForMember(s => s.Type, opt => opt.MapFrom(d => d.AddressType.Name));
+
+        }
 
     }
 

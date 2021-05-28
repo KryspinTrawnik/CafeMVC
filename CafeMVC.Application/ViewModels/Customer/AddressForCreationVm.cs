@@ -26,5 +26,7 @@ namespace CafeMVC.Application.ViewModels.Customer
         {
             profile.CreateMap<CafeMVC.Domain.Model.Address, AddressForCreationVm>()
                 .ForMember(s => s.Type, opt => opt.MapFrom(d => d.AddressType.Name));
+
         }
     }
+}

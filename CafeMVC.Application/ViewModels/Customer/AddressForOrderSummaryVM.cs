@@ -16,14 +16,13 @@ namespace CafeMVC.Application.ViewModels.Customer
 
         public string Type { get; set; }
 
-        public void Mapping(Profile profile)
+        public void Mapping(Profile profile, CustomResolver customResolver)
         {
             profile.CreateMap<CafeMVC.Domain.Model.Address, AddressForOrderSummaryVm>()
                 .ForMember(s => s.Type, opt => opt.MapFrom(d => d.AddressType.Name));
           
-            profile.CreateMap<CafeMVC.Domain.Model.Address, AddressForOrderSummaryVm>()
-            .ForMember(s => s.Address, opt => opt.MapFrom(src => src.Street +" "+ src.BuildingNumber
-            + ))
+           profile.CreateMap<CafeMVC.Domain.Model.Address, AddressDetailsForViewVm>()
+                .ForMember(s=> s.Address, opt => opt.MapFrom<CustomResolver>)
         }
     }
 }

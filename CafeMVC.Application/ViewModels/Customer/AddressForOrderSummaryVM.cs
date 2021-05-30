@@ -22,7 +22,7 @@ namespace CafeMVC.Application.ViewModels.Customer
                 .ForMember(s => s.Type, opt => opt.MapFrom(d => d.AddressType.Name));
           
            profile.CreateMap<CafeMVC.Domain.Model.Address, AddressDetailsForViewVm>()
-                .ForMember(s=> s.Address, opt => opt.MapFrom<CustomResolver>)
+                .ForMember(s=> s.Address, opt => opt.MapFrom<customResolver>);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using CafeMVC.Application.ViewModels.Customer;
+﻿using AutoMapper;
+using CafeMVC.Application.ViewModels.Customer;
 using CafeMVC.Domain.Model;
 using System;
 using System.Collections.Generic;

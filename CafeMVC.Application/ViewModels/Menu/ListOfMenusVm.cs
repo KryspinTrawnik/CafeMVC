@@ -8,7 +8,7 @@ namespace CafeMVC.Application.ViewModels.Menu
 {
     public class ListOfMenusVm
     {
-        public List<MenuForListVM> ListOfAllMenus { get; set; }
+        public List<MenuForListVm> ListOfAllMenus { get; set; }
 
         public int Count { get; set; }
     }

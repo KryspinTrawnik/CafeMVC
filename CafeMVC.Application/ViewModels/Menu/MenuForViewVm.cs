@@ -1,4 +1,5 @@
-﻿using CafeMVC.Application.ViewModels.Menu;
+﻿using AutoMapper;
+using CafeMVC.Application.ViewModels.Menu;
 using CafeMVC.Application.ViewModels.Products;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,13 @@ namespace CafeMVC.Application.ViewModels.Menu
         public List<ProductForListVm> Products { get; set; }
         
         public int Count { get; set; }
+
+
+        public void Mapping(Profile profile)
+        {
+            profile.CreateMap<CafeMVC.Domain.Model.Order, MenuForCreationVm>();
+
+        }
     }
 
 }

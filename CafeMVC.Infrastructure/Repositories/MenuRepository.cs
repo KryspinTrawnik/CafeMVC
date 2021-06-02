@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CafeMVC.Infrastructure.Repositories
 {
-    public class MenuRepository : GenericRepository<Menu>, IMenuRepository
+    public class MenuRepository : GenericRepository<Order>, IMenuRepository
     {
         public MenuRepository(Context context) : base(context)
         {

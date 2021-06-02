@@ -18,7 +18,7 @@ namespace CafeMVC.Infrastructure
 
         public DbSet<Ingredient> Ingredients { get; set; }
 
-        public DbSet<Menu> Menus { get; set; }
+        public DbSet<Order> Menus { get; set; }
 
         public DbSet<Order> Orders { get; set; }
 

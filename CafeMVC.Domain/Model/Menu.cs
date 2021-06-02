@@ -2,7 +2,7 @@
 
 namespace CafeMVC.Domain.Model
 {
-    public class Menu : BaseModel
+    public class Order : BaseModel
     {
 
         public string Name { get; set; }

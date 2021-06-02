@@ -21,9 +21,8 @@ namespace CafeMVC.Application.ViewModels.Customer
         public void Mapping(Profile profile)
         {
             profile.CreateMap<CafeMVC.Domain.Model.Customer, CustomerDetailsVm>()
-                .ForMember(s => s.FullName, opt => opt.MapFrom(d => d.FirstName + " " + d.Surname))
+                .ForMember(s => s.FullName, opt => opt.MapFrom(d => d.FirstName + " " + d.Surname));
                
-
         }
 
     }

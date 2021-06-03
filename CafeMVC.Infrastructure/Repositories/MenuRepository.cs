@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CafeMVC.Infrastructure.Repositories
 {
-    public class MenuRepository : GenericRepository<Order>, IMenuRepository
+    public class MenuRepository : GenericRepository<Menu>, IMenuRepository
     {
         public MenuRepository(Context context) : base(context)
         {
@@ -29,8 +29,8 @@ namespace CafeMVC.Infrastructure.Repositories
 
         public IQueryable<Product> GetAllProduct(int menuId)
         {
-            var menu = GetItemById(menuId);
-            return menu;
+
+            return GetItemById(menuId).Products.AsQueryable<Product>();
         }
     }
 }

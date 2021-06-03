@@ -49,7 +49,7 @@ namespace CafeMVC.Web.Controllers
         public IActionResult ViewCustomer(int customerId)
         {
             var customerToView = _customerService.GetCustomerDetail(customerId);
-            return View();
+            return View(customerToView);
         }
 
         [HttpGet]

@@ -14,7 +14,7 @@ namespace CafeMVC.Web.Controllers
         public IActionResult Index()
         {
             var allProductsList = _productService.GetAllProducts();
-            return View();
+            return View(allProductsList);
         }
         [HttpGet]
         public IActionResult AddNewProduct()

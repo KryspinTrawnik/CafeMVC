@@ -92,7 +92,7 @@ namespace CafeMVC.Web.Controllers
         public IActionResult ChangeMenu(int menuId)
         {
             var menu =_menuService.GetAllProducstOfMenu(menuId);
-            return View();
+            return View(menu);
         }
         [HttpPatch]
         public IActionResult ChangeMenu(MenuForViewVm menuModel)

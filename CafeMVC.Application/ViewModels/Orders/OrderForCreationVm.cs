@@ -1,4 +1,6 @@
-﻿using CafeMVC.Application.ViewModels.Customer;
+﻿using AutoMapper;
+using CafeMVC.Application.Interfaces.Mapping;
+using CafeMVC.Application.ViewModels.Customer;
 using CafeMVC.Application.ViewModels.Products;
 using System;
 using System.Collections.Generic;
@@ -8,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace CafeMVC.Application.ViewModels.Orders
 {
-    public class OrderForCreationVm
+    public class OrderForCreationVm : IMapFrom<CafeMVC.Domain.Model.Order>
     {
         public int Id { get; set; }
 
@@ -20,8 +22,17 @@ namespace CafeMVC.Application.ViewModels.Orders
 
         public int CustomerId { get; set; }
 
-        public List<AddressForCreationVm> Addresses { get; set; }
+        public AddressForCreationVm DeliveryAddress { get; set; }
 
-        public List<ProductForListVm> MyProperty { get; set; }
+        public AddressForCreationVm BillingAddress { get; set; }
+
+        public List<ProductForListVm> Products { get; set; }
+
+        public void Mapping(Profile profile)
+        {
+            profile.CreateMap<CafeMVC.Domain.Model.Order, OrderForCreationVm>();
+
+        }
+
     }
 }

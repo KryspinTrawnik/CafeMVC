@@ -9,7 +9,7 @@ namespace CafeMVC.Domain.Model
 
         public DateTime DateOfOrder { get; set; }
 
-        public double Price { get; set; }
+        public double TotalPrice { get; set; }
 
         public bool HasBeenDone { get; set; }
 
@@ -19,7 +19,9 @@ namespace CafeMVC.Domain.Model
 
         public Customer Customer { get; set; }
 
-        public ICollection<Address> Addresses { get; set; }
+        public Address DeliveryAddress { get; set; }
+
+        public Address BillingAddress { get; set; }
 
         public ICollection<Product> Products { get; set; }
 

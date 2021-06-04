@@ -15,6 +15,8 @@ namespace CafeMVC.Domain.Model
 
         public DietInformation DietInformation {get; set;}
 
+        public ProductImage ProductImage { get; set; }
+
         public ICollection<Ingredient> Ingredients { get; set; }
 
         public ICollection<Allergen> Allergens { get; set; }

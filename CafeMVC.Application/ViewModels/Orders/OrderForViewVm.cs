@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CafeMVC.Application.Interfaces.Mapping;
+using CafeMVC.Application.ViewModels.Customer;
 using CafeMVC.Application.ViewModels.Products;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace CafeMVC.Application.ViewModels.Orders
 
         public DateTime DateOfOrder { get; set; }
 
-        public string DeliveryAddress { get; set; }
+        public AddressForOrderViewVm DeliveryAddress { get; set; }
 
         public void Mapping(Profile profile)
         {

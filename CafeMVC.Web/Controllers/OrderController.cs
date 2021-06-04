@@ -103,7 +103,7 @@ namespace CafeMVC.Web.Controllers
         [HttpGet]
         public IActionResult ChangeDeliveryAddress(int orderId)
         {
-            var DeliveryAddress = _orderService.GetOrderbyId(orderId).DeliveryAddress;
+            var DeliveryAddress = _orderService.GetOrderbyId(orderId).Addresses;
             return View(DeliveryAddress);
         }
 

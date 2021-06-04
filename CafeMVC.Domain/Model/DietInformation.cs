@@ -1,4 +1,6 @@
-﻿namespace CafeMVC.Domain.Model
+﻿using System.Collections.Generic;
+
+namespace CafeMVC.Domain.Model
 {
     public class DietInformation : BaseModel
     {
@@ -8,11 +10,7 @@
 
         public bool IsGlutenFree { get; set; }
 
-        public byte VegetarianImage { get; set; }
-
-        public byte VeganImage { get; set; }
-
-        public byte GlutenFreeImage { get; set; }
+        public List<DietInformationImage> Images { get; set; }
 
         public int ProductRef { get; set; }
 

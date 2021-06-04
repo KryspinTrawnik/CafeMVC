@@ -22,9 +22,7 @@ namespace CafeMVC.Application.ViewModels.Orders
 
         public int CustomerId { get; set; }
 
-        public AddressForCreationVm DeliveryAddress { get; set; }
-
-        public AddressForCreationVm BillingAddress { get; set; }
+        public List <AddressForCreationVm> Addresses { get; set; }
 
         public List<ProductForListVm> Products { get; set; }
 

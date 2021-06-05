@@ -1,17 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using AutoMapper;
+using CafeMVC.Application.Interfaces.Mapping;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace CafeMVC.Application.ViewModels.Products
 {
-    public class ProductForListVm
+    public class ProductForListVm : IMapFrom<CafeMVC.Domain.Model.Product>
     {
         public int Id { get; set; }
 
         public string Name { get; set; }
-
-        public double Price { get; set; }
-
-        public List<IngredientForViewVm> Ingredients { get; set; }
-
-        public DietInfoForViewVm DietInformation { get; set; }
+        
+        public void Mapping(Profile profile)
+        {
+            profile.CreateMap<CafeMVC.Domain.Model.Product, ProductForMenuVm>();
+        }
     }
 }

@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
 using CafeMVC.Application.Interfaces.Mapping;
 using System.Collections.Generic;
-using System.ComponentModel;
 
 namespace CafeMVC.Application.ViewModels.Products
 {
-    public class ProductForViewVm : IMapFrom<CafeMVC.Domain.Model.Product>
+    public class ProductForMenuVm : IMapFrom<CafeMVC.Domain.Model.Product>
     {
         public int Id { get; set; }
 
@@ -17,12 +16,14 @@ namespace CafeMVC.Application.ViewModels.Products
 
         public List<IngredientForViewVm> Ingredients { get; set; }
 
-        public List<AllergenForViewVm> Allergens { get; set; }
+        public DietInfoForViewVm DietInformation { get; set; }
+
+        public List <AllergenForViewVm> Allergens { get; set; }
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<CafeMVC.Domain.Model.Product, ProductForViewVm>();
+            profile.CreateMap<CafeMVC.Domain.Model.Product, ProductForMenuVm>()
+                .ForMember(s => s.Image, opt => opt.MapFrom(d => d.ProductImage.Image));
         }
     }
 }
-

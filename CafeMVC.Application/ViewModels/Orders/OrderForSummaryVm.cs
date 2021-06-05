@@ -16,7 +16,7 @@ namespace CafeMVC.Application.ViewModels.Orders
 
         public double TotalPrice { get; set; }
 
-        public List<ProductForListVm> Products { get; set; }
+        public List<ProductForMenuVm> Products { get; set; }
 
         public List <AddressForOrderSummaryVm> Addresses { get; set; }
 

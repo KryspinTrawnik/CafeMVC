@@ -16,9 +16,9 @@ namespace CafeMVC.Application.Interfaces
 
         MenuForViewVm GetProductsByDieteInfo(DietInfoForViewVm dieteInfo, int menuTypeId);
 
-        void AddProductToMenu(ProductForListVm product, int menuId);
+        void AddProductToMenu(ProductForMenuVm product, int menuId);
 
-        void DeleteProductFromMenu(ProductForListVm product, int menuId);
+        void DeleteProductFromMenu(ProductForMenuVm product, int menuId);
 
         void AddNewMenu(MenuForCreationVm menuModel);
 

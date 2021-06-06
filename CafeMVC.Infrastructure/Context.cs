@@ -27,7 +27,7 @@ namespace CafeMVC.Infrastructure
         public DbSet<ProductType> ProductTypes { get; set; }
 
         public DbSet<Customer> Customers { get; set; }
-
+    
         public DbSet<CustomerContactInformation> CustomerContactInformation { get; set; }
 
         public DbSet<ProductImage> ProductImages { get; set; }

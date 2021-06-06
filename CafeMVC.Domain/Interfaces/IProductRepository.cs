@@ -20,6 +20,8 @@ namespace CafeMVC.Domain.Interfaces
         void RemoveAllergenFromProduct(int allergenId, int productId);
 
         IQueryable<Allergen> GetAllAllergensFromProduct(int productId);
+        
+        Ingredient GetIngredientById(int ingredientId);
 
         IQueryable<Ingredient> GetAllIngredients();
 
@@ -31,7 +33,7 @@ namespace CafeMVC.Domain.Interfaces
         
         IQueryable<Allergen> GetAllAllergens();
 
-        Allergen GetAllergenById(int id);
+        Allergen GetAllergenById(int allergenId);
 
         void AddNewTagToDietInformation(byte tag, int dietInfoId);
 

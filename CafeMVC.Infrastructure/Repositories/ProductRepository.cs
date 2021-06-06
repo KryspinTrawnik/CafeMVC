@@ -8,38 +8,30 @@ namespace CafeMVC.Infrastructure.Repositories
     {
         public ProductRepository(Context context) : base(context)
         {
-            
-        }
 
-        public void InsertIngredientToProduct(int ingredientId, int productId)
-        {
-            throw new System.NotImplementedException();
         }
 
         public void InsertAllergenToProduct(int allergenId, int productId)
         {
-            Product updatedProduct = GetItemById(productId);
-            updatedProduct.Allergens.Add(GetAllergenById(allergenId));
-            UpdateItem(updatedProduct);
+            var product = GetItemById(productId);
+            product.Allergens.Add(GetAllergenById(allergenId));
+            UpdateItem(product);
         }
 
-        public void InsertIngredientToProduct(Ingredient ingredient, int productId)
+        public void InsertIngredientToProduct(int ingredientId, int productId)
         {
-
-            Product updatedProduct = GetItemById(productId);
-            updatedProduct.Ingredients.Add(ingredient);
-            UpdateItem(updatedProduct);
+            var product = GetItemById(productId);
+            product.Ingredients.Add(GetIngredientById(ingredientId));
+            UpdateItem(product);
         }
 
         public IQueryable<Allergen> GetAllAllergensFromProduct(int productId)
         {
-            
             return GetItemById(productId).Allergens.AsQueryable();
         }
 
         public IQueryable<Ingredient> GetAllIngredientsFromProduct(int productId)
         {
-            
             return GetItemById(productId).Ingredients.AsQueryable();
         }
 
@@ -58,23 +50,32 @@ namespace CafeMVC.Infrastructure.Repositories
             throw new System.NotImplementedException();
         }
 
-        public IQueryable<Ingredient>GetAllIngredients()
-        {
-            return _context.Ingredients;
-        }
-        public IQueryable<Allergen>GetAllAllergens()
-        {
-            return _context.Allergens;
-        }
 
         public void RemoveAllergenFromProduct(int allergenId, int productId)
         {
             throw new System.NotImplementedException();
         }
 
+        public Ingredient GetIngredientById(int ingredientId) => _context.Ingredients.Find(ingredientId);
+
+        public IQueryable<Ingredient> GetAllIngredients()
+        {
+            return _context.Ingredients;
+        }
+
         public void AddNewIngredient(Ingredient ingredient)
         {
             throw new System.NotImplementedException();
+        }
+
+        public Allergen GetAllergenById(int id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IQueryable<Allergen> GetAllAllergens()
+        {
+            return _context.Allergens;
         }
 
         public void DeleteIngredient(int ingredietnId)
@@ -87,10 +88,6 @@ namespace CafeMVC.Infrastructure.Repositories
             throw new System.NotImplementedException();
         }
 
-        Allergen GetAllergenById(int id)
-        {
-            throw new System.NotImplementedException();
-        }
 
         public void AddNewTagToDietInformation(byte tag, int dietInfoId)
         {
@@ -101,5 +98,6 @@ namespace CafeMVC.Infrastructure.Repositories
         {
             throw new System.NotImplementedException();
         }
+
     }
 }

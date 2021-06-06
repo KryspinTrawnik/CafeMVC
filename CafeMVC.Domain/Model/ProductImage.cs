@@ -8,7 +8,9 @@ namespace CafeMVC.Domain.Model
 {
     public class ProductImage : BaseModel
     {
-        public byte Image { get; set; }
+        public string FileName { get; set; }
+
+        public byte[] Image { get; set; }
 
         public int ProductRef { get; set; }
 

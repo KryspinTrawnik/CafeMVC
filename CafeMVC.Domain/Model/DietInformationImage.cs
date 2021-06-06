@@ -9,5 +9,6 @@ namespace CafeMVC.Domain.Model
     public class DietInformationImage : BaseModel
     {
         public byte Image { get; set; }
+
     }
 }

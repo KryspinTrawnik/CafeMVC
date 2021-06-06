@@ -32,5 +32,13 @@ namespace CafeMVC.Application.Interfaces
         void AddNewIngredient(IngredientForViewVm ingredient);
         
         void AddNewAllergen(AllergenForViewVm allergen);
+
+        void AddNewImageToProduct(byte image, int productId);
+
+        void DeleteImageFromProduct(int productId);
+
+        void AddNewTagToDietInformation(byte tag, int dietInfoId);
+
+        void DeleteTagFromDietInformation(int tagId, int dietInfoId);
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using CafeMVC.Domain.Model;
+using System.Linq;
 
 namespace CafeMVC.Domain.Interfaces
 {
@@ -15,7 +16,5 @@ namespace CafeMVC.Domain.Interfaces
         T GetItemById(int id);
 
         IQueryable<T> GetAllType();
-
-        
     }
 }

@@ -89,7 +89,7 @@ namespace CafeMVC.Web.Controllers
         [HttpGet]
         public IActionResult ChangeLeadTime(int orderId)
         {
-            var LeadtimeOfOrder = _orderService.GetOrderbyId(orderId).DeliveryTime;
+            var LeadtimeOfOrder = _orderService.GetOrderbyId(orderId).LeadTime;
             return View(LeadtimeOfOrder);
         }
 

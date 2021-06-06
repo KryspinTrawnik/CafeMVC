@@ -8,6 +8,9 @@ namespace CafeMVC.Domain.Model
 {
     public class DietInformationImage : BaseModel
     {
+        public string FileName { get; set; }
+
         public byte Image { get; set; }
+
     }
 }

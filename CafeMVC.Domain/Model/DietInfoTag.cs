@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace CafeMVC.Domain.Model
 {
-    public class DietInformationImage : BaseModel
+    public class DietInfoTag :BaseModel
     {
-        public string FileName { get; set; }
-
-        public byte Image { get; set; }
-
+        public string TagName { get; set; }
     }
 }

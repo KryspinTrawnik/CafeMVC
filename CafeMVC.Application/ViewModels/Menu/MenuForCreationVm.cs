@@ -15,9 +15,9 @@ namespace CafeMVC.Application.ViewModels.Menu
         
         public string Name { get; set; }
 
-        public List<ProductForMenuVm> MenuProducts { get; set; }
+        public List<ProductForListVm> MenuProducts { get; set; }
 
-        public List<ProductForMenuVm> AllProducts { get; set; }
+        public List<ProductForListVm> AllProducts { get; set; }
 
 
         public void Mapping(Profile profile)

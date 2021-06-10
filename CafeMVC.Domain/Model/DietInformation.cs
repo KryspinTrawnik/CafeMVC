@@ -10,7 +10,7 @@ namespace CafeMVC.Domain.Model
 
         public bool IsGlutenFree { get; set; }
 
-        public List<DietInformationImage> Images { get; set; }
+        public List<DietInfoTag> ListOfTagName { get; set; }
 
         public int ProductRef { get; set; }
 

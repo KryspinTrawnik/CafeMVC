@@ -37,7 +37,7 @@ namespace CafeMVC.Infrastructure.Repositories
 
         public void DeleteImageFromProduct(int productId)
         {
-            GetItemById(productId).ProductImage = null;
+            GetItemById(productId).ImageName = null;
         }
 
         public void AddNewImageToProduct(byte image, int productId)

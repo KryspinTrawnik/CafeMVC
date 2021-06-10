@@ -12,7 +12,7 @@ namespace CafeMVC.Application.ViewModels.Products
 
         public double Price { get; set; }
 
-        public byte Image { get; set; }
+        public string ImageName { get; set; }
 
         public List<IngredientForViewVm> Ingredients { get; set; }
 
@@ -22,8 +22,7 @@ namespace CafeMVC.Application.ViewModels.Products
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<CafeMVC.Domain.Model.Product, ProductForMenuVm>()
-                .ForMember(s => s.Image, opt => opt.MapFrom(d => d.ProductImage.Image));
+            profile.CreateMap<CafeMVC.Domain.Model.Product, ProductForMenuVm>();
         }
     }
 }

@@ -23,6 +23,7 @@ namespace CafeMVC.Infrastructure.Repositories
             var product = GetItemById(productId);
             product.Ingredients.Add(GetIngredientById(ingredientId));
             UpdateItem(product);
+            _context.SaveChanges();
         }
 
         public IQueryable<Allergen> GetAllAllergensFromProduct(int productId)
@@ -38,22 +39,26 @@ namespace CafeMVC.Infrastructure.Repositories
         public void DeleteImageFromProduct(int productId)
         {
             GetItemById(productId).ImageName = null;
+            _context.SaveChanges();
         }
 
-        public void AddNewImageToProduct(byte image, int productId)
+        public void AddNewImageToProduct(string imageName, int productId)
         {
-            throw new System.NotImplementedException();
+            GetItemById(productId).ImageName = imageName;
+            _context.SaveChanges();
         }
 
         public void RemoveIngredientFromProduct(int ingredientId, int productId)
         {
-            throw new System.NotImplementedException();
+            GetItemById(productId).Ingredients.Remove(GetIngredientById(ingredientId));
+            _context.SaveChanges();
         }
 
 
         public void RemoveAllergenFromProduct(int allergenId, int productId)
         {
-            throw new System.NotImplementedException();
+            GetItemById(productId).Allergens.Remove(GetAllergenById(allergenId));
+            _context.SaveChanges();
         }
 
         public Ingredient GetIngredientById(int ingredientId) => _context.Ingredients.Find(ingredientId);
@@ -65,12 +70,13 @@ namespace CafeMVC.Infrastructure.Repositories
 
         public void AddNewIngredient(Ingredient ingredient)
         {
-            throw new System.NotImplementedException();
+            _context.Ingredients.Add(ingredient);
+            _context.SaveChanges();
         }
 
         public Allergen GetAllergenById(int id)
         {
-            throw new System.NotImplementedException();
+            return _context.Allergens.Find(id);
         }
 
         public IQueryable<Allergen> GetAllAllergens()
@@ -78,25 +84,30 @@ namespace CafeMVC.Infrastructure.Repositories
             return _context.Allergens;
         }
 
-        public void DeleteIngredient(int ingredietnId)
+        public void DeleteIngredient(int ingredientId)
         {
-            throw new System.NotImplementedException();
+            _context.Ingredients.Remove(GetIngredientById(ingredientId));
+            _context.SaveChanges();
         }
 
         public void AddNewAllergen(Allergen allergen)
         {
-            throw new System.NotImplementedException();
+            _context.Allergens.Add(allergen);
+            _context.SaveChanges();
         }
 
 
-        public void AddNewTagToDietInformation(byte tag, int dietInfoId)
+        public void AddNewTagToDietInformation(DietInfoTag dietInfoTag, int productId)
         {
-            throw new System.NotImplementedException();
+            GetItemById(productId).DietInformation.ListOfTagName.Add(dietInfoTag);
+            _context.SaveChanges();
         }
 
-        public void DeleteTagFromDietInformation(int tagId, int dietInfoId)
+        public void DeleteTagFromDietInformation(string tagName, int productId)
         {
-            throw new System.NotImplementedException();
+            var tagToRemove = GetItemById(productId).DietInformation.ListOfTagName.FirstOrDefault(x => x.TagName == tagName);
+            GetItemById(productId).DietInformation.ListOfTagName.Remove(tagToRemove);
+            _context.SaveChanges();
         }
 
     }

@@ -7,7 +7,7 @@ namespace CafeMVC.Domain.Interfaces
     {
         void DeleteImageFromProduct(int productId);
         
-        void AddNewImageToProduct(byte image, int productId);
+        void AddNewImageToProduct(string imageName, int productId);
 
         void InsertIngredientToProduct(int ingredientId, int productId);
 
@@ -35,8 +35,8 @@ namespace CafeMVC.Domain.Interfaces
 
         Allergen GetAllergenById(int allergenId);
 
-        void AddNewTagToDietInformation(byte tag, int dietInfoId);
+        void AddNewTagToDietInformation(DietInfoTag dietInfoTag, int productId);
 
-        void DeleteTagFromDietInformation(int tagId, int dietInfoId);
+        void DeleteTagFromDietInformation(string tagName, int productId);
     }
 }

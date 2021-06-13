@@ -151,5 +151,24 @@ namespace CafeMVC.Web.Controllers
             return View();
         }
 
+        [HttpGet]
+        public IActionResult CloseOrder()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult CloseOrder(int orderId)
+        {
+            _orderService.CloseOrder(orderId);
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult ViewOpenOrders()
+        {
+            var openOrders = _orderService.GetOpenOrders();
+            return View(openOrders);
+        }
     }
 }

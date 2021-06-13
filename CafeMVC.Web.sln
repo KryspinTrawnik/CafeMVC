@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31112.23
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CafeMVC.Web", "CafeMVC.Web\CafeMVC.Web.csproj", "{04215AB5-55B4-4BAA-AB65-E9C6A87AF68F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CafeMVC.Web", "CafeMVC.Web\CafeMVC.Web.csproj", "{04215AB5-55B4-4BAA-AB65-E9C6A87AF68F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{DC5C5B9D-68B7-4516-AEC5-22AA6DCF9421}"
 EndProject
@@ -13,15 +13,20 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastru
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{D4B40319-9ACB-4E6D-9A94-FF5D85C12873}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CafeMVC.Application", "CafeMVC.Application\CafeMVC.Application.csproj", "{A5B7C11A-FE43-4945-B430-AF8289143C13}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CafeMVC.Application", "CafeMVC.Application\CafeMVC.Application.csproj", "{A5B7C11A-FE43-4945-B430-AF8289143C13}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CafeMVC.Domain", "CafeMVC.Domain\CafeMVC.Domain.csproj", "{D1D9F7FB-6D62-4225-B13F-5549B9CD214C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CafeMVC.Domain", "CafeMVC.Domain\CafeMVC.Domain.csproj", "{D1D9F7FB-6D62-4225-B13F-5549B9CD214C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CafeMVC.Infrastructure", "CafeMVC.Infrastructure\CafeMVC.Infrastructure.csproj", "{298F34E9-446C-49C5-94DD-E14E80DB772B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CafeMVC.Infrastructure", "CafeMVC.Infrastructure\CafeMVC.Infrastructure.csproj", "{298F34E9-446C-49C5-94DD-E14E80DB772B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CafeMVC.Tests", "CafeMVC.Tests\CafeMVC.Tests.csproj", "{B28F9759-C2BE-453E-B788-2C033428043D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CafeMVC.Tests", "CafeMVC.Tests\CafeMVC.Tests.csproj", "{B28F9759-C2BE-453E-B788-2C033428043D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{4C5159AB-65AA-44E7-92BE-1D2BF46409D2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5C587C78-FE8A-4E44-A2A7-C63DC484F8ED}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

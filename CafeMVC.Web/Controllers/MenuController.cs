@@ -15,7 +15,7 @@ namespace CafeMVC.Web.Controllers
         private readonly IProductService _productService;
         public IActionResult Index()
         {
-            var ListOfMenus = _menuService.GetAllMenuType();
+            var ListOfMenus = _menuService.GetAllMenus();
             return View(ListOfMenus);
         }
 

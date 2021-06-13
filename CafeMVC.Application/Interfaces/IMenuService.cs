@@ -10,15 +10,15 @@ namespace CafeMVC.Application.Interfaces
 {
     public interface IMenuService
     {
-        ListOfMenusVm GetAllMenuType();
+        ListOfMenusVm GetAllMenus();
 
         MenuForViewVm GetAllProducstOfMenu(int menuTypeId);
 
         MenuForViewVm GetProductsByDieteInfo(DietInfoForViewVm dieteInfo, int menuTypeId);
 
-        void AddProductToMenu(ProductForMenuVm product, int menuId);
+        void AddProductToMenu(int productI, int menuId);
 
-        void DeleteProductFromMenu(ProductForMenuVm product, int menuId);
+        void DeleteProductFromMenu(int productId, int menuId);
 
         void AddNewMenu(MenuForCreationVm menuModel);
 

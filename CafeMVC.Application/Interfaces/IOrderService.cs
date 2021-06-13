@@ -31,5 +31,9 @@ namespace CafeMVC.Application.Interfaces
         void ChangeAnnotation(int orderId, string annotation);
 
         void CanceleOrder(int orderId);
+
+        void CloseOrder(int orderId);
+
+        ListOfOrdersVm GetOpenOrders();
     }
 }

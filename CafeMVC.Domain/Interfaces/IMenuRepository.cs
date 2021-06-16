@@ -14,5 +14,7 @@ namespace CafeMVC.Domain.Interfaces
         IQueryable<Product> GetAllProduct(int menuId);
 
         void DeleteProductFromMenu(int menuId, int productId);
+
+        Menu GetMenuByDietInformation(int menuId, DietInformation dietInformation);
     }
 }

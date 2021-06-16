@@ -74,9 +74,12 @@ namespace CafeMVC.Application.Services
             return menuVm;
         }
 
-        public MenuForViewVm GetProductsByDieteInfo(DietInfoForViewVm dieteInfo, int menuTypeId)
+        public MenuForViewVm GetProductsByDieteInfo(DietInfoForViewVm dieteInfoVm, int menuTypeId)
         {
-            throw new NotImplementedException();
+            var dietInfo = _mapper.Map<DietInformation>(dieteInfoVm);
+            var menu = _menuRepository.GetMenuByDietInformation(menuTypeId, dietInfo);
+            var menuVm = _mapper.Map<MenuForViewVm>(menu);
+            return menuVm;
         }
     }
 }

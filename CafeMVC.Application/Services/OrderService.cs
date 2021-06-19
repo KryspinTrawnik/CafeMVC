@@ -1,6 +1,9 @@
-﻿using CafeMVC.Application.Interfaces;
+﻿using AutoMapper;
+using CafeMVC.Application.Interfaces;
 using CafeMVC.Application.ViewModels.Orders;
 using CafeMVC.Application.ViewModels.Products;
+using CafeMVC.Domain.Interfaces;
+using CafeMVC.Domain.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,14 +14,24 @@ namespace CafeMVC.Application.Services
 {
     public class OrderService : IOrderService
     {
-        public void AddAnnotation(int orderId, string annotation)
+        private readonly IOrderRepository _orderRepository;
+        private readonly IMapper _mapper;
+
+        public OrderService(IOrderRepository orderRepository, IMapper mapper)
         {
-            throw new NotImplementedException();
+            _orderRepository = orderRepository;
+            _mapper = mapper;
+        }
+        public void AddOrChangeNote(int orderId, string note)
+        {
+            _orderRepository.ChangeNote(orderId, note);
         }
 
-        public int AddOrder(OrderForSummaryVm orderForView)
+        public int AddOrder(OrderForCreation order)
         {
-            throw new NotImplementedException();
+            var newOrder = _mapper.Map<Order>(order);
+
+            _orderRepository.AddItem(newOrder);
         }
 
         public void AddProductToOrder(int orderId, int productId)
@@ -27,11 +40,6 @@ namespace CafeMVC.Application.Services
         }
 
         public void CanceleOrder(int orderId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ChangeAnnotation(int orderId, string annotation)
         {
             throw new NotImplementedException();
         }
@@ -66,7 +74,7 @@ namespace CafeMVC.Application.Services
             throw new NotImplementedException();
         }
 
-        public OrderForSummaryVm GetOrderbyId(int orderId)
+        public OrderForCreation GetOrderbyId(int orderId)
         {
             throw new NotImplementedException();
         }

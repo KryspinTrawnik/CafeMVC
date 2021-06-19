@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace CafeMVC.Application.ViewModels.Orders
 {
-    public class OrderForSummaryVm : IMapFrom<CafeMVC.Domain.Model.Order>
+    public class OrderForCreation : IMapFrom<CafeMVC.Domain.Model.Order>
     {
         public int Id { get; set; }
 
@@ -24,7 +24,7 @@ namespace CafeMVC.Application.ViewModels.Orders
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<CafeMVC.Domain.Model.Order, OrderForSummaryVm>();
+            profile.CreateMap<CafeMVC.Domain.Model.Order, OrderForCreation>();
         }
 
     }

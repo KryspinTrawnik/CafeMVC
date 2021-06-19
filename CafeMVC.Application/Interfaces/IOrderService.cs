@@ -18,17 +18,15 @@ namespace CafeMVC.Application.Interfaces
 
         void RemoveProduct(int productId, int orderId);
 
-        OrderForSummaryVm GetOrderbyId(int orderId);
+        OrderForCreation GetOrderbyId(int orderId);
 
-        int AddOrder(OrderForSummaryVm orderForView);
+        int AddOrder(OrderForCreation orderForView);
 
         void ChangeLeadTime(int orderId, DateTime leadTimeOfOrder);
 
         void ChangeDeliveryTime(int orderId, string deliveryAddress);
 
-        void AddAnnotation(int orderId, string annotation);
-
-        void ChangeAnnotation(int orderId, string annotation);
+        void AddOrChangeNote(int orderId, string annotation);
 
         void CanceleOrder(int orderId);
 

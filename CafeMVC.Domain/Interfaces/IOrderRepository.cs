@@ -9,7 +9,8 @@ namespace CafeMVC.Domain.Interfaces
 {
     public interface IOrderRepository : IGenericRepository<Order>
     {
-        IQueryable<Order> GetNotDoneOrders();
+        IQueryable<Order> GetAllNotDoneOrders();
 
+        void ChangeNote(int orderId, string annotation);
     }
 }

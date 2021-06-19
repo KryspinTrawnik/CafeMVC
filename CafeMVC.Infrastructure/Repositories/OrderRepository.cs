@@ -12,12 +12,19 @@ namespace CafeMVC.Infrastructure.Repositories
     {
         public OrderRepository(Context context) : base(context)
         {
+
         }
 
-        public IQueryable<Order> GetNotDoneOrders()
+        public IQueryable<Order> GetAllNotDoneOrders()
         {
             return GetAllType().Where(x => x.HasBeenDone == false);
 
+        }
+
+        void IOrderRepository.ChangeNote(int orderId, string note)
+        {
+            GetItemById(orderId).Note = note;
+            _context.SaveChanges();
         }
     }
 }

@@ -80,7 +80,7 @@ namespace CafeMVC.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult OrderSummary(OrderForSummaryVm orderForView)
+        public IActionResult OrderSummary(OrderForCreation orderForView)
         {
              var orderConfirmation =_orderService.AddOrder(orderForView);
             return View(orderConfirmation);
@@ -123,7 +123,7 @@ namespace CafeMVC.Web.Controllers
         [HttpPatch]
         public IActionResult AddAnntotation(string annotation, int orderId)
         {
-            _orderService.AddAnnotation(orderId, annotation);
+            _orderService.AddOrChangeNote(orderId, annotation);
             return View();
         }
         [HttpGet]

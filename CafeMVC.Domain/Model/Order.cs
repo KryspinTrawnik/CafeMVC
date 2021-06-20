@@ -23,7 +23,7 @@ namespace CafeMVC.Domain.Model
 
         public ICollection<Product> Products { get; set; }
 
-        public int OrderConfirmation { get; set; }
+        public string OrderConfirmation { get; set; }
 
         public bool IsCollection { get; set; }
     }

@@ -27,11 +27,21 @@ namespace CafeMVC.Application.Services
             _orderRepository.ChangeNote(orderId, note);
         }
 
-        public int AddOrder(OrderForCreation order)
+        public string AddOrder(OrderForCreation order)
         {
             var newOrder = _mapper.Map<Order>(order);
-
+            string orderConfirmation = GenerateOrderConfrimation();
+            newOrder.OrderConfirmation = orderConfirmation;
             _orderRepository.AddItem(newOrder);
+      
+            return orderConfirmation;
+        }
+        private string GenerateOrderConfrimation()
+        {
+            string todayDate = DateTime.Now.ToString("MM/dd/yy").RemoveSpecialCharacters();
+            string orderConfirmation = $"Order-{_orderRepository.GetAllType().Count()}{todayDate}";
+
+            return orderConfirmation;
         }
 
         public void AddProductToOrder(int orderId, int productId)

@@ -12,5 +12,6 @@ namespace CafeMVC.Domain.Interfaces
         IQueryable<Order> GetAllNotDoneOrders();
 
         void ChangeNote(int orderId, string annotation);
+
     }
 }

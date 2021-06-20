@@ -20,7 +20,7 @@ namespace CafeMVC.Application.Interfaces
 
         OrderForCreation GetOrderbyId(int orderId);
 
-        int AddOrder(OrderForCreation orderForView);
+        string AddOrder(OrderForCreation orderForView);
 
         void ChangeLeadTime(int orderId, DateTime leadTimeOfOrder);
 

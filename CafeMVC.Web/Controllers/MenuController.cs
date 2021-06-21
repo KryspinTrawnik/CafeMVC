@@ -46,9 +46,9 @@ namespace CafeMVC.Web.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult AddNewProductToMenu(ProductForMenuVm product, int menuId)
+        public IActionResult AddNewProductToMenu(int productId, int menuId)
         {
-            _menuService.AddProductToMenu(product, menuId);
+            _menuService.AddProductToMenu(productId, menuId);
             return View();
         }
 
@@ -58,9 +58,9 @@ namespace CafeMVC.Web.Controllers
             return View();
         }
         [HttpDelete]
-        public IActionResult DeleteProductFromMenu(ProductForMenuVm product, int menuId)
+        public IActionResult DeleteProductFromMenu(int productId, int menuId)
         {
-            _menuService.DeleteProductFromMenu(product, menuId);
+            _menuService.DeleteProductFromMenu(productId, menuId);
             return View();
         }
         [HttpGet]

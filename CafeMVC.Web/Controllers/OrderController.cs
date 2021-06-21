@@ -135,7 +135,7 @@ namespace CafeMVC.Web.Controllers
         [HttpPatch]
         public IActionResult ChangeAnntotation(string annotation, int orderId)
         {
-            _orderService.ChangeAnnotation(orderId, annotation);
+            _orderService.AddOrChangeNote(orderId, annotation);
             return View();
         }
         [HttpGet]

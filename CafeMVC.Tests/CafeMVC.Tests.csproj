@@ -21,4 +21,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CafeMVC.Application\CafeMVC.Application.csproj" />
+    <ProjectReference Include="..\CafeMVC.Domain\CafeMVC.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

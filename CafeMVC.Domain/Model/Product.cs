@@ -9,6 +9,8 @@ namespace CafeMVC.Domain.Model
 
         public double Price { get; set; }
 
+        public string Description { get; set; }
+
         public int TypeId { get; set; }
 
         public ProductType ProductType{ get; set; }

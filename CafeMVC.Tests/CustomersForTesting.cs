@@ -32,7 +32,7 @@ namespace CafeMVC.Tests
                     AddressType = new AddressType()
                     {
                         Id = 1,
-                        Name = "HomeAdress"
+                        Name = "Adres zamieszkania"
                     }
                     },
                     new Address()
@@ -47,7 +47,7 @@ namespace CafeMVC.Tests
                     AddressType = new AddressType()
                     {
                         Id = 2,
-                        Name = "DeliveryAdress"
+                        Name = "Adres dostawy"
                     }
                   }
                   
@@ -75,6 +75,72 @@ namespace CafeMVC.Tests
 
             };
 
+
+            Customer customer2 = new Customer()
+            {
+                Id = 2,
+                FirstName = "Harry",
+                Surname = "Marley",
+                Addresses = new List<Address>()
+                {
+                    new Address()
+                    {
+                    Id = 1,
+                    BuildingNumber ="3",
+                    FlatNumber = 5,
+                    Street = "Aleja Wojska Polskiego",
+                    City = "Kalisz",
+                    ZipCode = "62-800",
+                    Country = "Poland",
+                    TypeId = 1,
+                    AddressType = new AddressType()
+                    {
+                        Id = 1,
+                        Name = "Adres zamieszkania"
+                    }
+                    },
+                    new Address()
+                  {
+                        Id = 2,
+                    BuildingNumber ="18",
+                    FlatNumber = 23,
+                    Street = "Serbinowska",
+                    City = "Kalisz",
+                    ZipCode = "62-800",
+                    Country = "Poland",
+                    TypeId = 2,
+                    AddressType = new AddressType()
+                    {
+                        Id = 2,
+                        Name = "Adres Dostawy"
+                    }
+                  }
+
+                },
+                UserContactInformations = new List<CustomerContactInformation>()
+                {
+                    new CustomerContactInformation()
+                    {
+                        Id = 1,
+                        ContactDetailInformation = "608583619",
+                        ContactDetailTypId = 1,
+                        ContactDetailInfotmationType = new ContactDetailInfotmationType(){ Id = 1, Name = "Telfon Komórkowy"}
+
+                    },
+                    new CustomerContactInformation()
+                    {
+                        Id = 2,
+                        ContactDetailInformation = "HarryM@gmail.com",
+                        ContactDetailTypId = 2,
+                        ContactDetailInfotmationType = new ContactDetailInfotmationType(){ Id = 2, Name = "E-mail"}
+
+                    }
+
+                }
+
+            };
+            AllCustomers.Add(customer1);
+            AllCustomers.Add(customer2);
 
             return AllCustomers;
         }

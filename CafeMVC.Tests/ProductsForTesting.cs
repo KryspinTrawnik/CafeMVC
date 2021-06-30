@@ -9,9 +9,9 @@ namespace CafeMVC.Tests
 {
     public class ProductsForTesting
     {
-        public List<Product> GetProductsForTesting()
+        public List<Product> GetProductsForBajgleMenu()
         {
-            List<Product> AllProducts = new List<Product>();
+
             ProductType Bajgle = new ProductType()
             {
                 Id = 1,
@@ -19,12 +19,7 @@ namespace CafeMVC.Tests
                 Products = new List<Product>()
             };
 
-            ProductType Nalesniki = new ProductType()
-            {
-                Id = 2,
-                Name = "Nalesniki",
-                Products = new List<Product>()
-            };
+
 
             Product product1 = new Product()
             {
@@ -43,10 +38,10 @@ namespace CafeMVC.Tests
                 },
                 Ingredients = new List<Ingredient>
                 {
-                    new Ingredient{Id = 1, Name = "Bajgiel"},
-                    new Ingredient{Id = 2, Name = "Wołowina"},
-                    new Ingredient{Id = 3, Name = "Mozarella"},
-                    new Ingredient{Id = 4, Name = "Warzywa"}
+                        new Ingredient{Id = 1, Name = "Bajgiel"},
+                        new Ingredient{Id = 2, Name = "Wołowina"},
+                        new Ingredient{Id = 3, Name = "Mozarella"},
+                        new Ingredient{Id = 4, Name = "Warzywa"}
                 },
                 Allergens = new List<Allergen>
                 {
@@ -143,6 +138,23 @@ namespace CafeMVC.Tests
             Bajgle.Products.Add(product2);
             Bajgle.Products.Add(product3);
             Bajgle.Products.Add(product4);
+            List<Product> productsForBajgleMenu = new List<Product>()
+            { product1,
+              product2,
+              product3,
+              product4
+            };
+            return productsForBajgleMenu;
+        }
+
+        public List<Product> GetProductsForNalesnikiMenu()
+        {
+            ProductType Nalesniki = new ProductType()
+            {
+                Id = 2,
+                Name = "Nalesniki",
+                Products = new List<Product>()
+            };
 
             Product product5 = new Product()
             {
@@ -259,18 +271,23 @@ namespace CafeMVC.Tests
             Nalesniki.Products.Add(product6);
             Nalesniki.Products.Add(product7);
             Nalesniki.Products.Add(product8);
-            
-            AllProducts.Add(product1);
-            AllProducts.Add(product2);
-            AllProducts.Add(product3);
-            AllProducts.Add(product4);
-            AllProducts.Add(product5);
-            AllProducts.Add(product6);
-            AllProducts.Add(product7);
-            AllProducts.Add(product8);
-            return AllProducts;
+
+            var NalesnikiMenuProducts = new List<Product>
+            {
+                product5,
+                product6,
+                product7,
+                product8
+            };
+            return NalesnikiMenuProducts;
         }
+        public List<Product> GetAllProductsForTest()
+        {
+           var nalesnikiMenu = GetProductsForNalesnikiMenu();
+            var allProducts = GetProductsForBajgleMenu();
+            allProducts.AddRange(nalesnikiMenu);
 
-
+            return allProducts;
+        }
     }
 }

@@ -32,7 +32,7 @@ namespace CafeMVC.Tests
                     AddressType = new AddressType()
                     {
                         Id = 1,
-                        Name = "Adres zamieszkania"
+                        Name = "Adres rozliczeniowy"
                     }
                     },
                     new Address()
@@ -96,7 +96,7 @@ namespace CafeMVC.Tests
                     AddressType = new AddressType()
                     {
                         Id = 1,
-                        Name = "Adres zamieszkania"
+                        Name = "Adres rozliczeniowy"
                     }
                     },
                     new Address()

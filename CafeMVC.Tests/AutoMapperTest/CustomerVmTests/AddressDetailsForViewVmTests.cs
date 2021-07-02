@@ -28,7 +28,7 @@ namespace CafeMVC.Tests.AutoMapperTest.CustomerVmTests
                 cfg.AddProfile(new MappingProfile());
 
             }));
-            var 
+            
             //Act
             //Assert
         }

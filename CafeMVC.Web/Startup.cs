@@ -1,3 +1,4 @@
+using CafeMVC.Application;
 using CafeMVC.Infrastructure;
 using CafeMVC.Web.Data;
 using Microsoft.AspNetCore.Builder;
@@ -25,7 +26,7 @@ namespace CafeMVC.Web
             services.AddDbContext<Context>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-          
+            services.AddApplication();
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)

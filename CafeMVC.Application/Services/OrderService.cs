@@ -27,7 +27,7 @@ namespace CafeMVC.Application.Services
             _orderRepository.ChangeNote(orderId, note);
         }
 
-        public string AddOrder(OrderForCreation order)
+        public string AddOrder(OrderForCreationVm order)
         {
             var newOrder = _mapper.Map<Order>(order);
             string orderConfirmation = GenerateOrderConfrimation();
@@ -84,7 +84,7 @@ namespace CafeMVC.Application.Services
             throw new NotImplementedException();
         }
 
-        public OrderForCreation GetOrderbyId(int orderId)
+        public OrderForCreationVm GetOrderbyId(int orderId)
         {
             throw new NotImplementedException();
         }

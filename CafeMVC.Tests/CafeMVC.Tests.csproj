@@ -26,8 +26,4 @@
     <ProjectReference Include="..\CafeMVC.Domain\CafeMVC.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="AutoMapperTest\" />
-  </ItemGroup>
-
 </Project>

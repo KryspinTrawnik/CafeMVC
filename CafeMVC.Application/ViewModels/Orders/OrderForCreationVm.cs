@@ -16,7 +16,7 @@ namespace CafeMVC.Application.ViewModels.Orders
 
         public string Note { get; set; }
 
-        public int OrderConfirmation { get; set; }
+        public string OrderConfirmation { get; set; }
 
         public bool IsCollection { get; set; }
 

@@ -15,6 +15,8 @@ namespace CafeMVC.Application.ViewModels.Orders
 
         public double TotalPrice { get; set; }
 
+        public string OrderConfirmation { get; set; }
+
         public List<ProductForMenuVm> Products { get; set; }
 
         public DateTime DateOfOrder { get; set; }

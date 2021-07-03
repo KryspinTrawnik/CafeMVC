@@ -101,5 +101,26 @@ namespace CafeMVC.Tests.AutoMapperTest.CustomerVmTests
             //Assert
             result.Should().BeEquivalentTo(expected);
         }
+
+        [Fact]
+        public void AddressDetailsForViewVersionTwoReturnsRightModel()
+        {
+            //Arrange
+            var expected = GetExpectedViewModelAdrressForTest();
+            expected.Address = "Aleja Wojska Polskiego 3";
+            var result = new AddressDetailsForViewVm();
+            var testedAdress = GetAdrressForTest();
+            testedAdress.FlatNumber = 0;
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<Address, AddressDetailsForViewVm>();
+            });
+            var mapper = config.CreateMapper();
+
+            //Act
+            result = mapper.Map<AddressDetailsForViewVm>(testedAdress);
+            //Assert
+            result.Should().BeEquivalentTo(expected);
+        }
     }
 }

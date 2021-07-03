@@ -18,6 +18,10 @@ namespace CafeMVC.Application.ViewModels.Orders
 
         public string OrderConfirmation { get; set; }
 
+        public DateTime LeadTime { get; set; }
+
+        public DateTime DateOfOrder { get; set; }
+
         public bool IsCollection { get; set; }
 
         public int CustomerId { get; set; }

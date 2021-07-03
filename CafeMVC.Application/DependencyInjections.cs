@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using CafeMVC.Application.Interfaces;
 using CafeMVC.Application.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,6 +20,7 @@ namespace CafeMVC.Application
             services.AddTransient<IMenuService, MenuService>();
             services.AddTransient<IOrderService, OrderService>();
             services.AddTransient<IProductService, ProductService>();
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             return services;
         }

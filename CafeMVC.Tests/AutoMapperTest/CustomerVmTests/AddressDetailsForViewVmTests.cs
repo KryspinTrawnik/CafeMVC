@@ -57,7 +57,7 @@ namespace CafeMVC.Tests.AutoMapperTest.CustomerVmTests
             var testedAdress = GetAdrressForTest();
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<Address, AddressDetailsForViewVm>();
+                cfg.AddProfile(new MappingProfile());
             });
             var mapper = config.CreateMapper();
 
@@ -92,14 +92,22 @@ namespace CafeMVC.Tests.AutoMapperTest.CustomerVmTests
             var testedAdress = GetAdrressForTest();
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<Address, AddressDetailsForViewVm>();
+                cfg.AddProfile(new MappingProfile());
+                
             });
+            config.AssertConfigurationIsValid();
+
             var mapper = config.CreateMapper();
 
             //Act
             result = mapper.Map<AddressDetailsForViewVm>(testedAdress);
+                
             //Assert
-            result.Should().BeEquivalentTo(expected);
+            result.City.Should().BeEquivalentTo("Kalisz");
+            result.ZipCode.Should().BeEquivalentTo("62-800");
+            result.Address.Should().BeEquivalentTo("Aleja Wojska Polskiego 3/5");
+            result.Type.Should().BeEquivalentTo("Adres rozliczeniowy");
+            //result.Should().BeEquivalentTo(expected);
         }
 
         [Fact]
@@ -113,7 +121,7 @@ namespace CafeMVC.Tests.AutoMapperTest.CustomerVmTests
             testedAdress.FlatNumber = 0;
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<Address, AddressDetailsForViewVm>();
+                cfg.AddProfile(new MappingProfile());
             });
             var mapper = config.CreateMapper();
 

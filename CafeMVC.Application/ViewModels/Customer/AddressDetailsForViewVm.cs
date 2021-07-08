@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using CafeMVC.Application.Interfaces.Mapping;
+using CafeMVC.Domain.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -28,18 +30,11 @@ namespace CafeMVC.Application.ViewModels.Customer
                 .ForMember(s => s.Type, opt => opt.MapFrom(d => d.AddressType.Name))
                 .ForMember(s => s.Address, opt =>
                 {
-                opt.PreCondition(x => x.FlatNumber > 0);
-                opt.MapFrom(d => d.Street + " " + d.BuildingNumber + "/" + d.FlatNumber);
-                })
-                .ForMember(s => s.Address, opt =>
-                {
-                  opt.PreCondition(x => x.FlatNumber == 0);
-                  opt.MapFrom(d => d.Street + " " + d.BuildingNumber);
+                    opt.MapFrom(new AddressResolver().Resolve);
                 });
 
+        }
 
-            
-                
-        }         
+       
     }
 }

@@ -24,8 +24,8 @@ namespace CafeMVC.Application.Interfaces.Mapping
 
             foreach (var type in types)
             {
-                var instance = Activator.CreateInstance(type);
-                var methodInfo = type.GetMethod("Mapping");
+                object instance = Activator.CreateInstance(type);
+                MethodInfo methodInfo = type.GetMethod("Mapping");
                 methodInfo?.Invoke(instance, new object[] { this });
             }
         }

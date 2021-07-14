@@ -20,14 +20,12 @@ namespace CafeMVC.Application.ViewModels.Customer
                 .ForMember(s => s.Address, opt =>
                 {
                     opt.PreCondition(x => x.FlatNumber == 0 && x.AddressType.Name == "Delivery Address");
-                    opt.MapFrom(d => d.Street + " " + d.BuildingNumber + "\n"
-                    + d.ZipCode + " " + d.City);
+                    opt.MapFrom(new LongAddressResolver().Resolve);
                 })
                 .ForMember(s => s.Address, opt =>
                 {
                     opt.PreCondition(x => x.FlatNumber != 0 && x.AddressType.Name == "Delivery Address");
-                    opt.MapFrom(d => d.Street + " " + d.BuildingNumber + "/" + d.FlatNumber
-                    + "\n" + d.ZipCode + " " + d.City);
+                    opt.MapFrom(new LongAddressResolver().Resolve);
                 });
         }
     }

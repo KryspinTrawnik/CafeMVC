@@ -8,18 +8,20 @@ using System.Threading.Tasks;
 
 namespace CafeMVC.Application.Interfaces.Mapping
 {
-    public class AddressResolver : IValueResolver<Address, AddressDetailsForViewVm, string>
+    public class ShortAddressResolver : IValueResolver<Address, AddressDetailsForViewVm, string>
     {
         public string Resolve(Address source, AddressDetailsForViewVm destination, string destMember, AutoMapper.ResolutionContext context)
         {
             if (source.FlatNumber == 0)
             {
-                return source.Street + " " + source.BuildingNumber;
+                destMember = source.Street + " " + source.BuildingNumber;
             }
             else
             {
-                return source.Street + " " + source.BuildingNumber + "/" + source.FlatNumber;
+                destMember = source.Street + " " + source.BuildingNumber + "/" + source.FlatNumber;
             }
+
+            return destMember;
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using CafeMVC.Application.Interfaces;
+using CafeMVC.Application.Interfaces.Mapping;
 using CafeMVC.Application.Services;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -21,7 +22,7 @@ namespace CafeMVC.Application
             services.AddTransient<IOrderService, OrderService>();
             services.AddTransient<IProductService, ProductService>();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
-
+            services.AddTransient<ShortAddressResolver>();
             return services;
         }
     }

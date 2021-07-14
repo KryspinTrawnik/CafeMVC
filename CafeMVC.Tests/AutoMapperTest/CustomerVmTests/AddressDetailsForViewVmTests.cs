@@ -57,8 +57,11 @@ namespace CafeMVC.Tests.AutoMapperTest.CustomerVmTests
             var testedAdress = GetAdrressForTest();
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.AddProfile(new MappingProfile());
+                cfg.CreateMap<Address, AddressDetailsForViewVm>()
+                .ForMember(d => d.Type, opt => opt.MapFrom(d => d.AddressType.Name))
+                .ForMember(d => d.Address, opt => opt.MapFrom(new ShortAddressResolver().Resolve));
             });
+            config.AssertConfigurationIsValid();
             var mapper = config.CreateMapper();
 
             //Act
@@ -74,7 +77,9 @@ namespace CafeMVC.Tests.AutoMapperTest.CustomerVmTests
             var testedAdress = GetAdrressForTest();
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<Address, AddressDetailsForViewVm>();
+                cfg.CreateMap<Address, AddressDetailsForViewVm>()
+                .ForMember(d => d.Type, opt => opt.MapFrom(d => d.AddressType.Name))
+                .ForMember(d => d.Address, opt => opt.MapFrom(new ShortAddressResolver().Resolve));
             });
             var mapper = config.CreateMapper();
 
@@ -87,48 +92,26 @@ namespace CafeMVC.Tests.AutoMapperTest.CustomerVmTests
         public void AddressDetailsForViewReturnsRightModel()
         {
             //Arrange
-            var expected = GetExpectedViewModelAdrressForTest();
-            var result = new AddressDetailsForViewVm();
-            var testedAdress = GetAdrressForTest();
+            AddressDetailsForViewVm expected = GetExpectedViewModelAdrressForTest();
+            AddressDetailsForViewVm result = new AddressDetailsForViewVm();
+            Address testedAdress = GetAdrressForTest();
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.AddProfile(new MappingProfile());
-                
+                cfg.CreateMap<Address, AddressDetailsForViewVm>()
+                .ForMember(d => d.Type, opt => opt.MapFrom(d => d.AddressType.Name))
+                .ForMember(d => d.Address, opt => opt.MapFrom(new ShortAddressResolver().Resolve));
             });
             config.AssertConfigurationIsValid();
 
-            var mapper = config.CreateMapper();
+            IMapper mapper = config.CreateMapper();
 
             //Act
             result = mapper.Map<AddressDetailsForViewVm>(testedAdress);
-                
-            //Assert
-            result.City.Should().BeEquivalentTo("Kalisz");
-            result.ZipCode.Should().BeEquivalentTo("62-800");
-            result.Address.Should().BeEquivalentTo("Aleja Wojska Polskiego 3/5");
-            result.Type.Should().BeEquivalentTo("Adres rozliczeniowy");
-            //result.Should().BeEquivalentTo(expected);
-        }
 
-        [Fact]
-        public void AddressDetailsForViewVersionTwoReturnsRightModel()
-        {
-            //Arrange
-            var expected = GetExpectedViewModelAdrressForTest();
-            expected.Address = "Aleja Wojska Polskiego 3";
-            var result = new AddressDetailsForViewVm();
-            var testedAdress = GetAdrressForTest();
-            testedAdress.FlatNumber = 0;
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile(new MappingProfile());
-            });
-            var mapper = config.CreateMapper();
-
-            //Act
-            result = mapper.Map<AddressDetailsForViewVm>(testedAdress);
             //Assert
+
             result.Should().BeEquivalentTo(expected);
         }
+
     }
 }

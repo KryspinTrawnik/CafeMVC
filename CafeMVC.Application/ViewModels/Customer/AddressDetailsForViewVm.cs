@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace CafeMVC.Application.ViewModels.Customer
 {
-    public class AddressDetailsForViewVm :IMapFrom<CafeMVC.Domain.Model.Address>
+    public class AddressDetailsForViewVm :IMapFrom<Address>
     {
         public int Id { get; set; }
 
@@ -26,15 +26,12 @@ namespace CafeMVC.Application.ViewModels.Customer
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<CafeMVC.Domain.Model.Address, AddressDetailsForViewVm>()
+            profile.CreateMap<Address, AddressDetailsForViewVm>()
                 .ForMember(s => s.Type, opt => opt.MapFrom(d => d.AddressType.Name))
-                .ForMember(s => s.Address, opt =>
-                {
-                    opt.MapFrom(new AddressResolver().Resolve);
-                });
+                .ForMember(s => s.Address, opt => opt.MapFrom(new ShortAddressResolver().Resolve));
 
         }
 
-       
+
     }
 }

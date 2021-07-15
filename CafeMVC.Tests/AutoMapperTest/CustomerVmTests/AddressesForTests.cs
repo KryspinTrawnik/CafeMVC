@@ -1,4 +1,7 @@
-﻿using CafeMVC.Application.ViewModels.Customer;
+﻿using AutoMapper;
+using CafeMVC.Application.Interfaces.Mapping;
+using CafeMVC.Application.ViewModels.Customer;
+using CafeMVC.Domain.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +12,7 @@ namespace CafeMVC.Tests.AutoMapperTest.CustomerVmTests
 {
     public class AddressesForTests
     {
-        private Address GetAdrressForTest()
+        public Address GetAdrressForTest()
         {
             var address = new Address()
             {
@@ -43,5 +46,7 @@ namespace CafeMVC.Tests.AutoMapperTest.CustomerVmTests
             };
             return expectedAddress;
         }
+
+        
     }
 }

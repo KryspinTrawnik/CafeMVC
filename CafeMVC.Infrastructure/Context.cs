@@ -41,7 +41,7 @@ namespace CafeMVC.Infrastructure
         {
             builder.Entity<Address>()
                 .HasOne(a => a.AddressType).WithOne(b => b.Address)
-                .HasForeignKey<AddressType>(c => c.AddersRef);
+                .HasForeignKey<AddressType>(c => c.AddressRef);
 
             builder.Entity<Product>()
                 .HasOne(a => a.DietInformation).WithOne(b => b.Product)

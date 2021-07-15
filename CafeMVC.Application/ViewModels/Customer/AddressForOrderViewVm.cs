@@ -19,12 +19,6 @@ namespace CafeMVC.Application.ViewModels.Customer
             profile.CreateMap<CafeMVC.Domain.Model.Address, AddressDetailsForViewVm>()
                 .ForMember(s => s.Address, opt =>
                 {
-                    opt.PreCondition(x => x.FlatNumber == 0 && x.AddressType.Name == "Delivery Address");
-                    opt.MapFrom(new LongAddressResolver().Resolve);
-                })
-                .ForMember(s => s.Address, opt =>
-                {
-                    opt.PreCondition(x => x.FlatNumber != 0 && x.AddressType.Name == "Delivery Address");
                     opt.MapFrom(new LongAddressResolver().Resolve);
                 });
         }

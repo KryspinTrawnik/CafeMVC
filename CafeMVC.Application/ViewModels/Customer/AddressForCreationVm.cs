@@ -19,13 +19,12 @@ namespace CafeMVC.Application.ViewModels.Customer
 
         public string Country { get; set; }
 
-        public string Type { get; set; }
+        public AddressTypeVm AddressType { get; set; }
 
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<CafeMVC.Domain.Model.Address, AddressForCreationVm>()
-                .ForMember(s => s.Type, opt => opt.MapFrom(d => d.AddressType.Name));
+            profile.CreateMap<CafeMVC.Domain.Model.Address, AddressForCreationVm >().ReverseMap();
 
         }
     }

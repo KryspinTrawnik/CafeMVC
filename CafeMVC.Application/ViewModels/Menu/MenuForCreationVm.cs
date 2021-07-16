@@ -22,7 +22,7 @@ namespace CafeMVC.Application.ViewModels.Menu
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<CafeMVC.Domain.Model.Order, MenuForCreationVm>();
+            profile.CreateMap<CafeMVC.Domain.Model.Order, MenuForCreationVm>().ReverseMap();
 
         }
 

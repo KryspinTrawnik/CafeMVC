@@ -22,8 +22,7 @@ namespace CafeMVC.Application.ViewModels.Customer
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<CafeMVC.Domain.Model.Customer, CustomerForCreationVm>();
-
+            profile.CreateMap<CafeMVC.Domain.Model.Customer, CustomerForCreationVm>().ReverseMap();
 
         }
     }

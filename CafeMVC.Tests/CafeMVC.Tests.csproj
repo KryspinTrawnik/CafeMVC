@@ -28,6 +28,7 @@
   <ItemGroup>
     <ProjectReference Include="..\CafeMVC.Application\CafeMVC.Application.csproj" />
     <ProjectReference Include="..\CafeMVC.Domain\CafeMVC.Domain.csproj" />
+    <ProjectReference Include="..\CafeMVC.Infrastructure\CafeMVC.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

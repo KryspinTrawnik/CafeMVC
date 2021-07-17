@@ -13,7 +13,7 @@ namespace CafeMVC.Application.Interfaces
 
         ListOfProductsVm GetAllProducts();
 
-        void AddNewProduct(ProductForViewVm product);
+        void AddNewProduct(ProductForCreationVm product);
 
         ProductForViewVm GetProductById(int productId);
 

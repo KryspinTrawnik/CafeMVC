@@ -30,7 +30,7 @@ namespace CafeMVC.Application.Services
             throw new NotImplementedException();
         }
 
-        public void AddNewProduct(ProductForViewVm product)
+        public void AddNewProduct(ProductForCreationVm product)
         {
             throw new NotImplementedException();
         }

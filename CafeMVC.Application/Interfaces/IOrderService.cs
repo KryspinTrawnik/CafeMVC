@@ -1,4 +1,5 @@
-﻿using CafeMVC.Application.ViewModels.Orders;
+﻿using CafeMVC.Application.ViewModels.Customer;
+using CafeMVC.Application.ViewModels.Orders;
 using CafeMVC.Application.ViewModels.Products;
 using System;
 using System.Collections.Generic;
@@ -24,7 +25,7 @@ namespace CafeMVC.Application.Interfaces
 
         void ChangeLeadTime(int orderId, DateTime leadTimeOfOrder);
 
-        void ChangeDeliveryTime(int orderId, string deliveryAddress);
+        void ChangeDeliveryAddress(int orderId, AddressForCreationVm newDeliveryAddress);
 
         void AddOrChangeNote(int orderId, string annotation);
 

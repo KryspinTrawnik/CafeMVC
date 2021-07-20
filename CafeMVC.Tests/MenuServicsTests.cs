@@ -23,7 +23,7 @@ namespace CafeMVC.Tests.MenuServiceTest
             var otherModelsForTesting = new OtherModelsForTesting();
             var productForTesting = new ProductsForTesting();
             Menu menuForTest = otherModelsForTesting.GetBajgleMenu();
-            Product product = productForTesting.GetProductsForBajgleMenu().FirstOrDefault(x => x.Id == 1);          
+            Product product = productForTesting.GetProductsForBajgleMenu().FirstOrDefault(x => x.Id == 1);
 
             var productRepository = new Mock<IProductRepository>();
             var menuRepository = new Mock<IMenuRepository>();
@@ -34,7 +34,7 @@ namespace CafeMVC.Tests.MenuServiceTest
                 cfg.AddProfile(new MappingProfile());
             });
             var mapper = config.CreateMapper();
-            var menuService = new MenuService(menuRepository.Object,  mapper, productRepository.Object);
+            var menuService = new MenuService(menuRepository.Object, mapper, productRepository.Object);
             //Act
             menuService.AddProductToMenu(1, 1);
             //Assert

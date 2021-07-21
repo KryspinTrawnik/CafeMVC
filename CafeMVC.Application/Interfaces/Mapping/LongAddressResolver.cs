@@ -14,12 +14,12 @@ namespace CafeMVC.Application.Interfaces.Mapping
             if (source.FlatNumber == 0)
             {
                 destMember = source.Street + " " + source.BuildingNumber + "\n"
-                    + source.ZipCode + " " + source.City;
+                    + source.ZipCode + "\n" + source.City;
             }
             else
             {
                 destMember = source.Street + " " + source.BuildingNumber + "/" + source.FlatNumber + "\n"
-                    + source.ZipCode + " " + source.City;
+                    + source.ZipCode + "\n" + source.City;
 
             }
 

@@ -32,7 +32,7 @@ namespace CafeMVC.Application.ViewModels.Orders
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<CafeMVC.Domain.Model.Order, OrderForCreationVm>();
+            profile.CreateMap<CafeMVC.Domain.Model.Order, OrderForCreationVm>().ReverseMap();
 
         }
 

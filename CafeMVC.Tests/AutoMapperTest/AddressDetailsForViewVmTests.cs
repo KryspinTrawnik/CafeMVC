@@ -29,7 +29,7 @@ namespace CafeMVC.Tests.AutoMapperTest.CustomerVmTests
         }
 
         [Fact]
-        public void AddressDetailsForViewIsNotNull()
+        public void MappingAddressDetailsForViewIsNotNull()
         {
             //Arrange
             var testedAdress = addressesForTests.GetAdrressForTest();
@@ -43,7 +43,7 @@ namespace CafeMVC.Tests.AutoMapperTest.CustomerVmTests
         }
 
         [Fact]
-        public void AddressDetailsForViewIsCorrectType()
+        public void MappingAddressDetailsForViewIsCorrectType()
         {
             //Arrange
             var result = new AddressDetailsForViewVm();
@@ -58,10 +58,10 @@ namespace CafeMVC.Tests.AutoMapperTest.CustomerVmTests
         }
         
         [Fact]
-        public void AddressDetailsForViewReturnsRightModel()
+        public void MappingAddressDetailsForViewReturnsRightModel()
         {
             //Arrange
-            AddressDetailsForViewVm expected = addressesForTests.GetExpectedViewModelAdrressForTest();
+            AddressDetailsForViewVm expected = addressesForTests.GetExpectedViewModelOfShortAdrressForTest();
             Address testedAdress = addressesForTests.GetAdrressForTest();
             var config = GetMapperConfiguration();
             config.AssertConfigurationIsValid();

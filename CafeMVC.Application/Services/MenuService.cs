@@ -58,11 +58,11 @@ namespace CafeMVC.Application.Services
 
         public ListOfMenusVm GetAllMenus()
         {
-            var AllMenus = _menuRepository.GetAllType().ProjectTo<MenuForListVm>(_mapper.ConfigurationProvider).ToList();
+            var allMenus = _menuRepository.GetAllType().ProjectTo<MenuForListVm>(_mapper.ConfigurationProvider).ToList();
             var listOfMenus = new ListOfMenusVm()
             {
-                ListOfAllMenus = AllMenus,
-                Count = AllMenus.Count()
+                ListOfAllMenus = allMenus,
+                Count = allMenus.Count
             };
             return listOfMenus;
         }

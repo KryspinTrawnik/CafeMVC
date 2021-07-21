@@ -19,7 +19,6 @@ namespace CafeMVC.Application.ViewModels.Customer
         public void Mapping(Profile profile)
         {
             profile.CreateMap<CafeMVC.Domain.Model.CustomerContactInformation, ContactDetailForViewVm>()
-                .IncludeMembers(s => s.ContactDetailInfotmationType)
                 .ForMember(s => s.ContactDetailType, opt => opt.MapFrom(d => d.ContactDetailInfotmationType.Name));
 
         }

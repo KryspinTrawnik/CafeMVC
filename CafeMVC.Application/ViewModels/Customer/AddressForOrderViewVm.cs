@@ -16,7 +16,7 @@ namespace CafeMVC.Application.ViewModels.Customer
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<CafeMVC.Domain.Model.Address, AddressDetailsForViewVm>()
+            profile.CreateMap<CafeMVC.Domain.Model.Address, AddressForOrderViewVm>()
                 .ForMember(s => s.Address, opt =>
                 {
                     opt.MapFrom(new LongAddressResolver().Resolve);

@@ -8,8 +8,9 @@ namespace CafeMVC.Application.ViewModels.Orders
 {
     public class ListOfOrdersVm
     {
-        public List<OrderForListVm> MyProperty { get; set; }
+        public List<OrderForListVm> ListOfOrders { get; set; }
 
         public int Count { get; set; }
     }
 }
+    

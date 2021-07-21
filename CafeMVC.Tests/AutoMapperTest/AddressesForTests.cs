@@ -32,7 +32,7 @@ namespace CafeMVC.Tests.AutoMapperTest.CustomerVmTests
             };
             return address;
         }
-        public AddressDetailsForViewVm GetExpectedViewModelAdrressForTest()
+        public AddressDetailsForViewVm GetExpectedViewModelOfShortAdrressForTest()
         {
             var expectedAddress = new AddressDetailsForViewVm()
             {
@@ -47,6 +47,18 @@ namespace CafeMVC.Tests.AutoMapperTest.CustomerVmTests
             return expectedAddress;
         }
 
-        
+        public AddressForOrderSummaryVm GetExpectedViewModelOfLongAdrressForTest()
+        {
+            var expectedAddress = new AddressForOrderSummaryVm()
+            {
+                Id = 1,
+                Address = "Aleja Wojska Polskiego 3/5"
+                + "\n" + "62-800"
+                + "\n" + "Kalisz",
+                Type = "Adres rozliczeniowy"
+
+            };
+            return expectedAddress;
+        }
     }
 }

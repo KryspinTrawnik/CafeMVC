@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using CafeMVC.Application.Interfaces;
+using CafeMVC.Application.ViewModels.Customer;
 using CafeMVC.Application.ViewModels.Orders;
 using CafeMVC.Application.ViewModels.Products;
 using CafeMVC.Domain.Interfaces;
@@ -16,10 +18,12 @@ namespace CafeMVC.Application.Services
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IMapper _mapper;
+        private readonly IProductRepository _productRepository;
 
-        public OrderService(IOrderRepository orderRepository, IMapper mapper)
+        public OrderService(IOrderRepository orderRepository, IProductRepository productRepository,  IMapper mapper)
         {
             _orderRepository = orderRepository;
+            _productRepository = productRepository;
             _mapper = mapper;
         }
         public void AddOrChangeNote(int orderId, string note)
@@ -46,42 +50,74 @@ namespace CafeMVC.Application.Services
 
         public void AddProductToOrder(int orderId, int productId)
         {
-            throw new NotImplementedException();
+            Order order = _orderRepository.GetItemById(orderId);
+            order.Products.Add(_productRepository.GetItemById(orderId));
+            _orderRepository.UpdateItem(order);
         }
 
         public void CanceleOrder(int orderId)
         {
-            throw new NotImplementedException();
+            _orderRepository.DeleteItem(orderId);
         }
 
-        public void ChangeDeliveryTime(int orderId, string deliveryAddress)
+        public void ChangeDeliveryAddress(int orderId, AddressForCreationVm newDeliveryAddress)
         {
-            throw new NotImplementedException();
+            Order order = _orderRepository.GetItemById(orderId);
+            order.Addresses.Remove(order.Addresses.Find(x => x.AddressType.Id == 2));
+            Address address = _mapper.Map<Address>(newDeliveryAddress);
+            order.Addresses.Add(address);
+            _orderRepository.UpdateItem(order);
         }
 
-        public void ChangeLeadTime(int orderId, DateTime leadTimeOfOrder)
+        public void ChangeLeadTime(int orderId, DateTime newLeadTimeOfOrder)
         {
-            throw new NotImplementedException();
+            Order order = _orderRepository.GetItemById(orderId);
+            order.LeadTime = newLeadTimeOfOrder;
+            _orderRepository.UpdateItem(order);
         }
 
         public void CloseOrder(int orderId)
         {
-            throw new NotImplementedException();
+            Order order = _orderRepository.GetItemById(orderId);
+            order.HasBeenDone = true;
+            _orderRepository.UpdateItem(order);
         }
 
         public ListOfOrdersVm GetAllOrders()
         {
-            throw new NotImplementedException();
+            List<OrderForListVm> orderForListVm = _orderRepository.GetAllType()
+                .ProjectTo<OrderForListVm>(_mapper.ConfigurationProvider).ToList();
+            ListOfOrdersVm listOfOrdersVm = new ListOfOrdersVm()
+            {
+                ListOfOrders = orderForListVm,
+                Count = orderForListVm.Count()
+            };
+            return listOfOrdersVm;
         }
 
         public ListOfProductsVm GetAllProducts(int orderId)
         {
-            throw new NotImplementedException();
-        }
+            List<ProductForListVm> productForListVm = _orderRepository.GetAllProductsFromOrder(orderId)
+                 .ProjectTo<ProductForListVm>(_mapper.ConfigurationProvider).ToList();
+
+            var listOfProductsVm = new ListOfProductsVm()
+            {
+                ListOfAllProducts = productForListVm,
+                Count = productForListVm.Count
+            };
+            return listOfProductsVm;
+        }   
 
         public ListOfOrdersVm GetOpenOrders()
         {
-            throw new NotImplementedException();
+            List<OrderForListVm> ordersForListVm = _orderRepository.GetAllOpenOrders()
+                .ProjectTo<OrderForListVm>(_mapper.ConfigurationProvider).ToList();
+            var listOfOrdersVm = new ListOfOrdersVm()
+            { 
+                ListOfOrders = ordersForListVm,
+                Count = ordersForListVm.Count
+            };
+            return listOfOrdersVm;
         }
 
         public OrderForCreationVm GetOrderbyId(int orderId)

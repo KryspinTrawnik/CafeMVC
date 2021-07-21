@@ -15,7 +15,7 @@ namespace CafeMVC.Infrastructure.Repositories
 
         }
 
-        public IQueryable<Order> GetAllNotDoneOrders()
+        public IQueryable<Order> GetAllOpenOrders()
         {
             return GetAllType().Where(x => x.HasBeenDone == false);
 
@@ -25,6 +25,11 @@ namespace CafeMVC.Infrastructure.Repositories
         {
             GetItemById(orderId).Note = note;
             _context.SaveChanges();
+        }
+
+        IQueryable<Product> IOrderRepository.GetAllProductsFromOrder(int orderId)
+        {
+            return GetItemById(orderId).Products.AsQueryable();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using CafeMVC.Application.Interfaces;
 using CafeMVC.Application.ViewModels.Customer;
 using CafeMVC.Application.ViewModels.Orders;
@@ -77,22 +78,46 @@ namespace CafeMVC.Application.Services
 
         public void CloseOrder(int orderId)
         {
-            throw new NotImplementedException();
+            Order order = _orderRepository.GetItemById(orderId);
+            order.HasBeenDone = true;
+            _orderRepository.UpdateItem(order);
         }
 
         public ListOfOrdersVm GetAllOrders()
         {
-            throw new NotImplementedException();
+            List<OrderForListVm> orderForListVm = _orderRepository.GetAllType()
+                .ProjectTo<OrderForListVm>(_mapper.ConfigurationProvider).ToList();
+            ListOfOrdersVm listOfOrdersVm = new ListOfOrdersVm()
+            {
+                ListOfOrders = orderForListVm,
+                Count = orderForListVm.Count()
+            };
+            return listOfOrdersVm;
         }
 
         public ListOfProductsVm GetAllProducts(int orderId)
         {
-            throw new NotImplementedException();
-        }
+            List<ProductForListVm> productForListVm = _orderRepository.GetAllProductsFromOrder(orderId)
+                 .ProjectTo<ProductForListVm>(_mapper.ConfigurationProvider).ToList();
+
+            var listOfProductsVm = new ListOfProductsVm()
+            {
+                ListOfAllProducts = productForListVm,
+                Count = productForListVm.Count
+            };
+            return listOfProductsVm;
+        }   
 
         public ListOfOrdersVm GetOpenOrders()
         {
-            throw new NotImplementedException();
+            List<OrderForListVm> ordersForListVm = _orderRepository.GetAllOpenOrders()
+                .ProjectTo<OrderForListVm>(_mapper.ConfigurationProvider).ToList();
+            var listOfOrdersVm = new ListOfOrdersVm()
+            { 
+                ListOfOrders = ordersForListVm,
+                Count = ordersForListVm.Count
+            };
+            return listOfOrdersVm;
         }
 
         public OrderForCreationVm GetOrderbyId(int orderId)

@@ -9,8 +9,6 @@ using CafeMVC.Domain.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CafeMVC.Application.Services
 {
@@ -20,7 +18,7 @@ namespace CafeMVC.Application.Services
         private readonly IMapper _mapper;
         private readonly IProductRepository _productRepository;
 
-        public OrderService(IOrderRepository orderRepository, IProductRepository productRepository,  IMapper mapper)
+        public OrderService(IOrderRepository orderRepository, IProductRepository productRepository, IMapper mapper)
         {
             _orderRepository = orderRepository;
             _productRepository = productRepository;
@@ -33,11 +31,11 @@ namespace CafeMVC.Application.Services
 
         public string AddOrder(OrderForCreationVm order)
         {
-            var newOrder = _mapper.Map<Order>(order);
+            Order newOrder = _mapper.Map<Order>(order);
             string orderConfirmation = GenerateOrderConfrimation();
             newOrder.OrderConfirmation = orderConfirmation;
             _orderRepository.AddItem(newOrder);
-      
+
             return orderConfirmation;
         }
         private string GenerateOrderConfrimation()
@@ -90,7 +88,7 @@ namespace CafeMVC.Application.Services
             ListOfOrdersVm listOfOrdersVm = new ListOfOrdersVm()
             {
                 ListOfOrders = orderForListVm,
-                Count = orderForListVm.Count()
+                Count = orderForListVm.Count
             };
             return listOfOrdersVm;
         }
@@ -100,34 +98,45 @@ namespace CafeMVC.Application.Services
             List<ProductForListVm> productForListVm = _orderRepository.GetAllProductsFromOrder(orderId)
                  .ProjectTo<ProductForListVm>(_mapper.ConfigurationProvider).ToList();
 
-            var listOfProductsVm = new ListOfProductsVm()
+            ListOfProductsVm listOfProductsVm = new ListOfProductsVm()
             {
                 ListOfAllProducts = productForListVm,
                 Count = productForListVm.Count
             };
             return listOfProductsVm;
-        }   
+        }
 
-        public ListOfOrdersVm GetOpenOrders()
+        public ListOfOrdersVm GetAllOpenOrders()
         {
             List<OrderForListVm> ordersForListVm = _orderRepository.GetAllOpenOrders()
                 .ProjectTo<OrderForListVm>(_mapper.ConfigurationProvider).ToList();
-            var listOfOrdersVm = new ListOfOrdersVm()
-            { 
+            ListOfOrdersVm listOfOrdersVm = new ListOfOrdersVm()
+            {
                 ListOfOrders = ordersForListVm,
                 Count = ordersForListVm.Count
             };
             return listOfOrdersVm;
         }
 
-        public OrderForCreationVm GetOrderbyId(int orderId)
+        public OrderForCreationVm GetOrderForCreationVmById(int orderId)
         {
-            throw new NotImplementedException();
-        }
+            Order order = _orderRepository.GetItemById(orderId);
+            OrderForCreationVm orderForCreationVm = _mapper.Map<OrderForCreationVm>(order);
 
+            return orderForCreationVm;
+        }
+        public OrderForSummaryVm GetOrderSummaryVmById(int orderId)
+        {
+            Order order = _orderRepository.GetItemById(orderId);
+            OrderForSummaryVm orderForCreationVm = _mapper.Map<OrderForSummaryVm>(order);
+
+            return orderForCreationVm;
+        }
         public void RemoveProduct(int productId, int orderId)
         {
-            throw new NotImplementedException();
+            Order order = _orderRepository.GetItemById(orderId);
+            order.Products.Remove(_productRepository.GetItemById(orderId));
+            _orderRepository.UpdateItem(order);
         }
     }
 }

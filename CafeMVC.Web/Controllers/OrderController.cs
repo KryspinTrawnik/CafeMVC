@@ -1,10 +1,9 @@
 ﻿using CafeMVC.Application.Interfaces;
+using CafeMVC.Application.ViewModels.Customer;
 using CafeMVC.Application.ViewModels.Orders;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace CafeMVC.Web.Controllers
 {
@@ -17,34 +16,34 @@ namespace CafeMVC.Web.Controllers
         private readonly IProductService _productService;
         public IActionResult Index()
         {
-            var allOrdersForView = _orderService.GetAllOrders();
+            ListOfOrdersVm allOrdersForView = _orderService.GetAllOrders();
             return View(allOrdersForView);
         }
         [HttpGet]
         public IActionResult OrderMenuView(int menuId)
         {
-            var ListOfMenus = _menuService.GetAllProducstOfMenu(menuId);
+            Application.ViewModels.Menu.MenuForViewVm ListOfMenus = _menuService.GetAllProducstOfMenu(menuId);
             return View(ListOfMenus);
         }
 
         [HttpGet]
         public IActionResult OrderVieWProductOfMenu(int menuTypeId)
         {
-            var ListOfProductByMenu = _menuService.GetAllProducstOfMenu(menuTypeId);
+            Application.ViewModels.Menu.MenuForViewVm ListOfProductByMenu = _menuService.GetAllProducstOfMenu(menuTypeId);
             return View(ListOfProductByMenu);
         }
-        
+
         [HttpGet]
         public IActionResult VieWProductDetails(int productId)
         {
-            var product = _productService.GetProductDetails(productId);
+            Application.ViewModels.Products.ProductForViewVm product = _productService.GetProductDetails(productId);
             return View(product);
         }
-        
+
         [HttpGet]
         public IActionResult ViewOrderProducts(int orderId)
         {
-            var orderProductsList = _orderService.GetAllProducts(orderId);
+            Application.ViewModels.Products.ListOfProductsVm orderProductsList = _orderService.GetAllProducts(orderId);
             return View(orderProductsList);
         }
 
@@ -75,21 +74,21 @@ namespace CafeMVC.Web.Controllers
         [HttpGet]
         public IActionResult OrderSummary(int orderId)
         {
-            var orderForSummary = _orderService.GetOrderbyId(orderId);
+            OrderForSummaryVm orderForSummary = _orderService.GetOrderSummaryVmById(orderId);
             return View(orderForSummary);
         }
 
         [HttpPost]
         public IActionResult OrderSummary(OrderForCreationVm orderForView)
         {
-             var orderConfirmation =_orderService.AddOrder(orderForView);
+            string orderConfirmation = _orderService.AddOrder(orderForView);
             return View(orderConfirmation);
         }
 
         [HttpGet]
         public IActionResult ChangeLeadTime(int orderId)
         {
-            var LeadtimeOfOrder = _orderService.GetOrderbyId(orderId).LeadTime;
+            DateTime LeadtimeOfOrder = _orderService.GetOrderForCreationVmById(orderId).LeadTime;
             return View(LeadtimeOfOrder);
         }
 
@@ -103,14 +102,14 @@ namespace CafeMVC.Web.Controllers
         [HttpGet]
         public IActionResult ChangeDeliveryAddress(int orderId)
         {
-            var DeliveryAddress = _orderService.GetOrderbyId(orderId).Addresses;
+            List<AddressForCreationVm> DeliveryAddress = _orderService.GetOrderForCreationVmById(orderId).Addresses;
             return View(DeliveryAddress);
         }
 
         [HttpPatch]
-        public IActionResult ChangeDeliveryAddress(string deliveryAddress, int orderId)
+        public IActionResult ChangeDeliveryAddress(AddressForCreationVm deliveryAddress, int orderId)
         {
-            _orderService.ChangeDeliveryTime(orderId, deliveryAddress);
+            _orderService.ChangeDeliveryAddress(orderId, deliveryAddress);
             return View();
         }
 
@@ -167,7 +166,7 @@ namespace CafeMVC.Web.Controllers
         [HttpGet]
         public IActionResult ViewOpenOrders()
         {
-            var openOrders = _orderService.GetOpenOrders();
+            ListOfOrdersVm openOrders = _orderService.GetAllOpenOrders();
             return View(openOrders);
         }
     }

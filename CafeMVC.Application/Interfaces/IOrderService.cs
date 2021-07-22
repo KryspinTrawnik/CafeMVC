@@ -19,7 +19,7 @@ namespace CafeMVC.Application.Interfaces
 
         void RemoveProduct(int productId, int orderId);
 
-        OrderForCreationVm GetOrderbyId(int orderId);
+        OrderForCreationVm GetOrderForCreationVmById(int orderId);
 
         string AddOrder(OrderForCreationVm orderForView);
 
@@ -33,6 +33,8 @@ namespace CafeMVC.Application.Interfaces
 
         void CloseOrder(int orderId);
 
-        ListOfOrdersVm GetOpenOrders();
+        ListOfOrdersVm GetAllOpenOrders();
+
+        OrderForSummaryVm GetOrderSummaryVmById(int orderId);
     }
 }

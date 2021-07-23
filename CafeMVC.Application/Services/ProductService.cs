@@ -1,23 +1,44 @@
-﻿using CafeMVC.Application.Interfaces;
+﻿using AutoMapper;
+using CafeMVC.Application.Interfaces;
 using CafeMVC.Application.ViewModels.Products;
+using CafeMVC.Domain.Interfaces;
+using CafeMVC.Domain.Model;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CafeMVC.Application.Services
 {
     public class ProductService : IProductService
     {
-        public void AddIngredientToProduct(int productId, int ingredientId)
+        private readonly IProductRepository _productRepository;
+        private readonly IMapper _mapper;
+
+        public ProductService(IProductRepository productRepository, IMapper mapper)
         {
-            throw new NotImplementedException();
+            _productRepository = productRepository;
+            _mapper = mapper;
         }
 
-        public void AddNewAllergen(AllergenForViewVm allergen)
+        public void AddIngredientToProduct(int productId, int ingredientId)
         {
-            throw new NotImplementedException();
+            Product product = _productRepository.GetItemById(productId);
+            product.Ingredients.Add(_productRepository.GetIngredientById(ingredientId));
+            _productRepository.UpdateItem(product);
+        }
+
+        public bool AddNewAllergen(AllergenForViewVm allergen)
+        {
+            Allergen newAllergen = _mapper.Map<Allergen>(allergen);
+            bool IsAllergenAlreadyExist = _productRepository.GetAllAllergens().Any(x => x.Name == newAllergen.Name);
+            if (IsAllergenAlreadyExist == false)
+            {
+                _productRepository.AddNewAllergen(newAllergen);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public void AddNewImageToProduct(byte image, int productId)
@@ -25,12 +46,12 @@ namespace CafeMVC.Application.Services
             throw new NotImplementedException();
         }
 
-        public void AddNewIngredient(IngredientForViewVm ingredient)
+        public bool AddNewIngredient(IngredientForViewVm ingredient)
         {
             throw new NotImplementedException();
         }
 
-        public void AddNewProduct(ProductForCreationVm product)
+        public bool AddNewProduct(ProductForCreationVm product)
         {
             throw new NotImplementedException();
         }

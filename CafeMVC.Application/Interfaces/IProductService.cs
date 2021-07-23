@@ -13,7 +13,7 @@ namespace CafeMVC.Application.Interfaces
 
         ListOfProductsVm GetAllProducts();
 
-        void AddNewProduct(ProductForCreationVm product);
+        bool AddNewProduct(ProductForCreationVm product);
 
         ProductForViewVm GetProductById(int productId);
 
@@ -29,9 +29,9 @@ namespace CafeMVC.Application.Interfaces
 
         ListOfIngredientsVm GetAllIngredients();
 
-        void AddNewIngredient(IngredientForViewVm ingredient);
+        bool AddNewIngredient(IngredientForViewVm ingredient);
         
-        void AddNewAllergen(AllergenForViewVm allergen);
+        bool AddNewAllergen(AllergenForViewVm allergen);
 
         void AddNewImageToProduct(byte image, int productId);
 

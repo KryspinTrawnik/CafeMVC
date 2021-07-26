@@ -50,6 +50,10 @@ namespace CafeMVC.Infrastructure
             builder.Entity<Product>()
                 .HasOne(a => a.ProductType).WithOne(b => b.Product)
                 .HasForeignKey<ProductType>(c => c.ProductRef);
+
+            builder.Entity<CustomerContactInformation>()
+                .HasOne(a => a.ContactDetailInfotmationType).WithOne(b => b.CustomerContactInformation)
+                .HasForeignKey<ContactDetailInfotmationType>(c => c.CustomerContactInformationRef);
                             
             base.OnModelCreating(builder);      
         }

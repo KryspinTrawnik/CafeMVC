@@ -3,7 +3,9 @@ using CafeMVC.Application.Interfaces;
 using CafeMVC.Application.ViewModels.Products;
 using CafeMVC.Domain.Interfaces;
 using CafeMVC.Domain.Model;
+using Microsoft.AspNetCore.Http;
 using System;
+using System.IO;
 using System.Linq;
 
 namespace CafeMVC.Application.Services
@@ -29,8 +31,8 @@ namespace CafeMVC.Application.Services
         public bool AddNewAllergen(AllergenForViewVm allergen)
         {
             Allergen newAllergen = _mapper.Map<Allergen>(allergen);
-            bool IsAllergenAlreadyExist = _productRepository.GetAllAllergens().Any(x => x.Name == newAllergen.Name);
-            if (IsAllergenAlreadyExist == false)
+            bool IsAllergenAlreadyExists = _productRepository.GetAllAllergens().Any(x => x.Name == newAllergen.Name);
+            if (IsAllergenAlreadyExists == false)
             {
                 _productRepository.AddNewAllergen(newAllergen);
                 return true;
@@ -41,14 +43,37 @@ namespace CafeMVC.Application.Services
             }
         }
 
-        public void AddNewImageToProduct(byte image, int productId)
+        public void AddNewImageToProduct(IFormFile image, int productId)
         {
-            throw new NotImplementedException();
+            var basePath = Path.Combine(Directory.GetCurrentDirectory() + "\\Images\\");
+            bool basePathExists = Directory.Exists(basePath);
+            if (!basePathExists) Directory.CreateDirectory(basePath);
+            var fileName = Path.GetFileNameWithoutExtension(image.FileName);
+            var filePath = Path.Combine(basePath, image.FileName);
+
+            if (!File.Exists(filePath))
+            {
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    image.CopyToAsync(stream);
+                }
+            }
+            _productRepository.AddNewImageToProduct(fileName, productId);
         }
 
-        public bool AddNewIngredient(IngredientForViewVm ingredient)
+        public bool AddNewIngredient(IngredientForCreationVm ingredient)
         {
-            throw new NotImplementedException();
+            Ingredient newIngredient = _mapper.Map<Ingredient>(ingredient);
+            bool IsIngredientExists = _productRepository.GetAllIngredients().Any(x => x.Name == newIngredient.Name);
+            if(IsIngredientExists == false)
+            {
+                _productRepository.AddNewIngredient(newIngredient);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public bool AddNewProduct(ProductForCreationVm product)

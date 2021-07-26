@@ -7,6 +7,6 @@
 
         public int CustomerContactInformationRef { get; set; }
 
-        public CustomerContactInformation UserContactInformation { get; set; }
+        public CustomerContactInformation CustomerContactInformation { get; set; }
     }
 }

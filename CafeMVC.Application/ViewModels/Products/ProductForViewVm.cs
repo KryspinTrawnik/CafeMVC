@@ -21,6 +21,8 @@ namespace CafeMVC.Application.ViewModels.Products
 
         public List<AllergenForViewVm> Allergens { get; set; }
 
+        public List<DietInfoForViewVm> DietInformations { get; set; }
+
         public void Mapping(Profile profile)
         {
             profile.CreateMap<CafeMVC.Domain.Model.Product, ProductForViewVm>();

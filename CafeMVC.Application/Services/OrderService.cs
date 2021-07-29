@@ -26,7 +26,7 @@ namespace CafeMVC.Application.Services
         }
         public void AddOrChangeNote(int orderId, string note)
         {
-            _orderRepository.ChangeNote(orderId, note);
+            _orderRepository.AddOrChangeNote(orderId, note);
         }
 
         public string AddOrder(OrderForCreationVm order)

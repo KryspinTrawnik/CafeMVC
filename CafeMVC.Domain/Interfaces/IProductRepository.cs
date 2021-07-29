@@ -9,13 +9,13 @@ namespace CafeMVC.Domain.Interfaces
         
         void AddNewImageToProduct(string imageName, int productId);
 
-        void InsertIngredientToProduct(int ingredientId, int productId);
+        void AddIngredientToProduct(int ingredientId, int productId);
 
         void RemoveIngredientFromProduct(int ingredientId, int productId);
 
-        IQueryable<Ingredient> GetAllIngredientsFromProduct(int productId);
+        IQueryable<Ingredient> GetAllProductIngredients(int productId);
 
-        void InsertAllergenToProduct(int allergenId, int productId);
+        void AddAllergenToProduct(int allergenId, int productId);
 
         void RemoveAllergenFromProduct(int allergenId, int productId);
 
@@ -35,8 +35,13 @@ namespace CafeMVC.Domain.Interfaces
 
         Allergen GetAllergenById(int allergenId);
 
-        void AddNewTagToDietInformation(DietInfoTag dietInfoTag, int productId);
+        void AddDietInfoToProduct(DietInformation dietInfo, int productId);
 
-        void DeleteTagFromDietInformation(string tagName, int productId);
+        IQueryable<DietInformation> GetAllDietInfo();
+
+        IQueryable<DietInformation> GetAllProductDietInfo(int productId);
+        
+        void RemoveDietInfoFromProduct(int dietInfoId, int productId);
+
     }
 }

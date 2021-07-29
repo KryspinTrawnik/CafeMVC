@@ -25,7 +25,8 @@ namespace CafeMVC.Web
         {
             services.AddDbContext<Context>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                    Configuration.GetConnectionString("DefaultConnection"), 
+                    b => b.MigrationsAssembly(typeof (Context).Assembly.FullName)));
             services.AddApplication();
             services.AddInfrastructure();
             services.AddDatabaseDeveloperPageExceptionFilter();

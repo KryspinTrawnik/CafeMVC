@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CafeMVC.Application.ViewModels.Menu
 {
-    public class MenuForCreationVm : IMapFrom<CafeMVC.Domain.Model.Order>
+    public class MenuForCreationVm : IMapFrom<CafeMVC.Domain.Model.Menu>
     {
         public int Id { get; set; }
         
@@ -17,12 +17,9 @@ namespace CafeMVC.Application.ViewModels.Menu
 
         public List<ProductForListVm> MenuProducts { get; set; }
 
-        public List<ProductForListVm> AllProducts { get; set; }
-
-
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<CafeMVC.Domain.Model.Order, MenuForCreationVm>().ReverseMap();
+            profile.CreateMap<CafeMVC.Domain.Model.Menu, MenuForCreationVm>().ReverseMap();
 
         }
 

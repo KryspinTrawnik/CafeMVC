@@ -25,4 +25,8 @@
     <ProjectReference Include="..\CafeMVC.Infrastructure\CafeMVC.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Images\" />
+  </ItemGroup>
+
 </Project>

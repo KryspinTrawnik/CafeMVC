@@ -1,4 +1,5 @@
 ﻿using CafeMVC.Application.ViewModels.Products;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,15 +30,15 @@ namespace CafeMVC.Application.Interfaces
 
         ListOfIngredientsVm GetAllIngredients();
 
-        bool AddNewIngredient(IngredientForViewVm ingredient);
+        bool AddNewIngredient(IngredientForCreationVm ingredient);
         
         bool AddNewAllergen(AllergenForViewVm allergen);
 
-        void AddNewImageToProduct(byte image, int productId);
+        void AddNewImageToProduct(IFormFile image, int productId);
 
         void DeleteImageFromProduct(int productId);
 
-        void AddNewTagToDietInformation(string imageName, int dietInfoId);
+        void AddDietInformationToProduct(string imageName, int productId);
 
         void DeleteTagFromDietInformation(int tagId, int dietInfoId);
     }

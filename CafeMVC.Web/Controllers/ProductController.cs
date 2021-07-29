@@ -1,5 +1,6 @@
 ﻿using CafeMVC.Application.Interfaces;
 using CafeMVC.Application.ViewModels.Products;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -19,14 +20,14 @@ namespace CafeMVC.Web.Controllers
         [HttpGet]
         public IActionResult AddNewProduct()
         {
-            return View();
+            return View(new ProductForCreationVm());
         }
 
         [HttpPost]
-        public IActionResult AddNewProduct(ProductForViewVm product)
+        public IActionResult AddNewProduct(ProductForCreationVm product)
         {
-            _productService.AddNewProduct(product);
-            return View();
+            bool hasBeenAdded = _productService.AddNewProduct(product);
+            return View(hasBeenAdded);
         }
 
         [HttpGet]
@@ -114,7 +115,7 @@ namespace CafeMVC.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddNewIngredient(IngredientForViewVm ingredient)
+        public IActionResult AddNewIngredient(IngredientForCreationVm ingredient)
         {
             _productService.AddNewIngredient(ingredient);
             return View();
@@ -132,5 +133,16 @@ namespace CafeMVC.Web.Controllers
             return View();
         }
 
+        [HttpGet]
+        public IActionResult AddImageToProduct()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddImageToProduct(string pathway)
+        {
+            return View();
+        }
     }
 }

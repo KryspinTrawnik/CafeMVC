@@ -138,5 +138,11 @@ namespace CafeMVC.Web.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        public IActionResult AddImageToProduct(string pathway)
+        {
+            return View();
+        }
     }
 }

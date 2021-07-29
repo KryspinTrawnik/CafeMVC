@@ -17,14 +17,14 @@ namespace CafeMVC.Infrastructure.Repositories
         public void AddItem(T item)
         {
             table.Add(item);
-            _context.SaveChanges();
+            Save();
         }
 
         public void DeleteItem(int id)
         {
             T existitng = table.Find(id);
             table.Remove(existitng);
-            _context.SaveChanges();
+            Save();
         }
 
         public IQueryable<T> GetAllType()
@@ -41,11 +41,11 @@ namespace CafeMVC.Infrastructure.Repositories
         {
             table.Attach(item);
             _context.Entry(item).State = EntityState.Modified;
-            _context.SaveChanges();
+            Save();
 
         }
 
-        void IGenericRepository<T>.Save()
+        public void Save()
         {
             _context.SaveChanges();
         }

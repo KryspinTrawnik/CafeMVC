@@ -64,8 +64,8 @@ namespace CafeMVC.Application.Services
         public bool AddNewIngredient(IngredientForCreationVm ingredient)
         {
             Ingredient newIngredient = _mapper.Map<Ingredient>(ingredient);
-            bool IsIngredientExists = _productRepository.GetAllIngredients().Any(x => x.Name == newIngredient.Name);
-            if(IsIngredientExists == false)
+            bool isIngredientExists = _productRepository.GetAllIngredients().Any(x => x.Name == newIngredient.Name);
+            if(isIngredientExists == false)
             {
                 _productRepository.AddNewIngredient(newIngredient);
                 return true;
@@ -78,12 +78,21 @@ namespace CafeMVC.Application.Services
 
         public bool AddNewProduct(ProductForCreationVm product)
         {
-            throw new NotImplementedException();
+            Product newProduct = _mapper.Map<Product>(product);
+            bool isProductAlreadyExists = _productRepository.GetAllType().Any(x => x.Name == newProduct.Name);
+            if (isProductAlreadyExists == false)
+            {
+                _productRepository.AddItem(newProduct);
+                return true;
+            }
+            else
+                return false;
         }
 
-        public void AddNewTagToDietInformation(string imageName, int dietInfoId)
+        public void AddDietInformationToProduct(string imageName, int productId)
         {
-            throw new NotImplementedException();
+            Product product = _productRepository.GetItemById(productId);
+
         }
 
         public void ChangeDietInformation(int productId, DietInfoForViewVm dietInformation)

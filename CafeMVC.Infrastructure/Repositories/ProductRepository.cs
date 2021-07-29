@@ -11,19 +11,19 @@ namespace CafeMVC.Infrastructure.Repositories
 
         }
 
-        public void InsertAllergenToProduct(int allergenId, int productId)
+        public void AddAllergenToProduct(int allergenId, int productId)
         {
             var product = GetItemById(productId);
             product.Allergens.Add(GetAllergenById(allergenId));
             UpdateItem(product);
         }
 
-        public void InsertIngredientToProduct(int ingredientId, int productId)
+        public void AddIngredientToProduct(int ingredientId, int productId)
         {
             var product = GetItemById(productId);
             product.Ingredients.Add(GetIngredientById(ingredientId));
             UpdateItem(product);
-            _context.SaveChanges();
+            Save();
         }
 
         public IQueryable<Allergen> GetAllAllergensFromProduct(int productId)
@@ -31,34 +31,37 @@ namespace CafeMVC.Infrastructure.Repositories
             return GetItemById(productId).Allergens.AsQueryable();
         }
 
-        public IQueryable<Ingredient> GetAllIngredientsFromProduct(int productId)
+        public IQueryable<Ingredient> GetAllProductIngredients(int productId)
         {
             return GetItemById(productId).Ingredients.AsQueryable();
         }
 
         public void DeleteImageFromProduct(int productId)
         {
-            GetItemById(productId).ImageName = null;
-            _context.SaveChanges();
+            Product product = GetItemById(productId);
+            product.ImageName = null;
+            UpdateItem(product);
         }
 
         public void AddNewImageToProduct(string imageName, int productId)
         {
-            GetItemById(productId).ImageName = imageName;
-            _context.SaveChanges();
+            Product product = GetItemById(productId);
+            product.ImageName = imageName;
+            UpdateItem(product);
         }
 
         public void RemoveIngredientFromProduct(int ingredientId, int productId)
         {
-            GetItemById(productId).Ingredients.Remove(GetIngredientById(ingredientId));
-            _context.SaveChanges();
+            Product product = GetItemById(productId);
+            product.Ingredients.Remove(GetIngredientById(ingredientId));
+            UpdateItem(product);
         }
 
 
         public void RemoveAllergenFromProduct(int allergenId, int productId)
         {
             GetItemById(productId).Allergens.Remove(GetAllergenById(allergenId));
-            _context.SaveChanges();
+            Save();
         }
 
         public Ingredient GetIngredientById(int ingredientId) => _context.Ingredients.Find(ingredientId);
@@ -71,7 +74,7 @@ namespace CafeMVC.Infrastructure.Repositories
         public void AddNewIngredient(Ingredient ingredient)
         {
             _context.Ingredients.Add(ingredient);
-            _context.SaveChanges();
+            Save();
         }
 
         public Allergen GetAllergenById(int id)
@@ -87,28 +90,34 @@ namespace CafeMVC.Infrastructure.Repositories
         public void DeleteIngredient(int ingredientId)
         {
             _context.Ingredients.Remove(GetIngredientById(ingredientId));
-            _context.SaveChanges();
+            Save();
         }
 
         public void AddNewAllergen(Allergen allergen)
         {
             _context.Allergens.Add(allergen);
-            _context.SaveChanges();
+            Save();
         }
 
-
-        public void AddNewTagToDietInformation(DietInfoTag dietInfoTag, int productId)
+        public void AddDietInfoToProduct(DietInformation dietInfo, int productId)
         {
-            GetItemById(productId).DietInformation.ListOfTagName.Add(dietInfoTag);
-            _context.SaveChanges();
+            GetItemById(productId).DietInformation.Add(dietInfo);
         }
 
-        public void DeleteTagFromDietInformation(string tagName, int productId)
+        public IQueryable<DietInformation> GetAllDietInfo()
         {
-            var tagToRemove = GetItemById(productId).DietInformation.ListOfTagName.FirstOrDefault(x => x.TagName == tagName);
-            GetItemById(productId).DietInformation.ListOfTagName.Remove(tagToRemove);
-            _context.SaveChanges();
+            return _context.DietInformations;
         }
 
+        public IQueryable<DietInformation> GetAllProductDietInfo(int productId)
+        {
+            return GetItemById(productId).DietInformation.AsQueryable();
+        }
+
+        public void RemoveDietInfoFromProduct(int dietInfoId, int productId)
+        {
+            GetItemById(productId).DietInformation.Remove(_context.DietInformations.Find(dietInfoId));
+            Save();
+        }
     }
 }

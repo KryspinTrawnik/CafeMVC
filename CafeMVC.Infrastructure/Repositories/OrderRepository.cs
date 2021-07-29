@@ -21,15 +21,16 @@ namespace CafeMVC.Infrastructure.Repositories
 
         }
 
-        void IOrderRepository.ChangeNote(int orderId, string note)
-        {
-            GetItemById(orderId).Note = note;
-            _context.SaveChanges();
-        }
-
-        IQueryable<Product> IOrderRepository.GetAllProductsFromOrder(int orderId)
+        public IQueryable<Product> GetAllProductsFromOrder(int orderId)
         {
             return GetItemById(orderId).Products.AsQueryable();
+        }
+
+        public void AddOrChangeNote(int orderId, string note)
+        {
+            Order order = GetItemById(orderId);
+            order.Note = note;
+            UpdateItem(order);
         }
     }
 }

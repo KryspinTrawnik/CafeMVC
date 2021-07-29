@@ -38,7 +38,7 @@ namespace CafeMVC.Application.Interfaces
 
         void DeleteImageFromProduct(int productId);
 
-        void AddNewTagToDietInformation(string imageName, int dietInfoId);
+        void AddDietInformationToProduct(string imageName, int productId);
 
         void DeleteTagFromDietInformation(int tagId, int dietInfoId);
     }

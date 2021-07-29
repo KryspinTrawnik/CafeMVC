@@ -5,7 +5,7 @@ using System.ComponentModel;
 
 namespace CafeMVC.Application.ViewModels.Menu
 {
-    public class MenuForListVm : IMapFrom<CafeMVC.Domain.Model.Order>
+    public class MenuForListVm : IMapFrom<CafeMVC.Domain.Model.Menu>
     {
         public int Id { get; set; }
 
@@ -14,7 +14,7 @@ namespace CafeMVC.Application.ViewModels.Menu
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<CafeMVC.Domain.Model.Order, MenuForCreationVm>();
+            profile.CreateMap<CafeMVC.Domain.Model.Menu, MenuForCreationVm>();
 
         }
     }

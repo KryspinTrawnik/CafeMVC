@@ -15,13 +15,12 @@ namespace CafeMVC.Domain.Model
 
         public ProductType ProductType{ get; set; }
 
-        public DietInformation DietInformation {get; set;}
-
         public string ImageName { get; set; }
 
         public ICollection<Ingredient> Ingredients { get; set; }
 
         public ICollection<Allergen> Allergens { get; set; }
 
+        public ICollection<DietInformation> DietInformation { get; set; }
     }
 }

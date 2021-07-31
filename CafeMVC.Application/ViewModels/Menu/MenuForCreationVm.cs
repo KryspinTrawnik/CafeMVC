@@ -17,11 +17,13 @@ namespace CafeMVC.Application.ViewModels.Menu
 
         public List<ProductForListVm> MenuProducts { get; set; }
 
+        public ListOfProductsVm AllProducts { get; set; }
+
         public void Mapping(Profile profile)
         {
             profile.CreateMap<CafeMVC.Domain.Model.Menu, MenuForCreationVm>().ReverseMap();
 
         }
-
+        
     }
 }

@@ -26,20 +26,20 @@ namespace CafeMVC.Application.Interfaces
 
         void DeleteIngredient(int productId, int ingredientId);
 
-        void ChangeDietInformation(int productId, DietInfoForViewVm dietInformation);
-
         ListOfIngredientsVm GetAllIngredients();
 
         bool AddNewIngredient(IngredientForCreationVm ingredient);
-        
+
         bool AddNewAllergen(AllergenForViewVm allergen);
 
         void AddNewImageToProduct(IFormFile image, int productId);
 
         void DeleteImageFromProduct(int productId);
 
-        void AddDietInformationToProduct(string imageName, int productId);
-
         void DeleteTagFromDietInformation(int tagId, int dietInfoId);
+
+        void AddDietInfoToProduct(int dietInfoId, int productId);
+
+        void DeleteDietInfoFromProduct(int dietInfoId, int productId);
     }
 }

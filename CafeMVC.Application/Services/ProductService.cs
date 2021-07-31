@@ -5,6 +5,7 @@ using CafeMVC.Domain.Interfaces;
 using CafeMVC.Domain.Model;
 using Microsoft.AspNetCore.Http;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -87,17 +88,6 @@ namespace CafeMVC.Application.Services
             }
             else
                 return false;
-        }
-
-        public void AddDietInformationToProduct(string imageName, int productId)
-        {
-            Product product = _productRepository.GetItemById(productId);
-
-        }
-
-        public void ChangeDietInformation(int productId, DietInfoForViewVm dietInformation)
-        {
-            throw new NotImplementedException();
         }
 
         public void DeleteImageFromProduct(int productId)

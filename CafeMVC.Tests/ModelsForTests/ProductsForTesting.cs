@@ -1,9 +1,5 @@
 ﻿using CafeMVC.Domain.Model;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CafeMVC.Tests
 {
@@ -29,13 +25,8 @@ namespace CafeMVC.Tests
                 Description = "podawany z sałatką z sosem balsamicznym",
                 TypeId = 1,
                 ProductType = Bajgle,
-                DietInformation = new DietInformation
-                {
-                    Id = 1,
-                    IsGlutenFree = false,
-                    IsVegan = false,
-                    IsVegetarian = false
-                },
+                DietInformation = new List<DietInformation>(),
+
                 Ingredients = new List<Ingredient>
                 {
                         new Ingredient{Id = 1, Name = "Bajgiel"},
@@ -57,13 +48,7 @@ namespace CafeMVC.Tests
                 Description = "podawany z sałatką z sosem balsamicznym",
                 TypeId = 1,
                 ProductType = Bajgle,
-                DietInformation = new DietInformation
-                {
-                    Id = 1,
-                    IsGlutenFree = false,
-                    IsVegan = false,
-                    IsVegetarian = false
-                },
+                DietInformation = new List<DietInformation>(),
                 Ingredients = new List<Ingredient>
                 {
                     new Ingredient{Id = 1, Name = "Bajgiel"},
@@ -86,12 +71,12 @@ namespace CafeMVC.Tests
                 Description = "podawany z sałatką z sosem balsamicznym",
                 TypeId = 1,
                 ProductType = Bajgle,
-                DietInformation = new DietInformation
+                DietInformation = new List<DietInformation>()
                 {
-                    Id = 2,
-                    IsGlutenFree = false,
-                    IsVegan = false,
-                    IsVegetarian = true
+
+                    new DietInformation(){Id = 2, Name = "Vegetarian"},
+
+
                 },
                 Ingredients = new List<Ingredient>
                 {
@@ -114,12 +99,10 @@ namespace CafeMVC.Tests
                 Description = "podawany z sałatką z sosem balsamicznym",
                 TypeId = 1,
                 ProductType = Bajgle,
-                DietInformation = new DietInformation
+                DietInformation = new List<DietInformation>()
                 {
-                    Id = 3,
-                    IsGlutenFree = false,
-                    IsVegan = true,
-                    IsVegetarian = true
+                    new DietInformation(){Id = 2, Name = "Vegetarian"},
+                    new DietInformation(){Id = 3, Name = "Vegan"}
                 },
                 Ingredients = new List<Ingredient>
                 {
@@ -164,12 +147,12 @@ namespace CafeMVC.Tests
                 Description = "",
                 TypeId = 2,
                 ProductType = Nalesniki,
-                DietInformation = new DietInformation
+                DietInformation = new List<DietInformation>()
                 {
-                    Id = 2,
-                    IsGlutenFree = false,
-                    IsVegan = false,
-                    IsVegetarian = true
+
+                    new DietInformation(){Id = 2, Name = "Vegetarian"},
+
+
                 },
                 Ingredients = new List<Ingredient>
                 {
@@ -192,13 +175,7 @@ namespace CafeMVC.Tests
                 Description = "sos 1000 wysp własnej produkcji",
                 TypeId = 2,
                 ProductType = Nalesniki,
-                DietInformation = new DietInformation
-                {
-                    Id = 1,
-                    IsGlutenFree = false,
-                    IsVegan = false,
-                    IsVegetarian = false
-                },
+                DietInformation = new List<DietInformation>(),
                 Ingredients = new List<Ingredient>
                 {
                     new Ingredient{Id = 14, Name = "chorizo"},
@@ -220,13 +197,7 @@ namespace CafeMVC.Tests
                 Description = "",
                 TypeId = 2,
                 ProductType = Nalesniki,
-                DietInformation = new DietInformation
-                {
-                    Id = 1,
-                    IsGlutenFree = false,
-                    IsVegan = false,
-                    IsVegetarian = false
-                },
+                DietInformation = new List<DietInformation>(),
                 Ingredients = new List<Ingredient>
                 {
                     new Ingredient{Id = 16, Name = "Łosoś"},
@@ -248,13 +219,7 @@ namespace CafeMVC.Tests
                 Description = "",
                 TypeId = 2,
                 ProductType = Nalesniki,
-                DietInformation = new DietInformation
-                {
-                    Id = 1,
-                    IsGlutenFree = false,
-                    IsVegan = false,
-                    IsVegetarian = false
-                },
+                DietInformation = new List<DietInformation>(),
                 Ingredients = new List<Ingredient>
                 {
                     new Ingredient{Id = 19, Name = "Kebab"},
@@ -272,7 +237,7 @@ namespace CafeMVC.Tests
             Nalesniki.Products.Add(product7);
             Nalesniki.Products.Add(product8);
 
-            var NalesnikiMenuProducts = new List<Product>
+            List<Product> NalesnikiMenuProducts = new List<Product>
             {
                 product5,
                 product6,
@@ -283,8 +248,8 @@ namespace CafeMVC.Tests
         }
         public List<Product> GetAllProductsForTest()
         {
-           var nalesnikiMenu = GetProductsForNalesnikiMenu();
-            var allProducts = GetProductsForBajgleMenu();
+            List<Product> nalesnikiMenu = GetProductsForNalesnikiMenu();
+            List<Product> allProducts = GetProductsForBajgleMenu();
             allProducts.AddRange(nalesnikiMenu);
 
             return allProducts;

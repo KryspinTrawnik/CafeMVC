@@ -39,14 +39,14 @@ namespace CafeMVC.Infrastructure.Repositories
         public void DeleteImageFromProduct(int productId)
         {
             Product product = GetItemById(productId);
-            product.ImageName = null;
+            product.ImagePath = null;
             UpdateItem(product);
         }
 
         public void AddNewImageToProduct(string imageName, int productId)
         {
             Product product = GetItemById(productId);
-            product.ImageName = imageName;
+            product.ImagePath = imageName;
             UpdateItem(product);
         }
 
@@ -106,7 +106,7 @@ namespace CafeMVC.Infrastructure.Repositories
 
         public IQueryable<DietInformation> GetAllDietInfo()
         {
-            return _context.DietInformations;
+            return _context.DietInformations.AsQueryable();
         }
 
         public IQueryable<DietInformation> GetAllProductDietInfo(int productId)

@@ -10,15 +10,13 @@ namespace CafeMVC.Application.Interfaces
 {
     public interface IProductService
     {
-        ProductForViewVm GetProductDetails(int productId);
-
         ListOfProductsVm GetAllProducts();
 
-        bool AddNewProduct(ProductForCreationVm product);
+        void AddNewProduct(ProductForCreationVm product);
 
         ProductForViewVm GetProductById(int productId);
 
-        void UpdateProduct(ProductForViewVm productModel);
+        void UpdateProduct(ProductForCreationVm productModel);
 
         void DeleteProduct(int productId);
 
@@ -28,15 +26,13 @@ namespace CafeMVC.Application.Interfaces
 
         ListOfIngredientsVm GetAllIngredients();
 
-        bool AddNewIngredient(IngredientForCreationVm ingredient);
+        void AddNewIngredient(IngredientForCreationVm ingredient);
 
-        bool AddNewAllergen(AllergenForViewVm allergen);
+        void AddNewAllergen(AllergenForViewVm allergen);
 
         void AddNewImageToProduct(IFormFile image, int productId);
 
         void DeleteImageFromProduct(int productId);
-
-        void DeleteTagFromDietInformation(int tagId, int dietInfoId);
 
         void AddDietInfoToProduct(int dietInfoId, int productId);
 

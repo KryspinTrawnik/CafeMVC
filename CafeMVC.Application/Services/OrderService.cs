@@ -85,7 +85,7 @@ namespace CafeMVC.Application.Services
         {
             List<OrderForListVm> orderForListVm = _orderRepository.GetAllType()
                 .ProjectTo<OrderForListVm>(_mapper.ConfigurationProvider).ToList();
-            ListOfOrdersVm listOfOrdersVm = new ListOfOrdersVm()
+            ListOfOrdersVm listOfOrdersVm = new()
             {
                 ListOfOrders = orderForListVm,
                 Count = orderForListVm.Count

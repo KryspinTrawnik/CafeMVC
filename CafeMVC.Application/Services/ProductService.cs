@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using CafeMVC.Application.Interfaces;
 using CafeMVC.Application.ViewModels.Products;
 using CafeMVC.Domain.Interfaces;
@@ -29,19 +30,12 @@ namespace CafeMVC.Application.Services
             _productRepository.UpdateItem(product);
         }
 
-        public bool AddNewAllergen(AllergenForViewVm allergen)
+        public void AddNewAllergen(AllergenForViewVm allergen)
         {
             Allergen newAllergen = _mapper.Map<Allergen>(allergen);
-            bool IsAllergenAlreadyExists = _productRepository.GetAllAllergens().Any(x => x.Name == newAllergen.Name);
-            if (IsAllergenAlreadyExists == false)
-            {
+            
                 _productRepository.AddNewAllergen(newAllergen);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            
         }
 
         public void AddNewImageToProduct(IFormFile image, int productId)
@@ -62,77 +56,85 @@ namespace CafeMVC.Application.Services
             _productRepository.AddNewImageToProduct(fileName, productId);
         }
 
-        public bool AddNewIngredient(IngredientForCreationVm ingredient)
+        public void AddNewIngredient(IngredientForCreationVm ingredient)
         {
             Ingredient newIngredient = _mapper.Map<Ingredient>(ingredient);
-            bool isIngredientExists = _productRepository.GetAllIngredients().Any(x => x.Name == newIngredient.Name);
-            if(isIngredientExists == false)
-            {
                 _productRepository.AddNewIngredient(newIngredient);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            
         }
 
-        public bool AddNewProduct(ProductForCreationVm product)
+        public void AddNewProduct(ProductForCreationVm product)
         {
             Product newProduct = _mapper.Map<Product>(product);
-            bool isProductAlreadyExists = _productRepository.GetAllType().Any(x => x.Name == newProduct.Name);
-            if (isProductAlreadyExists == false)
-            {
-                _productRepository.AddItem(newProduct);
-                return true;
-            }
-            else
-                return false;
+            _productRepository.AddItem(newProduct);
+             
         }
 
         public void DeleteImageFromProduct(int productId)
         {
-            throw new NotImplementedException();
+            Product product = _productRepository.GetItemById(productId);
+            File.Delete(product.ImagePath);
+            product.ImagePath = null;
+            _productRepository.UpdateItem(product);
         }
 
         public void DeleteIngredient(int productId, int ingredientId)
         {
-            throw new NotImplementedException();
+            Product product = _productRepository.GetItemById(productId);
+            product.Ingredients.Remove(product.Ingredients.FirstOrDefault(x => x.Id == ingredientId));
         }
 
         public void DeleteProduct(int productId)
         {
-            throw new NotImplementedException();
-        }
-
-        public void DeleteTagFromDietInformation(int tagId, int dietInfoId)
-        {
-            throw new NotImplementedException();
+            _productRepository.DeleteItem(productId);
         }
 
         public ListOfIngredientsVm GetAllIngredients()
         {
-            throw new NotImplementedException();
+            List<IngredientForViewVm> allIngredients = _productRepository.GetAllIngredients()
+                  .ProjectTo<IngredientForViewVm>(_mapper.ConfigurationProvider).ToList();
+            ListOfIngredientsVm listOfIngredients = new()
+            {
+                Ingredients = allIngredients,
+                Count = allIngredients.Count
+            };
+            return listOfIngredients;
         }
 
         public ListOfProductsVm GetAllProducts()
         {
-            throw new NotImplementedException();
+            List<ProductForListVm> allProducts = _productRepository.GetAllType()
+                .ProjectTo<ProductForListVm>(_mapper.ConfigurationProvider).ToList();
+            ListOfProductsVm listOfAllProducts = new()
+            {
+                ListOfAllProducts = allProducts,
+                Count = allProducts.Count
+            };
+            return listOfAllProducts;
         }
 
         public ProductForViewVm GetProductById(int productId)
         {
-            throw new NotImplementedException();
+            Product product = _productRepository.GetItemById(productId);
+            ProductForViewVm productForView = _mapper.Map<ProductForViewVm>(product);
+            return productForView;
         }
 
-        public ProductForViewVm GetProductDetails(int productId)
+        public void UpdateProduct(ProductForCreationVm productModel)
         {
-            throw new NotImplementedException();
+            Product updatedProduct = _mapper.Map<Product>(productModel);
+            _productRepository.UpdateItem(updatedProduct);
         }
 
-        public void UpdateProduct(ProductForViewVm productModel)
+        public void AddDietInfoToProduct(int dietInfoId, int productId)
         {
-            throw new NotImplementedException();
+            DietInformation dietInformation = _productRepository.GetAllDietInfo().FirstOrDefault(x => x.Id == dietInfoId);
+            _productRepository.AddDietInfoToProduct(dietInformation, productId);
+        }
+
+        public void DeleteDietInfoFromProduct(int dietInfoId, int productId)
+        {
+            _productRepository.RemoveDietInfoFromProduct(dietInfoId, productId);
         }
     }
 }

@@ -1,11 +1,6 @@
 ﻿using CafeMVC.Application.Interfaces;
 using CafeMVC.Application.ViewModels.Products;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace CafeMVC.Web.Controllers
 {
@@ -14,7 +9,7 @@ namespace CafeMVC.Web.Controllers
         private readonly IProductService _productService;
         public IActionResult Index()
         {
-            var allProductsList = _productService.GetAllProducts();
+            ListOfProductsVm allProductsList = _productService.GetAllProducts();
             return View(allProductsList);
         }
         [HttpGet]
@@ -26,19 +21,19 @@ namespace CafeMVC.Web.Controllers
         [HttpPost]
         public IActionResult AddNewProduct(ProductForCreationVm product)
         {
-            bool hasBeenAdded = _productService.AddNewProduct(product);
-            return View(hasBeenAdded);
+            _productService.AddNewProduct(product);
+            return View();
         }
 
         [HttpGet]
         public IActionResult ChangeNameOfProduct(int productId)
         {
-            var productForChange = _productService.GetProductById(productId);
+            ProductForCreationVm productForChange = _productService.GetProductById(productId);
             return View(productForChange);
         }
 
         [HttpPatch]
-        public IActionResult ChangeNameOfProduct(ProductForViewVm productModel)
+        public IActionResult ChangeNameOfProduct(ProductForCreationVm productModel)
         {
             _productService.UpdateProduct(productModel);
             return View();
@@ -59,7 +54,7 @@ namespace CafeMVC.Web.Controllers
         [HttpGet]
         public IActionResult ViewProduct(int productId)
         {
-            var productView = _productService.GetProductById(productId);
+            ProductForViewVm productView = _productService.GetProductById(productId);
             return View(productView);
         }
 
@@ -83,7 +78,7 @@ namespace CafeMVC.Web.Controllers
         }
 
         [HttpDelete]
-        public IActionResult DeleteIngredientsFromProduct( int productId, int ingredientId)
+        public IActionResult DeleteIngredientsFromProduct(int productId, int ingredientId)
         {
             _productService.DeleteIngredient(productId, ingredientId);
             return View();
@@ -96,15 +91,15 @@ namespace CafeMVC.Web.Controllers
         }
 
         [HttpPatch]
-        public IActionResult ChangeDietInformation(int productId, DietInfoForViewVm dietInformation)
+        public IActionResult AddDietInfo(int productId, int dietInfoId)
         {
-            _productService.ChangeDietInformation(productId, dietInformation);
+            _productService.AddDietInfoToProduct(productId, dietInfoId);
             return View();
         }
         [HttpGet]
         public IActionResult ViewAllIngredients()
         {
-            var allIngredientsList = _productService.GetAllIngredients();
+            ListOfIngredientsVm allIngredientsList = _productService.GetAllIngredients();
             return View(allIngredientsList);
         }
 

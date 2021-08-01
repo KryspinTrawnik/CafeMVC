@@ -28,4 +28,4 @@ This application is built in Clean Architecture and the Service-Repository patte
 * Creating/editing products
 * Orders managment for admin acceptance/cancel/check 
 ## Status
-The application is still in progress. It is contected to MSSQL data base. Has got repositories with beginning of UNIT of work.
+The application is still in progress. It is contected to MSSQL data base. 

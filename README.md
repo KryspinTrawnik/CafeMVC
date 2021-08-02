@@ -27,5 +27,7 @@ This application is built in Clean Architecture and the Service-Repository patte
 * Creating/editing customer account - every customer has his own account with basic informations
 * Creating/editing products
 * Orders managment for admin acceptance/cancel/check 
+* Adding images dietinfo tags to Products
 ## Status
-The application is still in progress. It is contected to MSSQL data base. 
+The application is still in progress. It is contected to MSSQL data base. Major part of services and repositories is done. I am about to look at Controllers and Views.
+

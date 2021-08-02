@@ -11,6 +11,8 @@ namespace CafeMVC.Domain.Interfaces
     {
         IQueryable<Order> GetOrdersByCustomer(int customerId);
 
+        void AddNewAddress(Address address, int customerId);
 
+        void AddNewCustomerContactInfo(CustomerContactInformation contactDetail, int customerId);
     }
 }

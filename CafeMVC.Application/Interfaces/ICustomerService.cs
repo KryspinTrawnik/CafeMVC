@@ -19,7 +19,7 @@ namespace CafeMVC.Application.Interfaces
 
         void DeleteCustomer(int customerId);
 
-        void AddNewContactDetail(ContactDetailForViewVm contactDetail, int customerId);
+        void AddNewContactDetail(ContactInfoForCreationVm contactDetail, int customerId);
 
         void ChangeContactDetails(int contactDetailId, int customerId);
 

@@ -18,7 +18,7 @@ namespace CafeMVC.Application.ViewModels.Customer
 
         public List<AddressForCreationVm> Addresses { get; set; }
 
-        public List<ContactDetailForViewVm> ContactDetails { get; set; }
+        public List<CustomerContacInfoForViewVm> ContactDetails { get; set; }
 
         public void Mapping(Profile profile)
         {

@@ -1,23 +1,34 @@
-﻿using CafeMVC.Application.Interfaces;
+﻿using AutoMapper;
+using CafeMVC.Application.Interfaces;
 using CafeMVC.Application.ViewModels.Customer;
+using CafeMVC.Domain.Interfaces;
+using CafeMVC.Domain.Model;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CafeMVC.Application.Services
 {
     public class CustomerService : ICustomerService
     {
-        public void AddNewAddress(AddressForCreationVm address, int customerId)
+        private readonly ICustomerRepository _customerRepository;
+        private readonly IMapper _mapper;
+
+        public CustomerService(ICustomerRepository customerRepository, IMapper mapper)
         {
-            throw new NotImplementedException();
+            _customerRepository = customerRepository;
+            _mapper = mapper;
         }
 
-        public void AddNewContactDetail(ContactDetailForViewVm contactDetail, int customerId)
+        public void AddNewAddress(AddressForCreationVm address, int customerId)
         {
-            throw new NotImplementedException();
+            Address newAddress = _mapper.Map<Address>(address);
+            _customerRepository.AddNewAddress(newAddress, customerId);
+        }
+
+        public void AddNewContactDetail(ContactInfoForCreationVm contactDetail, int customerId)
+        {
+            CustomerContactInformation customerContactInformation = _mapper.Map<CustomerContactInformation>(contactDetail);
+            _customerRepository.AddNewCustomerContactInfo(customerContactInformation, customerId);
         }
 
         public void AddNewCustomer(CustomerForCreationVm customer)

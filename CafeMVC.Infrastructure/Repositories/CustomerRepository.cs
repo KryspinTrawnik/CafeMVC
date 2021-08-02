@@ -1,10 +1,6 @@
 ﻿using CafeMVC.Domain.Interfaces;
 using CafeMVC.Domain.Model;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CafeMVC.Infrastructure.Repositories
 {
@@ -16,7 +12,22 @@ namespace CafeMVC.Infrastructure.Repositories
 
         public IQueryable<Order> GetOrdersByCustomer(int customerId)
         {
-            return GetItemById(customerId).Orders.AsQueryable();  
+            return GetItemById(customerId).Orders.AsQueryable();
+        }
+
+        public void AddNewAddress(Address address, int customerId)
+        {
+            Customer customer = GetItemById(customerId);
+            customer.Addresses.Add(address);
+            UpdateItem(customer);
+
+        }
+
+        public void AddNewCustomerContactInfo(CustomerContactInformation contactDetail, int customerId)
+        {
+            Customer customer = GetItemById(customerId);
+            customer.UserContactInformations.Add(contactDetail);
+            UpdateItem(customer);
         }
     }
 }

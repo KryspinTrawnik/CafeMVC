@@ -27,7 +27,9 @@ namespace CafeMVC.Application.Interfaces
 
         void AddNewAddress(AddressForCreationVm address, int customerId);
 
-        void ChangeAddress(int address, int customerId);
+        AddressForCreationVm GetAddressToEdit(int addressId, int customer);
+
+        void ChangeCustomerAddress(int address, int customerId);
 
         void DeleteAddress(int address, int customerId);
     }

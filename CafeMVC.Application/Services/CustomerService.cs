@@ -33,10 +33,11 @@ namespace CafeMVC.Application.Services
 
         public void AddNewCustomer(CustomerForCreationVm customer)
         {
-            throw new NotImplementedException();
+            Customer newCustomer = _mapper.Map<Customer>(customer);
+            _customerRepository.AddItem(newCustomer);
         }
 
-        public void ChangeAddress(int address, int customerId)
+        public void ChangeCustomerAddress(int address, int customerId)
         {
             throw new NotImplementedException();
         }
@@ -74,6 +75,12 @@ namespace CafeMVC.Application.Services
         public void RemoveContactDetail(int contactDetailId, int customerId)
         {
             throw new NotImplementedException();
+        }
+
+        public AddressForCreationVm GetAddressToEdit(int addressId, int customer)
+        {
+            Customer customer1 = _customerRepository.GetItemById(customer);
+ 
         }
     }
 }

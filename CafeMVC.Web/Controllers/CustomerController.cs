@@ -68,11 +68,11 @@ namespace CafeMVC.Web.Controllers
         [HttpGet]
         public IActionResult AddNewContactDetail()
         {
-            return View();
+            return View(new ContactInfoForCreationVm() );
         }
 
         [HttpPost]
-        public IActionResult AddNewContactDetail(CustomerContacInfoForViewVm contactDetail, int customerId)
+        public IActionResult AddNewContactDetail(ContactInfoForCreationVm contactDetail, int customerId)
         {
             _customerService.AddNewContactDetail(contactDetail, customerId);
             return View();
@@ -115,14 +115,15 @@ namespace CafeMVC.Web.Controllers
             return View();
         }
         [HttpGet]
-        public IActionResult ChangeAddress()
+        public IActionResult ChangeAddress(int addressId, int customerId)
         {
+            
             return View();
         }
         [HttpPatch]
         public IActionResult ChangeAddress(int addressId, int customerId)
         {
-            _customerService.ChangeAddress(addressId, customerId);
+            _customerService.ChangeCustomerAddress(addressId, customerId);
             return View();
         }
         [HttpGet]

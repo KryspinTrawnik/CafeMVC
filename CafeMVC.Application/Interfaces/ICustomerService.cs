@@ -29,7 +29,7 @@ namespace CafeMVC.Application.Interfaces
 
         AddressForCreationVm GetAddressToEdit(int addressId, int customer);
 
-        void ChangeCustomerAddress(int address, int customerId);
+        void ChangeCustomerAddress(AddressForCreationVm address, int customerId);
 
         void DeleteAddress(int address, int customerId);
     }

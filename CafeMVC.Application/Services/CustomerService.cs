@@ -5,6 +5,7 @@ using CafeMVC.Domain.Interfaces;
 using CafeMVC.Domain.Model;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CafeMVC.Application.Services
 {
@@ -33,12 +34,18 @@ namespace CafeMVC.Application.Services
 
         public void AddNewCustomer(CustomerForCreationVm customer)
         {
-            throw new NotImplementedException();
+            Customer newCustomer = _mapper.Map<Customer>(customer);
+            _customerRepository.AddItem(newCustomer);
         }
 
-        public void ChangeAddress(int address, int customerId)
+        public void ChangeCustomerAddress(AddressForCreationVm address, int customerId)
         {
-            throw new NotImplementedException();
+            Customer customer = _customerRepository.GetItemById(customerId);
+            Address addressToReplace = customer.Addresses.FirstOrDefault(x => x.Id == address.Id);
+            customer.Addresses.Remove(addressToReplace);
+            Address updatedAddress = _mapper.Map<Address>(address);
+            customer.Addresses.Add(updatedAddress);
+            _customerRepository.UpdateItem(customer);
         }
 
         public void ChangeContactDetails(int contactDetailId, int customerId)
@@ -74,6 +81,14 @@ namespace CafeMVC.Application.Services
         public void RemoveContactDetail(int contactDetailId, int customerId)
         {
             throw new NotImplementedException();
+        }
+
+        public AddressForCreationVm GetAddressToEdit(int customerId, int addressId)
+        {
+            Address address = _customerRepository.GetCustomerAddressById(customerId, addressId);
+            AddressForCreationVm addressForEdition = _mapper.Map<AddressForCreationVm>(address);
+            return addressForEdition;
+ 
         }
     }
 }

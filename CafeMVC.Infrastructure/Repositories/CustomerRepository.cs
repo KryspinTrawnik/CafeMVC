@@ -29,5 +29,12 @@ namespace CafeMVC.Infrastructure.Repositories
             customer.UserContactInformations.Add(contactDetail);
             UpdateItem(customer);
         }
+
+        public Address GetCustomerAddressById(int customerId, int addressId)
+        {
+            Address address = GetItemById(customerId).Addresses.FirstOrDefault(x => x.Id == addressId);
+
+            return address;
+        }
     }
 }

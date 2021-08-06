@@ -11,7 +11,7 @@ namespace CafeMVC.Application.Interfaces
     {
         List<CustomerForListVm> GetAllCustomers();
 
-        CustomerDetailsVm GetCustomerDetail(int customerId);
+        CustomerDetailViewsVm GetCustomerDetail(int customerId);
 
         CustomerForDashboardVm GetCustomerDashboard(int customerId);
 

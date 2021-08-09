@@ -28,7 +28,7 @@ namespace CafeMVC.Web.Controllers
         [HttpGet]
         public IActionResult ChangeNameOfProduct(int productId)
         {
-            ProductForCreationVm productForChange = _productService.GetProductById(productId);
+            ProductForCreationVm productForChange = _productService.GetProductForCreationById(productId);
             return View(productForChange);
         }
 
@@ -54,7 +54,7 @@ namespace CafeMVC.Web.Controllers
         [HttpGet]
         public IActionResult ViewProduct(int productId)
         {
-            ProductForViewVm productView = _productService.GetProductById(productId);
+            ProductForViewVm productView = _productService.GetProductForViewById(productId);
             return View(productView);
         }
 

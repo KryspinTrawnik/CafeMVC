@@ -113,7 +113,7 @@ namespace CafeMVC.Application.Services
             return listOfAllProducts;
         }
 
-        public ProductForViewVm GetProductById(int productId)
+        public ProductForViewVm GetProductForViewById(int productId)
         {
             Product product = _productRepository.GetItemById(productId);
             ProductForViewVm productForView = _mapper.Map<ProductForViewVm>(product);
@@ -135,6 +135,13 @@ namespace CafeMVC.Application.Services
         public void DeleteDietInfoFromProduct(int dietInfoId, int productId)
         {
             _productRepository.RemoveDietInfoFromProduct(dietInfoId, productId);
+        }
+
+        public ProductForCreationVm GetProductForCreationById(int productId)
+        {
+            Product product = _productRepository.GetItemById(productId);
+            ProductForCreationVm productForCreation = _mapper.Map<ProductForCreationVm>(product);
+            return productForCreation;
         }
     }
 }

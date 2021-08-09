@@ -37,7 +37,7 @@ namespace CafeMVC.Web.Controllers
         [HttpGet]
         public IActionResult VieWProductDetails(int productId)
         {
-            Application.ViewModels.Products.ProductForViewVm product = _productService.GetProductById(productId);
+            Application.ViewModels.Products.ProductForViewVm product = _productService.GetProductForViewById(productId);
             return View(product);
         }
 

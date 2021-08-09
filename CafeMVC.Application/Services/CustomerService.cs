@@ -49,9 +49,14 @@ namespace CafeMVC.Application.Services
             _customerRepository.UpdateItem(customer);
         }
 
-        public void ChangeContactDetails(int contactDetailId, int customerId)
+        public void ChangeContactDetails(ContactInfoForCreationVm contactDetail, int customerId)
         {
-            throw new NotImplementedException();
+            Customer customer = _customerRepository.GetItemById(customerId);
+            CustomerContactInformation customerContactForChange = customer.UserContactInformations.FirstOrDefault(x => x.Id == contactDetail.Id);
+            customer.UserContactInformations.Remove(customerContactForChange);
+            CustomerContactInformation customerContactEdited = _mapper.Map<CustomerContactInformation>(contactDetail);
+            customer.UserContactInformations.Add(customerContactEdited);
+            _customerRepository.UpdateItem(customer);
         }
 
         public void DeleteAddress(int addressId, int customerId)
@@ -67,12 +72,21 @@ namespace CafeMVC.Application.Services
             _customerRepository.DeleteItem(customerId);
         }
 
-        public List<CustomerForListVm> GetAllCustomers()
+        public ListOfCustomers GetAllCustomers(int pageSize, int pageNo, string searchString)
         {
-            List<CustomerForListVm> customerForLists = _customerRepository.GetAllType()
+            List<CustomerForListVm> customersForLists = _customerRepository.GetAllType()
                 .ProjectTo<CustomerForListVm>(_mapper.ConfigurationProvider).ToList();
+            var customersToShow = customersForLists.Skip(pageSize * (pageNo - 1)).Take(pageSize).ToList();
+            ListOfCustomers listoOfCustomers = new()
+            {
+                ListOfAllCustomers = customersToShow,
+                PageSize = pageSize,
+                CurrentPage = pageNo,
+                SearchString = searchString,
+                Count = customersForLists.Count
+            };
 
-            return customerForLists;
+            return listoOfCustomers;
         }
 
         public CustomerForDashboardVm GetCustomerDashboard(int customerId)
@@ -99,7 +113,7 @@ namespace CafeMVC.Application.Services
             _customerRepository.UpdateItem(customer);
         }
 
-        public AddressForCreationVm GetAddressToEdit(int customerId, int addressId)
+        public AddressForCreationVm GetAddressToEdit(int addressId, int customerId)
         {
             Address address = _customerRepository.GetCustomerAddressById(customerId, addressId);
             AddressForCreationVm addressForEdition = _mapper.Map<AddressForCreationVm>(address);

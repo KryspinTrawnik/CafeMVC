@@ -9,9 +9,9 @@ namespace CafeMVC.Application.Interfaces
 {
     public interface ICustomerService
     {
-        List<CustomerForListVm> GetAllCustomers();
+       ListOfCustomers GetAllCustomers(int pageSize, int pageNo, string searchString);
 
-        CustomerDetailsVm GetCustomerDetail(int customerId);
+        CustomerDetailViewsVm GetCustomerDetail(int customerId);
 
         CustomerForDashboardVm GetCustomerDashboard(int customerId);
 
@@ -21,16 +21,18 @@ namespace CafeMVC.Application.Interfaces
 
         void AddNewContactDetail(ContactInfoForCreationVm contactDetail, int customerId);
 
-        void ChangeContactDetails(int contactDetailId, int customerId);
+        void ChangeContactDetails(ContactInfoForCreationVm contactDetail, int customerId);
 
         void RemoveContactDetail(int contactDetailId, int customerId);
 
         void AddNewAddress(AddressForCreationVm address, int customerId);
 
-        AddressForCreationVm GetAddressToEdit(int addressId, int customer);
+        AddressForCreationVm GetAddressToEdit(int addressId, int customerId);
 
         void ChangeCustomerAddress(AddressForCreationVm address, int customerId);
 
         void DeleteAddress(int address, int customerId);
+
+        
     }
 }

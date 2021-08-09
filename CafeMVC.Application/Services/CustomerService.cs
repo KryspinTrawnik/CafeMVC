@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using CafeMVC.Application.Interfaces;
 using CafeMVC.Application.ViewModels.Customer;
 using CafeMVC.Domain.Interfaces;
@@ -48,42 +49,71 @@ namespace CafeMVC.Application.Services
             _customerRepository.UpdateItem(customer);
         }
 
-        public void ChangeContactDetails(int contactDetailId, int customerId)
+        public void ChangeContactDetails(ContactInfoForCreationVm contactDetail, int customerId)
         {
-            throw new NotImplementedException();
+            Customer customer = _customerRepository.GetItemById(customerId);
+            CustomerContactInformation customerContactForChange = customer.UserContactInformations.FirstOrDefault(x => x.Id == contactDetail.Id);
+            customer.UserContactInformations.Remove(customerContactForChange);
+            CustomerContactInformation customerContactEdited = _mapper.Map<CustomerContactInformation>(contactDetail);
+            customer.UserContactInformations.Add(customerContactEdited);
+            _customerRepository.UpdateItem(customer);
         }
 
-        public void DeleteAddress(int address, int customerId)
+        public void DeleteAddress(int addressId, int customerId)
         {
-            throw new NotImplementedException();
+            Customer customer = _customerRepository.GetItemById(customerId);
+            Address addressToBeRemoved = customer.Addresses.FirstOrDefault(x => x.Id == addressId);
+            customer.Addresses.Remove(addressToBeRemoved);
+            _customerRepository.UpdateItem(customer);
         }
 
         public void DeleteCustomer(int customerId)
         {
-            throw new NotImplementedException();
+            _customerRepository.DeleteItem(customerId);
         }
 
-        public List<CustomerForListVm> GetAllCustomers()
+        public ListOfCustomers GetAllCustomers(int pageSize, int pageNo, string searchString)
         {
-            throw new NotImplementedException();
+            List<CustomerForListVm> customersForLists = _customerRepository.GetAllType()
+                .ProjectTo<CustomerForListVm>(_mapper.ConfigurationProvider).ToList();
+            var customersToShow = customersForLists.Skip(pageSize * (pageNo - 1)).Take(pageSize).ToList();
+            ListOfCustomers listoOfCustomers = new()
+            {
+                ListOfAllCustomers = customersToShow,
+                PageSize = pageSize,
+                CurrentPage = pageNo,
+                SearchString = searchString,
+                Count = customersForLists.Count
+            };
+
+            return listoOfCustomers;
         }
 
         public CustomerForDashboardVm GetCustomerDashboard(int customerId)
         {
-            throw new NotImplementedException();
+            Customer customer = _customerRepository.GetItemById(customerId);
+            CustomerForDashboardVm customerForDashboard = _mapper.Map<CustomerForDashboardVm>(customer);
+            return customerForDashboard;
         }
 
-        public CustomerDetailsVm GetCustomerDetail(int customerId)
+        public CustomerDetailViewsVm GetCustomerDetail(int customerId)
         {
-            throw new NotImplementedException();
+
+            Customer customer = _customerRepository.GetItemById(customerId);
+            CustomerDetailViewsVm customerDetailView = _mapper.Map<CustomerDetailViewsVm>(customer);
+            return customerDetailView;
         }
 
         public void RemoveContactDetail(int contactDetailId, int customerId)
         {
-            throw new NotImplementedException();
+            Customer customer = _customerRepository.GetItemById(customerId);
+            CustomerContactInformation customerContactToBeRemoved = customer.UserContactInformations
+                .FirstOrDefault(x => x.ContactDetailTypId == contactDetailId);
+            customer.UserContactInformations.Remove(customerContactToBeRemoved);
+            _customerRepository.UpdateItem(customer);
         }
 
-        public AddressForCreationVm GetAddressToEdit(int customerId, int addressId)
+        public AddressForCreationVm GetAddressToEdit(int addressId, int customerId)
         {
             Address address = _customerRepository.GetCustomerAddressById(customerId, addressId);
             AddressForCreationVm addressForEdition = _mapper.Map<AddressForCreationVm>(address);

@@ -14,7 +14,9 @@ namespace CafeMVC.Application.Interfaces
 
         void AddNewProduct(ProductForCreationVm product);
 
-        ProductForViewVm GetProductById(int productId);
+        ProductForViewVm GetProductForViewById(int productId);
+
+        ProductForCreationVm GetProductForCreationById(int productId);
 
         void UpdateProduct(ProductForCreationVm productModel);
 

@@ -29,7 +29,7 @@ namespace CafeMVC.Infrastructure.Repositories
 
         public IQueryable<T> GetAllType()
         {
-            return table;
+            return table.AsQueryable();
         }
 
         public T GetItemById(int id)

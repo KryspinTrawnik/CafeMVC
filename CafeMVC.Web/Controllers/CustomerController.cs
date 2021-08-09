@@ -11,10 +11,17 @@ namespace CafeMVC.Web.Controllers
     public class CustomerController : Controller
     {
         private readonly ICustomerService _customerService;
-
+        [HttpGet]
         public IActionResult Index()
         {
-            var listOfCustomers = _customerService.GetAllCustomers();
+            var listOfCustomers = _customerService.GetAllCustomers(2, 1, "");
+            return View(listOfCustomers);
+        }
+
+        [HttpPost]
+        public IActionResult Index(int pageSize, int pageNo, string searchString)
+        {
+            var listOfCustomers = _customerService.GetAllCustomers(pageSize, pageNo, searchString);
             return View(listOfCustomers);
         }
 
@@ -85,9 +92,9 @@ namespace CafeMVC.Web.Controllers
         }
 
         [HttpPatch]
-        public IActionResult ChangeContactDetail(int contactDetailId, int customerId)
+        public IActionResult ChangeContactDetail(ContactInfoForCreationVm contactDetail, int customerId)
         {
-            _customerService.ChangeContactDetails(contactDetailId, customerId);
+            _customerService.ChangeContactDetails(contactDetail, customerId);
             return View();
         }
 
@@ -117,13 +124,13 @@ namespace CafeMVC.Web.Controllers
         [HttpGet]
         public IActionResult ChangeAddress(int addressId, int customerId)
         {
-            
-            return View();
+            AddressForCreationVm addressToBeEdited = _customerService.GetAddressToEdit(addressId, customerId);
+            return View(addressToBeEdited);
         }
-        [HttpPatch]
-        public IActionResult ChangeAddress(int addressId, int customerId)
+        [HttpPost]
+        public IActionResult ChangeAddress(AddressForCreationVm editedAddress, int customerId)
         {
-            _customerService.ChangeCustomerAddress(addressId, customerId);
+            _customerService.ChangeCustomerAddress(editedAddress, customerId);
             return View();
         }
         [HttpGet]

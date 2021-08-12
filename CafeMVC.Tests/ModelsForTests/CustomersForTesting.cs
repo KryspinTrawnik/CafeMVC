@@ -11,9 +11,9 @@ namespace CafeMVC.Tests
     {
         public List<Customer> AllCustomersForTesting()
         {
-            List<Customer> AllCustomers = new List<Customer>();
+            List<Customer> AllCustomers = new();
 
-            Customer customer1 = new Customer()
+            Customer customer1 = new()
             {
                 Id = 1,
                 FirstName = "Tom",

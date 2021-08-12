@@ -98,7 +98,7 @@ namespace CafeMVC.Application.Services
             List<ProductForListVm> productForListVm = _orderRepository.GetAllProductsFromOrder(orderId)
                  .ProjectTo<ProductForListVm>(_mapper.ConfigurationProvider).ToList();
 
-            ListOfProductsVm listOfProductsVm = new ListOfProductsVm()
+            ListOfProductsVm listOfProductsVm = new()
             {
                 ListOfAllProducts = productForListVm,
                 Count = productForListVm.Count
@@ -110,7 +110,7 @@ namespace CafeMVC.Application.Services
         {
             List<OrderForListVm> ordersForListVm = _orderRepository.GetAllOpenOrders()
                 .ProjectTo<OrderForListVm>(_mapper.ConfigurationProvider).ToList();
-            ListOfOrdersVm listOfOrdersVm = new ListOfOrdersVm()
+            ListOfOrdersVm listOfOrdersVm = new()
             {
                 ListOfOrders = ordersForListVm,
                 Count = ordersForListVm.Count

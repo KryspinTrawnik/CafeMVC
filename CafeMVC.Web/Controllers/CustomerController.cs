@@ -11,6 +11,12 @@ namespace CafeMVC.Web.Controllers
     public class CustomerController : Controller
     {
         private readonly ICustomerService _customerService;
+
+        public CustomerController(ICustomerService customerService)
+        {
+            _customerService = customerService;
+        }
+
         [HttpGet]
         public IActionResult Index()
         {
@@ -19,9 +25,17 @@ namespace CafeMVC.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index(int pageSize, int pageNo, string searchString)
+        public IActionResult Index(int pageSize, int? pageNo, string searchString)
         {
-            var listOfCustomers = _customerService.GetAllCustomers(pageSize, pageNo, searchString);
+            if(!pageNo.HasValue)
+            {
+                pageNo = 1;
+            }
+            if(searchString is null)
+            {
+                searchString = String.Empty; 
+            }
+            var listOfCustomers = _customerService.GetAllCustomers(pageSize, pageNo.Value, searchString);
             return View(listOfCustomers);
         }
 

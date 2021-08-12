@@ -56,7 +56,7 @@ namespace CafeMVC.Application.Services
         public ListOfMenusVm GetAllMenus()
         {
             List<MenuForListVm> allMenus = _menuRepository.GetAllType().ProjectTo<MenuForListVm>(_mapper.ConfigurationProvider).ToList();
-            ListOfMenusVm listOfMenus = new ListOfMenusVm()
+            ListOfMenusVm listOfMenus = new()
             {
                 ListOfAllMenus = allMenus,
                 Count = allMenus.Count

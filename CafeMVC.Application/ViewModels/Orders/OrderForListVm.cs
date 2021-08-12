@@ -17,9 +17,9 @@ namespace CafeMVC.Application.ViewModels.Orders
         public void Mapping(Profile profile)
         {
             profile.CreateMap<CafeMVC.Domain.Model.Order, OrderForListVm>()
-                .IncludeMembers(s => s.Customer)
-                .ForMember(s => s.CustomerName, opt => opt.MapFrom(d => d.Customer.FirstName + " " + d.Customer.Surname));
-
+                .IncludeMembers(s => s.Customer);
+            profile.CreateMap<CafeMVC.Domain.Model.Customer, OrderForListVm>()
+            .ForMember(d => d.CustomerName, opt => opt.MapFrom(x => x.FirstName + " " + x.Surname));
         }
 
     }

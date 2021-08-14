@@ -10,7 +10,7 @@ namespace CafeMVC.Application.Interfaces
 {
     public interface IMenuService
     {
-        ListOfMenusVm GetAllMenus();
+        ListOfMenusVm GetAllMenus(int pageSize, int pageNo, string searchString);
 
         MenuForViewVm GetAllProducstOfMenu(int menuTypeId);
 

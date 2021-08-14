@@ -53,12 +53,16 @@ namespace CafeMVC.Application.Services
             _menuRepository.GetItemById(menuId).Products.Remove(prodtuctToRemove);
         }
 
-        public ListOfMenusVm GetAllMenus()
+        public ListOfMenusVm GetAllMenus(int pageSize, int pageNo, string searchString)
         {
             List<MenuForListVm> allMenus = _menuRepository.GetAllType().ProjectTo<MenuForListVm>(_mapper.ConfigurationProvider).ToList();
+            var menusToDisplay = allMenus.Skip(pageSize * (pageNo - 1)).Take(pageSize).ToList();
             ListOfMenusVm listOfMenus = new()
             {
-                ListOfAllMenus = allMenus,
+                ListOfAllMenus = menusToDisplay,
+                PageSize = pageSize,
+                CurrentPage = pageNo,
+                SearchString = searchString,
                 Count = allMenus.Count
             };
             return listOfMenus;

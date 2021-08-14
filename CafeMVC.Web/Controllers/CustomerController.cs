@@ -20,7 +20,7 @@ namespace CafeMVC.Web.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            var listOfCustomers = _customerService.GetAllCustomers(2, 1, "");
+            var listOfCustomers = _customerService.GetCustomersForPages(2, 1, "");
             return View(listOfCustomers);
         }
 
@@ -35,7 +35,7 @@ namespace CafeMVC.Web.Controllers
             {
                 searchString = String.Empty; 
             }
-            var listOfCustomers = _customerService.GetAllCustomers(pageSize, pageNo.Value, searchString);
+            var listOfCustomers = _customerService.GetCustomersForPages(pageSize, pageNo.Value, searchString);
             return View(listOfCustomers);
         }
 

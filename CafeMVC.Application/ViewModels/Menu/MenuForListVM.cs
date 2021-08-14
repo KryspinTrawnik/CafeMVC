@@ -14,7 +14,7 @@ namespace CafeMVC.Application.ViewModels.Menu
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<CafeMVC.Domain.Model.Menu, MenuForCreationVm>();
+            profile.CreateMap<CafeMVC.Domain.Model.Menu, MenuForListVm>();
 
         }
     }

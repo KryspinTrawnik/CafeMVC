@@ -11,7 +11,7 @@ namespace CafeMVC.Application.Interfaces
 {
     public interface IOrderService
     {
-        ListOfOrdersVm GetAllOrders();
+        ListOfOrdersVm GetOrdersToDisplay(int pageSize, int pageNo, string searchString);
 
         ListOfProductsVm GetAllProducts(int orderId);
 

@@ -14,11 +14,33 @@ namespace CafeMVC.Web.Controllers
         private readonly IOrderService _orderService;
 
         private readonly IProductService _productService;
+        
+        public OrderController(IMenuService menuService, IOrderService orderService, IProductService productService)
+        {
+            _menuService = menuService;
+            _orderService = orderService;
+            _productService = productService;
+        }
 
+        [HttpGet]
         public IActionResult Index()
         {
-            ListOfOrdersVm allOrdersForView = _orderService.GetAllOrders();
-            return View(allOrdersForView);
+            ListOfOrdersVm ordersForView = _orderService.GetOrdersToDisplay(2, 1, "");
+            return View(ordersForView);
+        }
+        [HttpPost]
+        public IActionResult Index(int pageSize, int? pageNo, string searchString)
+        {
+            if(!pageNo.HasValue)
+            {
+                pageNo = 1;
+            }
+            if(searchString is null)
+            {
+                searchString = string.Empty;
+            }
+            ListOfOrdersVm ordersForView = _orderService.GetOrdersToDisplay(pageSize, pageNo.Value, searchString);
+            return View(ordersForView);
         }
         [HttpGet]
         public IActionResult OrderMenuView(int menuId)

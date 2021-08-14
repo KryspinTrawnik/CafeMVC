@@ -9,7 +9,7 @@ namespace CafeMVC.Application.Interfaces
 {
     public interface ICustomerService
     {
-       ListOfCustomers GetAllCustomers(int pageSize, int pageNo, string searchString);
+       ListOfCustomers GetCustomersForPages(int pageSize, int pageNo, string searchString);
 
         CustomerDetailViewsVm GetCustomerDetail(int customerId);
 

@@ -32,16 +32,17 @@ namespace CafeMVC.Application.Services
         public string AddOrder(OrderForCreationVm order)
         {
             Order newOrder = _mapper.Map<Order>(order);
-            string orderConfirmation = GenerateOrderConfrimation();
+            int orderId = _orderRepository.AddItem(newOrder);
+            string orderConfirmation = GenerateOrderConfrimation(orderId);
             newOrder.OrderConfirmation = orderConfirmation;
-            _orderRepository.AddItem(newOrder);
+            
 
             return orderConfirmation;
         }
-        private string GenerateOrderConfrimation()
+        private string GenerateOrderConfrimation(int orderId)
         {
-            string todayDate = DateTime.Now.ToString("MM/dd/yy").RemoveSpecialCharacters();
-            string orderConfirmation = $"Order-{_orderRepository.GetAllType().Count()}{todayDate}";
+            string todayDate = DateTime.Now.ToString("MMddyy");
+            string orderConfirmation = $"Order-{orderId}{todayDate}";
 
             return orderConfirmation;
         }
@@ -81,13 +82,17 @@ namespace CafeMVC.Application.Services
             _orderRepository.UpdateItem(order);
         }
 
-        public ListOfOrdersVm GetAllOrders()
+        public ListOfOrdersVm GetOrdersToDisplay(int pageSize, int pageNo, string searchString)
         {
             List<OrderForListVm> orderForListVm = _orderRepository.GetAllType()
                 .ProjectTo<OrderForListVm>(_mapper.ConfigurationProvider).ToList();
+            List<OrderForListVm> ordersToDisplay = orderForListVm.Skip(pageSize * (pageNo - 1)).Take(pageSize).ToList();
             ListOfOrdersVm listOfOrdersVm = new()
             {
-                ListOfOrders = orderForListVm,
+                PageSize= pageSize,
+                CurrentPage =pageNo,
+                SearchString = searchString,
+                ListOfOrders = ordersToDisplay,
                 Count = orderForListVm.Count
             };
             return listOfOrdersVm;
@@ -98,7 +103,7 @@ namespace CafeMVC.Application.Services
             List<ProductForListVm> productForListVm = _orderRepository.GetAllProductsFromOrder(orderId)
                  .ProjectTo<ProductForListVm>(_mapper.ConfigurationProvider).ToList();
 
-            ListOfProductsVm listOfProductsVm = new ListOfProductsVm()
+            ListOfProductsVm listOfProductsVm = new()
             {
                 ListOfAllProducts = productForListVm,
                 Count = productForListVm.Count
@@ -110,7 +115,7 @@ namespace CafeMVC.Application.Services
         {
             List<OrderForListVm> ordersForListVm = _orderRepository.GetAllOpenOrders()
                 .ProjectTo<OrderForListVm>(_mapper.ConfigurationProvider).ToList();
-            ListOfOrdersVm listOfOrdersVm = new ListOfOrdersVm()
+            ListOfOrdersVm listOfOrdersVm = new()
             {
                 ListOfOrders = ordersForListVm,
                 Count = ordersForListVm.Count

@@ -72,12 +72,12 @@ namespace CafeMVC.Application.Services
             _customerRepository.DeleteItem(customerId);
         }
 
-        public ListOfCustomers GetAllCustomers(int pageSize, int pageNo, string searchString)
+        public ListOfCustomers GetCustomersForPages(int pageSize, int pageNo, string searchString)
         {
             List<CustomerForListVm> customersForLists = _customerRepository.GetAllType()
                 .ProjectTo<CustomerForListVm>(_mapper.ConfigurationProvider).ToList();
             var customersToShow = customersForLists.Skip(pageSize * (pageNo - 1)).Take(pageSize).ToList();
-            ListOfCustomers listoOfCustomers = new()
+            ListOfCustomers listOfCustomers = new()
             {
                 ListOfAllCustomers = customersToShow,
                 PageSize = pageSize,
@@ -86,7 +86,7 @@ namespace CafeMVC.Application.Services
                 Count = customersForLists.Count
             };
 
-            return listoOfCustomers;
+            return listOfCustomers;
         }
 
         public CustomerForDashboardVm GetCustomerDashboard(int customerId)

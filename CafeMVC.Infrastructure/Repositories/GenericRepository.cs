@@ -14,10 +14,11 @@ namespace CafeMVC.Infrastructure.Repositories
             this._context = context;
             table = context.Set<T>();
         }
-        public void AddItem(T item)
+        public int AddItem(T item)
         {
             table.Add(item);
             Save();
+            return (int)item.GetType().GetProperty("Id").GetValue(item, null);
         }
 
         public void DeleteItem(int id)

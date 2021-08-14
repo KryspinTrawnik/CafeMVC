@@ -5,7 +5,7 @@ namespace CafeMVC.Domain.Interfaces
 {
     public interface IGenericRepository<T>
     {
-        void AddItem(T item);
+        int AddItem(T item);
 
         void DeleteItem(int id);
 

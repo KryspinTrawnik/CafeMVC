@@ -13,9 +13,30 @@ namespace CafeMVC.Web.Controllers
     {
         private readonly IMenuService _menuService;
         private readonly IProductService _productService;
+        public MenuController(IMenuService menuService, IProductService productService)
+        {
+            _menuService = menuService;
+            _productService = productService;
+        }
+
+        [HttpGet]
         public IActionResult Index()
         {
-            var ListOfMenus = _menuService.GetAllMenus();
+            var ListOfMenus = _menuService.GetAllMenus(2, 1, "");
+            return View(ListOfMenus);
+        }
+        [HttpPost]
+        public IActionResult Index(int pageSize, int? pageNo, string searchString)
+        {
+            if(!pageNo.HasValue)
+            {
+                pageNo = 1;
+            }
+            if(searchString is null)
+            {
+                searchString = string.Empty;
+            }
+            var ListOfMenus = _menuService.GetAllMenus(pageSize,pageNo.Value, searchString);
             return View(ListOfMenus);
         }
 

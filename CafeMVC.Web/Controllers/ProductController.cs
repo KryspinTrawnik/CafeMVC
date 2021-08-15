@@ -7,9 +7,29 @@ namespace CafeMVC.Web.Controllers
     public class ProductController : Controller
     {
         private readonly IProductService _productService;
+        
+        public ProductController(IProductService productService)
+        {
+            _productService = productService;
+        }
+        [HttpGet]
         public IActionResult Index()
         {
-            ListOfProductsVm allProductsList = _productService.GetAllProducts();
+            ListOfProductsVm allProductsList = _productService.GetAllProducts(2, 1, "");
+            return View(allProductsList);
+        }
+        [HttpPost]
+        public IActionResult Index(int pageSize, int? pageNo, string searchString)
+        {
+            if(!pageNo.HasValue)
+            {
+                pageNo = 1;
+            }
+            if(searchString is null)
+            {
+                searchString = string.Empty;
+            }
+            ListOfProductsVm allProductsList = _productService.GetAllProducts(pageSize, pageNo.Value, searchString);
             return View(allProductsList);
         }
         [HttpGet]

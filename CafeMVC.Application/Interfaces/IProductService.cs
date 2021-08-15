@@ -10,7 +10,7 @@ namespace CafeMVC.Application.Interfaces
 {
     public interface IProductService
     {
-        ListOfProductsVm GetAllProducts();
+        ListOfProductsVm GetAllProducts(int pageSize, int pageNo, string searchString);
 
         void AddNewProduct(ProductForCreationVm product);
 

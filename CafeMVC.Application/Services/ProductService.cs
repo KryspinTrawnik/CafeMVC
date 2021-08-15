@@ -101,13 +101,17 @@ namespace CafeMVC.Application.Services
             return listOfIngredients;
         }
 
-        public ListOfProductsVm GetAllProducts()
+        public ListOfProductsVm GetAllProducts(int pageSize, int pageNo, string searchString)
         {
             List<ProductForListVm> allProducts = _productRepository.GetAllType()
                 .ProjectTo<ProductForListVm>(_mapper.ConfigurationProvider).ToList();
+            List<ProductForListVm> productsToDisplay = allProducts.Skip(pageSize * (pageNo - 1)).Take(pageSize).ToList();
             ListOfProductsVm listOfAllProducts = new()
             {
-                ListOfAllProducts = allProducts,
+                PageSize = pageSize,
+                CurrentPage = pageNo,
+                SearchString = searchString,
+                ListOfAllProducts = productsToDisplay,
                 Count = allProducts.Count
             };
             return listOfAllProducts;

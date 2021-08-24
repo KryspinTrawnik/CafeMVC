@@ -56,14 +56,14 @@ namespace CafeMVC.Web.Controllers
         [HttpGet]
         public IActionResult AddNewCustomer()
         {
-            return View();
+            return View(new CustomerForCreationVm());
         }
 
         [HttpPost]
         public IActionResult AddNewCustomer(CustomerForCreationVm customer)
         {
             _customerService.AddNewCustomer(customer);
-            return View();
+            return RedirectToAction("AddAddressToNewCustomer");
         }
 
         [HttpGet]
@@ -123,6 +123,20 @@ namespace CafeMVC.Web.Controllers
             _customerService.RemoveContactDetail(contactDetailId, customerId);
             return View();
         }
+
+        [HttpGet]
+        public IActionResult AddAddressToNewCustomer(CustomerForCreationVm newCustomer)
+        {
+            return View(new AddressForCreationVm());
+        }
+
+        [HttpPost]
+        public IActionResult AddAddressToNewCustomer(AddressForCreationVm address, int customerId)
+        {
+            _customerService.AddNewAddress(address, customerId);
+            return View();
+        }
+
         [HttpGet]
         public IActionResult AddNewAddress()
         {

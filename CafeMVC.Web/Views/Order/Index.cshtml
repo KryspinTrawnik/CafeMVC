@@ -12,7 +12,7 @@
 <form asp-action="Index" asp-controller="order" method="post">
     <div class="row">
         <input type="text" asp-for="SearchString" name="searchString" id="searchString"/>
-        <input type="submit" value="Wyszukaj"/>
+        <input type="submit" value="Search"/>
     </div>
     <div class="row">
         <table class="table">
@@ -22,13 +22,13 @@
                         Id
                     </th>
                     <th>
-                        Data Zamówienia
+                        Date Of Order
                     </th>
                     <th>
-                        Klient
+                        Customer Full name
                     </th>
                     <th>
-                        Kwota Zamównienia
+                        Total Price
                     </th>
                     <th></th>
                 </tr>

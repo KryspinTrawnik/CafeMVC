@@ -12,7 +12,7 @@ namespace CafeMVC.Infrastructure
 
         public DbSet<Allergen> Allergens { get; set; }
 
-        public DbSet<ContactDetailInfotmationType> ContactDetailInfotmationTypes { get; set; }
+        public DbSet<ContactDetailType> ContactDetailInfotmationTypes { get; set; }
 
         public DbSet<DietInformation> DietInformations { get; set; }
 
@@ -28,7 +28,7 @@ namespace CafeMVC.Infrastructure
 
         public DbSet<Customer> Customers { get; set; }
     
-        public DbSet<CustomerContactInformation> CustomerContactInformations { get; set; }
+        public DbSet<ContactDetail> CustomerContactInformations { get; set; }
 
         public Context(DbContextOptions options) : base(options)
         {
@@ -45,11 +45,20 @@ namespace CafeMVC.Infrastructure
                 .HasOne(a => a.ProductType).WithOne(b => b.Product)
                 .HasForeignKey<ProductType>(c => c.ProductRef);
 
-            builder.Entity<CustomerContactInformation>()
-                .HasOne(a => a.ContactDetailInfotmationType).WithOne(b => b.CustomerContactInformation)
-                .HasForeignKey<ContactDetailInfotmationType>(c => c.CustomerContactInformationRef);
-                            
-            base.OnModelCreating(builder);      
+            builder.Entity<ContactDetail>()
+                .HasOne(a => a.ContactDetailType).WithOne(b => b.CustomerContactInformation)
+                .HasForeignKey<ContactDetailType>(c => c.CustomerContactInformationRef);
+
+            base.OnModelCreating(builder);
+
+            builder.Entity<ContactDetailType>()
+                .HasData(new ContactDetailType { Id = 1, Name = "E-mail" },
+                new ContactDetailType { Id = 2, Name = "Mobile Number" },
+                new ContactDetailType { Id = 3, Name = "Home Number" });
+
+            builder.Entity<AddressType>()
+                .HasData(new AddressType { Id = 1, Name = "Billing Address" },
+                new AddressType { Id = 2, Name = "Delivery Address" });
         }
 
     }

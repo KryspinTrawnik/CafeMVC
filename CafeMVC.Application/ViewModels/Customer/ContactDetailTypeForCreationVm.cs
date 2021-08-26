@@ -3,7 +3,7 @@ using CafeMVC.Application.Interfaces.Mapping;
 
 namespace CafeMVC.Application.ViewModels.Customer
 {
-    public class ContactDetailTypeForCreationVm : IMapFrom<CafeMVC.Domain.Model.ContactDetailInfotmationType>
+    public class ContactDetailTypeForCreationVm : IMapFrom<CafeMVC.Domain.Model.ContactDetailType>
     {
         public int Id { get; set; }
 
@@ -11,7 +11,7 @@ namespace CafeMVC.Application.ViewModels.Customer
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<CafeMVC.Domain.Model.ContactDetailInfotmationType, ContactDetailTypeForCreationVm>().ReverseMap();
+            profile.CreateMap<CafeMVC.Domain.Model.ContactDetailType, ContactDetailTypeForCreationVm>().ReverseMap();
 
         }
     }

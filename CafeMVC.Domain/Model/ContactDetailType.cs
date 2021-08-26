@@ -1,12 +1,12 @@
 ﻿namespace CafeMVC.Domain.Model
 {
-    public class ContactDetailInfotmationType :BaseModel
+    public class ContactDetailType :BaseModel
     {
 
         public string Name { get; set;  }
 
         public int CustomerContactInformationRef { get; set; }
 
-        public CustomerContactInformation CustomerContactInformation { get; set; }
+        public ContactDetail CustomerContactInformation { get; set; }
     }
 }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CafeMVC.Application.ViewModels.Customer
 {
-    public class ContactInfoForCreationVm : IMapFrom<CafeMVC.Domain.Model.CustomerContactInformation>
+    public class ContactInfoForCreationVm : IMapFrom<CafeMVC.Domain.Model.ContactDetail>
     {
         public int Id { get; set; }
 
@@ -18,7 +18,7 @@ namespace CafeMVC.Application.ViewModels.Customer
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<CafeMVC.Domain.Model.CustomerContactInformation, ContactInfoForCreationVm>().ReverseMap();
+            profile.CreateMap<CafeMVC.Domain.Model.ContactDetail, ContactInfoForCreationVm>().ReverseMap();
 
         }
     }

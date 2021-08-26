@@ -47,9 +47,9 @@ namespace CafeMVC.Tests.AutoMapperTest.CustomerVmTests
             return expectedAddress;
         }
 
-        public AddressForOrderSummaryVm GetExpectedViewModelOfLongAdrressForTest()
+        public AddressForSummaryVm GetExpectedViewModelOfLongAdrressForTest()
         {
-            var expectedAddress = new AddressForOrderSummaryVm()
+            var expectedAddress = new AddressForSummaryVm()
             {
                 Id = 1,
                 Address = "Aleja Wojska Polskiego 3/5"

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CafeMVC.Application.ViewModels.Customer
 {
-    public class AddressForOrderSummaryVm : IMapFrom<CafeMVC.Domain.Model.Address>
+    public class AddressForSummaryVm : IMapFrom<CafeMVC.Domain.Model.Address>
     {
         public int Id { get; set; }
 
@@ -18,7 +18,7 @@ namespace CafeMVC.Application.ViewModels.Customer
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<CafeMVC.Domain.Model.Address, AddressForOrderSummaryVm>()
+            profile.CreateMap<CafeMVC.Domain.Model.Address, AddressForSummaryVm>()
                 .ForMember(s => s.Type, opt => opt.MapFrom(d => d.AddressType.Name))
                 .ForMember(s => s.Address, opt =>
                 {

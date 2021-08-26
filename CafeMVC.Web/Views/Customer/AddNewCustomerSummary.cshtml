@@ -1,0 +1,15 @@
+﻿@model CafeMVC.Application.ViewModels.Customer.CustomerForCreationVm
+@{ string title = "Summary";
+    Layout = "_Layout";}
+
+<h1>@title</h1>
+<br />
+<br />
+    <h5>@Html.LabelFor(m => m.FirstName)</h5>
+    <h6>@Html.DisplayTextFor(m => m.FirstName)</h6>
+    <br>
+    <h5>@Html.LabelFor(m => m.Surname)</h5>
+    <h6>@Html.DisplayTextFor(m => m.Surname)</h6>
+    <br>
+    <br>
+@Html.ActionLink("Index", "Home")

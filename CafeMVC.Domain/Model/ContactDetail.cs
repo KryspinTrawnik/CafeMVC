@@ -4,9 +4,8 @@
     {
         public string ContactDetailInformation { get; set; }
 
-        public virtual int ContactDetailTypId { get; set; }
+        public int ContactDetailTypId { get; set; }
 
-        public virtual ContactDetailType ContactDetailType {get; set;}
-
+        public virtual ContactDetailType ContactDetailType { get; set; }
     }
 }

@@ -59,7 +59,6 @@ namespace CafeMVC.Tests
                         Id = 1,
                         ContactDetailInformation = "0783931456",
                         ContactDetailTypId = 1,
-                        ContactDetailType = new ContactDetailType(){ Id = 1, Name = "Telfon Komórkowy"}
                         
                     },
                     new ContactDetail()
@@ -67,7 +66,6 @@ namespace CafeMVC.Tests
                         Id = 2,
                         ContactDetailInformation = "TomBradley@gmail.com",
                         ContactDetailTypId = 2,
-                        ContactDetailType = new ContactDetailType(){ Id = 2, Name = "E-mail"}
 
                     }
 
@@ -124,7 +122,6 @@ namespace CafeMVC.Tests
                         Id = 1,
                         ContactDetailInformation = "608583619",
                         ContactDetailTypId = 1,
-                        ContactDetailType = new ContactDetailType(){ Id = 1, Name = "Telfon Komórkowy"}
 
                     },
                     new ContactDetail()
@@ -132,7 +129,6 @@ namespace CafeMVC.Tests
                         Id = 2,
                         ContactDetailInformation = "HarryM@gmail.com",
                         ContactDetailTypId = 2,
-                        ContactDetailType = new ContactDetailType(){ Id = 2, Name = "E-mail"}
 
                     }
 

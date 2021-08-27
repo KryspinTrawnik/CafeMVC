@@ -24,8 +24,6 @@ namespace CafeMVC.Infrastructure
 
         public DbSet<Product> Products { get; set; }
 
-        public DbSet<ProductType> ProductTypes { get; set; }
-
         public DbSet<Customer> Customers { get; set; }
     
         public DbSet<ContactDetail> CustomerContactInformations { get; set; }
@@ -37,18 +35,6 @@ namespace CafeMVC.Infrastructure
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<Address>()
-                .HasOne(a => a.AddressType).WithOne(b => b.Address)
-                .HasForeignKey<AddressType>(c => c.AddressRef);
-
-            builder.Entity<Product>()
-                .HasOne(a => a.ProductType).WithOne(b => b.Product)
-                .HasForeignKey<ProductType>(c => c.ProductRef);
-
-            builder.Entity<ContactDetail>()
-                .HasOne(a => a.ContactDetailType).WithOne(b => b.CustomerContactInformation)
-                .HasForeignKey<ContactDetailType>(c => c.CustomerContactInformationRef);
-
             base.OnModelCreating(builder);
 
             builder.Entity<ContactDetailType>()

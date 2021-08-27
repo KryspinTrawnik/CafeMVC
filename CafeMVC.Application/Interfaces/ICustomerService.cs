@@ -9,11 +9,13 @@ namespace CafeMVC.Application.Interfaces
 {
     public interface ICustomerService
     {
-       ListOfCustomers GetCustomersForPages(int pageSize, int pageNo, string searchString);
+        ListOfCustomers GetCustomersForPages(int pageSize, int pageNo, string searchString);
 
         CustomerDetailViewsVm GetCustomerDetail(int customerId);
 
         CustomerForDashboardVm GetCustomerDashboard(int customerId);
+
+        CustomerForSummaryVm GetLastAddedCustomer();
 
         void AddNewCustomer(CustomerForCreationVm customer);
 

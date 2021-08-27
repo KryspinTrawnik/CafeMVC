@@ -20,7 +20,7 @@ namespace CafeMVC.Application.ViewModels.Orders
 
         public DateTime LeadTime { get; set; }
 
-        public List<AddressForOrderSummaryVm> Addresses { get; set; }
+        public List<AddressForSummaryVm> Addresses { get; set; }
 
         public List<ProductForListVm> Products { get; set; }
 

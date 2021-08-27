@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CafeMVC.Application.ViewModels.Customer
 {
-    public class ContactDetailTypeForViewVm :IMapFrom<CafeMVC.Domain.Model.ContactDetailInfotmationType>
+    public class ContactDetailTypeForViewVm :IMapFrom<CafeMVC.Domain.Model.ContactDetailType>
     {
         public int Id { get; set; }
 
@@ -16,7 +16,7 @@ namespace CafeMVC.Application.ViewModels.Customer
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<CafeMVC.Domain.Model.ContactDetailInfotmationType, ContactDetailTypeForViewVm>();
+            profile.CreateMap<CafeMVC.Domain.Model.ContactDetailType, ContactDetailTypeForViewVm>();
 
         }
     }

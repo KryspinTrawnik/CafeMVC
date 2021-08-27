@@ -60,12 +60,14 @@ namespace CafeMVC.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddNewCustomer(CustomerForCreationVm customer)
+        public IActionResult AddNewCustomerSummary(CustomerForCreationVm customer)
         {
             _customerService.AddNewCustomer(customer);
-            return RedirectToAction("AddAddressToNewCustomer");
+            
+            return View(_customerService.GetLastAddedCustomer());
         }
 
+       
         [HttpGet]
         public IActionResult ViewCustomer(int customerId)
         {

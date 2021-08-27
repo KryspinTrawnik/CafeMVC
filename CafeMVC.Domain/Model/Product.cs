@@ -11,10 +11,6 @@ namespace CafeMVC.Domain.Model
 
         public string Description { get; set; }
 
-        public int TypeId { get; set; }
-
-        public ProductType ProductType{ get; set; }
-
         public string ImagePath { get; set; }
 
         public ICollection<Ingredient> Ingredients { get; set; }

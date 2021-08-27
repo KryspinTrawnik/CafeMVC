@@ -1,7 +1,9 @@
 ﻿namespace CafeMVC.Domain.Model
 {
-    public class Allergen : BaseModel
+    public class ContactDetailType : BaseModel
     {
+
         public string Name { get; set; }
+
     }
 }

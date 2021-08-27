@@ -25,7 +25,7 @@ namespace CafeMVC.Tests.AutoMapperTest.CustomerVmTests
         {
             MapperConfiguration config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<Address, Application.ViewModels.Customer.AddressForOrderSummaryVm>()
+                cfg.CreateMap<Address, Application.ViewModels.Customer.AddressForSummaryVm>()
                 .ForMember(d => d.Type, opt => opt.MapFrom(d => d.AddressType.Name))
                 .ForMember(d => d.Address, opt => opt.MapFrom(new LongAddressResolver().Resolve));
             });
@@ -40,7 +40,7 @@ namespace CafeMVC.Tests.AutoMapperTest.CustomerVmTests
             var mapper = config.CreateMapper();
 
             //Act
-            AddressForOrderSummaryVm result = mapper.Map<AddressForOrderSummaryVm>(testedAdress);
+            AddressForSummaryVm result = mapper.Map<AddressForSummaryVm>(testedAdress);
             //Assert
             result.Should().NotBeNull();
         }
@@ -52,9 +52,9 @@ namespace CafeMVC.Tests.AutoMapperTest.CustomerVmTests
             var mapper = config.CreateMapper();
 
             //Act
-            AddressForOrderSummaryVm result = mapper.Map<AddressForOrderSummaryVm>(testedAdress);
+            AddressForSummaryVm result = mapper.Map<AddressForSummaryVm>(testedAdress);
             //Assert
-            result.Should().BeOfType<AddressForOrderSummaryVm>();
+            result.Should().BeOfType<AddressForSummaryVm>();
         }
         public void MappingAddressForOrderSummaryVmShouldReturnRightModel()
         {
@@ -62,9 +62,9 @@ namespace CafeMVC.Tests.AutoMapperTest.CustomerVmTests
             var testedAdress = addressesForTests.GetAdrressForTest();
             var config = GetMapperConfiguration();
             var mapper = config.CreateMapper();
-            AddressForOrderSummaryVm expected = addressesForTests.GetExpectedViewModelOfLongAdrressForTest();
+            AddressForSummaryVm expected = addressesForTests.GetExpectedViewModelOfLongAdrressForTest();
             //Act
-            AddressForOrderSummaryVm result = mapper.Map<AddressForOrderSummaryVm>(testedAdress);
+            AddressForSummaryVm result = mapper.Map<AddressForSummaryVm>(testedAdress);
             //Assert
             result.Should().BeEquivalentTo(expected);
         }

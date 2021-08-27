@@ -10,7 +10,7 @@ namespace CafeMVC.Domain.Model
 
         public ICollection<Address> Addresses { get; set; }
 
-        public ICollection<CustomerContactInformation> UserContactInformations {get; set;}
+        public ICollection<ContactDetail> UserContactInformations {get; set;}
 
         public ICollection<Order> Orders { get; set; }
     }

@@ -16,6 +16,6 @@
 
         public  int TypeId { get; set; }
 
-        public  AddressType AddressType { get; set; }
+        public  virtual AddressType AddressType { get; set; }
     }
 }

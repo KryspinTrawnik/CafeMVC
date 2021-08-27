@@ -23,7 +23,7 @@ namespace CafeMVC.Infrastructure.Repositories
 
         }
 
-        public void AddNewCustomerContactInfo(CustomerContactInformation contactDetail, int customerId)
+        public void AddNewCustomerContactInfo(ContactDetail contactDetail, int customerId)
         {
             Customer customer = GetItemById(customerId);
             customer.UserContactInformations.Add(contactDetail);

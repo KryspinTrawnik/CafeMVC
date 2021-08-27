@@ -52,22 +52,20 @@ namespace CafeMVC.Tests
                   }
                   
                 },
-                UserContactInformations = new List<CustomerContactInformation>()
+                UserContactInformations = new List<ContactDetail>()
                 {
-                    new CustomerContactInformation()
+                    new ContactDetail()
                     {
                         Id = 1,
                         ContactDetailInformation = "0783931456",
                         ContactDetailTypId = 1,
-                        ContactDetailInfotmationType = new ContactDetailInfotmationType(){ Id = 1, Name = "Telfon Komórkowy"}
                         
                     },
-                    new CustomerContactInformation()
+                    new ContactDetail()
                     {
                         Id = 2,
                         ContactDetailInformation = "TomBradley@gmail.com",
                         ContactDetailTypId = 2,
-                        ContactDetailInfotmationType = new ContactDetailInfotmationType(){ Id = 2, Name = "E-mail"}
 
                     }
 
@@ -117,22 +115,20 @@ namespace CafeMVC.Tests
                   }
 
                 },
-                UserContactInformations = new List<CustomerContactInformation>()
+                UserContactInformations = new List<ContactDetail>()
                 {
-                    new CustomerContactInformation()
+                    new ContactDetail()
                     {
                         Id = 1,
                         ContactDetailInformation = "608583619",
                         ContactDetailTypId = 1,
-                        ContactDetailInfotmationType = new ContactDetailInfotmationType(){ Id = 1, Name = "Telfon Komórkowy"}
 
                     },
-                    new CustomerContactInformation()
+                    new ContactDetail()
                     {
                         Id = 2,
                         ContactDetailInformation = "HarryM@gmail.com",
                         ContactDetailTypId = 2,
-                        ContactDetailInfotmationType = new ContactDetailInfotmationType(){ Id = 2, Name = "E-mail"}
 
                     }
 

@@ -1,56 +1,20 @@
 ﻿@model CafeMVC.Application.ViewModels.Customer.CustomerForCreationVm
+@{ string title = "New Customer";
+    Layout = "_Layout";}
 
-@{
-    ViewData["Title"] = "AddNewCustomer";
-}
-
-<h1>AddNewCustomer</h1>
-
-<h4>CustomerForCreationVm</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="AddNewCustomer">
-            <div class="col-md-8">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <h4>Personal Information</h4>
-                </div>
-                <div class="form-group">
-                    <input type="hidden" asp-for="Id" class="form-control" />
-                </div>
-                <div class="form-group">
-                    <label asp-for="FirstName" class="control-label"></label>
-                    <input asp-for="FirstName" class="form-control" />
-                    <span asp-validation-for="FirstName" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Surname" class="control-label"></label>
-                    <input asp-for="Surname" class="form-control" />
-                    <span asp-validation-for="Surname" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-primary" />
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-xs-1" id="CustomerContactInformation">
-                    <div>
-                        <h4>Contact Details</h4>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for=""></label>
-                    </div>
-                </div>
-            </div>
-
-        </form>
-    </div>
-</div>
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<h1>@title</h1>
+<br />
+<br />
+@using (Html.BeginForm("AddNewCustomerSummary", "Customer", FormMethod.Post))
+{
+    <h5>@Html.LabelFor(m => m.FirstName)</h5>
+    <h6>@Html.TextBoxFor(m => m.FirstName)</h6>
+    <br>
+    <h5>@Html.LabelFor(m => m.Surname)</h5>
+    <h6>@Html.TextBoxFor(m => m.Surname)</h6>
+    <br>
+    <br>
+    <h5>E-mail</h5>
+    <h6>@Html.TextBoxFor(m => m.ContactDetails[0].ContactDetailInformation)</h6>
+    <button type="submit" value="Submit" role="button">Submit</button>
 }

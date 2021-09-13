@@ -12,7 +12,7 @@ namespace CafeMVC.Infrastructure
 
         public DbSet<Allergen> Allergens { get; set; }
 
-        public DbSet<ContactDetailType> ContactDetailInfotmationTypes { get; set; }
+        public DbSet<ContactDetailType> ContactDetailTypes { get; set; }
 
         public DbSet<DietInformation> DietInformations { get; set; }
 
@@ -26,7 +26,7 @@ namespace CafeMVC.Infrastructure
 
         public DbSet<Customer> Customers { get; set; }
     
-        public DbSet<ContactDetail> CustomerContactInformations { get; set; }
+        public DbSet<ContactDetail> ContactDetails { get; set; }
 
         public Context(DbContextOptions options) : base(options)
         {

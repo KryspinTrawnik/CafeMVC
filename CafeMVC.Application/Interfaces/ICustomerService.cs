@@ -35,6 +35,6 @@ namespace CafeMVC.Application.Interfaces
 
         void DeleteAddress(int address, int customerId);
 
-        
+        CustomerForCreationVm SetInitialContactsAndAddressesTypes( CustomerForCreationVm newCreatedCustomer);
     }
 }

@@ -33,9 +33,10 @@ namespace CafeMVC.Infrastructure.Repositories
             return table.AsQueryable();
         }
 
-        public T GetItemById(int id)
+        public T  GetItemById(int id)
         {
-            return table.Find(id);
+            return table.IncludeAll()
+                .FirstOrDefault(x => (int)x.GetType().GetProperty("Id").GetValue(x) == id);
         }
 
         public void UpdateItem(T item)
@@ -50,5 +51,8 @@ namespace CafeMVC.Infrastructure.Repositories
         {
             _context.SaveChanges();
         }
+
+        
+
     }
 }

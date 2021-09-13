@@ -52,7 +52,7 @@ namespace CafeMVC.Tests
                   }
                   
                 },
-                UserContactInformations = new List<ContactDetail>()
+                ContactDetails = new List<ContactDetail>()
                 {
                     new ContactDetail()
                     {
@@ -115,7 +115,7 @@ namespace CafeMVC.Tests
                   }
 
                 },
-                UserContactInformations = new List<ContactDetail>()
+                ContactDetails = new List<ContactDetail>()
                 {
                     new ContactDetail()
                     {

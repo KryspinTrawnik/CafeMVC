@@ -1,15 +1,32 @@
-﻿@model CafeMVC.Application.ViewModels.Customer.CustomerForCreationVm
+﻿@model CafeMVC.Application.ViewModels.Customer.CustomerForSummaryVm
 @{ string title = "Summary";
     Layout = "_Layout";}
 
 <h1>@title</h1>
 <br />
 <br />
-    <h5>@Html.LabelFor(m => m.FirstName)</h5>
-    <h6>@Html.DisplayTextFor(m => m.FirstName)</h6>
-    <br>
-    <h5>@Html.LabelFor(m => m.Surname)</h5>
-    <h6>@Html.DisplayTextFor(m => m.Surname)</h6>
-    <br>
-    <br>
+<h5>@Html.LabelFor(m => m.FirstName)</h5>
+<h6>@Html.DisplayTextFor(m => m.FirstName)</h6>
+<br>
+<h5>@Html.LabelFor(m => m.Surname)</h5>
+<h6>@Html.DisplayTextFor(m => m.Surname)</h6>
+<br>
+<br>
+<h5>Contact Details</h5>
+<h5>@Html.DisplayTextFor(m => m.ContactDetails[0].ContactDetailType)</h5>
+<h6>@Html.DisplayTextFor(m => m.ContactDetails[0].ContactDetailInformation)</h6>
+<br>
+<h5>@Html.DisplayTextFor(m => m.ContactDetails[1].ContactDetailType)</h5>
+<h6>@Html.DisplayTextFor(m => m.ContactDetails[1].ContactDetailInformation)</h6>
+<br>
+<br>
+<h5>Addresses</h5>
+<h5>@Html.DisplayTextFor(m => m.Addresses[0].Type)</h5>
+<h6>@Html.DisplayTextFor(m => m.Addresses[0].Address)</h6>
+<br>
+<br>
+<h5>@Html.DisplayTextFor(m => m.Addresses[1].Type)</h5>
+<h6>@Html.DisplayTextFor(m => m.Addresses[1].Address)</h6>
+<br>
+
 @Html.ActionLink("Index", "Home")

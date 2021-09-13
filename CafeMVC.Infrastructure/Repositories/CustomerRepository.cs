@@ -1,5 +1,6 @@
 ﻿using CafeMVC.Domain.Interfaces;
 using CafeMVC.Domain.Model;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace CafeMVC.Infrastructure.Repositories
@@ -26,7 +27,7 @@ namespace CafeMVC.Infrastructure.Repositories
         public void AddNewCustomerContactInfo(ContactDetail contactDetail, int customerId)
         {
             Customer customer = GetItemById(customerId);
-            customer.UserContactInformations.Add(contactDetail);
+            customer.ContactDetails.Add(contactDetail);
             UpdateItem(customer);
         }
 
@@ -35,6 +36,16 @@ namespace CafeMVC.Infrastructure.Repositories
             Address address = GetItemById(customerId).Addresses.FirstOrDefault(x => x.Id == addressId);
 
             return address;
+        }
+
+        public IQueryable<AddressType> GetAllAddressTypes()
+        {
+            return _context.AddressTypes.AsQueryable();
+        }
+
+        public IQueryable<ContactDetailType> GetAllContactDetailTypes()
+        {
+            return _context.ContactDetailTypes.AsQueryable();
         }
     }
 }

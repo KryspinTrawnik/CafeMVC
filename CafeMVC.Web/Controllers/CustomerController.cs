@@ -20,7 +20,7 @@ namespace CafeMVC.Web.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            var listOfCustomers = _customerService.GetCustomersForPages(2, 1, "");
+            var listOfCustomers = _customerService.GetCustomersForPages(20, 1, "");
             return View(listOfCustomers);
         }
 
@@ -40,7 +40,7 @@ namespace CafeMVC.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult ViewUserDetails(int customerId)
+        public IActionResult CustomerView(int customerId)
         {
             var customerForView = _customerService.GetCustomerDetail(customerId);
             return View(customerForView);
@@ -56,13 +56,15 @@ namespace CafeMVC.Web.Controllers
         [HttpGet]
         public IActionResult AddNewCustomer()
         {
+            
             return View(new CustomerForCreationVm());
         }
 
         [HttpPost]
         public IActionResult AddNewCustomerSummary(CustomerForCreationVm customer)
         {
-            _customerService.AddNewCustomer(customer);
+            var newCustomer = _customerService.SetInitialContactsAndAddressesTypes(customer);
+            _customerService.AddNewCustomer(newCustomer);
             
             return View(_customerService.GetLastAddedCustomer());
         }
@@ -127,7 +129,7 @@ namespace CafeMVC.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult AddAddressToNewCustomer(CustomerForCreationVm newCustomer)
+        public IActionResult AddAddressToNewCustomer()
         {
             return View(new AddressForCreationVm());
         }

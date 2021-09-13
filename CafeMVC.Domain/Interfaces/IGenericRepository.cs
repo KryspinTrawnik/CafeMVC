@@ -16,5 +16,6 @@ namespace CafeMVC.Domain.Interfaces
         T GetItemById(int id);
 
         IQueryable<T> GetAllType();
+
     }
 }

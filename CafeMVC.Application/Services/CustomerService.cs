@@ -52,10 +52,10 @@ namespace CafeMVC.Application.Services
         public void ChangeContactDetails(ContactInfoForCreationVm contactDetail, int customerId)
         {
             Customer customer = _customerRepository.GetItemById(customerId);
-            ContactDetail customerContactForChange = customer.UserContactInformations.FirstOrDefault(x => x.Id == contactDetail.Id);
-            customer.UserContactInformations.Remove(customerContactForChange);
+            ContactDetail customerContactForChange = customer.ContactDetails.FirstOrDefault(x => x.Id == contactDetail.Id);
+            customer.ContactDetails.Remove(customerContactForChange);
             ContactDetail customerContactEdited = _mapper.Map<ContactDetail>(contactDetail);
-            customer.UserContactInformations.Add(customerContactEdited);
+            customer.ContactDetails.Add(customerContactEdited);
             _customerRepository.UpdateItem(customer);
         }
 
@@ -98,7 +98,6 @@ namespace CafeMVC.Application.Services
 
         public CustomerDetailViewsVm GetCustomerDetail(int customerId)
         {
-
             Customer customer = _customerRepository.GetItemById(customerId);
             CustomerDetailViewsVm customerDetailView = _mapper.Map<CustomerDetailViewsVm>(customer);
             return customerDetailView;
@@ -107,9 +106,9 @@ namespace CafeMVC.Application.Services
         public void RemoveContactDetail(int contactDetailId, int customerId)
         {
             Customer customer = _customerRepository.GetItemById(customerId);
-            ContactDetail customerContactToBeRemoved = customer.UserContactInformations
+            ContactDetail customerContactToBeRemoved = customer.ContactDetails
                 .FirstOrDefault(x => x.ContactDetailTypId == contactDetailId);
-            customer.UserContactInformations.Remove(customerContactToBeRemoved);
+            customer.ContactDetails.Remove(customerContactToBeRemoved);
             _customerRepository.UpdateItem(customer);
         }
 
@@ -123,10 +122,25 @@ namespace CafeMVC.Application.Services
 
         public CustomerForSummaryVm GetLastAddedCustomer()
         {
-            Customer theLastCustomer = _customerRepository.GetAllType().Last();
+            Customer theLastCustomer = _customerRepository.GetAllType().ToList().Last();
             CustomerForSummaryVm customerForSummary = _mapper.Map<CustomerForSummaryVm>(theLastCustomer);
 
             return customerForSummary;
+        }
+
+        public CustomerForCreationVm SetInitialContactsAndAddressesTypes(CustomerForCreationVm createdCustomer)
+        {
+            List<AddressType> allAddressTypes = _customerRepository.GetAllAddressTypes().ToList();
+            List<ContactDetailType> allContactDetails = _customerRepository.GetAllContactDetailTypes().ToList();
+            for(int i =0; i < 2; i++)
+            {
+                createdCustomer.Addresses[i].AddressType = new AddressTypeVm{ Name = allAddressTypes[i].Name };
+                createdCustomer.ContactDetails[i].ContactDetailType = new ContactDetailTypeForCreationVm
+                {
+                    Name = allContactDetails[i].Name
+                };
+            }
+            return createdCustomer;
         }
     }
 }

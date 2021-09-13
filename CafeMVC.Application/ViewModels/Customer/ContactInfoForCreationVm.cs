@@ -12,13 +12,13 @@ namespace CafeMVC.Application.ViewModels.Customer
     {
         public int Id { get; set; }
 
-        public string ContactDetailInformation { get; set; }
+        public string ContactDetailInformation{ get; set; }
 
         public ContactDetailTypeForCreationVm ContactDetailType { get; set; }
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<CafeMVC.Domain.Model.ContactDetail, ContactInfoForCreationVm>().ReverseMap();
+            profile.CreateMap<ContactInfoForCreationVm, CafeMVC.Domain.Model.ContactDetail>().ReverseMap();
 
         }
     }

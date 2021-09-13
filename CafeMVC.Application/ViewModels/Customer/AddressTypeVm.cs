@@ -16,7 +16,7 @@ namespace CafeMVC.Application.ViewModels.Customer
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<CafeMVC.Domain.Model.AddressType, AddressTypeVm>();
+            profile.CreateMap<AddressTypeVm, CafeMVC.Domain.Model.AddressType>();
 
         }
     }

@@ -43,5 +43,6 @@ namespace CafeMVC.Domain.Interfaces
         
         void RemoveDietInfoFromProduct(int dietInfoId, int productId);
 
+
     }
 }

@@ -16,5 +16,9 @@ namespace CafeMVC.Domain.Interfaces
         void AddNewCustomerContactInfo(ContactDetail contactDetail, int customerId);
 
         Address GetCustomerAddressById(int customerId, int addressId);
+
+        IQueryable<AddressType> GetAllAddressTypes();
+
+        IQueryable<ContactDetailType> GetAllContactDetailTypes();
     }
 }

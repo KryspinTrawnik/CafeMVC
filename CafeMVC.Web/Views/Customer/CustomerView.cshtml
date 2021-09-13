@@ -1,0 +1,38 @@
+﻿@model CafeMVC.Application.ViewModels.Customer.CustomerDetailViewsVm
+@{
+    string title = "Customer View";
+    Layout = "_Layout";
+}
+
+<h1>@title</h1>
+<br>
+<br>
+<h5>Id:  @Html.DisplayFor(m => m.Id)</h5>
+<h5>Full Name</h5>
+<h6>@Html.DisplayFor(m => m.FullName)</h6>
+<br>
+<br>
+<h5>Contact Details</h5>
+<br>
+<h5>E-mail</h5>
+<h6>@Html.DisplayFor(m => m.ContactDetails.Find(x => x.ContactDetailType == "E-mail").ContactDetailInformation)</h6>
+<br>
+<br>
+<h5>Telephones Numbers</h5>
+<table>
+    <tr>
+        <td>Type</td>
+        <td>Number</td>
+    </tr>
+    @for (int i = 0; i < Model.ContactDetails.Count; i++)
+    {
+        if (Model.ContactDetails[i].ContactDetailType != "E-mail")
+        {
+            <tr>
+                <td>@Html.DisplayFor(m => m.ContactDetails[i].ContactDetailType)</td>
+                <td>@Html.DisplayFor(m => m.ContactDetails[i].ContactDetailInformation)</td>
+            </tr>
+        }
+    }
+</table>
+<br>

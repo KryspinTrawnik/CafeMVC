@@ -19,6 +19,8 @@ namespace CafeMVC.Domain.Model
 
         public Customer Customer { get; set; }
 
+        public List<ContactDetail> ContactDetails { get; set; }
+
         public List<Address> Addresses { get; set; }
 
         public ICollection<Product> Products { get; set; }

@@ -107,7 +107,7 @@ namespace CafeMVC.Application.Services
         {
             Customer customer = _customerRepository.GetItemById(customerId);
             ContactDetail customerContactToBeRemoved = customer.ContactDetails
-                .FirstOrDefault(x => x.ContactDetailTypId == contactDetailId);
+                .FirstOrDefault(x => x.ContactDetailTypeId == contactDetailId);
             customer.ContactDetails.Remove(customerContactToBeRemoved);
             _customerRepository.UpdateItem(customer);
         }

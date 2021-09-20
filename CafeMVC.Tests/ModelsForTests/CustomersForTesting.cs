@@ -28,7 +28,7 @@ namespace CafeMVC.Tests
                     City = "Kalisz",
                     ZipCode = "62-800",
                     Country = "Poland",
-                    TypeId = 1,
+                    AddressTypeId = 1,
                     AddressType = new AddressType()
                     {
                         Id = 1,
@@ -43,7 +43,7 @@ namespace CafeMVC.Tests
                     City = "Kalisz",
                     ZipCode = "62-800",
                     Country = "Poland",
-                    TypeId = 2,
+                    AddressTypeId = 2,
                     AddressType = new AddressType()
                     {
                         Id = 2,
@@ -58,14 +58,14 @@ namespace CafeMVC.Tests
                     {
                         Id = 1,
                         ContactDetailInformation = "0783931456",
-                        ContactDetailTypId = 1,
+                        ContactDetailTypeId = 1,
                         
                     },
                     new ContactDetail()
                     {
                         Id = 2,
                         ContactDetailInformation = "TomBradley@gmail.com",
-                        ContactDetailTypId = 2,
+                        ContactDetailTypeId = 2,
 
                     }
 
@@ -90,7 +90,7 @@ namespace CafeMVC.Tests
                     City = "Kalisz",
                     ZipCode = "62-800",
                     Country = "Poland",
-                    TypeId = 1,
+                    AddressTypeId = 1,
                     AddressType = new AddressType()
                     {
                         Id = 1,
@@ -106,7 +106,7 @@ namespace CafeMVC.Tests
                     City = "Kalisz",
                     ZipCode = "62-800",
                     Country = "Poland",
-                    TypeId = 2,
+                    AddressTypeId = 2,
                     AddressType = new AddressType()
                     {
                         Id = 2,
@@ -121,14 +121,14 @@ namespace CafeMVC.Tests
                     {
                         Id = 1,
                         ContactDetailInformation = "608583619",
-                        ContactDetailTypId = 1,
+                        ContactDetailTypeId = 1,
 
                     },
                     new ContactDetail()
                     {
                         Id = 2,
                         ContactDetailInformation = "HarryM@gmail.com",
-                        ContactDetailTypId = 2,
+                        ContactDetailTypeId = 2,
 
                     }
 

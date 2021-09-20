@@ -35,7 +35,7 @@ namespace CafeMVC.Infrastructure.Repositories
 
         public T  GetItemById(int id)
         {
-            return table.IncludeAll()
+            return table.IncludeAll().AsEnumerable()
                 .FirstOrDefault(x => (int)x.GetType().GetProperty("Id").GetValue(x) == id);
         }
 

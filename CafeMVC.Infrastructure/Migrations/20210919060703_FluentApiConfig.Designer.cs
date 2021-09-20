@@ -4,14 +4,16 @@ using CafeMVC.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CafeMVC.Infrastructure.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20210919060703_FluentApiConfig")]
+    partial class FluentApiConfig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,7 +28,7 @@ namespace CafeMVC.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("AddressTypeId")
+                    b.Property<int>("AddressTypeId")
                         .HasColumnType("int");
 
                     b.Property<int?>("AddressTypeId1")
@@ -41,7 +43,7 @@ namespace CafeMVC.Infrastructure.Migrations
                     b.Property<string>("Country")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("CustomerId")
+                    b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
                     b.Property<int?>("CustomerId1")
@@ -545,7 +547,9 @@ namespace CafeMVC.Infrastructure.Migrations
                 {
                     b.HasOne("CafeMVC.Domain.Model.AddressType", null)
                         .WithMany("Addresses")
-                        .HasForeignKey("AddressTypeId");
+                        .HasForeignKey("AddressTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("CafeMVC.Domain.Model.AddressType", "AddressType")
                         .WithMany()
@@ -553,7 +557,9 @@ namespace CafeMVC.Infrastructure.Migrations
 
                     b.HasOne("CafeMVC.Domain.Model.Customer", null)
                         .WithMany("Addresses")
-                        .HasForeignKey("CustomerId");
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("CafeMVC.Domain.Model.Customer", "Customer")
                         .WithMany()

@@ -4,14 +4,16 @@ using CafeMVC.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CafeMVC.Infrastructure.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20210916053437_FixingRelationship")]
+    partial class FixingRelationship
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,9 +31,6 @@ namespace CafeMVC.Infrastructure.Migrations
                     b.Property<int?>("AddressTypeId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("AddressTypeId1")
-                        .HasColumnType("int");
-
                     b.Property<string>("BuildingNumber")
                         .HasColumnType("nvarchar(max)");
 
@@ -41,10 +40,7 @@ namespace CafeMVC.Infrastructure.Migrations
                     b.Property<string>("Country")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("CustomerId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CustomerId1")
+                    b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
                     b.Property<int>("FlatNumber")
@@ -56,6 +52,9 @@ namespace CafeMVC.Infrastructure.Migrations
                     b.Property<string>("Street")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("TypeId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ZipCode")
                         .HasColumnType("nvarchar(max)");
 
@@ -63,11 +62,7 @@ namespace CafeMVC.Infrastructure.Migrations
 
                     b.HasIndex("AddressTypeId");
 
-                    b.HasIndex("AddressTypeId1");
-
                     b.HasIndex("CustomerId");
-
-                    b.HasIndex("CustomerId1");
 
                     b.HasIndex("OrderId");
 
@@ -131,32 +126,20 @@ namespace CafeMVC.Infrastructure.Migrations
                     b.Property<string>("ContactDetailInformation")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ContactDetailTypeId")
+                    b.Property<int>("ContactDetailTypId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ContactDetailTypeId1")
+                    b.Property<int?>("ContactDetailTypeId")
                         .HasColumnType("int");
 
                     b.Property<int>("CustomerId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CustomerId1")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("OrderId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ContactDetailTypeId");
 
-                    b.HasIndex("ContactDetailTypeId1");
-
                     b.HasIndex("CustomerId");
-
-                    b.HasIndex("CustomerId1");
-
-                    b.HasIndex("OrderId");
 
                     b.ToTable("ContactDetails");
                 });
@@ -543,21 +526,15 @@ namespace CafeMVC.Infrastructure.Migrations
 
             modelBuilder.Entity("CafeMVC.Domain.Model.Address", b =>
                 {
-                    b.HasOne("CafeMVC.Domain.Model.AddressType", null)
-                        .WithMany("Addresses")
-                        .HasForeignKey("AddressTypeId");
-
                     b.HasOne("CafeMVC.Domain.Model.AddressType", "AddressType")
                         .WithMany()
-                        .HasForeignKey("AddressTypeId1");
-
-                    b.HasOne("CafeMVC.Domain.Model.Customer", null)
-                        .WithMany("Addresses")
-                        .HasForeignKey("CustomerId");
+                        .HasForeignKey("AddressTypeId");
 
                     b.HasOne("CafeMVC.Domain.Model.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId1");
+                        .WithMany("Addresses")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("CafeMVC.Domain.Model.Order", null)
                         .WithMany("Addresses")
@@ -577,29 +554,15 @@ namespace CafeMVC.Infrastructure.Migrations
 
             modelBuilder.Entity("CafeMVC.Domain.Model.ContactDetail", b =>
                 {
-                    b.HasOne("CafeMVC.Domain.Model.ContactDetailType", null)
-                        .WithMany("ContactDetails")
-                        .HasForeignKey("ContactDetailTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("CafeMVC.Domain.Model.ContactDetailType", "ContactDetailType")
                         .WithMany()
-                        .HasForeignKey("ContactDetailTypeId1");
+                        .HasForeignKey("ContactDetailTypeId");
 
-                    b.HasOne("CafeMVC.Domain.Model.Customer", null)
+                    b.HasOne("CafeMVC.Domain.Model.Customer", "Customer")
                         .WithMany("ContactDetails")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("CafeMVC.Domain.Model.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId1");
-
-                    b.HasOne("CafeMVC.Domain.Model.Order", null)
-                        .WithMany("ContactDetails")
-                        .HasForeignKey("OrderId");
 
                     b.Navigation("ContactDetailType");
 
@@ -693,16 +656,6 @@ namespace CafeMVC.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("CafeMVC.Domain.Model.AddressType", b =>
-                {
-                    b.Navigation("Addresses");
-                });
-
-            modelBuilder.Entity("CafeMVC.Domain.Model.ContactDetailType", b =>
-                {
-                    b.Navigation("ContactDetails");
-                });
-
             modelBuilder.Entity("CafeMVC.Domain.Model.Customer", b =>
                 {
                     b.Navigation("Addresses");
@@ -720,8 +673,6 @@ namespace CafeMVC.Infrastructure.Migrations
             modelBuilder.Entity("CafeMVC.Domain.Model.Order", b =>
                 {
                     b.Navigation("Addresses");
-
-                    b.Navigation("ContactDetails");
 
                     b.Navigation("Products");
                 });

@@ -23,7 +23,7 @@ namespace CafeMVC.Tests.AutoMapperTest.CustomerVmTests
                 City = "Kalisz",
                 ZipCode = "62-800",
                 Country = "Polska",
-                TypeId = 1,
+                AddressTypeId = 1,
                 AddressType = new AddressType()
                 {
                     Id = 1,

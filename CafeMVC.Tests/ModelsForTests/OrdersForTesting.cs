@@ -33,7 +33,7 @@ namespace CafeMVC.Tests
                     City = "Kalisz",
                     ZipCode = "62-800",
                     Country = "Poland",
-                    TypeId = 1,
+                    AddressTypeId = 1,
                     AddressType = new AddressType()
                     {
                         Id = 1,
@@ -48,7 +48,7 @@ namespace CafeMVC.Tests
                     City = "Kalisz",
                     ZipCode = "62-800",
                     Country = "Poland",
-                    TypeId = 2,
+                    AddressTypeId = 2,
                     AddressType = new AddressType()
                     {
                         Id = 2,
@@ -77,7 +77,7 @@ namespace CafeMVC.Tests
                     City = "Kalisz",
                     ZipCode = "62-800",
                     Country = "Poland",
-                    TypeId = 1,
+                    AddressTypeId = 1,
                     AddressType = new AddressType()
                     {
                         Id = 1,
@@ -92,7 +92,7 @@ namespace CafeMVC.Tests
                     City = "Kalisz",
                     ZipCode = "62-800",
                     Country = "Poland",
-                    TypeId = 2,
+                    AddressTypeId = 2,
                     AddressType = new AddressType()
                     {
                         Id = 2,
@@ -134,7 +134,7 @@ namespace CafeMVC.Tests
                     City = "Kalisz",
                     ZipCode = "62-800",
                     Country = "Poland",
-                    TypeId = 1,
+                    AddressTypeId = 1,
                     AddressType = new AddressType()
                     {
                         Id = 1,
@@ -150,7 +150,7 @@ namespace CafeMVC.Tests
                     City = "Kalisz",
                     ZipCode = "62-800",
                     Country = "Poland",
-                    TypeId = 2,
+                    AddressTypeId = 2,
                     AddressType = new AddressType()
                     {
                         Id = 2,
@@ -181,7 +181,7 @@ namespace CafeMVC.Tests
                     City = "Kalisz",
                     ZipCode = "62-800",
                     Country = "Poland",
-                    TypeId = 1,
+                    AddressTypeId = 1,
                     AddressType = new AddressType()
                     {
                         Id = 1,
@@ -197,7 +197,7 @@ namespace CafeMVC.Tests
                     City = "Kalisz",
                     ZipCode = "62-800",
                     Country = "Poland",
-                    TypeId = 2,
+                    AddressTypeId = 2,
                     AddressType = new AddressType()
                     {
                         Id = 2,

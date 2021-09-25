@@ -63,8 +63,8 @@ namespace CafeMVC.Web.Controllers
         [HttpPost]
         public IActionResult AddNewCustomerSummary(CustomerForCreationVm customer)
         {
-            var newCustomer = _customerService.SetInitialContactsAndAddressesTypes(customer);
-            _customerService.AddNewCustomer(newCustomer);
+            
+            _customerService.AddNewCustomer(customer);
             
             return View(_customerService.GetLastAddedCustomer());
         }

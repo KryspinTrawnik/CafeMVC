@@ -33,10 +33,17 @@ namespace CafeMVC.Application.Services
             _customerRepository.AddNewCustomerContactInfo(customerContactInformation, customerId);
         }
 
-        public void AddNewCustomer(CustomerForCreationVm customer)
+        public void AddNewCustomer(CustomerForCreationVm customerVm)
         {
-            Customer newCustomer = _mapper.Map<Customer>(customer);
-            _customerRepository.AddItem(newCustomer);
+            var newCustomer = SetInitialContactsAndAddressesTypes(customerVm);
+            Customer customer = _mapper.Map<Customer>(newCustomer);
+            for (int i = 0; i < newCustomer.Addresses.Count; i++)
+            {
+                customer.Addresses.ToList()[i].AddressTypeId = newCustomer.Addresses[i].AddressType.Id;
+                customer.ContactDetails.ToList()[i].ContactDetailTypeId = newCustomer.ContactDetails[i].ContactDetailType.Id;
+            }
+
+            _customerRepository.AddItem(customer);
         }
 
         public void ChangeCustomerAddress(AddressForCreationVm address, int customerId)
@@ -134,11 +141,11 @@ namespace CafeMVC.Application.Services
             List<ContactDetailType> allContactDetails = _customerRepository.GetAllContactDetailTypes().ToList();
             for(int i =0; i < 2; i++)
             {
-                createdCustomer.Addresses[i].AddressType = new AddressTypeVm{ Name = allAddressTypes[i].Name };
-                createdCustomer.ContactDetails[i].ContactDetailType = new ContactDetailTypeForCreationVm
-                {
-                    Name = allContactDetails[i].Name
-                };
+                createdCustomer.Addresses[i].AddressType.Id = allAddressTypes[i].Id;
+                createdCustomer.Addresses[i].AddressType.Name = allAddressTypes[i].Name;
+
+                createdCustomer.ContactDetails[i].ContactDetailType.Id = allContactDetails[i].Id;
+                createdCustomer.ContactDetails[i].ContactDetailType.Name = allContactDetails[i].Name;
             }
             return createdCustomer;
         }

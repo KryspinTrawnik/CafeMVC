@@ -37,11 +37,11 @@ namespace CafeMVC.Application.Services
         {
             var newCustomer = SetInitialContactsAndAddressesTypes(customerVm);
             Customer customer = _mapper.Map<Customer>(newCustomer);
-            for (int i = 0; i < newCustomer.Addresses.Count; i++)
-            {
-                customer.Addresses.ToList()[i].AddressTypeId = newCustomer.Addresses[i].AddressType.Id;
-                customer.ContactDetails.ToList()[i].ContactDetailTypeId = newCustomer.ContactDetails[i].ContactDetailType.Id;
-            }
+            //for (int i = 0; i < newCustomer.Addresses.Count; i++)
+            //{
+            //    customer.Addresses.ToList()[i].AddressTypeId = newCustomer.Addresses[i].AddressType.Id;
+            //    customer.ContactDetails.ToList()[i].ContactDetailTypeId = newCustomer.ContactDetails[i].ContactDetailType.Id;
+            //}
 
             _customerRepository.AddItem(customer);
         }
@@ -141,10 +141,10 @@ namespace CafeMVC.Application.Services
             List<ContactDetailType> allContactDetails = _customerRepository.GetAllContactDetailTypes().ToList();
             for(int i =0; i < 2; i++)
             {
-                createdCustomer.Addresses[i].AddressType.Id = allAddressTypes[i].Id;
+                //createdCustomer.Addresses[i].AddressType.Id = allAddressTypes[i].Id;
                 createdCustomer.Addresses[i].AddressType.Name = allAddressTypes[i].Name;
 
-                createdCustomer.ContactDetails[i].ContactDetailType.Id = allContactDetails[i].Id;
+                //createdCustomer.ContactDetails[i].ContactDetailType.Id = allContactDetails[i].Id;
                 createdCustomer.ContactDetails[i].ContactDetailType.Name = allContactDetails[i].Name;
             }
             return createdCustomer;

@@ -19,8 +19,7 @@ namespace CafeMVC.Application.ViewModels.Customer
 
         public string Country { get; set; }
 
-        public AddressTypeVm AddressType { get; set; }
-
+        public int AddressTypeId { get; set; }
 
         public void Mapping(Profile profile)
         {

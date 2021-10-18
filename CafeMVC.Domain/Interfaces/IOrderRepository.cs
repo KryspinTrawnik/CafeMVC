@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CafeMVC.Domain.Interfaces
 {
-    public interface IOrderRepository : IGenericRepository<Order>
+    public interface IOrderRepository 
     {
         IQueryable<Order> GetAllOpenOrders();
 

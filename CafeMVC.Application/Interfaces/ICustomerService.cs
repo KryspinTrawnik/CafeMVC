@@ -23,17 +23,17 @@ namespace CafeMVC.Application.Interfaces
 
         void AddNewContactDetail(ContactInfoForCreationVm contactDetail, int customerId);
 
-        void ChangeContactDetails(ContactInfoForCreationVm contactDetail, int customerId);
+        void ChangeContactDetails(ContactInfoForCreationVm contactDetail);
 
-        void RemoveContactDetail(int contactDetailId, int customerId);
+        void RemoveContactDetail(int contactDetailId);
 
         void AddNewAddress(AddressForCreationVm address, int customerId);
 
         AddressForCreationVm GetAddressToEdit(int addressId, int customerId);
 
-        void ChangeCustomerAddress(AddressForCreationVm address, int customerId);
+        void ChangeCustomerAddress(AddressForCreationVm address);
 
-        void DeleteAddress(int address, int customerId);
+        void DeleteAddress(int addressId);
 
         CustomerForCreationVm SetInitialContactsAndAddressesTypes( CustomerForCreationVm newCreatedCustomer);
     }

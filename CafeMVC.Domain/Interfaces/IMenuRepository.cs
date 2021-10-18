@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CafeMVC.Domain.Interfaces
 {
-    public interface IMenuRepository : IGenericRepository<Menu>
+    public interface IMenuRepository 
     {
         void AddNewProduct(Product product, int menuId);
 

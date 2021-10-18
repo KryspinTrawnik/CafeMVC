@@ -7,6 +7,6 @@ namespace CafeMVC.Domain.Model
 
         public string Name { get; set; }
 
-        public ICollection<ContactDetail> ContactDetails { get; set; }
+        public virtual ICollection<ContactDetail> ContactDetails { get; set; }
     }
 }

@@ -14,8 +14,15 @@
 
         public string Country { get; set; }
 
-        public  int TypeId { get; set; }
+        public int? AddressTypeId { get; set; }
 
-        public  virtual AddressType AddressType { get; set; }
+        public int? CustomerId { get; set; }
+
+        public int? OrderId { get; set; }
+
+        public virtual AddressType AddressType { get; set; }
+
+        public virtual Customer Customer { get; set; }
+
     }
 }

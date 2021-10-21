@@ -63,8 +63,8 @@ namespace CafeMVC.Web.Controllers
         [HttpPost]
         public IActionResult AddNewCustomerSummary(CustomerForCreationVm customer)
         {
-            var newCustomer = _customerService.SetInitialContactsAndAddressesTypes(customer);
-            _customerService.AddNewCustomer(newCustomer);
+            
+            _customerService.AddNewCustomer(customer);
             
             return View(_customerService.GetLastAddedCustomer());
         }
@@ -110,9 +110,9 @@ namespace CafeMVC.Web.Controllers
         }
 
         [HttpPatch]
-        public IActionResult ChangeContactDetail(ContactInfoForCreationVm contactDetail, int customerId)
+        public IActionResult ChangeContactDetail(ContactInfoForCreationVm contactDetail)
         {
-            _customerService.ChangeContactDetails(contactDetail, customerId);
+            _customerService.ChangeContactDetails(contactDetail);
             return View();
         }
 
@@ -122,9 +122,9 @@ namespace CafeMVC.Web.Controllers
             return View();
         }
         [HttpDelete]
-        public IActionResult RemoveContactDetail(int contactDetailId, int customerId)
+        public IActionResult RemoveContactDetail(int contactDetailId)
         {
-            _customerService.RemoveContactDetail(contactDetailId, customerId);
+            _customerService.RemoveContactDetail(contactDetailId);
             return View();
         }
 
@@ -160,9 +160,9 @@ namespace CafeMVC.Web.Controllers
             return View(addressToBeEdited);
         }
         [HttpPost]
-        public IActionResult ChangeAddress(AddressForCreationVm editedAddress, int customerId)
+        public IActionResult ChangeAddress(AddressForCreationVm editedAddress)
         {
-            _customerService.ChangeCustomerAddress(editedAddress, customerId);
+            _customerService.ChangeCustomerAddress(editedAddress);
             return View();
         }
         [HttpGet]
@@ -171,9 +171,9 @@ namespace CafeMVC.Web.Controllers
             return View();
         }
         [HttpDelete]
-        public IActionResult DeleteAddress(int addressId, int customerId)
+        public IActionResult DeleteAddress(int addressId)
         {
-            _customerService.DeleteAddress(addressId, customerId);
+            _customerService.DeleteAddress(addressId);
             return View();
         }
         [HttpGet]

@@ -18,19 +18,18 @@
     <br>
     <h5>E-mail</h5>
     @Html.HiddenFor(m => m.ContactDetails[0].Id)
-    @Html.HiddenFor(m => m.ContactDetails[0].ContactDetailType)
+    @Html.HiddenFor(m => m.ContactDetails[0].ContactDetailTypeId)
     <h6>@Html.TextBoxFor(m => m.ContactDetails[0].ContactDetailInformation)</h6>
     <br />
     <br />
     <h5>Mobile Phone</h5>
     @Html.HiddenFor(m => m.ContactDetails[1].Id)
-    @Html.HiddenFor(m => m.ContactDetails[1].ContactDetailType)
+    @Html.HiddenFor(m => m.ContactDetails[1].ContactDetailTypeId)
     <h6>@Html.TextBoxFor(m => m.ContactDetails[1].ContactDetailInformation)</h6>
     <br />
     <br />
     <h5>Billing Address</h5>
-    @Html.HiddenFor(m => m.Addresses[1].AddressType.Id)
-    @Html.HiddenFor(m => m.Addresses[1].AddressType.Name)
+    @Html.HiddenFor(m => m.Addresses[0].AddressTypeId)
     <br />
     <h5>Street</h5>
     <h6>
@@ -64,8 +63,7 @@
     <br />
     <br />
     <h5>Delivery Address</h5>
-    @Html.HiddenFor(m => m.Addresses[1].AddressType.Id)
-    @Html.HiddenFor(m => m.Addresses[1].AddressType.Name)
+    @Html.HiddenFor(m => m.Addresses[1].AddressTypeId)
     <br />
     <h5>Street</h5>
     <h6>

@@ -2,11 +2,10 @@
 
 namespace CafeMVC.Domain.Model
 {
-    public class Menu : BaseModel
+    public class Status : BaseModel
     {
-
         public string Name { get; set; }
 
-        public virtual ICollection<Product> Products { get; set; }
+        ICollection<Order> Orders { get; set; }
     }
 }

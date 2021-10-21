@@ -12,6 +12,13 @@ namespace CafeMVC.Domain.Interfaces
         IQueryable<Order> GetAllOpenOrders();
 
         IQueryable<Product> GetAllProductsFromOrder(int orderId);
+        
         void AddOrChangeNote(int orderId, string note);
+        
+        Order GetOrderById(int orderId);
+
+        void UpdateOrder(Order order);
+
+        int AddNewOrder(Order order);
     }
 }

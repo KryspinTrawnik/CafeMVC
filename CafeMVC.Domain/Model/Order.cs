@@ -11,22 +11,24 @@ namespace CafeMVC.Domain.Model
 
         public double TotalPrice { get; set; }
 
-        public bool HasBeenDone { get; set; }
-
         public string Note { get; set; }
 
         public int CustomerId { get; set; }
 
-        public Customer Customer { get; set; }
+        public virtual Customer Customer { get; set; }
 
-        public List<ContactDetail> ContactDetails { get; set; }
+        public virtual ICollection<ContactDetail> ContactDetails { get; set; }
 
-        public List<Address> Addresses { get; set; }
+        public virtual ICollection<Address> Addresses { get; set; }
 
-        public ICollection<Product> Products { get; set; }
+        public virtual ICollection<Product> Products { get; set; }
 
         public string OrderConfirmation { get; set; }
 
         public bool IsCollection { get; set; }
+
+        public int StatusId { get; set; }
+
+        public virtual Status Status { get; set; }
     }
 }

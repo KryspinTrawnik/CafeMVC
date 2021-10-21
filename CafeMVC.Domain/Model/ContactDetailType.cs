@@ -1,12 +1,12 @@
-﻿namespace CafeMVC.Domain.Model
+﻿using System.Collections.Generic;
+
+namespace CafeMVC.Domain.Model
 {
-    public class ContactDetailType :BaseModel
+    public class ContactDetailType : BaseModel
     {
 
-        public string Name { get; set;  }
+        public string Name { get; set; }
 
-        public int CustomerContactInformationRef { get; set; }
-
-        public ContactDetail CustomerContactInformation { get; set; }
+        public virtual ICollection<ContactDetail> ContactDetails { get; set; }
     }
 }

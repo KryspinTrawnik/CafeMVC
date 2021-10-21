@@ -4,19 +4,21 @@ using CafeMVC.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CafeMVC.Infrastructure.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20210919060703_FluentApiConfig")]
+    partial class FluentApiConfig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.10")
+                .HasAnnotation("ProductVersion", "5.0.5")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("CafeMVC.Domain.Model.Address", b =>
@@ -26,7 +28,10 @@ namespace CafeMVC.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("AddressTypeId")
+                    b.Property<int>("AddressTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("AddressTypeId1")
                         .HasColumnType("int");
 
                     b.Property<string>("BuildingNumber")
@@ -38,7 +43,10 @@ namespace CafeMVC.Infrastructure.Migrations
                     b.Property<string>("Country")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("CustomerId")
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CustomerId1")
                         .HasColumnType("int");
 
                     b.Property<int>("FlatNumber")
@@ -57,7 +65,11 @@ namespace CafeMVC.Infrastructure.Migrations
 
                     b.HasIndex("AddressTypeId");
 
+                    b.HasIndex("AddressTypeId1");
+
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("CustomerId1");
 
                     b.HasIndex("OrderId");
 
@@ -124,7 +136,13 @@ namespace CafeMVC.Infrastructure.Migrations
                     b.Property<int>("ContactDetailTypeId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ContactDetailTypeId1")
+                        .HasColumnType("int");
+
                     b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CustomerId1")
                         .HasColumnType("int");
 
                     b.Property<int?>("OrderId")
@@ -134,7 +152,11 @@ namespace CafeMVC.Infrastructure.Migrations
 
                     b.HasIndex("ContactDetailTypeId");
 
+                    b.HasIndex("ContactDetailTypeId1");
+
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("CustomerId1");
 
                     b.HasIndex("OrderId");
 
@@ -523,13 +545,25 @@ namespace CafeMVC.Infrastructure.Migrations
 
             modelBuilder.Entity("CafeMVC.Domain.Model.Address", b =>
                 {
-                    b.HasOne("CafeMVC.Domain.Model.AddressType", "AddressType")
+                    b.HasOne("CafeMVC.Domain.Model.AddressType", null)
                         .WithMany("Addresses")
-                        .HasForeignKey("AddressTypeId");
+                        .HasForeignKey("AddressTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CafeMVC.Domain.Model.AddressType", "AddressType")
+                        .WithMany()
+                        .HasForeignKey("AddressTypeId1");
+
+                    b.HasOne("CafeMVC.Domain.Model.Customer", null)
+                        .WithMany("Addresses")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("CafeMVC.Domain.Model.Customer", "Customer")
-                        .WithMany("Addresses")
-                        .HasForeignKey("CustomerId");
+                        .WithMany()
+                        .HasForeignKey("CustomerId1");
 
                     b.HasOne("CafeMVC.Domain.Model.Order", null)
                         .WithMany("Addresses")
@@ -549,17 +583,25 @@ namespace CafeMVC.Infrastructure.Migrations
 
             modelBuilder.Entity("CafeMVC.Domain.Model.ContactDetail", b =>
                 {
-                    b.HasOne("CafeMVC.Domain.Model.ContactDetailType", "ContactDetailType")
+                    b.HasOne("CafeMVC.Domain.Model.ContactDetailType", null)
                         .WithMany("ContactDetails")
                         .HasForeignKey("ContactDetailTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CafeMVC.Domain.Model.Customer", "Customer")
+                    b.HasOne("CafeMVC.Domain.Model.ContactDetailType", "ContactDetailType")
+                        .WithMany()
+                        .HasForeignKey("ContactDetailTypeId1");
+
+                    b.HasOne("CafeMVC.Domain.Model.Customer", null)
                         .WithMany("ContactDetails")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("CafeMVC.Domain.Model.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId1");
 
                     b.HasOne("CafeMVC.Domain.Model.Order", null)
                         .WithMany("ContactDetails")

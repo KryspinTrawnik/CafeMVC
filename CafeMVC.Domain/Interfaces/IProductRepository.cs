@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace CafeMVC.Domain.Interfaces
 {
-    public interface IProductRepository : IGenericRepository<Product>
+    public interface IProductRepository 
     {
         void DeleteImageFromProduct(int productId);
         
@@ -35,13 +35,17 @@ namespace CafeMVC.Domain.Interfaces
 
         Allergen GetAllergenById(int allergenId);
 
-        void AddDietInfoToProduct(DietInformation dietInfo, int productId);
-
         IQueryable<DietInformation> GetAllDietInfo();
 
         IQueryable<DietInformation> GetAllProductDietInfo(int productId);
-        
+
         void RemoveDietInfoFromProduct(int dietInfoId, int productId);
+
+        Product GetProductById(int productId);
+
+        void UpdateProduct(Product product);
+
+        void AddDietInfoToProduct(int dietInfoId, int productId);
 
     }
 }

@@ -7,14 +7,36 @@ using System.Threading.Tasks;
 
 namespace CafeMVC.Domain.Interfaces
 {
-    public interface ICustomerRepository : IGenericRepository<Customer>
+    public interface ICustomerRepository 
     {
+        Customer GetCustomerById(int id);
+
+        void UpdateCustomer(Customer customer);
+
         IQueryable<Order> GetOrdersByCustomer(int customerId);
 
-        void AddNewAddress(Address address, int customerId);
+        int AddNewAddress(Address address);
 
-        void AddNewCustomerContactInfo(ContactDetail contactDetail, int customerId);
+        int AddNewCustomerContactInfo(ContactDetail contactDetail);
 
-        Address GetCustomerAddressById(int customerId, int addressId);
+        Address GetCustomerAddressById(int addressId);
+
+        IQueryable<AddressType> GetAllAddressTypes();
+
+        IQueryable<ContactDetailType> GetAllContactDetailTypes();
+
+        int AddNewCustomer(Customer customer);
+
+        void UpdateAddress(Address address);
+
+        void UpdateContactDetail(ContactDetail contactDetail);
+
+        void DeleteAddress(int addressId);
+
+        IQueryable<Customer> GetAllCustomers();
+
+        void DeleteCustomer(int customerId);
+
+        void DeleteContactDetail(int contactDetailId);
     }
 }

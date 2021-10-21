@@ -7,24 +7,12 @@ namespace CafeMVC.Tests
     {
         public List<Product> GetProductsForBajgleMenu()
         {
-
-            ProductType Bajgle = new ProductType()
-            {
-                Id = 1,
-                Name = "Bajgle",
-                Products = new List<Product>()
-            };
-
-
-
             Product product1 = new Product()
             {
                 Id = 1,
                 Name = "Bajgiel Burger",
                 Price = 19,
                 Description = "podawany z sałatką z sosem balsamicznym",
-                TypeId = 1,
-                ProductType = Bajgle,
                 DietInformation = new List<DietInformation>(),
 
                 Ingredients = new List<Ingredient>
@@ -46,8 +34,6 @@ namespace CafeMVC.Tests
                 Name = "Bajgiel Kurczak",
                 Price = 17,
                 Description = "podawany z sałatką z sosem balsamicznym",
-                TypeId = 1,
-                ProductType = Bajgle,
                 DietInformation = new List<DietInformation>(),
                 Ingredients = new List<Ingredient>
                 {
@@ -69,8 +55,6 @@ namespace CafeMVC.Tests
                 Name = "Bajgiel Camembert",
                 Price = 16,
                 Description = "podawany z sałatką z sosem balsamicznym",
-                TypeId = 1,
-                ProductType = Bajgle,
                 DietInformation = new List<DietInformation>()
                 {
 
@@ -97,8 +81,6 @@ namespace CafeMVC.Tests
                 Name = "Bajgiel Falafel",
                 Price = 17,
                 Description = "podawany z sałatką z sosem balsamicznym",
-                TypeId = 1,
-                ProductType = Bajgle,
                 DietInformation = new List<DietInformation>()
                 {
                     new DietInformation(){Id = 2, Name = "Vegetarian"},
@@ -117,10 +99,6 @@ namespace CafeMVC.Tests
                     new Allergen{Id = 2, Name ="Orzechy"}
                 },
             };
-            Bajgle.Products.Add(product1);
-            Bajgle.Products.Add(product2);
-            Bajgle.Products.Add(product3);
-            Bajgle.Products.Add(product4);
             List<Product> productsForBajgleMenu = new List<Product>()
             { product1,
               product2,
@@ -132,21 +110,12 @@ namespace CafeMVC.Tests
 
         public List<Product> GetProductsForNalesnikiMenu()
         {
-            ProductType Nalesniki = new ProductType()
-            {
-                Id = 2,
-                Name = "Nalesniki",
-                Products = new List<Product>()
-            };
-
             Product product5 = new Product()
             {
                 Id = 5,
                 Name = "Naleśnik Oreo",
                 Price = 10,
                 Description = "",
-                TypeId = 2,
-                ProductType = Nalesniki,
                 DietInformation = new List<DietInformation>()
                 {
 
@@ -173,8 +142,6 @@ namespace CafeMVC.Tests
                 Name = "Naleśnik Hiszpański",
                 Price = 13,
                 Description = "sos 1000 wysp własnej produkcji",
-                TypeId = 2,
-                ProductType = Nalesniki,
                 DietInformation = new List<DietInformation>(),
                 Ingredients = new List<Ingredient>
                 {
@@ -195,8 +162,6 @@ namespace CafeMVC.Tests
                 Name = "Naleśnik Łosoś",
                 Price = 13,
                 Description = "",
-                TypeId = 2,
-                ProductType = Nalesniki,
                 DietInformation = new List<DietInformation>(),
                 Ingredients = new List<Ingredient>
                 {
@@ -217,8 +182,6 @@ namespace CafeMVC.Tests
                 Name = "Naleśnik kebab",
                 Price = 13,
                 Description = "",
-                TypeId = 2,
-                ProductType = Nalesniki,
                 DietInformation = new List<DietInformation>(),
                 Ingredients = new List<Ingredient>
                 {
@@ -232,10 +195,6 @@ namespace CafeMVC.Tests
                     new Allergen{Id = 2, Name ="Orzechy"}
                 },
             };
-            Nalesniki.Products.Add(product5);
-            Nalesniki.Products.Add(product6);
-            Nalesniki.Products.Add(product7);
-            Nalesniki.Products.Add(product8);
 
             List<Product> NalesnikiMenuProducts = new List<Product>
             {

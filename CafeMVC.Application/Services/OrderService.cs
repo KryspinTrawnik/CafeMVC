@@ -32,7 +32,7 @@ namespace CafeMVC.Application.Services
         public string AddOrder(OrderForCreationVm order)
         {
             Order newOrder = _mapper.Map<Order>(order);
-            int orderId = _orderRepository.AddItem(newOrder);
+            int orderId = _orderRepository.AddNewOrder(newOrder);
             string orderConfirmation = GenerateOrderConfrimation(orderId);
             newOrder.OrderConfirmation = orderConfirmation;
             
@@ -49,9 +49,9 @@ namespace CafeMVC.Application.Services
 
         public void AddProductToOrder(int orderId, int productId)
         {
-            Order order = _orderRepository.GetItemById(orderId);
-            order.Products.Add(_productRepository.GetItemById(orderId));
-            _orderRepository.UpdateItem(order);
+            Order order = _orderRepository.GetOrderById(orderId);
+            order.Products.Add(_productRepository.GetProductById(orderId));
+            _orderRepository.UpdateOrder(order);
         }
 
         public void CanceleOrder(int orderId)

@@ -8,6 +8,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{DC5C5B9D-68B7-4516-AEC5-22AA6DCF9421}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{99FAB062-37B4-48E8-9F73-80EED74679D0}"
+	ProjectSection(SolutionItems) = preProject
+		CafeMVC.Application\DependencyInjections.cs = CafeMVC.Application\DependencyInjections.cs
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{61B20A9C-AA80-4ED2-AEFA-E82103EE418A}"
 EndProject

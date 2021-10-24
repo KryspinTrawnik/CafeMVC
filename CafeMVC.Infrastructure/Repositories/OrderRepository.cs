@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CafeMVC.Infrastructure.Repositories
 {
-    public class OrderRepository :  IOrderRepository
+    public class OrderRepository : IOrderRepository
     {
         private readonly Context _context;
         public OrderRepository(Context context) 
@@ -21,7 +21,6 @@ namespace CafeMVC.Infrastructure.Repositories
         {
             var order = _context.Orders.AsNoTracking()
                 .Include(x => x.Customer)
-                .Include(x => x.Addresses)
                 .Include(x => x.ContactDetails)
                 .Include(x => x.Products)
                 .FirstOrDefault(x => x.Id == orderId);
@@ -32,10 +31,9 @@ namespace CafeMVC.Infrastructure.Repositories
         {
             return _context.Orders.AsNoTracking()
                 .Include(x => x.Customer)
-                .Include(x=> x.Addresses)
                 .Include(x=> x.ContactDetails)
                 .Include(x=> x.Products)
-                .Where(x => x.HasBeenDone == false);
+                .Where(x => x.Status.Name == "Open");
 
         }
         public void UpdateOrder(Order order)
@@ -75,5 +73,25 @@ namespace CafeMVC.Infrastructure.Repositories
             UpdateOrder(order);
         }
 
+        public void ChangeStatusOfOrder(int orderId, int statusId)
+        {
+            var order = _context.Orders.FirstOrDefault(x => x.Id == orderId);
+            order.Status = _context.Statuses.FirstOrDefault(x => x.Id == statusId);
+            UpdateOrder(order);
+        }
+
+        public IQueryable<Status> GetAllStatuses()
+        {
+            return _context.Statuses.AsNoTracking();
+        }
+
+        IQueryable<Order> IOrderRepository.GetAllOrders()
+        {
+            return _context.Orders.AsNoTracking()
+                    .Include(x => x.Customer)
+                    .Include(x => x.ContactDetails)
+                    .Include(x => x.Products);
+
+        }
     }
 }

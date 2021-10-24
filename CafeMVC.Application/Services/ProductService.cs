@@ -66,16 +66,16 @@ namespace CafeMVC.Application.Services
         public void AddNewProduct(ProductForCreationVm product)
         {
             Product newProduct = _mapper.Map<Product>(product);
-            _productRepository.AddItem(newProduct);
+            _productRepository.AddNewProduct(newProduct);
              
         }
 
         public void DeleteImageFromProduct(int productId)
         {
-            Product product = _productRepository.GetItemById(productId);
+            Product product = _productRepository.GetProductById(productId);
             File.Delete(product.ImagePath);
             product.ImagePath = null;
-            _productRepository.UpdateItem(product);
+            _productRepository.UpdateProduct(product);
         }
 
         public void DeleteIngredient(int productId, int ingredientId)

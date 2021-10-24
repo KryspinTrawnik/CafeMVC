@@ -29,12 +29,10 @@ namespace CafeMVC.Application.Interfaces
 
         void AddOrChangeNote(int orderId, string annotation);
 
-        void CanceleOrder(int orderId);
-
-        void CloseOrder(int orderId);
-
         ListOfOrdersVm GetAllOpenOrders();
 
         OrderForSummaryVm GetOrderSummaryVmById(int orderId);
+
+        void ChangeOrderStatus(int orderId, int statusId);
     }
 }

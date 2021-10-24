@@ -26,36 +26,36 @@ namespace CafeMVC.Application.Services
         public void AddNewMenu(MenuForCreationVm menuModel)
         {
             Menu menu = _mapper.Map<Menu>(menuModel);
-            _menuRepository.AddItem(menu);
+            _menuRepository.AddNewMenu(menu);
         }
 
         public void AddProductToMenu(int productId, int menuId)
         {
-            Menu menu = _menuRepository.GetItemById(menuId);
-            menu.Products.Add(_productRepository.GetItemById(productId));
-            _menuRepository.UpdateItem(menu);
+            Menu menu = _menuRepository.GetMenuById(menuId);
+            menu.Products.Add(_productRepository.GetProductById(productId));
+            _menuRepository.UpdateMenu(menu);
         }
 
         public void ChangeMenu(MenuForViewVm menuModel)
         {
             Menu menu = _mapper.Map<Menu>(menuModel);
-            _menuRepository.UpdateItem(menu);
+            _menuRepository.UpdateMenu(menu);
         }
 
         public void DeleteMenu(int menuId)
         {
-            _menuRepository.DeleteItem(menuId);
+            _menuRepository.DeleteMenu(menuId);
         }
 
         public void DeleteProductFromMenu(int productId, int menuId)
         {
-            Product prodtuctToRemove = _productRepository.GetItemById(productId);
-            _menuRepository.GetItemById(menuId).Products.Remove(prodtuctToRemove);
+            Product prodtuctToRemove = _productRepository.GetProductById(productId);
+            _menuRepository.GetMenuById(menuId).Products.Remove(prodtuctToRemove);
         }
 
         public ListOfMenusVm GetAllMenus(int pageSize, int pageNo, string searchString)
         {
-            List<MenuForListVm> allMenus = _menuRepository.GetAllType().ProjectTo<MenuForListVm>(_mapper.ConfigurationProvider).ToList();
+            List<MenuForListVm> allMenus = _menuRepository.GetAllActiveMenus().ProjectTo<MenuForListVm>(_mapper.ConfigurationProvider).ToList();
             var menusToDisplay = allMenus.Skip(pageSize * (pageNo - 1)).Take(pageSize).ToList();
             ListOfMenusVm listOfMenus = new()
             {
@@ -70,7 +70,7 @@ namespace CafeMVC.Application.Services
 
         public MenuForViewVm GetAllProducstOfMenu(int menuId)
         {
-            Menu menu = _menuRepository.GetItemById(menuId);
+            Menu menu = _menuRepository.GetMenuById(menuId);
             MenuForViewVm menuVm = _mapper.Map<MenuForViewVm>(menu);
             return menuVm;
         }

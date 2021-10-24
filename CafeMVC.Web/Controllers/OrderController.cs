@@ -167,9 +167,9 @@ namespace CafeMVC.Web.Controllers
         }
 
         [HttpDelete]
-        public IActionResult CanceleOrder(int orderId)
+        public IActionResult CanceleOrder(int orderId, int statusId)
         {
-            _orderService.CanceleOrder(orderId);
+            _orderService.ChangeOrderStatus(orderId, statusId);
             return View();
         }
 
@@ -180,9 +180,9 @@ namespace CafeMVC.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult CloseOrder(int orderId)
+        public IActionResult CloseOrder(int orderId, int statusId)
         {
-            _orderService.CloseOrder(orderId);
+            _orderService.ChangeOrderStatus(orderId, statusId);
             return View();
         }
 

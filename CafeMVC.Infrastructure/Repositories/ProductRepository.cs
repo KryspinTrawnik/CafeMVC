@@ -158,5 +158,12 @@ namespace CafeMVC.Infrastructure.Repositories
 
             _context.SaveChanges();
         }
+
+        int IProductRepository.AddNewProduct(Product product)
+        {
+            _context.Products.Add(product);
+            _context.SaveChanges();
+            return product.Id;
+        }
     }
 }

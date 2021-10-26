@@ -49,5 +49,8 @@ namespace CafeMVC.Domain.Interfaces
 
         void AddDietInfoToProduct(int dietInfoId, int productId);
 
+        void DeleteProduct(int productId);
+
+        IQueryable<Product> GetAllProducts();
     }
 }

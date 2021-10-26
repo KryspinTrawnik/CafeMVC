@@ -25,9 +25,9 @@ namespace CafeMVC.Application.Services
 
         public void AddIngredientToProduct(int productId, int ingredientId)
         {
-            Product product = _productRepository.GetItemById(productId);
+            Product product = _productRepository.GetProductById(productId);
             product.Ingredients.Add(_productRepository.GetIngredientById(ingredientId));
-            _productRepository.UpdateItem(product);
+            _productRepository.UpdateProduct(product);
         }
 
         public void AddNewAllergen(AllergenForViewVm allergen)
@@ -48,10 +48,8 @@ namespace CafeMVC.Application.Services
 
             if (!File.Exists(filePath))
             {
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    image.CopyToAsync(stream);
-                }
+                using var stream = new FileStream(filePath, FileMode.Create);
+                image.CopyToAsync(stream);
             }
             _productRepository.AddNewImageToProduct(fileName, productId);
         }
@@ -80,13 +78,13 @@ namespace CafeMVC.Application.Services
 
         public void DeleteIngredient(int productId, int ingredientId)
         {
-            Product product = _productRepository.GetItemById(productId);
+            Product product = _productRepository.GetProductById(productId);
             product.Ingredients.Remove(product.Ingredients.FirstOrDefault(x => x.Id == ingredientId));
         }
 
         public void DeleteProduct(int productId)
         {
-            _productRepository.DeleteItem(productId);
+            _productRepository.DeleteProduct(productId);
         }
 
         public ListOfIngredientsVm GetAllIngredients()
@@ -103,7 +101,7 @@ namespace CafeMVC.Application.Services
 
         public ListOfProductsVm GetAllProducts(int pageSize, int pageNo, string searchString)
         {
-            List<ProductForListVm> allProducts = _productRepository.GetAllType()
+            List<ProductForListVm> allProducts = _productRepository.GetAllProducts()
                 .ProjectTo<ProductForListVm>(_mapper.ConfigurationProvider).ToList();
             List<ProductForListVm> productsToDisplay = allProducts.Skip(pageSize * (pageNo - 1)).Take(pageSize).ToList();
             ListOfProductsVm listOfAllProducts = new()
@@ -119,7 +117,7 @@ namespace CafeMVC.Application.Services
 
         public ProductForViewVm GetProductForViewById(int productId)
         {
-            Product product = _productRepository.GetItemById(productId);
+            Product product = _productRepository.GetProductById(productId);
             ProductForViewVm productForView = _mapper.Map<ProductForViewVm>(product);
             return productForView;
         }
@@ -127,13 +125,12 @@ namespace CafeMVC.Application.Services
         public void UpdateProduct(ProductForCreationVm productModel)
         {
             Product updatedProduct = _mapper.Map<Product>(productModel);
-            _productRepository.UpdateItem(updatedProduct);
+            _productRepository.UpdateProduct(updatedProduct);
         }
 
         public void AddDietInfoToProduct(int dietInfoId, int productId)
         {
-            DietInformation dietInformation = _productRepository.GetAllDietInfo().FirstOrDefault(x => x.Id == dietInfoId);
-            _productRepository.AddDietInfoToProduct(dietInformation, productId);
+            _productRepository.AddDietInfoToProduct(dietInfoId, productId);
         }
 
         public void DeleteDietInfoFromProduct(int dietInfoId, int productId)
@@ -143,7 +140,7 @@ namespace CafeMVC.Application.Services
 
         public ProductForCreationVm GetProductForCreationById(int productId)
         {
-            Product product = _productRepository.GetItemById(productId);
+            Product product = _productRepository.GetProductById(productId);
             ProductForCreationVm productForCreation = _mapper.Map<ProductForCreationVm>(product);
             return productForCreation;
         }

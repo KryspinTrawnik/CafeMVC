@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CafeMVC.Infrastructure
 {
-    public class Context : IdentityDbContext 
+    public class Context : IdentityDbContext
     {
-        public DbSet <Address> Adresses { get; set; }
+        public DbSet<Address> Adresses { get; set; }
 
-        public DbSet <AddressType> AddressTypes { get; set; }
+        public DbSet<AddressType> AddressTypes { get; set; }
 
         public DbSet<Allergen> Allergens { get; set; }
 
@@ -25,7 +25,7 @@ namespace CafeMVC.Infrastructure
         public DbSet<Product> Products { get; set; }
 
         public DbSet<Customer> Customers { get; set; }
-    
+
         public DbSet<ContactDetail> ContactDetails { get; set; }
 
         public DbSet<Status> Statuses { get; set; }
@@ -69,10 +69,12 @@ namespace CafeMVC.Infrastructure
                 new AddressType { Id = 2, Name = "Delivery Address" });
 
             builder.Entity<Status>()
-                .HasData(new Status { Id = 2, Name = "In Progress" },
-                new Status { Id = 3, Name = "Closed" },
-                new Status { Id = 4, Name = "Cancelled" },
-                new Status { Id = 1, Name = "Open" });
+                .HasData(
+                    new Status { Id = 1, Name = "Open" },
+                    new Status { Id = 2, Name = "In Progress" },
+                    new Status { Id = 3, Name = "Ready" },
+                    new Status { Id = 4, Name = "Closed" },
+                    new Status { Id = 5, Name = "Cancelled" });
         }
 
     }

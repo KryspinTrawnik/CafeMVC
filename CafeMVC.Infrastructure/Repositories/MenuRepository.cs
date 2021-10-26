@@ -58,5 +58,27 @@ namespace CafeMVC.Infrastructure.Repositories
             menu.Products = menu.Products.Where(product => product.DietInformation == dietInformation).ToList();
             return menu;
         }
+
+        int IMenuRepository.AddNewMenu(Menu menu)
+        {
+            _context.Menus.Add(menu);
+            _context.SaveChanges();
+            return menu.Id;
+        }
+
+        public void DeleteMenu(int menuId)
+        {
+            var menu = _context.Menus.Find(menuId);
+            menu.HasBeenRemoved = true;
+            UpdateMenu(menu);
+        }
+
+        public IQueryable<Menu> GetAllActiveMenus()
+        {
+            var activeMenus = _context.Menus.AsNoTracking()
+                .Include(x => x.Products)
+                .Where(x => x.HasBeenRemoved == false);
+            return activeMenus;
+        }
     }
 }

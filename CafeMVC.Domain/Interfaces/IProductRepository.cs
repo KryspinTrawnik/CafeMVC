@@ -5,6 +5,8 @@ namespace CafeMVC.Domain.Interfaces
 {
     public interface IProductRepository 
     {
+        int AddNewProduct(Product product);
+
         void DeleteImageFromProduct(int productId);
         
         void AddNewImageToProduct(string imageName, int productId);
@@ -47,5 +49,8 @@ namespace CafeMVC.Domain.Interfaces
 
         void AddDietInfoToProduct(int dietInfoId, int productId);
 
+        void DeleteProduct(int productId);
+
+        IQueryable<Product> GetAllProducts();
     }
 }

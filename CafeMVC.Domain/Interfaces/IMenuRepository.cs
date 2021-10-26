@@ -7,16 +7,24 @@ using System.Threading.Tasks;
 
 namespace CafeMVC.Domain.Interfaces
 {
-    public interface IMenuRepository 
+    public interface IMenuRepository
     {
+        IQueryable<Menu> GetAllActiveMenus();
+
         void AddNewProduct(Product product, int menuId);
+
+        int AddNewMenu(Menu menu);
 
         IQueryable<Product> GetAllProduct(int menuId);
 
         void DeleteProductFromMenu(int menuId, int productId);
 
         Menu GetMenuByDietInformation(int menuId, DietInformation dietInformation);
+
         Menu GetMenuById(int menuId);
+
         void UpdateMenu(Menu menu);
+
+        void DeleteMenu(int menuId);
     }
 }

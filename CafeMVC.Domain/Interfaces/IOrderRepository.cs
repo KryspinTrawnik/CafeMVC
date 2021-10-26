@@ -20,5 +20,11 @@ namespace CafeMVC.Domain.Interfaces
         void UpdateOrder(Order order);
 
         int AddNewOrder(Order order);
+
+        void ChangeStatusOfOrder(int orderId, int statusId);
+
+        IQueryable<Status> GetAllStatuses();
+
+        IQueryable<Order> GetAllOrders();
     }
 }

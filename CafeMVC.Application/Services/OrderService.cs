@@ -54,37 +54,24 @@ namespace CafeMVC.Application.Services
             _orderRepository.UpdateOrder(order);
         }
 
-        public void CanceleOrder(int orderId)
-        {
-            _orderRepository.DeleteItem(orderId);
-        }
-
         public void ChangeDeliveryAddress(int orderId, AddressForCreationVm newDeliveryAddress)
         {
-            Order order = _orderRepository.GetItemById(orderId);
-            order.Addresses.Remove(order.Addresses.Find(x => x.AddressType.Id == 2));
+            Order order = _orderRepository.GetOrderById(orderId);
             Address address = _mapper.Map<Address>(newDeliveryAddress);
-            order.Addresses.Add(address);
-            _orderRepository.UpdateItem(order);
+            order.DeliveryAddress = address;
+            _orderRepository.UpdateOrder(order);
         }
 
         public void ChangeLeadTime(int orderId, DateTime newLeadTimeOfOrder)
         {
-            Order order = _orderRepository.GetItemById(orderId);
+            Order order = _orderRepository.GetOrderById(orderId);
             order.LeadTime = newLeadTimeOfOrder;
-            _orderRepository.UpdateItem(order);
-        }
-
-        public void CloseOrder(int orderId)
-        {
-            Order order = _orderRepository.GetItemById(orderId);
-            order.HasBeenDone = true;
-            _orderRepository.UpdateItem(order);
+            _orderRepository.UpdateOrder(order);
         }
 
         public ListOfOrdersVm GetOrdersToDisplay(int pageSize, int pageNo, string searchString)
         {
-            List<OrderForListVm> orderForListVm = _orderRepository.GetAllType()
+            List<OrderForListVm> orderForListVm = _orderRepository.GetAllOrders()
                 .ProjectTo<OrderForListVm>(_mapper.ConfigurationProvider).ToList();
             List<OrderForListVm> ordersToDisplay = orderForListVm.Skip(pageSize * (pageNo - 1)).Take(pageSize).ToList();
             ListOfOrdersVm listOfOrdersVm = new()
@@ -125,23 +112,28 @@ namespace CafeMVC.Application.Services
 
         public OrderForCreationVm GetOrderForCreationVmById(int orderId)
         {
-            Order order = _orderRepository.GetItemById(orderId);
+            Order order = _orderRepository.GetOrderById(orderId);
             OrderForCreationVm orderForCreationVm = _mapper.Map<OrderForCreationVm>(order);
 
             return orderForCreationVm;
         }
         public OrderForSummaryVm GetOrderSummaryVmById(int orderId)
         {
-            Order order = _orderRepository.GetItemById(orderId);
+            Order order = _orderRepository.GetOrderById(orderId);
             OrderForSummaryVm orderForCreationVm = _mapper.Map<OrderForSummaryVm>(order);
 
             return orderForCreationVm;
         }
         public void RemoveProduct(int productId, int orderId)
         {
-            Order order = _orderRepository.GetItemById(orderId);
-            order.Products.Remove(_productRepository.GetItemById(orderId));
-            _orderRepository.UpdateItem(order);
+            Order order = _orderRepository.GetOrderById(orderId);
+            order.Products.Remove(_productRepository.GetProductById(productId));
+            _orderRepository.UpdateOrder(order);
+        }
+
+        public void ChangeOrderStatus(int orderId, int statusId)
+        {
+            _orderRepository.ChangeStatusOfOrder(orderId, statusId);
         }
     }
 }

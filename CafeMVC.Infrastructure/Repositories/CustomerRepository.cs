@@ -56,7 +56,7 @@ namespace CafeMVC.Infrastructure.Repositories
             Customer customer= _context.Customers.AsNoTracking()
                 .Include(e => e.Addresses).ThenInclude(e => e.AddressType)
                 .Include(e => e.ContactDetails).ThenInclude(e => e.ContactDetailType)
-                .Include(e => e.Orders).ThenInclude(e => e.Addresses).ThenInclude(e => e.AddressType)
+                .Include(e => e.Orders)
                 .FirstOrDefault(x => x.Id == id);
             return customer;
         }

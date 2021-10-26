@@ -158,5 +158,27 @@ namespace CafeMVC.Infrastructure.Repositories
 
             _context.SaveChanges();
         }
+
+        public int AddNewProduct(Product product)
+        {
+            _context.Products.Add(product);
+            _context.SaveChanges();
+            return product.Id;
+        }
+
+        public void DeleteProduct(int productId)
+        {
+            var product = _context.Products.Find(productId);
+            if (product != null)
+            {
+                _context.Products.Remove(product);
+                _context.SaveChanges();
+            }
+        }
+
+        IQueryable<Product> IProductRepository.GetAllProducts()
+        {
+            return _context.Products.AsNoTracking();
+        }
     }
 }

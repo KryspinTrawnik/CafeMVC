@@ -34,5 +34,7 @@ namespace CafeMVC.Application.Interfaces
         OrderForSummaryVm GetOrderSummaryVmById(int orderId);
 
         void ChangeOrderStatus(int orderId, int statusId);
+
+        OrderForViewVm GetOrderToView(int orderId);
     }
 }

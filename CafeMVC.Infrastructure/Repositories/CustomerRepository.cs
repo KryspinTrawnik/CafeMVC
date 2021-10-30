@@ -1,7 +1,6 @@
 ﻿using CafeMVC.Domain.Interfaces;
 using CafeMVC.Domain.Model;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace CafeMVC.Infrastructure.Repositories
@@ -9,51 +8,17 @@ namespace CafeMVC.Infrastructure.Repositories
     public class CustomerRepository : ICustomerRepository
     {
         private readonly Context _context;
-        public CustomerRepository(Context context) 
+
+        public CustomerRepository(Context context)
         {
             _context = context;
         }
-
-        public IQueryable<Order> GetOrdersByCustomer(int customerId)
-        {
-            return GetCustomerById(customerId).Orders.AsQueryable();
-        }
-
-        public int AddNewAddress(Address address)
-        {
-            _context.Adresses.Add(address);
-            _context.SaveChanges();
-            return address.Id;
-        }
-
-        public int AddNewCustomerContactInfo(ContactDetail contactDetail)
-        {
-            _context.ContactDetails.Add(contactDetail);
-            _context.SaveChanges();
-            return contactDetail.Id;
-        }
-
-        public Address GetCustomerAddressById(int addressId)
-        {
-            Address address = _context.Adresses.AsNoTracking()
-                .Include(e => e.AddressType)
-                .FirstOrDefault(x => x.Id == addressId);
-            return address;
-        }
-
-        public IQueryable<AddressType> GetAllAddressTypes()
-        {
-            return _context.AddressTypes.AsNoTracking();
-        }
-
-        public IQueryable<ContactDetailType> GetAllContactDetailTypes()
-        {
-            return _context.ContactDetailTypes.AsNoTracking();
-        }
-
+        
+        //////Costumer actions//////
+        
         public Customer GetCustomerById(int id)
         {
-            Customer customer= _context.Customers.AsNoTracking()
+            Customer customer = _context.Customers.AsNoTracking()
                 .Include(e => e.Addresses).ThenInclude(e => e.AddressType)
                 .Include(e => e.ContactDetails).ThenInclude(e => e.ContactDetailType)
                 .Include(e => e.Orders)
@@ -61,7 +26,7 @@ namespace CafeMVC.Infrastructure.Repositories
             return customer;
         }
 
-       public void UpdateCustomer(Customer customer)
+        public void UpdateCustomer(Customer customer)
         {
             _context.Attach(customer);
             _context.Entry(customer).Property("FirstName").IsModified = true;
@@ -72,11 +37,54 @@ namespace CafeMVC.Infrastructure.Repositories
             _context.SaveChanges();
         }
 
+        public IQueryable<Order> GetOrdersByCustomer(int customerId)
+        {
+            return GetCustomerById(customerId).Orders.AsQueryable();
+        }
+
+
         public int AddNewCustomer(Customer customer)
         {
             _context.Customers.Add(customer);
             _context.SaveChanges();
             return customer.Id;
+        }
+
+        public void DeleteCustomer(int customerId)
+        {
+            Customer customer = _context.Customers.Find(customerId);
+            if (customer != null)
+            {
+                _context.Customers.Remove(customer);
+                _context.SaveChanges();
+            }
+        }
+
+        public IQueryable<Customer> GetAllCustomers()
+        {
+            return _context.Customers.AsNoTracking();
+        }
+
+        //////Address Actions/////////
+
+        public int AddNewAddress(Address address)
+        {
+            _context.Adresses.Add(address);
+            _context.SaveChanges();
+            return address.Id;
+        }
+
+        public Address GetAddressById(int addressId)
+        {
+            Address address = _context.Adresses.AsNoTracking()
+                .Include(e => e.AddressType)
+                .FirstOrDefault(x => x.Id == addressId);
+            return address;
+        }
+
+        public IQueryable<AddressType> GetAllAddressTypes()
+        {
+            return _context.AddressTypes.AsNoTracking();
         }
 
         public void UpdateAddress(Address address)
@@ -92,6 +100,31 @@ namespace CafeMVC.Infrastructure.Repositories
             _context.SaveChanges();
         }
 
+        public void DeleteAddress(int addressId)
+        {
+            Address address = _context.Adresses.FirstOrDefault(a => a.Id == addressId);
+            if (address != null)
+            {
+                _context.Adresses.Remove(address);
+                _context.SaveChanges();
+            }
+        }
+
+        //////ContactDetails actions//////
+        
+        public int AddNewContactDetail(ContactDetail contactDetail)
+        {
+            _context.ContactDetails.Add(contactDetail);
+            _context.SaveChanges();
+            return contactDetail.Id;
+        }
+
+
+        public IQueryable<ContactDetailType> GetAllContactDetailTypes()
+        {
+            return _context.ContactDetailTypes.AsNoTracking();
+        }
+
         public void UpdateContactDetail(ContactDetail contactDetail)
         {
             _context.Attach(contactDetail);
@@ -100,35 +133,10 @@ namespace CafeMVC.Infrastructure.Repositories
             _context.SaveChanges();
         }
 
-        public void DeleteAddress(int addressId)
-        {
-            Address address = _context.Adresses.FirstOrDefault(a => a.Id == addressId);
-            if(address != null)
-            {
-                _context.Adresses.Remove(address);
-                _context.SaveChanges();
-            }
-        }
-
-        public IQueryable<Customer> GetAllCustomers()
-        {
-            return _context.Customers.AsNoTracking();
-        }
-
-        public void DeleteCustomer(int customerId)
-        {
-            var customer = _context.Customers.Find(customerId);
-            if(customer != null)
-            {
-                _context.Customers.Remove(customer);
-                _context.SaveChanges();
-            }
-        }
-
         public void DeleteContactDetail(int contactDetailId)
         {
-            var contactDetail = _context.ContactDetails.FirstOrDefault(x => x.Id == contactDetailId);
-            if(contactDetail != null)
+            ContactDetail contactDetail = _context.ContactDetails.FirstOrDefault(x => x.Id == contactDetailId);
+            if (contactDetail != null)
             {
                 _context.ContactDetails.Remove(contactDetail);
                 _context.SaveChanges();

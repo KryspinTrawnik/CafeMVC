@@ -57,8 +57,10 @@ namespace CafeMVC.Application.Services
         public void ChangeDeliveryAddress(int orderId, AddressForCreationVm newDeliveryAddress)
         {
             Order order = _orderRepository.GetOrderById(orderId);
-            Address address = _mapper.Map<Address>(newDeliveryAddress);
-            order.DeliveryAddress = address;
+            Address newAddress = _mapper.Map<Address>(newDeliveryAddress);
+            var addresdToBeRemove = order.Addresses.FirstOrDefault(x => x.AddressType.Name == "DeliveryAdress");
+            order.Addresses.Remove(addresdToBeRemove);
+            order.Addresses.Add(newAddress);
             _orderRepository.UpdateOrder(order);
         }
 
@@ -134,6 +136,14 @@ namespace CafeMVC.Application.Services
         public void ChangeOrderStatus(int orderId, int statusId)
         {
             _orderRepository.ChangeStatusOfOrder(orderId, statusId);
+        }
+
+        public OrderForViewVm GetOrderToView(int orderId)
+        {
+            Order order = _orderRepository.GetOrderById(orderId);
+            OrderForViewVm orderForView = _mapper.Map<OrderForViewVm>(order);
+
+            return orderForView;
         }
     }
 }

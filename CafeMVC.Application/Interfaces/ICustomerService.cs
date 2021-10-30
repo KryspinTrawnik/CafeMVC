@@ -9,6 +9,12 @@ namespace CafeMVC.Application.Interfaces
 {
     public interface ICustomerService
     {
+        ////////Customer actiona/////
+        
+        void AddNewCustomer(CustomerForCreationVm customer);
+
+        void DeleteCustomer(int customerId);
+
         ListOfCustomers GetCustomersForPages(int pageSize, int pageNo, string searchString);
 
         CustomerDetailViewsVm GetCustomerDetail(int customerId);
@@ -16,25 +22,27 @@ namespace CafeMVC.Application.Interfaces
         CustomerForDashboardVm GetCustomerDashboard(int customerId);
 
         CustomerForSummaryVm GetLastAddedCustomer();
+        
+        /////Address actions////
+        
+        void AddNewAddress(AddressForCreationVm address, int customerId);
 
-        void AddNewCustomer(CustomerForCreationVm customer);
+        AddressForEdtitionVm GetAddressToEdit(int addressId, int customerId);
 
-        void DeleteCustomer(int customerId);
+        void ChangeCustomerAddress(AddressForCreationVm address);
+     
+        CustomerForCreationVm SetInitialContactsAndAddressesTypes( CustomerForCreationVm newCreatedCustomer);
 
-        void AddNewContactDetail(ContactInfoForCreationVm contactDetail, int customerId);
+        void DeleteAddress(int addressId);
+
+        /////ContactDetails Actions///
+        
+        void AddNewContactDetail(ContactInfoForCreationVm contactDetail);
 
         void ChangeContactDetails(ContactInfoForCreationVm contactDetail);
 
         void RemoveContactDetail(int contactDetailId);
 
-        void AddNewAddress(AddressForCreationVm address, int customerId);
-
-        AddressForCreationVm GetAddressToEdit(int addressId, int customerId);
-
-        void ChangeCustomerAddress(AddressForCreationVm address);
-
-        void DeleteAddress(int addressId);
-
-        CustomerForCreationVm SetInitialContactsAndAddressesTypes( CustomerForCreationVm newCreatedCustomer);
     }
+
 }

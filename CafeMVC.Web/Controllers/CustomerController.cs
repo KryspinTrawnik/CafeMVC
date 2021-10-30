@@ -156,7 +156,7 @@ namespace CafeMVC.Web.Controllers
         [HttpGet]
         public IActionResult ChangeAddress(int addressId, int customerId)
         {
-            AddressForCreationVm addressToBeEdited = _customerService.GetAddressToEdit(addressId, customerId);
+            AddressForEdtitionVm addressToBeEdited = _customerService.GetAddressToEdit(addressId, customerId);
             return View(addressToBeEdited);
         }
         [HttpPost]
@@ -177,8 +177,9 @@ namespace CafeMVC.Web.Controllers
             return View();
         }
         [HttpGet]
-        public IActionResult ViewAddress()
+        public IActionResult ViewAddress(int addressId)
         {
+            var address = _customerService.GetAddressToEdit(addressId)
             return View();
         }
 

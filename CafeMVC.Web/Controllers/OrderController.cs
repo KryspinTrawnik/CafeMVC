@@ -43,6 +43,12 @@ namespace CafeMVC.Web.Controllers
             return View(ordersForView);
         }
         [HttpGet]
+        public IActionResult OrderView(int orderId)
+        {
+            OrderForViewVm order = _orderService.GetOrderToView(orderId);
+            return View(order);
+        }
+        [HttpGet]
         public IActionResult OrderMenuView(int menuId)
         {
             Application.ViewModels.Menu.MenuForViewVm ListOfMenus = _menuService.GetAllProducstOfMenu(menuId);

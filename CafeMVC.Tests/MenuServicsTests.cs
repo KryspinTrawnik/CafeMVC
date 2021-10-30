@@ -27,8 +27,8 @@ namespace CafeMVC.Tests.MenuServiceTest
 
             var productRepository = new Mock<IProductRepository>();
             var menuRepository = new Mock<IMenuRepository>();
-            menuRepository.Setup(m => m.GetItemById(1)).Returns(menuForTest);
-            productRepository.Setup(p => p.GetItemById(1)).Returns(product);
+            menuRepository.Setup(m => m.GetMenuById(1)).Returns(menuForTest);
+            productRepository.Setup(p => p.GetProductById(1)).Returns(product);
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new MappingProfile());

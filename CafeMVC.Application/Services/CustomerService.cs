@@ -4,7 +4,6 @@ using CafeMVC.Application.Interfaces;
 using CafeMVC.Application.ViewModels.Customer;
 using CafeMVC.Domain.Interfaces;
 using CafeMVC.Domain.Model;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -20,41 +19,14 @@ namespace CafeMVC.Application.Services
             _customerRepository = customerRepository;
             _mapper = mapper;
         }
-
-        public void AddNewAddress(AddressForCreationVm address, int customerId)
-        {
-            Address newAddress = _mapper.Map<Address>(address);
-            _customerRepository.AddNewAddress(newAddress);
-        }
-
-        public void AddNewContactDetail(ContactInfoForCreationVm contactDetail, int customerId)
-        {
-            ContactDetail customerContactInformation = _mapper.Map<ContactDetail>(contactDetail);
-            _customerRepository.AddNewCustomerContactInfo(customerContactInformation);
-        }
-
+             
+                        //////////Customer Actions/////
+        
         public void AddNewCustomer(CustomerForCreationVm customerVm)
         {
-            var newCustomer = SetInitialContactsAndAddressesTypes(customerVm);
+            CustomerForCreationVm newCustomer = SetInitialContactsAndAddressesTypes(customerVm);
             Customer customer = _mapper.Map<Customer>(newCustomer);
             _customerRepository.AddNewCustomer(customer);
-        }
-
-        public void ChangeCustomerAddress(AddressForCreationVm address)
-        {
-            Address updatedAddress = _mapper.Map<Address>(address);
-            _customerRepository.UpdateAddress(updatedAddress);
-        }
-
-        public void ChangeContactDetails(ContactInfoForCreationVm contactDetail)
-        {
-            ContactDetail contactDetailEdited = _mapper.Map<ContactDetail>(contactDetail);
-            _customerRepository.UpdateContactDetail(contactDetailEdited);
-        }
-
-        public void DeleteAddress(int addressId)
-        {
-            _customerRepository.DeleteAddress(addressId);
         }
 
         public void DeleteCustomer(int customerId)
@@ -66,7 +38,7 @@ namespace CafeMVC.Application.Services
         {
             List<CustomerForListVm> customersForLists = _customerRepository.GetAllCustomers()
                 .ProjectTo<CustomerForListVm>(_mapper.ConfigurationProvider).ToList();
-            var customersToShow = customersForLists.Skip(pageSize * (pageNo - 1)).Take(pageSize).ToList();
+            List<CustomerForListVm> customersToShow = customersForLists.Skip(pageSize * (pageNo - 1)).Take(pageSize).ToList();
             ListOfCustomers listOfCustomers = new()
             {
                 ListOfAllCustomers = customersToShow,
@@ -79,6 +51,13 @@ namespace CafeMVC.Application.Services
             return listOfCustomers;
         }
 
+        public CustomerForSummaryVm GetLastAddedCustomer()
+        {
+            Customer theLastCustomer = _customerRepository.GetAllCustomers().ToList().Last();
+            CustomerForSummaryVm customerForSummary = _mapper.Map<CustomerForSummaryVm>(theLastCustomer);
+
+            return customerForSummary;
+        }
         public CustomerForDashboardVm GetCustomerDashboard(int customerId)
         {
             Customer customer = _customerRepository.GetCustomerById(customerId);
@@ -86,32 +65,25 @@ namespace CafeMVC.Application.Services
             return customerForDashboard;
         }
 
-        public CustomerDetailViewsVm GetCustomerDetail(int customerId)
+                    //////Address Actions/////////
+                    
+        public void AddNewAddress(AddressForCreationVm address, int customerId)
         {
-            Customer customer = _customerRepository.GetCustomerById(customerId);
-            CustomerDetailViewsVm customerDetailView = _mapper.Map<CustomerDetailViewsVm>(customer);
-            return customerDetailView;
+            Address newAddress = _mapper.Map<Address>(address);
+            _customerRepository.AddNewAddress(newAddress);
         }
 
-        public void RemoveContactDetail(int contactDetailId)
+        public void DeleteAddress(int addressId)
         {
-            _customerRepository.DeleteContactDetail(contactDetailId);
+            _customerRepository.DeleteAddress(addressId);
         }
 
-        public AddressForCreationVm GetAddressToEdit(int addressId, int customerId)
+        public AddressForEdtitionVm GetAddressToEdit(int addressId, int customerId)
         {
-            Address address = _customerRepository.GetCustomerAddressById( addressId);
-            AddressForCreationVm addressForEdition = _mapper.Map<AddressForCreationVm>(address);
+            Address address = _customerRepository.GetAddressById(addressId);
+            AddressForEdtitionVm addressForEdition = _mapper.Map<AddressForEdtitionVm>(address);
             return addressForEdition;
- 
-        }
 
-        public CustomerForSummaryVm GetLastAddedCustomer()
-        {
-            Customer theLastCustomer = _customerRepository.GetAllCustomers().ToList().Last();
-            CustomerForSummaryVm customerForSummary = _mapper.Map<CustomerForSummaryVm>(theLastCustomer);
-
-            return customerForSummary;
         }
 
         public CustomerForCreationVm SetInitialContactsAndAddressesTypes(CustomerForCreationVm createdCustomer)
@@ -125,5 +97,39 @@ namespace CafeMVC.Application.Services
             }
             return createdCustomer;
         }
+
+        public void ChangeCustomerAddress(AddressForCreationVm address)
+        {
+            Address updatedAddress = _mapper.Map<Address>(address);
+            _customerRepository.UpdateAddress(updatedAddress);
+        }
+
+
+                    //////ContactDetails actions//////
+                    
+        public void AddNewContactDetail(ContactInfoForCreationVm contactDetail)
+        {
+            ContactDetail customerContactInformation = _mapper.Map<ContactDetail>(contactDetail);
+            _customerRepository.AddNewContactDetail(customerContactInformation);
+        }
+
+        public void ChangeContactDetails(ContactInfoForCreationVm contactDetail)
+        {
+            ContactDetail contactDetailEdited = _mapper.Map<ContactDetail>(contactDetail);
+            _customerRepository.UpdateContactDetail(contactDetailEdited);
+        }
+
+        public void RemoveContactDetail(int contactDetailId)
+        {
+            _customerRepository.DeleteContactDetail(contactDetailId);
+        }
+
+        public CustomerDetailViewsVm GetCustomerDetail(int customerId)
+        {
+            Customer customer = _customerRepository.GetCustomerById(customerId);
+            CustomerDetailViewsVm customerDetailView = _mapper.Map<CustomerDetailViewsVm>(customer);
+            return customerDetailView;
+        }
+
     }
 }

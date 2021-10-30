@@ -19,19 +19,13 @@ namespace CafeMVC.Domain.Model
 
         public virtual ICollection<ContactDetail> ContactDetails { get; set; }
 
-        public virtual Address DeliveryAddress { get; set; }
-
-        public virtual Address BillingAddress { get; set; }
+        public virtual ICollection<Address> Addresses { get; set; }
 
         public virtual ICollection<Product> Products { get; set; }
 
         public string OrderConfirmation { get; set; }
 
         public bool IsCollection { get; set; }
-
-        public int DeliveryAddressId { get; set; }
-
-        public int BillingAddressId { get; set; }
 
         public int StatusId { get; set; }
 

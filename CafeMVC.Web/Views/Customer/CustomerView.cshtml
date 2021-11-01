@@ -43,15 +43,20 @@
         <td>No.</td>
         <td>Type</td>
         <td>Street</td>
+        <td></td>
+        <td></td>
     </tr>
     @for (int i = 0; i < Model.Addresses.Count; i++)
     {
-        <tr>
-            <td>@i</td>
-            <td>@Html.DisplayFor(m => m.Addresses[i].Type)</td>
-            <td>@Html.DisplayFor(m => m.Addresses[i].Street)</td>
-        </tr>
+<tr>
+    <td>@i</td>
+    <td>@Html.DisplayFor(m => m.Addresses[i].Type)</td>
+    <td>@Html.DisplayFor(m => m.Addresses[i].Street)</td>
+    <td>@Html.ActionLink("Details", "ViewAddress",  new { adderssId= Model.Addresses[i].Id})  |</td>  
+    <td>@Html.ActionLink("Edit", "ChangeAddress", new { addressId = Model.Addresses[i].Id })</td>
+</tr>
     }
+
 </table>
 <br />
 <br />
@@ -59,7 +64,7 @@
 <br />
 @if (Model.Orders.Count == 0)
 {
-    <h5>No Orders to Show</h5>
+    <h6>No Orders to Show</h6>
 }
 else
 {

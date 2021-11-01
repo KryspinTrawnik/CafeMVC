@@ -42,15 +42,8 @@ namespace CafeMVC.Web.Controllers
         [HttpGet]
         public IActionResult CustomerView(int customerId)
         {
-            var customerForView = _customerService.GetCustomerDetail(customerId);
+            CustomerDetailViewsVm customerForView = _customerService.GetCustomerDetail(customerId);
             return View(customerForView);
-        }
-
-        [HttpGet]
-        public IActionResult CustomerDashboard(int customerId)
-        {
-            var customerViewForDashboard = _customerService.GetCustomerDashboard(customerId);
-            return View(customerViewForDashboard);
         }
 
         [HttpGet]
@@ -77,12 +70,6 @@ namespace CafeMVC.Web.Controllers
             return View(customerToView);
         }
 
-        [HttpGet]
-        public IActionResult DeleteCustomer()
-        {
-            return View();
-        }
-
         [HttpDelete]
         public IActionResult DeleteCustomer(int customerId)
         {
@@ -97,9 +84,9 @@ namespace CafeMVC.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddNewContactDetail(ContactInfoForCreationVm contactDetail, int customerId)
+        public IActionResult AddNewContactDetail(ContactInfoForCreationVm contactDetail)
         {
-            _customerService.AddNewContactDetail(contactDetail, customerId);
+            _customerService.AddNewContactDetail(contactDetail);
             return View();
         }
 
@@ -154,9 +141,9 @@ namespace CafeMVC.Web.Controllers
             return View();
         }
         [HttpGet]
-        public IActionResult ChangeAddress(int addressId, int customerId)
+        public IActionResult ChangeAddress(int addressId)
         {
-            AddressForEdtitionVm addressToBeEdited = _customerService.GetAddressToEdit(addressId, customerId);
+            AddressForEdtitionVm addressToBeEdited = _customerService.GetAddressToEdit(addressId);
             return View(addressToBeEdited);
         }
         [HttpPost]
@@ -179,7 +166,7 @@ namespace CafeMVC.Web.Controllers
         [HttpGet]
         public IActionResult ViewAddress(int addressId)
         {
-            var address = _customerService.GetAddressToEdit(addressId)
+            var address = _customerService.GetAddressToEdit(addressId);
             return View();
         }
 

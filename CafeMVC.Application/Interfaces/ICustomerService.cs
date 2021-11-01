@@ -19,15 +19,13 @@ namespace CafeMVC.Application.Interfaces
 
         CustomerDetailViewsVm GetCustomerDetail(int customerId);
 
-        CustomerForDashboardVm GetCustomerDashboard(int customerId);
-
         CustomerForSummaryVm GetLastAddedCustomer();
         
         /////Address actions////
         
         void AddNewAddress(AddressForCreationVm address, int customerId);
 
-        AddressForEdtitionVm GetAddressToEdit(int addressId, int customerId);
+        AddressForEdtitionVm GetAddressToEdit(int addressId);
 
         void ChangeCustomerAddress(AddressForCreationVm address);
      

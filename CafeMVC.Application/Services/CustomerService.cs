@@ -58,13 +58,6 @@ namespace CafeMVC.Application.Services
 
             return customerForSummary;
         }
-        public CustomerForDashboardVm GetCustomerDashboard(int customerId)
-        {
-            Customer customer = _customerRepository.GetCustomerById(customerId);
-            CustomerForDashboardVm customerForDashboard = _mapper.Map<CustomerForDashboardVm>(customer);
-            return customerForDashboard;
-        }
-
                     //////Address Actions/////////
                     
         public void AddNewAddress(AddressForCreationVm address, int customerId)
@@ -78,7 +71,7 @@ namespace CafeMVC.Application.Services
             _customerRepository.DeleteAddress(addressId);
         }
 
-        public AddressForEdtitionVm GetAddressToEdit(int addressId, int customerId)
+        public AddressForEdtitionVm GetAddressToEdit(int addressId)
         {
             Address address = _customerRepository.GetAddressById(addressId);
             AddressForEdtitionVm addressForEdition = _mapper.Map<AddressForEdtitionVm>(address);

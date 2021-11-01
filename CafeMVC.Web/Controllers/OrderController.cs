@@ -1,6 +1,8 @@
 ﻿using CafeMVC.Application.Interfaces;
 using CafeMVC.Application.ViewModels.Customer;
+using CafeMVC.Application.ViewModels.Menu;
 using CafeMVC.Application.ViewModels.Orders;
+using CafeMVC.Application.ViewModels.Products;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -51,28 +53,28 @@ namespace CafeMVC.Web.Controllers
         [HttpGet]
         public IActionResult OrderMenuView(int menuId)
         {
-            Application.ViewModels.Menu.MenuForViewVm ListOfMenus = _menuService.GetAllProducstOfMenu(menuId);
+            MenuForViewVm ListOfMenus = _menuService.GetAllProducstOfMenu(menuId);
             return View(ListOfMenus);
         }
 
         [HttpGet]
         public IActionResult OrderVieWProductOfMenu(int menuTypeId)
         {
-            Application.ViewModels.Menu.MenuForViewVm ListOfProductByMenu = _menuService.GetAllProducstOfMenu(menuTypeId);
+            MenuForViewVm ListOfProductByMenu = _menuService.GetAllProducstOfMenu(menuTypeId);
             return View(ListOfProductByMenu);
         }
 
         [HttpGet]
         public IActionResult VieWProductDetails(int productId)
         {
-            Application.ViewModels.Products.ProductForViewVm product = _productService.GetProductForViewById(productId);
+            ProductForViewVm product = _productService.GetProductForViewById(productId);
             return View(product);
         }
 
         [HttpGet]
         public IActionResult ViewOrderProducts(int orderId)
         {
-            Application.ViewModels.Products.ListOfProductsVm orderProductsList = _orderService.GetAllProducts(orderId);
+            ListOfProductsVm orderProductsList = _orderService.GetAllProducts(orderId);
             return View(orderProductsList);
         }
 

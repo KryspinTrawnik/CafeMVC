@@ -76,18 +76,23 @@ namespace CafeMVC.Web.Controllers
            _customerService.DeleteCustomer(customerId);
             return View();
         }
-
+        ///****Contact Detail****\\\\\\
         [HttpGet]
-        public IActionResult AddNewContactDetail()
+        public IActionResult AddNewContactDetail(int customerId)
         {
-            return View(new ContactInfoForCreationVm() );
+            var newContactDetail = new ContactInfoForCreationVm()
+            {
+                CustomerId = customerId,
+                AllContactDetailsTypes = _customerService.GetAllContactDetailTypes()
+            };
+            return View(newContactDetail );
         }
 
         [HttpPost]
         public IActionResult AddNewContactDetail(ContactInfoForCreationVm contactDetail)
         {
             _customerService.AddNewContactDetail(contactDetail);
-            return View();
+            return RedirectToAction("ViewCustomer"); 
         }
 
         [HttpGet]
@@ -103,35 +108,19 @@ namespace CafeMVC.Web.Controllers
             return View();
         }
 
-        [HttpGet]
-        public IActionResult RemoveContactDetail()
-        {
-            return View();
-        }
         [HttpDelete]
         public IActionResult RemoveContactDetail(int contactDetailId)
         {
             _customerService.RemoveContactDetail(contactDetailId);
             return View();
         }
-
-        [HttpGet]
-        public IActionResult AddAddressToNewCustomer()
-        {
-            return View(new AddressForCreationVm());
-        }
-
-        [HttpPost]
-        public IActionResult AddAddressToNewCustomer(AddressForCreationVm address, int customerId)
-        {
-            _customerService.AddNewAddress(address, customerId);
-            return View();
-        }
+        ////**** Address ****\\\\
+        
 
         [HttpGet]
         public IActionResult AddNewAddress()
         {
-            return View();
+            return View(new AddressForCreationVm());
         }
 
         [HttpPost]
@@ -152,11 +141,7 @@ namespace CafeMVC.Web.Controllers
             _customerService.ChangeCustomerAddress(editedAddress);
             return View();
         }
-        [HttpGet]
-        public IActionResult DeleteAddress()
-        {
-            return View();
-        }
+        
         [HttpDelete]
         public IActionResult DeleteAddress(int addressId)
         {

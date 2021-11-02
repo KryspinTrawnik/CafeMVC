@@ -1,0 +1,14 @@
+﻿@model CafeMVC.Application.ViewModels.Customer.ContactInfoForCreationVm
+@{ string title = "Add New Contact";
+
+}
+
+<h5>@title</h5>
+<br />
+<br />
+@using (Html.BeginForm("AddNewContactDetail", "Customer", FormMethod.Post))
+{
+    @Html.Hidden("Id")
+}
+
+

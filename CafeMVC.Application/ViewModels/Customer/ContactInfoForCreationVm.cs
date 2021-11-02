@@ -16,6 +16,10 @@ namespace CafeMVC.Application.ViewModels.Customer
 
         public int ContactDetailTypeId { get; set; }
 
+        public List<ContactDetailTypeForViewVm> AllContactDetailsTypes { get; set; }
+
+        public int CustomerId { get; set; }
+
         public void Mapping(Profile profile)
         {
             profile.CreateMap<ContactInfoForCreationVm, CafeMVC.Domain.Model.ContactDetail>().ReverseMap();

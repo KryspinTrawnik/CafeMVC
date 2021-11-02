@@ -124,5 +124,12 @@ namespace CafeMVC.Application.Services
             return customerDetailView;
         }
 
+        public List<ContactDetailTypeForViewVm> GetAllContactDetailTypes()
+        {
+            List<ContactDetailTypeForViewVm> allContactTypes = _customerRepository.GetAllContactDetailTypes()
+                .ProjectTo<ContactDetailTypeForViewVm>(_mapper.ConfigurationProvider).ToList();
+
+            return allContactTypes;
+        }
     }
 }

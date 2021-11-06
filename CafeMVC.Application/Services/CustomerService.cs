@@ -58,6 +58,12 @@ namespace CafeMVC.Application.Services
 
             return customerForSummary;
         }
+        public CustomerDetailViewsVm GetCustomerDetail(int customerId)
+        {
+            Customer customer = _customerRepository.GetCustomerById(customerId);
+            CustomerDetailViewsVm customerDetailView = _mapper.Map<CustomerDetailViewsVm>(customer);
+            return customerDetailView;
+        }
                     //////Address Actions/////////
                     
         public void AddNewAddress(AddressForCreationVm address, int customerId)
@@ -117,12 +123,6 @@ namespace CafeMVC.Application.Services
             _customerRepository.DeleteContactDetail(contactDetailId);
         }
 
-        public CustomerDetailViewsVm GetCustomerDetail(int customerId)
-        {
-            Customer customer = _customerRepository.GetCustomerById(customerId);
-            CustomerDetailViewsVm customerDetailView = _mapper.Map<CustomerDetailViewsVm>(customer);
-            return customerDetailView;
-        }
 
         public List<ContactDetailTypeForViewVm> GetAllContactDetailTypes()
         {
@@ -130,6 +130,13 @@ namespace CafeMVC.Application.Services
                 .ProjectTo<ContactDetailTypeForViewVm>(_mapper.ConfigurationProvider).ToList();
 
             return allContactTypes;
+        }
+
+        public ContactInfoForCreationVm GetContactDetailForEdition(int contactDetailId)
+        {
+            ContactDetail contactDetail = _customerRepository.GetContactDetailById(contactDetailId);
+            ContactInfoForCreationVm contactDetailForEdition = _mapper.Map<ContactInfoForCreationVm>(contactDetail);
+            return contactDetailForEdition;
         }
     }
 }

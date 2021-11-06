@@ -42,6 +42,7 @@ namespace CafeMVC.Application.Interfaces
         void RemoveContactDetail(int contactDetailId);
         
         List<ContactDetailTypeForViewVm> GetAllContactDetailTypes();
+        ContactInfoForCreationVm GetContactDetailForEdition(int contactDetailId);
     }
 
 }

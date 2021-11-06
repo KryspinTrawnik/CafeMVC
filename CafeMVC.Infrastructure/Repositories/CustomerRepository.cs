@@ -129,7 +129,7 @@ namespace CafeMVC.Infrastructure.Repositories
         {
             _context.Attach(contactDetail);
             _context.Entry(contactDetail).Property("ContactDetailInformation").IsModified = true;
-            _context.Entry(contactDetail).Reference("ContactDetailType").IsModified = true;
+            _context.Entry(contactDetail).Property("ContactDetailTypeId").IsModified = true;
             _context.SaveChanges();
         }
 
@@ -141,6 +141,13 @@ namespace CafeMVC.Infrastructure.Repositories
                 _context.ContactDetails.Remove(contactDetail);
                 _context.SaveChanges();
             }
+        }
+
+        public ContactDetail GetContactDetailById(int contactDetailId)
+        {
+            return _context.ContactDetails.AsNoTracking().Include(x =>x.ContactDetailType)
+                .FirstOrDefault(x => x.Id == contactDetailId);
+
         }
     }
 }

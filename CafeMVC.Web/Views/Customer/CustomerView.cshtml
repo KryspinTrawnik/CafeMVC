@@ -15,27 +15,47 @@
 <h5>Contact Details</h5>
 <br>
 <h5>E-mail</h5>
-<h6>@Html.DisplayFor(m => m.ContactDetails.Find(x => x.ContactDetailType == "E-mail").ContactDetailInformation)</h6>
+<br />
+<table>
+    <tr>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        @for (int i = 0; i < Model.ContactDetails.Count; i++)
+        {
+            if (Model.ContactDetails[i].ContactDetailType == "E-mail")
+            {
+        <td><h6>@Html.DisplayFor(m => m.ContactDetails[i].ContactDetailInformation)</h6></td>
+        <td> @Html.ActionLink("Edtit", "ChangeContactDetail", new  {contactDetailId = Model.ContactDetails[i].Id })  </td>
+            }
+        }
+    </tr>
+</table>
 <br>
 <br>
 <h5>Telephones Numbers</h5>
+<br />
 <table>
     <tr>
-        <td>Type</td>
-        <td>Number</td>
+        <td></td>
+        <td></td>
     </tr>
-    @for (int i = 0; i < Model.ContactDetails.Count; i++)
-    {
-        if (Model.ContactDetails[i].ContactDetailType != "E-mail")
+    <tr>
+        @for (int i = 0; i < Model.ContactDetails.Count; i++)
         {
-            <tr>
-                <td>@Html.DisplayFor(m => m.ContactDetails[i].ContactDetailType)</td>
-                <td>@Html.DisplayFor(m => m.ContactDetails[i].ContactDetailInformation)</td>
-            </tr>
+            if (Model.ContactDetails[i].ContactDetailType != "E-mail")
+            {
+                <td><h6>@Html.DisplayFor(m => m.ContactDetails[i].ContactDetailInformation)</h6></td>
+                <td> @Html.ActionLink("Edtit", "ChangeContactDetail", new { contactDetailId = Model.ContactDetails[i].Id })  </td>
+            }
         }
-    }
+    </tr>
 </table>
-<br>
+<br/>
+<br />
+@Html.ActionLink("Add New Contact Detail", "AddNewContactDetail", new { customerId = Model.Id })
+<br />
 <br />
 <h5>Addresses</h5>
 <table>
@@ -48,13 +68,13 @@
     </tr>
     @for (int i = 0; i < Model.Addresses.Count; i++)
     {
-<tr>
-    <td>@i</td>
-    <td>@Html.DisplayFor(m => m.Addresses[i].Type)</td>
-    <td>@Html.DisplayFor(m => m.Addresses[i].Street)</td>
-    <td>@Html.ActionLink("Details", "ViewAddress",  new { adderssId= Model.Addresses[i].Id})  |</td>  
-    <td>@Html.ActionLink("Edit", "ChangeAddress", new { addressId = Model.Addresses[i].Id })</td>
-</tr>
+        <tr>
+            <td>@i</td>
+            <td>@Html.DisplayFor(m => m.Addresses[i].Type)</td>
+            <td>@Html.DisplayFor(m => m.Addresses[i].Street)</td>
+            <td>@Html.ActionLink("Details", "ViewAddress", new { adderssId = Model.Addresses[i].Id })  |</td>
+            <td>@Html.ActionLink("Edit", "ChangeAddress", new { addressId = Model.Addresses[i].Id })</td>
+        </tr>
     }
 
 </table>
@@ -68,23 +88,23 @@
 }
 else
 {
-<table>
-    <tr>
-        <td>No.</td>
-        <td>Date</td>
-        <td>Products Number</td>
-        <td>Total Price</td>
-        <td></td>
-    </tr>
-    @for (int i = 0; i < Model.Addresses.Count; i++)
-    {
-<tr>
-    <td>@i</td>
-    <td>@Html.DisplayFor(m => m.Orders[i].DateOfOrder)</td>
-    <td>@Html.DisplayFor(m => m.Orders[i].ProductsCount)</td>
-    <td>@Html.DisplayFor(m => m.Orders[i].TotalPrice)</td>
-    <td>@Html.ActionLink("Details", "OrderView", "OrderController",new { orderId = Model.Orders[i].Id })</td>
-</tr>
-    }
-</table>
+    <table>
+        <tr>
+            <td>No.</td>
+            <td>Date</td>
+            <td>Products Number</td>
+            <td>Total Price</td>
+            <td></td>
+        </tr>
+        @for (int i = 0; i < Model.Addresses.Count; i++)
+        {
+            <tr>
+                <td>@i</td>
+                <td>@Html.DisplayFor(m => m.Orders[i].DateOfOrder)</td>
+                <td>@Html.DisplayFor(m => m.Orders[i].ProductsCount)</td>
+                <td>@Html.DisplayFor(m => m.Orders[i].TotalPrice)</td>
+                <td>@Html.ActionLink("Details", "OrderView", "OrderController", new { orderId = Model.Orders[i].Id })</td>
+            </tr>
+        }
+    </table>
 }

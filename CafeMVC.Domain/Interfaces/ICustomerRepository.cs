@@ -38,5 +38,7 @@ namespace CafeMVC.Domain.Interfaces
         void DeleteCustomer(int customerId);
 
         void DeleteContactDetail(int contactDetailId);
+        
+        ContactDetail GetContactDetailById(int contactDetailId);
     }
 }

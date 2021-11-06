@@ -49,25 +49,15 @@ namespace CafeMVC.Web.Controllers
         [HttpGet]
         public IActionResult AddNewCustomer()
         {
-            
             return View(new CustomerForCreationVm());
         }
 
         [HttpPost]
         public IActionResult AddNewCustomerSummary(CustomerForCreationVm customer)
         {
-            
             _customerService.AddNewCustomer(customer);
             
             return View(_customerService.GetLastAddedCustomer());
-        }
-
-       
-        [HttpGet]
-        public IActionResult ViewCustomer(int customerId)
-        {
-            var customerToView = _customerService.GetCustomerDetail(customerId);
-            return View(customerToView);
         }
 
         [HttpDelete]
@@ -92,20 +82,22 @@ namespace CafeMVC.Web.Controllers
         public IActionResult AddNewContactDetail(ContactInfoForCreationVm contactDetail)
         {
             _customerService.AddNewContactDetail(contactDetail);
-            return RedirectToAction("ViewCustomer"); 
+            return RedirectToAction("CustomerView", "Customer", new { customerId = contactDetail.CustomerId}); 
         }
 
         [HttpGet]
-        public IActionResult ChangeContactDetail()
+        public IActionResult ChangeContactDetail(int contactDetailId)
         {
-            return View();
+            var contactDetailForEdition =_customerService.GetContactDetailForEdition(contactDetailId);
+            return View(contactDetailForEdition);
         }
 
-        [HttpPatch]
+        [HttpPost]
         public IActionResult ChangeContactDetail(ContactInfoForCreationVm contactDetail)
         {
             _customerService.ChangeContactDetails(contactDetail);
-            return View();
+            return RedirectToAction("CustomerView", "Customer", new { customerId = contactDetail.CustomerId });
+
         }
 
         [HttpDelete]

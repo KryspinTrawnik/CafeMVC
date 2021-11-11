@@ -100,11 +100,12 @@ namespace CafeMVC.Web.Controllers
 
         }
 
-        [HttpDelete]
+        
         public IActionResult RemoveContactDetail(int contactDetailId)
         {
+            int customerId = _customerService.GetContactDetailForEdition(contactDetailId).CustomerId;
             _customerService.RemoveContactDetail(contactDetailId);
-            return View();
+            return RedirectToAction("CustomerView", "Customer", new { customerId = customerId });
         }
         ////**** Address ****\\\\
         
@@ -134,7 +135,6 @@ namespace CafeMVC.Web.Controllers
             return View();
         }
         
-        [HttpDelete]
         public IActionResult DeleteAddress(int addressId)
         {
             _customerService.DeleteAddress(addressId);

@@ -129,7 +129,7 @@ namespace CafeMVC.Infrastructure.Repositories
         {
             _context.Attach(contactDetail);
             _context.Entry(contactDetail).Property("ContactDetailInformation").IsModified = true;
-            _context.Entry(contactDetail).Property("ContactDetailTypeId").IsModified = true;
+            _context.Entry(contactDetail).Property("ContactDetailTypeId").IsModified = false;
             _context.SaveChanges();
         }
 

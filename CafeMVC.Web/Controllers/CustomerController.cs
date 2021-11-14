@@ -111,16 +111,23 @@ namespace CafeMVC.Web.Controllers
         
 
         [HttpGet]
-        public IActionResult AddNewAddress()
+        public IActionResult AddNewAddress(int customerId)
         {
-            return View(new AddressForCreationVm());
+            AddressForCreationVm addressForCreation = new()
+            {
+                CustomerId = customerId,
+                AllAddressTypes = _customerService.GetAllAddressTypes()
+
+            };
+            return View(addressForCreation);
         }
 
         [HttpPost]
-        public IActionResult AddNewAddress(AddressForCreationVm address, int customerId)
+        public IActionResult AddNewAddress(AddressForCreationVm address)
         {
-            _customerService.AddNewAddress(address, customerId);
-            return View();
+            _customerService.AddNewAddress(address);
+            return RedirectToAction("CustomerView", "Customer", new { customerId = address.CustomerId });
+
         }
         [HttpGet]
         public IActionResult ChangeAddress(int addressId)

@@ -23,13 +23,15 @@ namespace CafeMVC.Application.Interfaces
         
         /////Address actions////
         
-        void AddNewAddress(AddressForCreationVm address, int customerId);
+        void AddNewAddress(AddressForCreationVm address);
 
         AddressForEdtitionVm GetAddressToEdit(int addressId);
 
         void ChangeCustomerAddress(AddressForCreationVm address);
      
         CustomerForCreationVm SetInitialContactsAndAddressesTypes( CustomerForCreationVm newCreatedCustomer);
+
+        List<AddressTypeVm> GetAllAddressTypes();
 
         void DeleteAddress(int addressId);
 

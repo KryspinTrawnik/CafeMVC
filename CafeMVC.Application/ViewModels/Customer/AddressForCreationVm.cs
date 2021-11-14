@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CafeMVC.Application.Interfaces.Mapping;
+using System.Collections.Generic;
 
 namespace CafeMVC.Application.ViewModels.Customer
 {
@@ -19,7 +20,11 @@ namespace CafeMVC.Application.ViewModels.Customer
 
         public string Country { get; set; }
 
+        public int CustomerId { get; set; }
+
         public int AddressTypeId { get; set; }
+
+        public List<AddressTypeVm> AllAddressTypes { get; set; }
 
         public void Mapping(Profile profile)
         {

@@ -83,7 +83,11 @@
         <th>Building No.</th>
         <th>Type</th>
         <th>Street</th>
-        <th></th>
+        <th>
+                   <a class="btn btn-secondary"href="@Url.Action("AddNewAddress", "Customer", new { customerId = Model.Id})">
+                   Add New Contact Detail
+                   </a>
+         </th>
         <th></th>
     </tr>
     </thead>

@@ -66,7 +66,7 @@ namespace CafeMVC.Application.Services
         }
                     //////Address Actions/////////
                     
-        public void AddNewAddress(AddressForCreationVm address, int customerId)
+        public void AddNewAddress(AddressForCreationVm address)
         {
             Address newAddress = _mapper.Map<Address>(address);
             _customerRepository.AddNewAddress(newAddress);
@@ -137,6 +137,13 @@ namespace CafeMVC.Application.Services
             ContactDetail contactDetail = _customerRepository.GetContactDetailById(contactDetailId);
             ContactInfoForCreationVm contactDetailForEdition = _mapper.Map<ContactInfoForCreationVm>(contactDetail);
             return contactDetailForEdition;
+        }
+
+        public List<AddressTypeVm> GetAllAddressTypes()
+        {
+            List < AddressTypeVm > allAddressType = _customerRepository.GetAllAddressTypes()
+                .ProjectTo<AddressTypeVm>(_mapper.ConfigurationProvider).ToList();
+            return allAddressType;
         }
     }
 }

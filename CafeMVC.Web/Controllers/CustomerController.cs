@@ -111,34 +111,42 @@ namespace CafeMVC.Web.Controllers
         
 
         [HttpGet]
-        public IActionResult AddNewAddress()
+        public IActionResult AddNewAddress(int customerId)
         {
-            return View(new AddressForCreationVm());
+            AddressForCreationVm addressForCreation = new()
+            {
+                CustomerId = customerId,
+                AllAddressTypes = _customerService.GetAllAddressTypes()
+
+            };
+            return View(addressForCreation);
         }
 
         [HttpPost]
-        public IActionResult AddNewAddress(AddressForCreationVm address, int customerId)
+        public IActionResult AddNewAddress(AddressForCreationVm address)
         {
-            _customerService.AddNewAddress(address, customerId);
-            return View();
+            _customerService.AddNewAddress(address);
+            return RedirectToAction("CustomerView", "Customer", new { customerId = address.CustomerId });
+
         }
         [HttpGet]
         public IActionResult ChangeAddress(int addressId)
         {
-            AddressForEdtitionVm addressToBeEdited = _customerService.GetAddressToEdit(addressId);
+            AddressForCreationVm addressToBeEdited = _customerService.GetAddressToEdit(addressId);
             return View(addressToBeEdited);
         }
         [HttpPost]
         public IActionResult ChangeAddress(AddressForCreationVm editedAddress)
         {
             _customerService.ChangeCustomerAddress(editedAddress);
-            return View();
+            return RedirectToAction("CustomerView", "Customer", new { customerId = editedAddress.CustomerId });
         }
         
         public IActionResult DeleteAddress(int addressId)
         {
+            int customerId = _customerService.GetAddressToEdit(addressId).CustomerId;
             _customerService.DeleteAddress(addressId);
-            return View();
+            return RedirectToAction("CustomerView", "Customer", new { customerId = customerId });
         }
         [HttpGet]
         public IActionResult ViewAddress(int addressId)

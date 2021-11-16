@@ -10,26 +10,23 @@
 {
     @Html.Hidden("Id")
     <h5>Contact type</h5>
-<h6>
-    @Html.DropDownList("ContactDetailTypeId", new List<SelectListItem>
-    {
+    <h6>
+        @Html.DropDownList("ContactDetailTypeId", new List<SelectListItem>
+        {
+            new SelectListItem { Text = Model.AllContactDetailsTypes[0].Name,
+                Value=Model.AllContactDetailsTypes[0].Id.ToString() },
+            new SelectListItem { Text = Model.AllContactDetailsTypes[1].Name,
+               Value=Model.AllContactDetailsTypes[1].Id.ToString() }
 
-
-        new SelectListItem { Text = Model.AllContactDetailsTypes[0].Name,
-            Value=Model.AllContactDetailsTypes[0].Id.ToString() },
-       new SelectListItem { Text = Model.AllContactDetailsTypes[1].Name,
-           Value=Model.AllContactDetailsTypes[1].Id.ToString() }
-
-    })
-</h6>
-<br />
-<br />
-<h5>Contact Detail</h5>
-@Html.TextBoxFor(m => m.ContactDetailInformation)
+        })
+    </h6>
     <br />
+    <h5>Contact Detail</h5>
+        @Html.TextBoxFor(m => m.ContactDetailInformation)
     <br />
     @Html.HiddenFor(m => m.CustomerId)
-    <button type="submit" value="Submit" role="button">Submit</button>   
+    <button type="submit" class="btn btn-success" value="Submit" role="button">Submit</button>   
+    <button  class="btn btn-danger" href="@Url.Action("CustomerView", "Customer", new { customerId = Model.Id})">Cancel</button>  
 }
 
 

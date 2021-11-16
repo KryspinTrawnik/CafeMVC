@@ -99,13 +99,13 @@
     <td>@Html.DisplayFor(m => m.Addresses[i].Type)</td>
     <td>@Html.DisplayFor(m => m.Addresses[i].Street)</td>
     <td>
-        <a class="btn btn-primary btn-sm" href="@Url.Action("ViewAddress", "Customer", new { adderssId = Model.Addresses[i].Id})">
+        <a class="btn btn-primary btn-sm" href="@Url.Action("ViewAddress", "Customer", new { addressId = Model.Addresses[i].Id})">
             View
         </a>
-        <a class="btn btn-info btn-sm" href="@Url.Action("ChangeAddress", "Customer", new { adderssId = Model.Addresses[i].Id})">
+        <a class="btn btn-info btn-sm" href="@Url.Action("ChangeAddress", "Customer", new { addressId = Model.Addresses[i].Id})">
             Edit
         </a>
-        <a class="btn btn-danger btn-sm" href="@Url.Action("DeleteAddress", "Customer", new { adderssId = Model.Addresses[i].Id})">
+        <a class="btn btn-danger btn-sm" href="@Url.Action("DeleteAddress", "Customer", new { addressId = Model.Addresses[i].Id})">
             Delete
         </a>
     </td>

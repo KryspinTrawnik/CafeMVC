@@ -77,10 +77,11 @@ namespace CafeMVC.Application.Services
             _customerRepository.DeleteAddress(addressId);
         }
 
-        public AddressForEdtitionVm GetAddressToEdit(int addressId)
+        public AddressForCreationVm GetAddressToEdit(int addressId)
         {
             Address address = _customerRepository.GetAddressById(addressId);
-            AddressForEdtitionVm addressForEdition = _mapper.Map<AddressForEdtitionVm>(address);
+            AddressForCreationVm addressForEdition = _mapper.Map<AddressForCreationVm>(address);
+            addressForEdition.AllAddressTypes = GetAllAddressTypes();
             return addressForEdition;
 
         }

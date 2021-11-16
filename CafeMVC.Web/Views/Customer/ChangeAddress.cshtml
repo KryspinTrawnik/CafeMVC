@@ -1,0 +1,42 @@
+﻿@model CafeMVC.Application.ViewModels.Customer.AddressForCreationVm
+@{
+    string title = "Edit Address";
+};
+
+<h5>@title</h5>
+<br />
+@using (Html.BeginForm("ChangeAddress", "Customer", FormMethod.Post))
+{
+    @Html.Hidden("Id")
+    @Html.Hidden("CustomerId")
+    <h6>Address type</h6>
+    @Html.DropDownList("AddressTypeId", new List<SelectListItem>
+    {
+        new SelectListItem { Text = Model.AllAddressTypes[0].Name,
+            Value=Model.AllAddressTypes[0].Id.ToString() },
+       new SelectListItem { Text = Model.AllAddressTypes[1].Name,
+           Value=Model.AllAddressTypes[1].Id.ToString() }
+    })
+    @Html.HiddenFor( m => m.AllAddressTypes);
+    <h6>Building No.</h6>
+    @Html.TextBoxFor(m=> m.BuildingNumber)
+    <br />
+    <h6>Flat No.</h6>
+    @Html.TextBoxFor(m=> m.FlatNumber)
+    <br />
+    <h6>Street</h6>
+    @Html.TextBoxFor(m=> m.Street)
+    <br />
+    <h6>Zip Code</h6>
+    @Html.TextBoxFor(m=> m.ZipCode)
+    <br />
+    <h6>City</h6>
+    @Html.TextBoxFor(m=> m.City)
+    <br />
+    <h6>Country</h6>
+    @Html.TextBoxFor(m=> m.Country)
+    <br />
+    <button class="btn btn-primary" type="submit" value="Submit" role="button">Submit</button>
+    <button  class="btn btn-danger" href="@Url.Action("CustomerView", "Customer", new { customerId = Model.Id})">Cancel</button>  
+
+}

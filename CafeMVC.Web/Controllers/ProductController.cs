@@ -64,10 +64,21 @@ namespace CafeMVC.Web.Controllers
             return View();
         }
 
-        [HttpDelete]
         public IActionResult DeleteProduct(int productId)
         {
             _productService.DeleteProduct(productId);
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult AddImageToProduct()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddImageToProduct(string pathway)
+        {
             return View();
         }
 
@@ -77,7 +88,7 @@ namespace CafeMVC.Web.Controllers
             ProductForViewVm productView = _productService.GetProductForViewById(productId);
             return View(productView);
         }
-
+        ///***Ingredient Actions***///
         [HttpGet]
         public IActionResult AddIngredientsToProduct()
         {
@@ -97,25 +108,6 @@ namespace CafeMVC.Web.Controllers
             return View();
         }
 
-        [HttpDelete]
-        public IActionResult DeleteIngredientsFromProduct(int productId, int ingredientId)
-        {
-            _productService.DeleteIngredient(productId, ingredientId);
-            return View();
-        }
-
-        [HttpGet]
-        public IActionResult ChangeDietInformation()
-        {
-            return View();
-        }
-
-        [HttpPatch]
-        public IActionResult AddDietInfo(int productId, int dietInfoId)
-        {
-            _productService.AddDietInfoToProduct(productId, dietInfoId);
-            return View();
-        }
         [HttpGet]
         public IActionResult ViewAllIngredients()
         {
@@ -135,6 +127,24 @@ namespace CafeMVC.Web.Controllers
             _productService.AddNewIngredient(ingredient);
             return View();
         }
+        public IActionResult DeleteIngredientsFromProduct(int productId, int ingredientId)
+        {
+            _productService.DeleteIngredient(productId, ingredientId);
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult ChangeDietInformation()
+        {
+            return View();
+        }
+
+        [HttpPatch]
+        public IActionResult AddDietInfo(int productId, int dietInfoId)
+        {
+            _productService.AddDietInfoToProduct(productId, dietInfoId);
+            return View();
+        }
         [HttpGet]
         public IActionResult AddNewAllergen()
         {
@@ -148,16 +158,5 @@ namespace CafeMVC.Web.Controllers
             return View();
         }
 
-        [HttpGet]
-        public IActionResult AddImageToProduct()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult AddImageToProduct(string pathway)
-        {
-            return View();
-        }
     }
 }

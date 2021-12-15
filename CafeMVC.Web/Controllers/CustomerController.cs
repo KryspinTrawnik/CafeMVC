@@ -151,8 +151,8 @@ namespace CafeMVC.Web.Controllers
         [HttpGet]
         public IActionResult ViewAddress(int addressId)
         {
-            var address = _customerService.GetAddressToEdit(addressId);
-            return View();
+            AddressForCreationVm address = _customerService.GetAddressToEdit(addressId);
+            return View(address);
         }
 
     }

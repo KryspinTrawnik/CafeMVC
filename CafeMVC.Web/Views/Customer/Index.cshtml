@@ -3,7 +3,14 @@
 @{
     ViewData["Title"] = "Index";
 }
-
+<head>
+    <style>
+    #searchString{
+        background-color: #1a1aff;
+        color: white;
+    }
+    </style>
+</head>
 <h1>Index</h1>
 
 <p>
@@ -11,12 +18,13 @@
 </p>
 <form asp-action="Index" asp-controller="customer" method="post">
     <div class="row">
-       <input type="text" asp-for="SearchString" name="searchString" id="searchString" />
-        <input type="submit" value="Search" />
+       <input type="text" asp-for="SearchString" name="searchString" id="searchString"  />
+       
+        <input type="submit" value="Search"/>
     </div>
     <div class="row">
 
-        <table class="table">
+        <table class="table table-dark">
             <thead>
                 <tr>
                     <th>

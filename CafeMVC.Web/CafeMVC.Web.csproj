@@ -26,7 +26,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Images\" />
+    <None Include="wwwroot\css\Background.css" />
+    <None Include="wwwroot\Imgs\Background.jpg" />
   </ItemGroup>
 
 </Project>

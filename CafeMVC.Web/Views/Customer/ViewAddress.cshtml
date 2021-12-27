@@ -1,28 +1,45 @@
-﻿@model CafeMVC.Application.ViewModels.Customer.AddressForCreationVm 
+﻿@model CafeMVC.Application.ViewModels.Customer.AddressForCreationVm
 @{
     string title = "Address View";
 }
-<br />
+<head>
+
+</head>
 <h5>@title</h5>
-<br />
-<h6>Builidng Number</h6>
-<h7> @Html.DisplayFor(m => m.BuildingNumber)</h7>
-<br />
-@if (Model.FlatNumber != 0)
-{
-    <h6>Flat Number</h6>
-    <h7> @Html.DisplayFor(m => m.BuildingNumber)</h7>
-<br />
-}
-<h6>Street</h6>
-<h7> @Html.DisplayFor(m => m.Street)</h7>
-<br />
-<h6>City</h6>
-<h7> @Html.DisplayFor(m => m.City)</h7>
-<br />
-<h6>Post code</h6>
-<h7> @Html.DisplayFor(m => m.ZipCode)</h7>
-<br />
-<h6>Country</h6>
-<h7> @Html.DisplayFor(m => m.Country)</h7>
-<br />
+    <table class="tableAdressView table-bordered bg-dark " id="addressViewTable">
+        <thead>
+            <tr>
+                <th>
+                    <h6>Builidng Number</h6>
+                </th>
+                @if (Model.FlatNumber != 0)
+                {
+                    <th>Flat Number</th>
+                }
+                <th>Street</th>
+            </tr>
+        </thead>
+        <tr>
+            <td class = "number"><h7> @Html.DisplayFor(m => m.BuildingNumber)</h7></td>
+            @if (Model.FlatNumber != 0)
+            {
+
+                <td class="number"> @Html.DisplayFor(m => m.FlatNumber)</td>
+            }
+            <td> @Html.DisplayFor(m => m.Street)</td>
+        </tr>
+    </table>
+    <table class="table-bordered bg-dark" id="addressViewTable">
+        <thead>
+            <tr>
+                <th>City</th>
+                <th>Post code</th>
+                <th>Country</th>
+            </tr>
+        </thead>
+        <tr>
+            <td> @Html.DisplayFor(m => m.City)</td>
+            <td> @Html.DisplayFor(m => m.ZipCode)</td>
+            <td> @Html.DisplayFor(m => m.Country)</td>
+        </tr>
+    </table>

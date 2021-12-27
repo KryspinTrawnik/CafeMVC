@@ -5,12 +5,21 @@
 }
 <head>
     <style>
-    #searchString{
-        background-color: #1a1aff;
-        color: white;
-    }
-    </style>
+        #searchString {
+            background-color: #212429;
+            color: white;
+            width: 30%;
+        }
+
+        #searchButton {
+            background-color: #815654;
+            color: white;
+            width: 10%;
+        }
+
+        </style>
 </head>
+
 <h1>Index</h1>
 
 <p>
@@ -18,13 +27,13 @@
 </p>
 <form asp-action="Index" asp-controller="customer" method="post">
     <div class="row">
-       <input type="text" asp-for="SearchString" name="searchString" id="searchString"  />
-       
-        <input type="submit" value="Search"/>
+        <input type="text" asp-for="SearchString" name="searchString" id="searchString" placeholder="Looking for..." />
+
+        <input type="submit" value="Search" id="searchButton" />
     </div>
     <div class="row">
 
-        <table class="table table-dark">
+        <table class="table table-dark" style="width:60%">
             <thead>
                 <tr>
                     <th>
@@ -40,42 +49,42 @@
                 @foreach (var item in Model.ListOfAllCustomers)
                 {
                     <tr>
-                        <td>
+                        <td width=10%>
                             @Html.DisplayFor(modelItem => item.Id)
                         </td>
-                        <td>    
+                        <td width=40%>
                             @Html.DisplayFor(modelItem => item.FullName)
                         </td>
-                        <td>
+                        <td width=50%>
                             @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
                             @Html.ActionLink("Details", "CustomerView", new {  customerId=item.Id  }) |
                             @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                       </td>
+                        </td>
                     </tr>
                 }
             </tbody>
         </table>
     </div>
     <div class="row">
-        <table>
+        <tabl>
             <tr>
-                @for(int i = 1; i <= Math.Ceiling(Model.Count /(double)Model.PageSize ); i++)
-            {
-                <td>
-                    @if (i != Model.CurrentPage)
-                    {
-                        <a href="javascript:PagerClick(@i)">@i</a>
-                    }
-                    else
-                    {
-                        <span>@i</span>
-                    }
-                </td>
-            }
+                @for (int i = 1; i <= Math.Ceiling(Model.Count / (double)Model.PageSize); i++)
+                {
+                    <td>
+                        @if (i != Model.CurrentPage)
+                        {
+                            <a href="javascript:PagerClick(@i)">@i</a>
+                        }
+                        else
+                        {
+                            <span>@i</span>
+                        }
+                    </td>
+                }
             </tr>
-        </table>
-        <input type="hidden" name="pageNo" id="pageNo"/>
-        <input type="hidden" name="pageSize" id="pageSize" value="2"/>
+            </table>
+            <input type="hidden" name="pageNo" id="pageNo" />
+            <input type="hidden" name="pageSize" id="pageSize" value="2" />
     </div>
 </form>
 @section Scripts

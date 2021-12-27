@@ -9,7 +9,7 @@ a.navbar-brand {
 
 /* Provide sufficient contrast against white background */
 a {
-  color: #0366d6;
+  color: white;
 }
 
 .btn-primary {
@@ -57,15 +57,35 @@ html {
   position: relative;
   min-height: 100%;
 }
-
+header {
+    color: white;
+}
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    /* Margin bottom by footer height */
+    background-image: url('../Imgs/coffee-gb50b8bca7_1920.jpg');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    margin: auto;
+    font-family: 'Source Sans Pro', sans-serif;
+    color: white;
+    margin-bottom: 60px;
 }
 .footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px; /* Vertically center the text there */
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px; /* Vertically center the text there */
 }
+#addressViewTable {
+    color: white;
+    margin-left: auto;
+    margin-right: auto;
+    width: 30%;
+    
+}
+td.number {
+        text-align: center;
+}
+

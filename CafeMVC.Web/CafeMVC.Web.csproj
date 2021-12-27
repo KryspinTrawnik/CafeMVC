@@ -25,9 +25,4 @@
     <ProjectReference Include="..\CafeMVC.Infrastructure\CafeMVC.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Include="wwwroot\css\Background.css" />
-    <None Include="wwwroot\Imgs\Background.jpg" />
-  </ItemGroup>
-
 </Project>

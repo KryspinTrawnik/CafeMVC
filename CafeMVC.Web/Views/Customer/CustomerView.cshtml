@@ -2,7 +2,9 @@
 @{
     string title = "Customer View";
     Layout = "_Layout";
-}
+    }
+    
+
 <div>
 <h1>@title</h1>
 <br>
@@ -13,8 +15,8 @@
 <h5>Contact Details</h5>
 </div>
 <div style ="float: left" width = "50%">
-    <table class = "table" style="width:100%">
-       <thead class = "table-hover">
+    <table class = "table table-dark" style="width:100%">
+       <thead>
            <tr>
            <th><h5>E-mail</h5></th>
                <th>
@@ -44,8 +46,8 @@
    </table>
 </div>
 <div style ="float: left; width:50%">
-    <table class  = "table" style="width:100%">
-       <thead class = "table-success">
+    <table class  = "table table-dark" style="width:100%">
+       <thead>
            <tr>
            <th><h5>Telephone Number</h5></th>
                <th>
@@ -76,30 +78,30 @@
 </div>
 <div style = "clear: both">
 <h5>Addresses</h5>
-<table class = "table" style="width:100%">
-    <thead class = "table-success">
+<table class = "table table-bordered table-dark" style="width:81%">
+    <thead>
     <tr>
         <th>No.</th>
-        <th>Building No.</th>
         <th>Type</th>
+        <th>Building No.</th>
         <th>Street</th>
         <th>
                    <a class="btn btn-secondary"href="@Url.Action("AddNewAddress", "Customer", new { customerId = Model.Id})">
                    Add New Address
                    </a>
          </th>
-        <th></th>
+        
     </tr>
     </thead>
     @for (int i = 0; i < Model.Addresses.Count; i++)
     {
 <tr>
     <td>@i</td>
-    <td>@Html.DisplayFor(m => m.Addresses[i].BuildingNumber)</td>
     <td>@Html.DisplayFor(m => m.Addresses[i].Type)</td>
+    <td class="number">@Html.DisplayFor(m => m.Addresses[i].BuildingNumber)</td>
     <td>@Html.DisplayFor(m => m.Addresses[i].Street)</td>
     <td>
-        <a class="btn btn-primary btn-sm" href="@Url.Action("ViewAddress", "Customer", new { addressId = Model.Addresses[i].Id})">
+        <a class="btn btn-primary btn-sm" href="@Url.Action("ViewAddress", "Customer", new { addressId = Model.Addresses[i].Id})" target="_blank">
             View
         </a>
         <a class="btn btn-info btn-sm" href="@Url.Action("ChangeAddress", "Customer", new { addressId = Model.Addresses[i].Id})">
@@ -125,7 +127,7 @@
 }
 else
 {
-    <table style="width:50%">
+    <table class="table table-dark" style="width:50%">
         <tr>
             <th>No.</th>
             <th>Date</th>

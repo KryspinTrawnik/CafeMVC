@@ -1,7 +1,7 @@
 ﻿@model CafeMVC.Application.ViewModels.Customer.AddressForCreationVm
 @{
     string title = "Edit Address";
-};
+}
 
 <h5>@title</h5>
 <br />
@@ -16,27 +16,27 @@
             Value=Model.AllAddressTypes[0].Id.ToString() },
        new SelectListItem { Text = Model.AllAddressTypes[1].Name,
            Value=Model.AllAddressTypes[1].Id.ToString() }
-    })
+    }, new { @class = "textBox"})
     @Html.HiddenFor( m => m.AllAddressTypes);
     <h6>Building No.</h6>
-    @Html.TextBoxFor(m=> m.BuildingNumber)
+    @Html.TextBoxFor(m=> m.BuildingNumber, new { @class = "textBox"})
     <br />
     <h6>Flat No.</h6>
-    @Html.TextBoxFor(m=> m.FlatNumber)
+    @Html.TextBoxFor(m=> m.FlatNumber, new { @class = "textBox"})
     <br />
     <h6>Street</h6>
-    @Html.TextBoxFor(m=> m.Street)
+    @Html.TextBoxFor(m=> m.Street, new { @class = "textBox"})
     <br />
     <h6>Zip Code</h6>
-    @Html.TextBoxFor(m=> m.ZipCode)
+    @Html.TextBoxFor(m=> m.ZipCode, new { @class = "textBox"})
     <br />
     <h6>City</h6>
-    @Html.TextBoxFor(m=> m.City)
+    @Html.TextBoxFor(m=> m.City, new { @class = "textBox"})
     <br />
     <h6>Country</h6>
-    @Html.TextBoxFor(m=> m.Country)
+    @Html.TextBoxFor(m=> m.Country, new { @class = "textBox"})
     <br />
-    <button class="btn btn-primary" type="submit" value="Submit" role="button">Submit</button>
-    <button  class="btn btn-danger" href="@Url.Action("CustomerView", "Customer", new { customerId = Model.Id})">Cancel</button>  
+    <button class="btn btn-primary" type="submit" value="Submit">Submit</button>
+    <button type="submit" class="btn btn-danger" name="Btn" value="Cancel">Cancel</button>
 
 }

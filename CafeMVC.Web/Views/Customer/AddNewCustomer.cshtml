@@ -1,12 +1,12 @@
 ﻿@model CafeMVC.Application.ViewModels.Customer.CustomerForCreationVm
 @{ string title = "New Customer";
-    Layout = "_Layout";
+    
 }
 
 <h1>@title</h1>
 <br />
 <br />
-@using (Html.BeginForm("AddNewCustomerSummary", "Customer", FormMethod.Post))
+@using (Html.BeginForm("AddNewCustomerSummary", "Customer", FormMethod.Post, new {@class = "Coffee-fromt"}))
 {
     @Html.Hidden("Id")
     <h5>@Html.LabelFor(m => m.FirstName)</h5>
@@ -95,5 +95,5 @@
         @Html.TextBoxFor(m => m.Addresses[1].Country)
     </h6>
     <br />
-    <button type="submit" value="Submit" role="button">Submit</button>
+    <button type="submit" style="button button-success" value="Submit" role="button">Submit</button>
 }

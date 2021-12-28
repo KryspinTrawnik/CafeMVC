@@ -26,6 +26,8 @@ namespace CafeMVC.Application.ViewModels.Customer
 
         public List<AddressTypeVm> AllAddressTypes { get; set; }
 
+        public string Btn { get; set; }
+
         public void Mapping(Profile profile)
         {
             profile.CreateMap<AddressForCreationVm, CafeMVC.Domain.Model.Address>().ReverseMap();

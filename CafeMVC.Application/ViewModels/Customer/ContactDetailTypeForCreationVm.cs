@@ -9,6 +9,7 @@ namespace CafeMVC.Application.ViewModels.Customer
 
         public string Name { get; set; }
 
+        
         public void Mapping(Profile profile)
         {
             profile.CreateMap<ContactDetailTypeForCreationVm, CafeMVC.Domain.Model.ContactDetailType > ().ReverseMap();

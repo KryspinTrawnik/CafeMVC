@@ -18,14 +18,15 @@
             new SelectListItem { Text = Model.AllContactDetailsTypes[1].Name,
                Value=Model.AllContactDetailsTypes[1].Id.ToString() }
 
-        })
+        }, new { @class = "textBox"})
     </h6>
     <br />
     <h5>Contact Detail</h5>
-        @Html.TextBoxFor(m => m.ContactDetailInformation)
+        @Html.TextBoxFor(m => m.ContactDetailInformation, new { @class = "textBox"})
     <br />
     @Html.HiddenFor(m => m.CustomerId)
-    <button type="submit" class="btn btn-success" value="Submit" role="button">Submit</button>   
+    <button type="submit" class="btn btn-success" value="Submit">Submit</button>   
+    <button type="submit" class="btn btn-danger" name="Btn" value="Cancel">Cancel</button>
 }
 
 

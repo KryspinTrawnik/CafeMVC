@@ -20,5 +20,5 @@
     <br />
     @Html.HiddenFor(m => m.CustomerId)
     <button type="submit" value="Submit" role="button">Submit</button>
-    <button  class="btn btn-danger" href="@Url.Action("CustomerView", "Customer", new { customerId = Model.Id})">Cancel</button>  
+   <button type="submit" class="btn btn-danger" name="Btn" value="Cancel">Cancel</button>
 }

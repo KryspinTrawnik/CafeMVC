@@ -89,3 +89,18 @@ td.number {
         text-align: center;
 }
 
+.textBox {
+    background-color: #292b2c;
+    color: white;
+    width: 30%;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.00em;
+}
+.form-control {
+    background-color: #292b2c;
+    color: white;
+}
+input.{
+    background-color: #292b2c;
+    color: white;
+}

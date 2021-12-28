@@ -2,48 +2,49 @@
 @{ string title = "New Address";}
 
    <h5>@title</h5>
-   @using (Html.BeginForm("AddNewAddress", "Customer", FormMethod.Post))
-    {
-    <h6>Address type</h6>
+@using (Html.BeginForm("AddNewAddress", "Customer", FormMethod.Post, new { @class = "coffee-Form"}))
+{
+    <h5>Address type</h5>
     @Html.DropDownList("AddressTypeId", new List<SelectListItem>
     {
         new SelectListItem { Text = Model.AllAddressTypes[0].Name,
             Value=Model.AllAddressTypes[0].Id.ToString() },
        new SelectListItem { Text = Model.AllAddressTypes[1].Name,
            Value=Model.AllAddressTypes[1].Id.ToString() }
-    })
+    }, new { @class = "textBox"})
     <h5>Street</h5>
     <h6>
-        @Html.TextBoxFor(m => m.Street)
+        @Html.TextBoxFor(m => m.Street, new { @class = "textBox"})
     </h6>
     <br />
     <h5>Building Number</h5>
     <h6>
-        @Html.TextBoxFor(m => m.BuildingNumber)
+        @Html.TextBoxFor(m => m.BuildingNumber, new { @class = "textBox"})
     </h6>
     <br />
     <h5>Flat Number</h5>
     <h6>
-        @Html.TextBoxFor(m => m.FlatNumber)
+        @Html.TextBoxFor(m => m.FlatNumber, new { @class = "textBox"})
     </h6>
     <br />
     <h5>PostCode</h5>
     <h6>
-        @Html.TextBoxFor(m => m.ZipCode)
+        @Html.TextBoxFor(m => m.ZipCode, new { @class = "textBox"})
     </h6>
     <br />
     <h5>City</h5>
     <h6>
-        @Html.TextBoxFor(m => m.City)
+        @Html.TextBoxFor(m => m.City, new { @class = "textBox"})
     </h6>
     <br />
     <h5>Country</h5>
     <h6>
-        @Html.TextBoxFor(m => m.Country)
+        @Html.TextBoxFor(m => m.Country, new { @class = "textBox"})
     </h6>
-    @Html.HiddenFor(m => m.CustomerId)
+    @Html.HiddenFor(m => m.CustomerId, new { @class = "textBox"})
 
-    <button type="submit" class="btn btn-success" value="Submit" role="button">Submit</button> 
+    <button type="submit" class="btn btn-success" name="Btn" value="Submit" >Submit</button> 
+    <button type="submit" class="btn btn-danger" name="Btn" value="Cancel">Cancel</button>
     }
     
 

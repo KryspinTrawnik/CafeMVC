@@ -1,6 +1,7 @@
 ﻿@model CafeMVC.Application.ViewModels.Customer.AddressForCreationVm
-@{ string title = "New Address";}
-
+@{ string title = "New Address";
+   }
+  
    <h5>@title</h5>
 @using (Html.BeginForm("AddNewAddress", "Customer", FormMethod.Post, new { @class = "coffee-Form"}))
 {

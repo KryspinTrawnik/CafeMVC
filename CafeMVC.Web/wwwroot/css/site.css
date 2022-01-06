@@ -83,7 +83,7 @@ body {
     margin-left: auto;
     margin-right: auto;
     width: 30%;
-    
+    background-color: rgba(41,43,44, 0.8) !important;
 }
 td.number {
         text-align: center;
@@ -100,7 +100,6 @@ td.number {
     background-color: #292b2c;
     color: white;
 }
-input.{
-    background-color: #292b2c;
-    color: white;
+table tr td, table tr th {
+    background-color: rgba(41,43,44, 0.8) !important;
 }

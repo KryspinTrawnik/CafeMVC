@@ -1,99 +1,160 @@
 ﻿@model CafeMVC.Application.ViewModels.Customer.CustomerForCreationVm
-@{ string title = "New Customer";
-    
-}
+@{
+    string title = "New Customer";
 
+}
+<head>
+    <style>
+        .billingAddress {
+            width: 50% !important;
+        }
+
+        .coffeeForm {
+            width: 100%;
+        }
+    </style>
+
+
+
+</head>
 <h1>@title</h1>
 <br />
-<br />
-@using (Html.BeginForm("AddNewCustomerSummary", "Customer", FormMethod.Post, new {@class = "Coffee-fromt"}))
+
+@using (Html.BeginForm("AddNewCustomerSummary", "Customer", FormMethod.Post, new { @class = "coffeeForm" }))
 {
-    @Html.Hidden("Id")
-    <h5>@Html.LabelFor(m => m.FirstName)</h5>
-    <h6>@Html.TextBoxFor(m => m.FirstName)</h6>
-    <br>
-    <h5>@Html.LabelFor(m => m.Surname)</h5>
-    <h6>@Html.TextBoxFor(m => m.Surname)</h6>
-    <br>
-    <br>
-    <h5>E-mail</h5>
-    @Html.HiddenFor(m => m.ContactDetails[0].Id)
-    @Html.HiddenFor(m => m.ContactDetails[0].ContactDetailTypeId)
-    <h6>@Html.TextBoxFor(m => m.ContactDetails[0].ContactDetailInformation)</h6>
-    <br />
-    <br />
-    <h5>Mobile Phone</h5>
-    @Html.HiddenFor(m => m.ContactDetails[1].Id)
-    @Html.HiddenFor(m => m.ContactDetails[1].ContactDetailTypeId)
-    <h6>@Html.TextBoxFor(m => m.ContactDetails[1].ContactDetailInformation)</h6>
-    <br />
-    <br />
-    <h5>Billing Address</h5>
-    @Html.HiddenFor(m => m.Addresses[0].AddressTypeId)
-    <br />
-    <h5>Street</h5>
-    <h6>
-        @Html.TextBoxFor(m => m.Addresses[0].Street)
-    </h6>
-    <br />
-    <h5>Building Number</h5>
-    <h6>
-        @Html.TextBoxFor(m => m.Addresses[0].BuildingNumber)
-    </h6>
-    <br />
-    <h5>Flat Number</h5>
-    <h6>
-        @Html.TextBoxFor(m => m.Addresses[0].FlatNumber)
-    </h6>
-    <br />
-    <h5>PostCode</h5>
-    <h6>
-        @Html.TextBoxFor(m => m.Addresses[0].ZipCode)
-    </h6>
-    <br />
-    <h5>City</h5>
-    <h6>
-        @Html.TextBoxFor(m => m.Addresses[0].City)
-    </h6>
-    <br />
-    <h5>Country</h5>
-    <h6>
-        @Html.TextBoxFor(m => m.Addresses[0].Country)
-    </h6>
-    <br />
-    <br />
-    <h5>Delivery Address</h5>
-    @Html.HiddenFor(m => m.Addresses[1].AddressTypeId)
-    <br />
-    <h5>Street</h5>
-    <h6>
-        @Html.TextBoxFor(m => m.Addresses[1].Street)
-    </h6>
-    <br />
-    <h5>Building Number</h5>
-    <h6>
-        @Html.TextBoxFor(m => m.Addresses[1].BuildingNumber)
-    </h6>
-    <br />
-    <h5>Flat Number</h5>
-    <h6>
-        @Html.TextBoxFor(m => m.Addresses[1].FlatNumber)
-    </h6>
-    <br />
-    <h5>PostCode</h5>
-    <h6>
-        @Html.TextBoxFor(m => m.Addresses[1].ZipCode)
-    </h6>
-    <br />
-    <h5>City</h5>
-    <h6>
-        @Html.TextBoxFor(m => m.Addresses[1].City)
-    </h6>
-    <br />
-    <h5>Country</h5>
-    <h6>
-        @Html.TextBoxFor(m => m.Addresses[1].Country)
-    </h6>
-    <br />
-    <button type="submit" style="button button-success" value="Submit" role="button">Submit</button>
+    <div>
+        <div>
+            @Html.Hidden("Id")
+            <h5>@Html.LabelFor(m => m.FirstName)</h5>
+            <h6>@Html.TextBoxFor(m => m.FirstName, new {@class = "textBox"})</h6>
+            <br>
+            <h5>@Html.LabelFor(m => m.Surname)</h5>
+            <h6>@Html.TextBoxFor(m => m.Surname, new { @class = "textBox"})</h6>
+            <br>
+            <h5>E-mail</h5>
+            @Html.HiddenFor(m => m.ContactDetails[0].Id)
+            @Html.HiddenFor(m => m.ContactDetails[0].ContactDetailTypeId)
+            <h6>@Html.TextBoxFor(m => m.ContactDetails[0].ContactDetailInformation, new { @class = "textBox"})</h6>
+            <br />
+            <h5>Mobile Phone</h5>
+            @Html.HiddenFor(m => m.ContactDetails[1].Id)
+            @Html.HiddenFor(m => m.ContactDetails[1].ContactDetailTypeId)
+            <h6>@Html.TextBoxFor(m => m.ContactDetails[1].ContactDetailInformation, new { @class = "textBox"})</h6>
+            <br />
+        </div>
+        <div class="billingAddress" style="float: left">
+            <h5>Billing Address</h5>
+            @Html.HiddenFor(m => m.Addresses[0].AddressTypeId)
+            <br />
+            <h5>Street</h5>
+            <h6>
+                @Html.TextBoxFor(m => m.Addresses[0].Street, new { @class = "textBox", @id = "streetB"})
+            </h6>
+            <br />
+            <h5>Building Number</h5>
+            <h6>
+                @Html.TextBoxFor(m => m.Addresses[0].BuildingNumber, new { @class = "textBox",  @id = "buildingNumberB"})
+            </h6>
+            <br />
+            <h5>Flat Number</h5>
+            <h6>
+                @Html.TextBoxFor(m => m.Addresses[0].FlatNumber, new { @class = "textBox", @id = "flatNumberB"})
+            </h6>
+            <br />
+            <h5>Post Code</h5>
+            <h6>
+                @Html.TextBoxFor(m => m.Addresses[0].ZipCode, new { @class = "textBox", @id = "zipCodeB"})
+            </h6>
+            <br />
+            <h5>City</h5>
+            <h6>
+                @Html.TextBoxFor(m => m.Addresses[0].City, new { @class = "textBox", @id = "cityB"})
+            </h6>
+            <br />
+            <h5>Country</h5>
+            <h6>
+                @Html.TextBoxFor(m => m.Addresses[0].Country, new { @class = "textBox", @id = "countryB"})
+            </h6>
+            <br />
+        </div>
+        <div class="billingAddress" style="float: left">
+            <p><b>Delivery Information <label><input type="checkbox" value="" id="check-address" onclick="FillShippingAddress()">Same as billing?</label></b></p>
+            <h5>Delivery Address</h5>
+            @Html.HiddenFor(m => m.Addresses[1].AddressTypeId, new { @class = "textBox"})
+            <br />
+            <h5>Street</h5>
+            <h6>
+                @Html.TextBoxFor(m => m.Addresses[1].Street, new { @class = "textBox", @id = "streetD"})
+            </h6>
+            <br />
+            <h5>Building Number</h5>
+            <h6>
+                @Html.TextBoxFor(m => m.Addresses[1].BuildingNumber, new { @class = "textBox", @id = "buildingNumberD"})
+            </h6>
+            <br />
+            <h5>Flat Number</h5>
+            <h6>
+                @Html.TextBoxFor(m => m.Addresses[1].FlatNumber, new { @class = "textBox", @id = "flatNumberD"})
+            </h6>
+            <br />
+            <h5>Post Code</h5>
+            <h6>
+                @Html.TextBoxFor(m => m.Addresses[1].ZipCode, new { @class = "textBox", @id = "zipCodeD"})
+            </h6>
+            <br />
+            <h5>City</h5>
+            <h6>
+                @Html.TextBoxFor(m => m.Addresses[1].City, new { @class = "textBox", @id = "cityD"})
+            </h6>
+            <br />
+            <h5>Country</h5>
+            <h6>
+                @Html.TextBoxFor(m => m.Addresses[1].Country, new { @class = "textBox", @id = "countryD"})
+            </h6>
+            <br />
+        </div>
+        <div class="billingAddress" style="clear: both">
+            <button type="submit" style="button-success" value="Submit" role="button">Submit</button>
+        </div>
+    </div>
+    @section Scripts{
+
+<script type="text/javascript">
+    function FillShippingAddress(){
+         var checkBox = document.getElementById("check-address");
+        var streetBil = document.getElementById("streetB");
+        var streetDel = document.getElementById("streetD");
+        var buildingNoBil = document.getElementById("buildingNumberB");
+        var buildingNoDel = document.getElementById("buildingNumberD");
+        var flatNumberBil = document.getElementById("flatNumberB");
+        var flatNumberDel = document.getElementById("flatNumberD");
+        var zipCodeBil = document.getElementById("zipCodeB");
+        var zipCodeDel = document.getElementById("zipCodeD");
+         var cityBil = document.getElementById("cityB");
+        var cityDel = document.getElementById("cityD");
+        var countryBil = document.getElementById("countryB");
+        var countryDel = document.getElementById("countryD");
+
+    if (checkBox.checked == true){
+          streetDel.value= streetBil.value;
+          buildingNoDel.value=buildingNoBil.value;
+          flatNumberDel.value=flatNumberBil.value;
+          zipCodeDel.value=zipCodeBil.value;
+          cityDel.value=cityBil.value;
+          countryDel.value=countryBil.value;
+    } else {
+          streetDel.value="";
+          buildingNoDel.value="";
+          flatNumberDel.value="";
+          zipCodeDel.value="";
+          cityDel.value="";
+          countryDel.value="";
+    }
+     };
+
+
+</script>
+
+    }
 }
+

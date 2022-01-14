@@ -11,7 +11,7 @@ namespace CafeMVC.Application.Interfaces
     {
         ////////Customer actiona/////
         
-        void AddNewCustomer(CustomerForCreationVm customer);
+        int AddNewCustomer(CustomerForCreationVm customer);
 
         void DeleteCustomer(int customerId);
 
@@ -19,7 +19,7 @@ namespace CafeMVC.Application.Interfaces
 
         CustomerDetailViewsVm GetCustomerDetail(int customerId);
 
-        CustomerForSummaryVm GetLastAddedCustomer();
+        CustomerForSummaryVm GetLastAddedCustomer(int id);
         
         /////Address actions////
         

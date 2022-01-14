@@ -14,9 +14,9 @@
 
         public string Country { get; set; }
 
-        public int? AddressTypeId { get; set; }
+        public int AddressTypeId { get; set; }
 
-        public int? CustomerId { get; set; }
+        public int CustomerId { get; set; }
 
         public int? OrderId { get; set; }
 

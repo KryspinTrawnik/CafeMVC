@@ -52,7 +52,7 @@ namespace CafeMVC.Infrastructure.Repositories
 
         public void DeleteCustomer(int customerId)
         {
-            Customer customer = _context.Customers.Find(customerId);
+            Customer customer = _context.Customers.FirstOrDefault(x => x.Id == customerId);
             if (customer != null)
             {
                 _context.Customers.Remove(customer);

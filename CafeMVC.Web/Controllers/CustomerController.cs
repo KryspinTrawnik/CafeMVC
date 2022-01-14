@@ -27,13 +27,14 @@ namespace CafeMVC.Web.Controllers
         [HttpPost]
         public IActionResult Index(int pageSize, int? pageNo, string searchString)
         {
-            if(!pageNo.HasValue)
+            if (!pageNo.HasValue)
             {
                 pageNo = 1;
             }
-            if(searchString is null)
+            if (searchString is null)
             {
-                searchString = String.Empty; 
+                searchString = String.Empty;
+                pageSize = 20;
             }
             var listOfCustomers = _customerService.GetCustomersForPages(pageSize, pageNo.Value, searchString);
             return View(listOfCustomers);
@@ -55,16 +56,24 @@ namespace CafeMVC.Web.Controllers
         [HttpPost]
         public IActionResult AddNewCustomerSummary(CustomerForCreationVm customer)
         {
-            _customerService.AddNewCustomer(customer);
-            
-            return View(_customerService.GetLastAddedCustomer());
+            if (customer.Btn == "Submit")
+            {
+                int idNewcustomer = _customerService.AddNewCustomer(customer);
+                var lastcustomer = _customerService.GetLastAddedCustomer(idNewcustomer);
+
+                return View(lastcustomer);
+            }
+            else
+            {
+                return RedirectToAction("index", "Home");
+            }
         }
 
-        [HttpDelete]
         public IActionResult DeleteCustomer(int customerId)
         {
-           _customerService.DeleteCustomer(customerId);
-            return View();
+            _customerService.DeleteCustomer(customerId);
+
+            return RedirectToAction("index", "Home");
         }
         ///****Contact Detail****\\\\\\
         [HttpGet]
@@ -75,7 +84,7 @@ namespace CafeMVC.Web.Controllers
                 CustomerId = customerId,
                 AllContactDetailsTypes = _customerService.GetAllContactDetailTypes()
             };
-            return View(newContactDetail );
+            return View(newContactDetail);
         }
 
         [HttpPost]
@@ -85,13 +94,13 @@ namespace CafeMVC.Web.Controllers
             {
                 _customerService.AddNewContactDetail(contactDetail);
             }
-                return RedirectToAction("CustomerView", "Customer", new { customerId = contactDetail.CustomerId}); 
+            return RedirectToAction("CustomerView", "Customer", new { customerId = contactDetail.CustomerId });
         }
 
         [HttpGet]
         public IActionResult ChangeContactDetail(int contactDetailId)
         {
-            var contactDetailForEdition =_customerService.GetContactDetailForEdition(contactDetailId);
+            var contactDetailForEdition = _customerService.GetContactDetailForEdition(contactDetailId);
             return View(contactDetailForEdition);
         }
 
@@ -102,9 +111,9 @@ namespace CafeMVC.Web.Controllers
             {
                 _customerService.ChangeContactDetails(contactDetail);
             }
-                return RedirectToAction("CustomerView", "Customer", new { customerId = contactDetail.CustomerId });
+            return RedirectToAction("CustomerView", "Customer", new { customerId = contactDetail.CustomerId });
         }
-                
+
         public IActionResult RemoveContactDetail(int contactDetailId)
         {
             int customerId = _customerService.GetContactDetailForEdition(contactDetailId).CustomerId;
@@ -112,7 +121,7 @@ namespace CafeMVC.Web.Controllers
             return RedirectToAction("CustomerView", "Customer", new { customerId = customerId });
         }
         ////**** Address ****\\\\
-        
+
 
         [HttpGet]
         public IActionResult AddNewAddress(int customerId)
@@ -129,11 +138,11 @@ namespace CafeMVC.Web.Controllers
         [HttpPost]
         public IActionResult AddNewAddress(AddressForCreationVm address)
         {
-            if (address.Btn  == "Submit")
+            if (address.Btn == "Submit")
             {
                 _customerService.AddNewAddress(address);
             }
-                return RedirectToAction("CustomerView", "Customer", new { customerId = address.CustomerId });
+            return RedirectToAction("CustomerView", "Customer", new { customerId = address.CustomerId });
 
         }
         [HttpGet]
@@ -145,13 +154,13 @@ namespace CafeMVC.Web.Controllers
         [HttpPost]
         public IActionResult ChangeAddress(AddressForCreationVm editedAddress)
         {
-            if(editedAddress.Btn == "Submit")
+            if (editedAddress.Btn == "Submit")
             {
                 _customerService.ChangeCustomerAddress(editedAddress);
             }
             return RedirectToAction("CustomerView", "Customer", new { customerId = editedAddress.CustomerId });
         }
-        
+
         public IActionResult DeleteAddress(int addressId)
         {
             int customerId = _customerService.GetAddressToEdit(addressId).CustomerId;

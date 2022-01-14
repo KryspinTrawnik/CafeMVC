@@ -1,32 +1,50 @@
 ﻿@model CafeMVC.Application.ViewModels.Customer.CustomerForSummaryVm
-@{ string title = "Summary";
-    Layout = "_Layout";}
+@{
+    string title = "Summary";
+    Layout = "_Layout";
+}
 
 <h1>@title</h1>
 <br />
 <br />
-<h5>@Html.LabelFor(m => m.FirstName)</h5>
-<h6>@Html.DisplayTextFor(m => m.FirstName)</h6>
-<br>
-<h5>@Html.LabelFor(m => m.Surname)</h5>
-<h6>@Html.DisplayTextFor(m => m.Surname)</h6>
-<br>
-<br>
-<h5>Contact Details</h5>
-<h5>@Html.DisplayTextFor(m => m.ContactDetails[0].ContactDetailType)</h5>
-<h6>@Html.DisplayTextFor(m => m.ContactDetails[0].ContactDetailInformation)</h6>
-<br>
-<h5>@Html.DisplayTextFor(m => m.ContactDetails[1].ContactDetailType)</h5>
-<h6>@Html.DisplayTextFor(m => m.ContactDetails[1].ContactDetailInformation)</h6>
-<br>
-<br>
-<h5>Addresses</h5>
-<h5>@Html.DisplayTextFor(m => m.Addresses[0].Type)</h5>
-<h6>@Html.DisplayTextFor(m => m.Addresses[0].Address)</h6>
-<br>
-<br>
-<h5>@Html.DisplayTextFor(m => m.Addresses[1].Type)</h5>
-<h6>@Html.DisplayTextFor(m => m.Addresses[1].Address)</h6>
+<b>
+    <h3>Full name</h3>
+    <h4>@Html.DisplayTextFor(m => m.FirstName) @Html.DisplayTextFor(m => m.Surname)</h4>
+</b>
 <br>
 
-@Html.ActionLink("Index", "Home")
+<h5>Contact Details</h5>
+<table class="table table-dark" style="width:100%">
+    <thead>
+        <tr>
+            <th>@Html.DisplayTextFor(m => m.ContactDetails[0].ContactDetailType)</th>
+            <th>@Html.DisplayTextFor(m => m.ContactDetails[1].ContactDetailType)</th>
+        </tr>
+    </thead>
+    <tr>
+        <td>@Html.DisplayTextFor(m => m.ContactDetails[0].ContactDetailInformation)</td>
+        <td>@Html.DisplayTextFor(m => m.ContactDetails[1].ContactDetailInformation)</td>
+    </tr>
+</table>
+<br>
+<h5>Addresses</h5>
+<table class="table table-dark" style="width:100%">
+    <thead>
+        <tr>
+            <th>@Html.DisplayTextFor(m => m.Addresses[0].Type)</th>
+            <th>@Html.DisplayTextFor(m => m.Addresses[1].Type)</th>
+        </tr>
+    </thead>
+    <tr>
+        <td>@Html.DisplayTextFor(m => m.Addresses[0].Address)</td>
+        <td>@Html.DisplayTextFor(m => m.Addresses[1].Address)</td>
+    </tr>
+</table>
+<br />
+<a class="btn btn-success" href="@Url.Action("Index", "Customer", new { customerId = Model.Id})">Accept </a>
+<a class="btn btn-warning" href="@Url.Action("CustomerView", "Customer", new { customerId = Model.Id})">
+    Edit
+</a>
+<a class="btn btn-danger" href="@Url.Action("DeleteCustomer", "Customer", new { customerId = Model.Id})">
+    Cancel
+</a>

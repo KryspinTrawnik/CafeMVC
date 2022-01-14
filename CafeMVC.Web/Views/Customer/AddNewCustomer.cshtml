@@ -5,25 +5,50 @@
 }
 <head>
     <style>
-        .billingAddress {
-            width: 50% !important;
+
+        .billingAddress, .baseInformation, .shippingAddress, .submit {
+            text-align: center;
         }
 
-        .coffeeForm {
-            width: 100%;
+        .billingAddress, .shippingAddress {
+            vertical-align: top;
+            display: table-cell;
+            padding: 1%;
+            width: 30% !important;
+        }
+
+        .billingAddress {
+            border-style: outset none outset outset;
+        }
+
+        .shippingAddress {
+            border-style: outset outset outset outset;
+        }
+
+        .container {
+            display: table;
+        }
+
+        .baseInformation {
+            width: 50% !important;
+            padding: 2%;
+            margin: auto;
+            align-self: center;
+            border-style: outset outset none outset;
         }
     </style>
 
 
 
 </head>
-<h1>@title</h1>
-<br />
 
-@using (Html.BeginForm("AddNewCustomerSummary", "Customer", FormMethod.Post, new { @class = "coffeeForm" }))
+
+@using (Html.BeginForm("AddNewCustomerSummary", "Customer", FormMethod.Post))
 {
     <div>
-        <div>
+        <div class="baseInformation">
+            <h1>@title</h1>
+            <br />
             @Html.Hidden("Id")
             <h5>@Html.LabelFor(m => m.FirstName)</h5>
             <h6>@Html.TextBoxFor(m => m.FirstName, new {@class = "textBox"})</h6>
@@ -42,79 +67,85 @@
             <h6>@Html.TextBoxFor(m => m.ContactDetails[1].ContactDetailInformation, new { @class = "textBox"})</h6>
             <br />
         </div>
-        <div class="billingAddress" style="float: left">
-            <h5>Billing Address</h5>
-            @Html.HiddenFor(m => m.Addresses[0].AddressTypeId)
-            <br />
-            <h5>Street</h5>
-            <h6>
-                @Html.TextBoxFor(m => m.Addresses[0].Street, new { @class = "textBox", @id = "streetB"})
-            </h6>
-            <br />
-            <h5>Building Number</h5>
-            <h6>
-                @Html.TextBoxFor(m => m.Addresses[0].BuildingNumber, new { @class = "textBox",  @id = "buildingNumberB"})
-            </h6>
-            <br />
-            <h5>Flat Number</h5>
-            <h6>
-                @Html.TextBoxFor(m => m.Addresses[0].FlatNumber, new { @class = "textBox", @id = "flatNumberB"})
-            </h6>
-            <br />
-            <h5>Post Code</h5>
-            <h6>
-                @Html.TextBoxFor(m => m.Addresses[0].ZipCode, new { @class = "textBox", @id = "zipCodeB"})
-            </h6>
-            <br />
-            <h5>City</h5>
-            <h6>
-                @Html.TextBoxFor(m => m.Addresses[0].City, new { @class = "textBox", @id = "cityB"})
-            </h6>
-            <br />
-            <h5>Country</h5>
-            <h6>
-                @Html.TextBoxFor(m => m.Addresses[0].Country, new { @class = "textBox", @id = "countryB"})
-            </h6>
-            <br />
+        <div class="container">
+            <div class="billingAddress">
+                <br />
+                <br />
+                <h5>Billing Address</h5>
+                @Html.HiddenFor(m => m.Addresses[0].AddressTypeId)
+                <br />
+                <h5>Street</h5>
+                <h6>
+                    @Html.TextBoxFor(m => m.Addresses[0].Street, new { @class = "textBox", @id = "streetB"})
+                </h6>
+                <br />
+                <h5>Building Number</h5>
+                <h6>
+                    @Html.TextBoxFor(m => m.Addresses[0].BuildingNumber, new { @class = "textBox",  @id = "buildingNumberB"})
+                </h6>
+                <br />
+                <h5>Flat Number</h5>
+                <h6>
+                    @Html.TextBoxFor(m => m.Addresses[0].FlatNumber, new { @class = "textBox", @id = "flatNumberB"})
+                </h6>
+                <br />
+                <h5>Post Code</h5>
+                <h6>
+                    @Html.TextBoxFor(m => m.Addresses[0].ZipCode, new { @class = "textBox", @id = "zipCodeB"})
+                </h6>
+                <br />
+                <h5>City</h5>
+                <h6>
+                    @Html.TextBoxFor(m => m.Addresses[0].City, new { @class = "textBox", @id = "cityB"})
+                </h6>
+                <br />
+                <h5>Country</h5>
+                <h6>
+                    @Html.TextBoxFor(m => m.Addresses[0].Country, new { @class = "textBox", @id = "countryB"})
+                </h6>
+                <br />
+            </div>
+            <div class="shippingAddress">
+                <p><b>Delivery Information <label><input type="checkbox" value="" id="check-address" onclick="FillShippingAddress()">Same as billing?</label></b></p>
+                <h5>Delivery Address</h5>
+                @Html.HiddenFor(m => m.Addresses[1].AddressTypeId, new { @class = "textBox"})
+                <br />
+                <h5>Street</h5>
+                <h6>
+                    @Html.TextBoxFor(m => m.Addresses[1].Street, new { @class = "textBox", @id = "streetD"})
+                </h6>
+                <br />
+                <h5>Building Number</h5>
+                <h6>
+                    @Html.TextBoxFor(m => m.Addresses[1].BuildingNumber, new { @class = "textBox", @id = "buildingNumberD"})
+                </h6>
+                <br />
+                <h5>Flat Number</h5>
+                <h6>
+                    @Html.TextBoxFor(m => m.Addresses[1].FlatNumber, new { @class = "textBox", @id = "flatNumberD"})
+                </h6>
+                <br />
+                <h5>Post Code</h5>
+                <h6>
+                    @Html.TextBoxFor(m => m.Addresses[1].ZipCode, new { @class = "textBox", @id = "zipCodeD"})
+                </h6>
+                <br />
+                <h5>City</h5>
+                <h6>
+                    @Html.TextBoxFor(m => m.Addresses[1].City, new { @class = "textBox", @id = "cityD"})
+                </h6>
+                <br />
+                <h5>Country</h5>
+                <h6>
+                    @Html.TextBoxFor(m => m.Addresses[1].Country, new { @class = "textBox", @id = "countryD"})
+                </h6>
+                <br />
+                <br>
+            </div>
         </div>
-        <div class="billingAddress" style="float: left">
-            <p><b>Delivery Information <label><input type="checkbox" value="" id="check-address" onclick="FillShippingAddress()">Same as billing?</label></b></p>
-            <h5>Delivery Address</h5>
-            @Html.HiddenFor(m => m.Addresses[1].AddressTypeId, new { @class = "textBox"})
-            <br />
-            <h5>Street</h5>
-            <h6>
-                @Html.TextBoxFor(m => m.Addresses[1].Street, new { @class = "textBox", @id = "streetD"})
-            </h6>
-            <br />
-            <h5>Building Number</h5>
-            <h6>
-                @Html.TextBoxFor(m => m.Addresses[1].BuildingNumber, new { @class = "textBox", @id = "buildingNumberD"})
-            </h6>
-            <br />
-            <h5>Flat Number</h5>
-            <h6>
-                @Html.TextBoxFor(m => m.Addresses[1].FlatNumber, new { @class = "textBox", @id = "flatNumberD"})
-            </h6>
-            <br />
-            <h5>Post Code</h5>
-            <h6>
-                @Html.TextBoxFor(m => m.Addresses[1].ZipCode, new { @class = "textBox", @id = "zipCodeD"})
-            </h6>
-            <br />
-            <h5>City</h5>
-            <h6>
-                @Html.TextBoxFor(m => m.Addresses[1].City, new { @class = "textBox", @id = "cityD"})
-            </h6>
-            <br />
-            <h5>Country</h5>
-            <h6>
-                @Html.TextBoxFor(m => m.Addresses[1].Country, new { @class = "textBox", @id = "countryD"})
-            </h6>
-            <br />
-        </div>
-        <div class="billingAddress" style="clear: both">
-            <button type="submit" style="button-success" value="Submit" role="button">Submit</button>
+        <div class="submit">
+            <button type="submit" class="btn btn-success" value="Submit" name= "Btn" role="button">Submit</button>
+            <button type="submit" class="btn btn-danger" name="Btn" value="Cancel">Cancel</button>
         </div>
     </div>
     @section Scripts{

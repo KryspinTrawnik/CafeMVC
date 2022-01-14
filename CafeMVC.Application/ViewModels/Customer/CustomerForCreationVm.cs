@@ -20,6 +20,8 @@ namespace CafeMVC.Application.ViewModels.Customer
 
         public List<ContactInfoForCreationVm> ContactDetails { get; set; }
 
+        public string Btn { get; set; }
+
         public void Mapping(Profile profile)
         {
             profile.CreateMap<CustomerForCreationVm, CafeMVC.Domain.Model.Customer> ().ReverseMap();

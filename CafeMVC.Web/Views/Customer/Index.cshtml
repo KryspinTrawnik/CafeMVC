@@ -1,7 +1,7 @@
 ﻿@model CafeMVC.Application.ViewModels.Customer.ListOfCustomers
 
 @{
-    ViewData["Title"] = "Index";
+    string title = "All Customers";
 }
 <head>
     <style>
@@ -20,7 +20,7 @@
         </style>
 </head>
 
-<h1>Index</h1>
+<h1>@title</h1>
 
 <p>
     <a asp-action="AddNewCustomer">Create New Customer</a>
@@ -56,9 +56,8 @@
                             @Html.DisplayFor(modelItem => item.FullName)
                         </td>
                         <td width=50%>
-                            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
                             @Html.ActionLink("Details", "CustomerView", new {  customerId=item.Id  }) |
-                            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                            @Html.ActionLink("Delete", "DeleteCustomer", new { customerId = item.Id})
                         </td>
                     </tr>
                 }

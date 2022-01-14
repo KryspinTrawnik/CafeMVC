@@ -22,11 +22,13 @@ namespace CafeMVC.Application.Services
              
                         //////////Customer Actions/////
         
-        public void AddNewCustomer(CustomerForCreationVm customerVm)
+        public int AddNewCustomer(CustomerForCreationVm customerVm)
         {
             CustomerForCreationVm newCustomer = SetInitialContactsAndAddressesTypes(customerVm);
             Customer customer = _mapper.Map<Customer>(newCustomer);
-            _customerRepository.AddNewCustomer(customer);
+           int id = _customerRepository.AddNewCustomer(customer);
+
+            return id;
         }
 
         public void DeleteCustomer(int customerId)
@@ -36,7 +38,7 @@ namespace CafeMVC.Application.Services
 
         public ListOfCustomers GetCustomersForPages(int pageSize, int pageNo, string searchString)
         {
-            List<CustomerForListVm> customersForLists = _customerRepository.GetAllCustomers()
+            List<CustomerForListVm> customersForLists = _customerRepository.GetAllCustomers().Where(x => x.FirstName.StartsWith(searchString) || x.Surname.StartsWith(searchString))
                 .ProjectTo<CustomerForListVm>(_mapper.ConfigurationProvider).ToList();
             List<CustomerForListVm> customersToShow = customersForLists.Skip(pageSize * (pageNo - 1)).Take(pageSize).ToList();
             ListOfCustomers listOfCustomers = new()
@@ -51,9 +53,9 @@ namespace CafeMVC.Application.Services
             return listOfCustomers;
         }
 
-        public CustomerForSummaryVm GetLastAddedCustomer()
+        public CustomerForSummaryVm GetLastAddedCustomer(int id)
         {
-            Customer theLastCustomer = _customerRepository.GetAllCustomers().ToList().Last();
+            Customer theLastCustomer = _customerRepository.GetCustomerById(id);
             CustomerForSummaryVm customerForSummary = _mapper.Map<CustomerForSummaryVm>(theLastCustomer);
 
             return customerForSummary;

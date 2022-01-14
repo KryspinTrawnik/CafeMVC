@@ -3,9 +3,14 @@
     string title = "Address View";
 }
 <head>
-
+    <style>
+    .title{
+        text-align: center;
+    }
+    </style>
 </head>
-<h5>@title</h5>
+<div class="title"><h5>@title</h5></div>
+<div>
     <table class="tableAdressView table-bordered" id="addressViewTable">
         <thead>
             <tr>
@@ -20,7 +25,7 @@
             </tr>
         </thead>
         <tr>
-            <td class = "number"><h7> @Html.DisplayFor(m => m.BuildingNumber)</h7></td>
+            <td class="number"><h7> @Html.DisplayFor(m => m.BuildingNumber)</h7></td>
             @if (Model.FlatNumber != 0)
             {
 
@@ -43,3 +48,4 @@
             <td> @Html.DisplayFor(m => m.Country)</td>
         </tr>
     </table>
+</div>

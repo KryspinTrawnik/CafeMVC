@@ -13,10 +13,10 @@ namespace CafeMVC.Domain.Model
 
         public string ImagePath { get; set; }
 
-        public virtual ICollection<Ingredient> Ingredients { get; set; }
+        public virtual ICollection<ProductIngredient> ProductIngredients { get; set; }
 
-        public virtual ICollection<Allergen> Allergens { get; set; }
+        public virtual ICollection<ProductAllergen> ProductAllergens { get; set; }
 
-        public virtual ICollection<DietInformation> DietInformation { get; set; }
+        public virtual ICollection<ProductDietInfoTag> ProductDietInfoTags { get; set; }
     }
 }

@@ -1,5 +1,7 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
+﻿
+*{
+    color: white !important;
+}
 
 a.navbar-brand {
   white-space: normal;
@@ -7,7 +9,6 @@ a.navbar-brand {
   word-break: break-all;
 }
 
-/* Provide sufficient contrast against white background */
 a {
   color: white;
 }
@@ -57,9 +58,7 @@ html {
   position: relative;
   min-height: 100%;
 }
-header {
-    color: white;
-}
+
 body {
     /* Margin bottom by footer height */
     background-image: url('../Imgs/coffee-gb50b8bca7_1920.jpg');
@@ -68,7 +67,6 @@ body {
     background-repeat: no-repeat;
     margin: auto;
     font-family: 'Source Sans Pro', sans-serif;
-    color: white;
     margin-bottom: 60px;
 }
 .footer {
@@ -79,7 +77,6 @@ body {
     line-height: 60px; /* Vertically center the text there */
 }
 #addressViewTable {
-    color: white;
     margin-left: auto;
     margin-right: auto;
     width: 30%;
@@ -91,15 +88,23 @@ td.number {
 
 .textBox {
     background-color: #292b2c;
-    color: white;
     width: 30%;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 1.00em;
 }
 .form-control {
     background-color: #292b2c;
-    color: white;
+   
 }
 table tr td, table tr th {
-    background-color: rgba(41,43,44, 0.8) !important;
+    background-color: rgba(41,43,44, 0.8);
+}
+.searchString {
+    background-color: #212429;
+    width: 30%;
+}
+
+.searchButton {
+    background-color: #815654;
+    width: 10%;
 }

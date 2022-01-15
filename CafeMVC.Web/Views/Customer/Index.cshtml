@@ -3,23 +3,6 @@
 @{
     string title = "All Customers";
 }
-<head>
-    <style>
-        #searchString {
-            background-color: #212429;
-            color: white;
-            width: 30%;
-        }
-
-        #searchButton {
-            background-color: #815654;
-            color: white;
-            width: 10%;
-        }
-
-        </style>
-</head>
-
 <h1>@title</h1>
 
 <p>
@@ -27,9 +10,9 @@
 </p>
 <form asp-action="Index" asp-controller="customer" method="post">
     <div class="row">
-        <input type="text" asp-for="SearchString" name="searchString" id="searchString" placeholder="Looking for..." />
+        <input type="text" asp-for="SearchString" class="searchString" name="SerarchString" placeholder="Looking for..." />
 
-        <input type="submit" value="Search" id="searchButton" />
+        <input type="submit" value="Search" class="searchButton" />
     </div>
     <div class="row">
 

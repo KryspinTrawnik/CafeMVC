@@ -37,9 +37,9 @@ namespace CafeMVC.Domain.Interfaces
 
         Allergen GetAllergenById(int allergenId);
 
-        IQueryable<DietInformation> GetAllDietInfo();
+        IQueryable<DietInfoTag> GetAllDietInfo();
 
-        IQueryable<DietInformation> GetAllProductDietInfo(int productId);
+        IQueryable<DietInfoTag> GetAllProductDietInfo(int productId);
 
         void RemoveDietInfoFromProduct(int dietInfoId, int productId);
 

@@ -52,10 +52,10 @@ namespace CafeMVC.Infrastructure.Repositories
             return GetMenuById(menuId).Products.AsQueryable<Product>();
         }
 
-        public Menu GetMenuByDietInformation(int menuId, DietInformation dietInformation)
+        public Menu GetMenuByDietInformation(int menuId, DietInfoTag dietInformation)
         {
             var menu = GetMenuById(menuId);
-            menu.Products = menu.Products.Where(product => product.DietInformation == dietInformation).ToList();
+            menu.Products = menu.Products.Where(product => product.DietInfoTags == dietInformation).ToList();
             return menu;
         }
 

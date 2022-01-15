@@ -26,7 +26,7 @@ namespace CafeMVC.Application.Services
         public void AddIngredientToProduct(int productId, int ingredientId)
         {
             Product product = _productRepository.GetProductById(productId);
-            product.Ingredients.Add(_productRepository.GetIngredientById(ingredientId));
+            product.ProductIngredients.Add(_productRepository.GetIngredientById(ingredientId));
             _productRepository.UpdateProduct(product);
         }
 
@@ -79,7 +79,7 @@ namespace CafeMVC.Application.Services
         public void DeleteIngredient(int productId, int ingredientId)
         {
             Product product = _productRepository.GetProductById(productId);
-            product.Ingredients.Remove(product.Ingredients.FirstOrDefault(x => x.Id == ingredientId));
+            product.ProductIngredients.Remove(product.ProductIngredients.FirstOrDefault(x => x.Id == ingredientId));
         }
 
         public void DeleteProduct(int productId)

@@ -1,21 +1,21 @@
 ﻿@model CafeMVC.Application.ViewModels.Products.ListOfProductsVm
 
 @{
-    ViewData["Title"] = "Index";
+    string title = "All Product";
 }
 
-<h1>Index</h1>
+<h1>@title</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="AddNewProduct">Create New Product</a>
 </p>
 <form asp-action="Index" , asp-controller="product" method="post">
     <div class="row">
-        <input type="text" asp-for="SearchString" name="searchString" id="searchString" />
-        <input type="submit" value="Search"/>
+        <input type="text" asp-for="SearchString" class ="searchString" name="searchString" id="searchString" placeholder="Looking for..." />
+        <input type="submit" value="Search" class="searchString"/>
     </div>
     <div class=" row">
-        <table class="table">
+        <table class="table table-dark">
             <thead>
                 <tr>
                     <th>
@@ -39,9 +39,8 @@
                             @Html.DisplayFor(modelItem => item.Name)
                         </td>
                         <td>
-                            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                            @Html.ActionLink("Details", "ViewProduct", new { productId = item.Id }) |
+                            @Html.ActionLink("Delete", "Delete", new { productId = item.Id })
                         </td>
                     </tr>
                 }

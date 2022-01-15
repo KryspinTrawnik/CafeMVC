@@ -13,16 +13,16 @@ namespace CafeMVC.Tests
                 Name = "Bajgiel Burger",
                 Price = 19,
                 Description = "podawany z sałatką z sosem balsamicznym",
-                DietInformation = new List<DietInformation>(),
+                DietInfoTags = new List<DietInfoTag>(),
 
-                Ingredients = new List<Ingredient>
+                ProductIngredients = new List<Ingredient>
                 {
                         new Ingredient{Id = 1, Name = "Bajgiel"},
                         new Ingredient{Id = 2, Name = "Wołowina"},
                         new Ingredient{Id = 3, Name = "Mozarella"},
                         new Ingredient{Id = 4, Name = "Warzywa"}
                 },
-                Allergens = new List<Allergen>
+                ProductAllergens = new List<Allergen>
                 {
                     new Allergen{Id = 1, Name ="Mleko"},
                     new Allergen{Id = 2, Name ="Orzechy"}
@@ -34,15 +34,15 @@ namespace CafeMVC.Tests
                 Name = "Bajgiel Kurczak",
                 Price = 17,
                 Description = "podawany z sałatką z sosem balsamicznym",
-                DietInformation = new List<DietInformation>(),
-                Ingredients = new List<Ingredient>
+                DietInfoTags = new List<DietInfoTag>(),
+                ProductIngredients = new List<Ingredient>
                 {
                     new Ingredient{Id = 1, Name = "Bajgiel"},
                     new Ingredient{Id = 5, Name = "Kurczak"},
                     new Ingredient{Id = 6, Name = "Cebula prażona"},
                     new Ingredient{Id = 4, Name = "Warzywa"}
                 },
-                Allergens = new List<Allergen>
+                ProductAllergens = new List<Allergen>
                 {
                     new Allergen{Id = 1, Name ="Mleko"},
                     new Allergen{Id = 2, Name ="Orzechy"}
@@ -55,21 +55,21 @@ namespace CafeMVC.Tests
                 Name = "Bajgiel Camembert",
                 Price = 16,
                 Description = "podawany z sałatką z sosem balsamicznym",
-                DietInformation = new List<DietInformation>()
+                DietInfoTags = new List<DietInfoTag>()
                 {
 
-                    new DietInformation(){Id = 2, Name = "Vegetarian"},
+                    new DietInfoTag(){Id = 2, Name = "Vegetarian"},
 
 
                 },
-                Ingredients = new List<Ingredient>
+                ProductIngredients = new List<Ingredient>
                 {
                     new Ingredient{Id = 1, Name = "Bajgiel"},
                     new Ingredient{Id = 7, Name = "Camembert"},
                     new Ingredient{Id = 8, Name = "Żurawina"},
                     new Ingredient{Id = 4, Name = "Warzywa"}
                 },
-                Allergens = new List<Allergen>
+                ProductAllergens = new List<Allergen>
                 {
                     new Allergen{Id = 1, Name ="Mleko"},
                     new Allergen{Id = 2, Name ="Orzechy"}
@@ -81,19 +81,19 @@ namespace CafeMVC.Tests
                 Name = "Bajgiel Falafel",
                 Price = 17,
                 Description = "podawany z sałatką z sosem balsamicznym",
-                DietInformation = new List<DietInformation>()
+                DietInfoTags = new List<DietInfoTag>()
                 {
-                    new DietInformation(){Id = 2, Name = "Vegetarian"},
-                    new DietInformation(){Id = 3, Name = "Vegan"}
+                    new DietInfoTag(){Id = 2, Name = "Vegetarian"},
+                    new DietInfoTag(){Id = 3, Name = "Vegan"}
                 },
-                Ingredients = new List<Ingredient>
+                ProductIngredients = new List<Ingredient>
                 {
                     new Ingredient{Id = 1, Name = "Bajgiel"},
                     new Ingredient{Id = 9, Name = "Falafel"},
                     new Ingredient{Id = 10, Name = "Ogórek konserwowy"},
                     new Ingredient{Id = 4, Name = "Warzywa"}
                 },
-                Allergens = new List<Allergen>
+                ProductAllergens = new List<Allergen>
                 {
                     new Allergen{Id = 3, Name ="Soja"},
                     new Allergen{Id = 2, Name ="Orzechy"}
@@ -116,20 +116,20 @@ namespace CafeMVC.Tests
                 Name = "Naleśnik Oreo",
                 Price = 10,
                 Description = "",
-                DietInformation = new List<DietInformation>()
+                DietInfoTags = new List<DietInfoTag>()
                 {
 
-                    new DietInformation(){Id = 2, Name = "Vegetarian"},
+                    new DietInfoTag(){Id = 2, Name = "Vegetarian"},
 
 
                 },
-                Ingredients = new List<Ingredient>
+                ProductIngredients = new List<Ingredient>
                 {
                     new Ingredient{Id = 11, Name = "dżem"},
                     new Ingredient{Id = 12, Name = "sos owocowy"},
                     new Ingredient{Id = 13, Name = "śmietana"},
                 },
-                Allergens = new List<Allergen>
+                ProductAllergens = new List<Allergen>
                 {
                     new Allergen{Id = 1, Name ="Mleko"},
                     new Allergen{Id = 2, Name ="Orzechy"}
@@ -142,14 +142,14 @@ namespace CafeMVC.Tests
                 Name = "Naleśnik Hiszpański",
                 Price = 13,
                 Description = "sos 1000 wysp własnej produkcji",
-                DietInformation = new List<DietInformation>(),
-                Ingredients = new List<Ingredient>
+                DietInfoTags = new List<DietInfoTag>(),
+                ProductIngredients = new List<Ingredient>
                 {
                     new Ingredient{Id = 14, Name = "chorizo"},
                     new Ingredient{Id = 3, Name = "mozarella"},
                     new Ingredient{Id = 15, Name = "suszone pomidory"},
                 },
-                Allergens = new List<Allergen>
+                ProductAllergens = new List<Allergen>
                 {
                     new Allergen{Id = 1, Name ="Mleko"},
                     new Allergen{Id = 2, Name ="Orzechy"}
@@ -162,14 +162,14 @@ namespace CafeMVC.Tests
                 Name = "Naleśnik Łosoś",
                 Price = 13,
                 Description = "",
-                DietInformation = new List<DietInformation>(),
-                Ingredients = new List<Ingredient>
+                DietInfoTags = new List<DietInfoTag>(),
+                ProductIngredients = new List<Ingredient>
                 {
                     new Ingredient{Id = 16, Name = "Łosoś"},
                     new Ingredient{Id = 17, Name = "Szpinak"},
                     new Ingredient{Id = 18, Name = "Ser feta"},
                 },
-                Allergens = new List<Allergen>
+                ProductAllergens = new List<Allergen>
                 {
                     new Allergen{Id = 1, Name ="Mleko"},
                     new Allergen{Id = 2, Name ="Orzechy"}
@@ -182,14 +182,14 @@ namespace CafeMVC.Tests
                 Name = "Naleśnik kebab",
                 Price = 13,
                 Description = "",
-                DietInformation = new List<DietInformation>(),
-                Ingredients = new List<Ingredient>
+                DietInfoTags = new List<DietInfoTag>(),
+                ProductIngredients = new List<Ingredient>
                 {
                     new Ingredient{Id = 19, Name = "Kebab"},
                     new Ingredient{Id = 20, Name = "Papryka"},
                     new Ingredient{Id = 21, Name = "Kukurydza"},
                 },
-                Allergens = new List<Allergen>
+                ProductAllergens = new List<Allergen>
                 {
                     new Allergen{Id = 1, Name ="Mleko"},
                     new Allergen{Id = 2, Name ="Orzechy"}

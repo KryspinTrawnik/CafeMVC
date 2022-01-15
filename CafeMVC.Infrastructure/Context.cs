@@ -14,7 +14,7 @@ namespace CafeMVC.Infrastructure
 
         public DbSet<ContactDetailType> ContactDetailTypes { get; set; }
 
-        public DbSet<DietInformation> DietInformations { get; set; }
+        public DbSet<DietInfoTag> DietInformations { get; set; }
 
         public DbSet<Ingredient> Ingredients { get; set; }
 
@@ -30,6 +30,12 @@ namespace CafeMVC.Infrastructure
 
         public DbSet<Status> Statuses { get; set; }
 
+        public DbSet<ProductIngredient> ProductIngredients { get; set; }
+
+        public DbSet<ProductAllergen> ProductAllergens { get; set; }
+
+        public DbSet<ProductDietInfoTag> ProductDietInfoTags { get; set; }
+
         public Context(DbContextOptions options) : base(options)
         {
 
@@ -38,6 +44,42 @@ namespace CafeMVC.Infrastructure
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            builder.Entity<ProductIngredient>().HasKey(pi => new { pi.ProductId, pi.IngredientId });
+
+            builder.Entity<ProductIngredient>()
+                .HasOne<Product>(pi => pi.Product)
+                .WithMany(p => p.ProductIngredients)
+                .HasForeignKey(pi => pi.ProductId);
+
+            builder.Entity<ProductIngredient>()
+                .HasOne<Ingredient>(pi => pi.Ingredient)
+                .WithMany(i => i.ProductIngredients)
+                .HasForeignKey(pi => pi.IngredientId);
+
+            builder.Entity<ProductAllergen>().HasKey(pa => new { pa.ProductId, pa.AllergenId });
+
+            builder.Entity<ProductAllergen>()
+                .HasOne<Product>(pa => pa.Product)
+                .WithMany(p => p.ProductAllergens)
+                .HasForeignKey(pa => pa.ProductId);
+
+            builder.Entity<ProductAllergen>()
+                .HasOne<Allergen>(pa => pa.Allergen)
+                .WithMany(a => a.ProductAllergens)
+                .HasForeignKey(pa => pa.AllergenId);
+
+            builder.Entity<ProductDietInfoTag>().HasKey(pp => new { pp.ProductId, pp.DietInfoTagId });
+
+            builder.Entity<ProductDietInfoTag>()
+               .HasOne<Product>(pp => pp.Product)
+               .WithMany(p => p.ProductDietInfoTags)
+               .HasForeignKey(pp => pp.ProductId);
+
+            builder.Entity<ProductDietInfoTag>()
+            .HasOne<DietInfoTag>(pp => pp.DietInfoTag)
+            .WithMany(a => a.ProductDietInfoTags)
+            .HasForeignKey(pp => pp.DietInfoTagId);
 
             builder.Entity<ContactDetailType>()
                 .HasData(new ContactDetailType { Id = 1, Name = "E-mail" },

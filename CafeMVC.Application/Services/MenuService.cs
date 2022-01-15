@@ -77,7 +77,7 @@ namespace CafeMVC.Application.Services
 
         public MenuForViewVm GetProductsByDieteInfo(DietInfoForViewVm dieteInfoVm, int menuTypeId)
         {
-            DietInformation dietInfo = _mapper.Map<DietInformation>(dieteInfoVm);
+            DietInfoTag dietInfo = _mapper.Map<DietInfoTag>(dieteInfoVm);
             Menu menu = _menuRepository.GetMenuByDietInformation(menuTypeId, dietInfo);
             MenuForViewVm menuVm = _mapper.Map<MenuForViewVm>(menu);
             return menuVm;

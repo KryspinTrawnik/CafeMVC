@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace CafeMVC.Application.ViewModels.Products
 {
-    public class DietInfoForViewVm : IMapFrom<CafeMVC.Domain.Model.DietInformation>
+    public class DietInfoForViewVm : IMapFrom<CafeMVC.Domain.Model.DietInfoTag>
     {
         public int Id { get; set; }
 
@@ -14,7 +14,7 @@ namespace CafeMVC.Application.ViewModels.Products
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<CafeMVC.Domain.Model.DietInformation, DietInfoForViewVm>();
+            profile.CreateMap<CafeMVC.Domain.Model.DietInfoTag, DietInfoForViewVm>();
         }
     }
 }

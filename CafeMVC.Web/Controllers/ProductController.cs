@@ -15,7 +15,7 @@ namespace CafeMVC.Web.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            ListOfProductsVm allProductsList = _productService.GetAllProducts(2, 1, "");
+            ListOfProductsVm allProductsList = _productService.GetAllProducts(20, 1, "");
             return View(allProductsList);
         }
         [HttpPost]
@@ -28,6 +28,7 @@ namespace CafeMVC.Web.Controllers
             if(searchString is null)
             {
                 searchString = string.Empty;
+                pageSize = 20;
             }
             ListOfProductsVm allProductsList = _productService.GetAllProducts(pageSize, pageNo.Value, searchString);
             return View(allProductsList);
@@ -58,11 +59,7 @@ namespace CafeMVC.Web.Controllers
             _productService.UpdateProduct(productModel);
             return View();
         }
-        [HttpGet]
-        public IActionResult DeleteProduct()
-        {
-            return View();
-        }
+    
 
         public IActionResult DeleteProduct(int productId)
         {

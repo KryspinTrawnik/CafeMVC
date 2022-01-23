@@ -3,33 +3,44 @@ using System.Linq;
 
 namespace CafeMVC.Domain.Interfaces
 {
-    public interface IProductRepository 
+    public interface IProductRepository
     {
+            //*** Product Actions **\\
+        Product GetProductById(int productId);
+
         int AddNewProduct(Product product);
 
         void DeleteImageFromProduct(int productId);
         
         void AddNewImageToProduct(string imageName, int productId);
 
-        void AddIngredientToProduct(int ingredientId, int productId);
+        void UpdateProduct(Product product);
 
-        void RemoveIngredientFromProduct(int ingredientId, int productId);
+        void DeleteProduct(int productId);
 
-        IQueryable<Ingredient> GetAllProductIngredients(int productId);
+        IQueryable<Product> GetAllProducts();
 
-        void AddAllergenToProduct(int allergenId, int productId);
+        //*** Ingredient Actions **\\
+        void AddIngredientToProduct(ProductIngredient productIngredient);
 
-        void RemoveAllergenFromProduct(int allergenId, int productId);
+        void RemoveIngredientFromProduct(ProductIngredient productIngredientToBeRemoved);
 
-        IQueryable<Allergen> GetAllAllergensFromProduct(int productId);
-        
-        Ingredient GetIngredientById(int ingredientId);
+        IQueryable<ProductIngredient> GetAllProductIngredients(int productId);
 
         IQueryable<Ingredient> GetAllIngredients();
+       
+        Ingredient GetIngredientById(int ingredientId);
 
         void AddNewIngredient(Ingredient ingredient);
 
         void DeleteIngredient(int ingredietnId);
+
+        //*** Allergen Actions **\\
+        void AddAllergenToProduct(ProductAllergen productAllergen);
+
+        void RemoveAllergenFromProduct(ProductAllergen productAllergenToBeRemoved);
+
+        IQueryable<ProductAllergen> GetAllAllergensFromProduct(int productId);
 
         void AddNewAllergen(Allergen allergen);
         
@@ -37,20 +48,17 @@ namespace CafeMVC.Domain.Interfaces
 
         Allergen GetAllergenById(int allergenId);
 
+        //*** Diet info Actions **\\
+
+        DietInfoTag GetDietInfoTagById(int dietInfoTagId);
+
         IQueryable<DietInfoTag> GetAllDietInfo();
 
-        IQueryable<DietInfoTag> GetAllProductDietInfo(int productId);
+        IQueryable<ProductDietInfoTag> GetAllProductDietInfo(int productId);
 
-        void RemoveDietInfoFromProduct(int dietInfoId, int productId);
+        void RemoveDietInfoFromProduct(ProductDietInfoTag productDietInfoTagToBeRemoved);
 
-        Product GetProductById(int productId);
+        void AddDietInfoToProduct(ProductDietInfoTag productDietInfoTag);
 
-        void UpdateProduct(Product product);
-
-        void AddDietInfoToProduct(int dietInfoId, int productId);
-
-        void DeleteProduct(int productId);
-
-        IQueryable<Product> GetAllProducts();
     }
 }

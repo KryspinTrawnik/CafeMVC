@@ -1,4 +1,6 @@
-﻿namespace CafeMVC.Domain.Model
+﻿using System.Collections.Generic;
+
+namespace CafeMVC.Domain.Model
 {
 	public class Address :BaseModel
     {
@@ -17,8 +19,8 @@
         public int AddressTypeId { get; set; }
 
         public int CustomerId { get; set; }
-
-        public int? OrderId { get; set; }
+   
+        public ICollection<OrderAddress> OrderAddresses { get; set; }
 
         public virtual AddressType AddressType { get; set; }
 

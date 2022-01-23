@@ -55,7 +55,7 @@ namespace CafeMVC.Infrastructure.Repositories
         public Menu GetMenuByDietInformation(int menuId, DietInfoTag dietInformation)
         {
             var menu = GetMenuById(menuId);
-            menu.Products = menu.Products.Where(product => product.DietInfoTags == dietInformation).ToList();
+            menu.Products = menu.Products.Where(x => x.ProductDietInfoTags.Any(x => x.DietInfoTagId == dietInformation.Id) ).ToList();
             return menu;
         }
 

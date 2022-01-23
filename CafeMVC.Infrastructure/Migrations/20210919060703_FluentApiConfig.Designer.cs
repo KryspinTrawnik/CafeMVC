@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CafeMVC.Infrastructure.Migrations
 {
-    [DbContext(typeof(Context))]
+    [DbContext(typeof(DbContext))]
     [Migration("20210919060703_FluentApiConfig")]
     partial class FluentApiConfig
     {

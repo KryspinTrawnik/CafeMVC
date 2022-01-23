@@ -1,21 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
-using CafeMVC.Application.Interfaces;
+﻿using CafeMVC.Application.Interfaces;
 using CafeMVC.Application.Interfaces.Mapping;
 using CafeMVC.Application.Services;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
+// CTRL + K + E w visual studio 2019 ;)
 
 namespace CafeMVC.Application
 {
     public static class DependencyInjections
     {
-        
-       public static IServiceCollection AddApplication(this IServiceCollection services)
+
+        public static IServiceCollection AddApplication(this IServiceCollection services)
         {
             services.AddTransient<ICustomerService, CustomerService>();
             services.AddTransient<IMenuService, MenuService>();
@@ -23,7 +18,8 @@ namespace CafeMVC.Application
             services.AddTransient<IProductService, ProductService>();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddTransient<ShortAddressResolver>();
-            return services;
+
+            return services; // Enter przed 'return' zwieksza czytelnosc o miliard procent.
         }
     }
 }

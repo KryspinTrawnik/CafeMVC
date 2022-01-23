@@ -1,27 +1,20 @@
-﻿using CafeMVC.Application.ViewModels.Customer;
+﻿using AutoMapper;
+using CafeMVC.Application.ViewModels.Customer;
 using CafeMVC.Domain.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CafeMVC.Application.Interfaces.Mapping
 {
     public class ShortAddressResolver : IValueResolver<Address, AddressDetailsForViewVm, string>
     {
-        public string Resolve(Address source, AddressDetailsForViewVm destination, string destMember, AutoMapper.ResolutionContext context)
+        public string Resolve(Address source, AddressDetailsForViewVm destination, string destMember, ResolutionContext context)
         {
+            // ten else jest nie potrzebny, ogolnie wyrzuć te ify i zrob z tego one liner jak ja zrobilem w jednej z klas
             if (source.FlatNumber == 0)
             {
-                destMember = source.Street + " " + source.BuildingNumber;
-            }
-            else
-            {
-                destMember = source.Street + " " + source.BuildingNumber + "/" + source.FlatNumber;
+                return source.Street + " " + source.BuildingNumber;
             }
 
-            return destMember;
+            return source.Street + " " + source.BuildingNumber + "/" + source.FlatNumber;
         }
     }
 }

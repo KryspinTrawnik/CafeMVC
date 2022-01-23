@@ -7,9 +7,9 @@ namespace CafeMVC.Infrastructure.Repositories
 {
     public class CustomerRepository : ICustomerRepository
     {
-        private readonly Context _context;
+        private readonly DbContext _context;
 
-        public CustomerRepository(Context context)
+        public CustomerRepository(DbContext context)
         {
             _context = context;
         }

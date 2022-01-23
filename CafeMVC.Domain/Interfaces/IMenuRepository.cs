@@ -1,16 +1,11 @@
 ﻿using CafeMVC.Domain.Model;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CafeMVC.Domain.Interfaces
 {
-    public interface IMenuRepository
+    // przyklad, jeden interfejs, mniej kodu w glownym interfejsie
+    public interface IMenuRepository : IBaseRepository<Menu>
     {
-        IQueryable<Menu> GetAllActiveMenus();
-
         void AddNewProduct(Product product, int menuId);
 
         int AddNewMenu(Menu menu);

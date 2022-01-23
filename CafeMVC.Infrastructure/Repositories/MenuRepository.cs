@@ -11,9 +11,9 @@ namespace CafeMVC.Infrastructure.Repositories
 {
     public class MenuRepository : IMenuRepository
     {
-        private readonly Context _context;
+        private readonly DbContext _context;
 
-        public MenuRepository(Context context)
+        public MenuRepository(DbContext context)
         {
             _context = context;
         }
@@ -79,6 +79,11 @@ namespace CafeMVC.Infrastructure.Repositories
                 .Include(x => x.Products)
                 .Where(x => x.HasBeenRemoved == false);
             return activeMenus;
+        }
+
+        public IQueryable<Menu> GetAll()
+        {
+            throw new NotImplementedException();
         }
     }
 }

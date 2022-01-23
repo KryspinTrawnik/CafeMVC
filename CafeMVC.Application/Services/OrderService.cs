@@ -18,16 +18,19 @@ namespace CafeMVC.Application.Services
         private readonly IMapper _mapper;
         private readonly IProductRepository _productRepository;
 
+        // ogolnie te serwisy są niepotrzebnym couplingiem. Tak jak je przeglądam, wszystko zrobiłbyś patternem repository i tak byłoby ok.
+        // wiecej kodu to wiecej godzin by to utrzymac i trudniejszy debug. 
+
         public OrderService(IOrderRepository orderRepository, IProductRepository productRepository, IMapper mapper)
         {
             _orderRepository = orderRepository;
             _productRepository = productRepository;
             _mapper = mapper;
         }
+
+        // to co napisalem wczesniej, powtarzasz drugi raz te sama metode
         public void AddOrChangeNote(int orderId, string note)
-        {
-            _orderRepository.AddOrChangeNote(orderId, note);
-        }
+            => _orderRepository.AddOrChangeNote(orderId, note);
 
         public string AddOrder(OrderForCreationVm order)
         {
@@ -35,13 +38,16 @@ namespace CafeMVC.Application.Services
             int orderId = _orderRepository.AddNewOrder(newOrder);
             string orderConfirmation = GenerateOrderConfrimation(orderId);
             newOrder.OrderConfirmation = orderConfirmation;
-            
 
             return orderConfirmation;
         }
+
+        // method ordering, doczytaj. Publiczne metody powinny byc wyzej niz prywatne
+        // order confirm jako data?
         private string GenerateOrderConfrimation(int orderId)
         {
-            string todayDate = DateTime.Now.ToString("MMddyy");
+            // uzywaj UtcNow zamiast Now. Now ściąga ci datę serwera (np kompa na ktorym uruchomiles apke), UTC jest universal timem czyli +0:00
+            string todayDate = DateTime.UtcNow.ToString("MMddyy");
             string orderConfirmation = $"Order-{orderId}{todayDate}";
 
             return orderConfirmation;
@@ -50,18 +56,27 @@ namespace CafeMVC.Application.Services
         public void AddProductToOrder(int orderId, int productId)
         {
             Order order = _orderRepository.GetOrderById(orderId);
-           OrderProduct newOrderProduct = new() { 
-               Order = order, 
-               OrderId = orderId, 
-               ProductId = productId, 
-               Product = _productRepository.GetProductById(productId) };
-            order.OrderProducts.Add(newOrderProduct);
+            if (order is null)
+            {
+                // logika
+            }
+
+            order.OrderProducts.Add(
+                new()
+                {
+                    Order = order,
+                    OrderId = orderId,
+                    ProductId = productId,
+                    Product = _productRepository.GetProductById(productId)
+                });
+
             _orderRepository.UpdateOrder(order);
         }
 
         public void ChangeDeliveryAddress(int orderId, AddressForCreationVm newDeliveryAddress)
         {
             Order order = _orderRepository.GetOrderById(orderId);
+            // null, logika
             Address newAddress = _mapper.Map<Address>(newDeliveryAddress);
             var addresdToBeRemove = order.OrderAddresses.FirstOrDefault(x => x.Address.AddressType.Name == "DeliveryAdress");
             order.OrderAddresses.Remove(order.OrderAddresses.FirstOrDefault(x => x.AddressId == addresdToBeRemove.AddressId));
@@ -76,6 +91,7 @@ namespace CafeMVC.Application.Services
             _orderRepository.UpdateOrder(order);
         }
 
+        // to samo co wczesniej, do poprawy imho
         public ListOfOrdersVm GetOrdersToDisplay(int pageSize, int pageNo, string searchString)
         {
             List<OrderForListVm> orderForListVm = _orderRepository.GetAllOrders()
@@ -92,6 +108,7 @@ namespace CafeMVC.Application.Services
             return listOfOrdersVm;
         }
 
+        // to samo co wczesniej, do poprawy imho
         public ListOfProductsVm GetAllProducts(int orderId)
         {
             List<ProductForListVm> productForListVm = _orderRepository.GetAllProductsFromOrder(orderId)
@@ -105,6 +122,7 @@ namespace CafeMVC.Application.Services
             return listOfProductsVm;
         }
 
+        // to samo co wczesniej, do poprawy imho
         public ListOfOrdersVm GetAllOpenOrders()
         {
             List<OrderForListVm> ordersForListVm = _orderRepository.GetAllOpenOrders()
@@ -117,6 +135,7 @@ namespace CafeMVC.Application.Services
             return listOfOrdersVm;
         }
 
+        // to samo co wczesniej, do poprawy imho
         public OrderForCreationVm GetOrderForCreationVmById(int orderId)
         {
             Order order = _orderRepository.GetOrderById(orderId);
@@ -124,6 +143,9 @@ namespace CafeMVC.Application.Services
 
             return orderForCreationVm;
         }
+
+        // to samo co wczesniej, do poprawy imho
+        // entery
         public OrderForSummaryVm GetOrderSummaryVmById(int orderId)
         {
             Order order = _orderRepository.GetOrderById(orderId);
@@ -131,6 +153,7 @@ namespace CafeMVC.Application.Services
 
             return orderForCreationVm;
         }
+
         public void RemoveProduct(int productId, int orderId)
         {
             Order order = _orderRepository.GetOrderById(orderId);
@@ -139,11 +162,13 @@ namespace CafeMVC.Application.Services
             _orderRepository.UpdateOrder(order);
         }
 
+        // do one linera
         public void ChangeOrderStatus(int orderId, int statusId)
         {
             _orderRepository.ChangeStatusOfOrder(orderId, statusId);
         }
 
+        // do one linera
         public OrderForViewVm GetOrderToView(int orderId)
         {
             Order order = _orderRepository.GetOrderById(orderId);

@@ -33,10 +33,12 @@ namespace CafeMVC.Web.Controllers
             }
             if (searchString is null)
             {
-                searchString = String.Empty;
+                searchString = string.Empty;
                 pageSize = 20;
             }
+
             var listOfCustomers = _customerService.GetCustomersForPages(pageSize, pageNo.Value, searchString);
+            
             return View(listOfCustomers);
         }
 
@@ -56,17 +58,17 @@ namespace CafeMVC.Web.Controllers
         [HttpPost]
         public IActionResult AddNewCustomerSummary(CustomerForCreationVm customer)
         {
-            if (customer.Btn == "Submit")
+            // wszelkie stringi do jakichs klas Consts.
+            if (customer.Btn.Equals("Submit"))
             {
+                // to powinno trafic do oddzielnej, jednej metody. Po co wywolywac serwis dwa razy?
                 int idNewcustomer = _customerService.AddNewCustomer(customer);
                 var lastcustomer = _customerService.GetLastAddedCustomer(idNewcustomer);
 
                 return View(lastcustomer);
             }
-            else
-            {
-                return RedirectToAction("index", "Home");
-            }
+
+            return RedirectToAction("index", "Home");
         }
 
         public IActionResult DeleteCustomer(int customerId)
@@ -75,28 +77,35 @@ namespace CafeMVC.Web.Controllers
 
             return RedirectToAction("index", "Home");
         }
-        ///****Contact Detail****\\\\\\
+
+        // dodawanie powinno byc HttpPost.
         [HttpGet]
         public IActionResult AddNewContactDetail(int customerId)
         {
+            // jakiś error handling? skad wiemy, ze taki customerId istnieje?
             var newContactDetail = new ContactInfoForCreationVm()
             {
                 CustomerId = customerId,
                 AllContactDetailsTypes = _customerService.GetAllContactDetailTypes()
             };
+
             return View(newContactDetail);
         }
 
         [HttpPost]
         public IActionResult AddNewContactDetail(ContactInfoForCreationVm contactDetail)
         {
+            // tak jak wyzej. Teraz w pamięci masz dwa stringi "Submit". A za pomocą stałych miałbyś tylko jeden Submit w pamięci ;) Tak samo
+            // wszelkie indexy i homy
             if (contactDetail.Btn == "Submit")
             {
                 _customerService.AddNewContactDetail(contactDetail);
             }
+
             return RedirectToAction("CustomerView", "Customer", new { customerId = contactDetail.CustomerId });
         }
 
+        // Post
         [HttpGet]
         public IActionResult ChangeContactDetail(int contactDetailId)
         {
@@ -104,6 +113,7 @@ namespace CafeMVC.Web.Controllers
             return View(contactDetailForEdition);
         }
 
+        // HttpPut
         [HttpPost]
         public IActionResult ChangeContactDetail(ContactInfoForCreationVm contactDetail)
         {
@@ -114,21 +124,21 @@ namespace CafeMVC.Web.Controllers
             return RedirectToAction("CustomerView", "Customer", new { customerId = contactDetail.CustomerId });
         }
 
-        public IActionResult RemoveContactDetail(int contactDetailId)
+        private IActionResult RemoveContactDetail(int contactDetailId)
         {
             int customerId = _customerService.GetContactDetailForEdition(contactDetailId).CustomerId;
             _customerService.RemoveContactDetail(contactDetailId);
             return RedirectToAction("CustomerView", "Customer", new { customerId = customerId });
         }
-        ////**** Address ****\\\\
 
-
+        // Post
         [HttpGet]
         public IActionResult AddNewAddress(int customerId)
         {
             AddressForCreationVm addressForCreation = new()
             {
                 CustomerId = customerId,
+                // tutaj fuckup, nie zauwazylem ze gdzies tego uzywasz
                 AllAddressTypes = _customerService.GetAllAddressTypes()
 
             };
@@ -145,6 +155,7 @@ namespace CafeMVC.Web.Controllers
             return RedirectToAction("CustomerView", "Customer", new { customerId = address.CustomerId });
 
         }
+        // Post
         [HttpGet]
         public IActionResult ChangeAddress(int addressId)
         {
@@ -161,7 +172,7 @@ namespace CafeMVC.Web.Controllers
             return RedirectToAction("CustomerView", "Customer", new { customerId = editedAddress.CustomerId });
         }
 
-        public IActionResult DeleteAddress(int addressId)
+        private IActionResult DeleteAddress(int addressId)
         {
             int customerId = _customerService.GetAddressToEdit(addressId).CustomerId;
             _customerService.DeleteAddress(addressId);

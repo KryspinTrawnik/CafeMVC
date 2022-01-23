@@ -4,6 +4,7 @@ using CafeMVC.Application.Interfaces;
 using CafeMVC.Application.ViewModels.Customer;
 using CafeMVC.Domain.Interfaces;
 using CafeMVC.Domain.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -16,79 +17,78 @@ namespace CafeMVC.Application.Services
 
         public CustomerService(ICustomerRepository customerRepository, IMapper mapper)
         {
-            _customerRepository = customerRepository;
-            _mapper = mapper;
+            _customerRepository = customerRepository ?? throw new ArgumentNullException(); // nie musisz tego robić, ale ładnie wyglada ;)
+            _mapper = mapper ?? throw new ArgumentNullException();                         // bodaj od C# 11 wchodzi ficzer "!" w argumentach, robi to co napisalem wyzej
         }
-             
-                        //////////Customer Actions/////
-        
+
+        // zamiast pisac bezsensowne komentarze - rozdziel to na mniejsze serwisy
+
         public int AddNewCustomer(CustomerForCreationVm customerVm)
         {
             CustomerForCreationVm newCustomer = SetInitialContactsAndAddressesTypes(customerVm);
             Customer customer = _mapper.Map<Customer>(newCustomer);
-           int id = _customerRepository.AddNewCustomer(customer);
 
-            return id;
+            return _customerRepository.AddNewCustomer(customer);
         }
 
-        public void DeleteCustomer(int customerId)
-        {
-            _customerRepository.DeleteCustomer(customerId);
-        }
+        // one liner, kwestia preferencji. Ja wole tak
+        public void DeleteCustomer(int customerId) =>_customerRepository.DeleteCustomer(customerId);
 
         public ListOfCustomers GetCustomersForPages(int pageSize, int pageNo, string searchString)
         {
-            List<CustomerForListVm> customersForLists = _customerRepository.GetAllCustomers().Where(x => x.FirstName.StartsWith(searchString) || x.Surname.StartsWith(searchString))
-                .ProjectTo<CustomerForListVm>(_mapper.ConfigurationProvider).ToList();
-            List<CustomerForListVm> customersToShow = customersForLists.Skip(pageSize * (pageNo - 1)).Take(pageSize).ToList();
-            ListOfCustomers listOfCustomers = new()
+            // co jak `customersForLists` zworci ci 1mln rekordów? Skip i Take zrób na iqueryable który zwraca ci metoda `GetAllCustomser`
+            List<CustomerForListVm> customersForLists = _customerRepository
+                // GetAllCustomers = ta nazwa metody sugeruje, jakbym już miał dostać gotową listę a dostaje niezmaterializowany
+                // IQueryable. Moja propozycja, to tak nie robić i zwracać view modele, spaginowane metody już z repozytorium.
+                // wtedy ta metoda GetCustomersForPages byłaby de facto nie potrzebna, bo dostawałbyś dobry wynik z repo ;)
+                .GetAllCustomers()
+                .Where(x => x.FirstName.StartsWith(searchString) || x.Surname.StartsWith(searchString))
+                .ProjectTo<CustomerForListVm>(_mapper.ConfigurationProvider)
+                // sprawdzasz gdzies parametry? Czy pageNo, pageSize nie jest liczbami ujemnymi?
+                .Skip(pageSize * (pageNo - 1))
+                .Take(pageSize)
+                .ToList();
+
+            return new()
             {
-                ListOfAllCustomers = customersToShow,
+                ListOfAllCustomers = customersForLists,
                 PageSize = pageSize,
                 CurrentPage = pageNo,
                 SearchString = searchString,
                 Count = customersForLists.Count
             };
-
-            return listOfCustomers;
         }
 
         public CustomerForSummaryVm GetLastAddedCustomer(int id)
         {
+            // fajnie, ze masz konsekwencje uzywania odpowiednich typow a nie `var`. Ja np uzywam var gdzie tylko sie da bo jest szybciej,
+            // ale spoko, ze trzymasz sie jednej konwencji i nie uzywasz "var"
             Customer theLastCustomer = _customerRepository.GetCustomerById(id);
-            CustomerForSummaryVm customerForSummary = _mapper.Map<CustomerForSummaryVm>(theLastCustomer);
-
-            return customerForSummary;
+            
+            return _mapper.Map<CustomerForSummaryVm>(theLastCustomer);
         }
         public CustomerDetailViewsVm GetCustomerDetail(int customerId)
         {
             Customer customer = _customerRepository.GetCustomerById(customerId);
-            CustomerDetailViewsVm customerDetailView = _mapper.Map<CustomerDetailViewsVm>(customer);
-            return customerDetailView;
+            
+            return _mapper.Map<CustomerDetailViewsVm>(customer);
         }
-                    //////Address Actions/////////
                     
-        public void AddNewAddress(AddressForCreationVm address)
-        {
-            Address newAddress = _mapper.Map<Address>(address);
-            _customerRepository.AddNewAddress(newAddress);
-        }
+        public void AddNewAddress(AddressForCreationVm address) => _customerRepository.AddNewAddress(_mapper.Map<Address>(address));
 
-        public void DeleteAddress(int addressId)
-        {
-            _customerRepository.DeleteAddress(addressId);
-        }
+        public void DeleteAddress(int addressId) => _customerRepository.DeleteAddress(addressId);
 
         public AddressForCreationVm GetAddressToEdit(int addressId)
         {
             Address address = _customerRepository.GetAddressById(addressId);
             AddressForCreationVm addressForEdition = _mapper.Map<AddressForCreationVm>(address);
             addressForEdition.AllAddressTypes = GetAllAddressTypes();
-            return addressForEdition;
 
+            return addressForEdition;
         }
 
-        public CustomerForCreationVm SetInitialContactsAndAddressesTypes(CustomerForCreationVm createdCustomer)
+        // uzywasz funkcji tylko tu, to po co ma byc ona publiczna?
+        private CustomerForCreationVm SetInitialContactsAndAddressesTypes(CustomerForCreationVm createdCustomer)
         {
             List<AddressType> allAddressTypes = _customerRepository.GetAllAddressTypes().ToList();
             List<ContactDetailType> allContactDetails = _customerRepository.GetAllContactDetailTypes().ToList();
@@ -106,9 +106,6 @@ namespace CafeMVC.Application.Services
             _customerRepository.UpdateAddress(updatedAddress);
         }
 
-
-                    //////ContactDetails actions//////
-                    
         public void AddNewContactDetail(ContactInfoForCreationVm contactDetail)
         {
             ContactDetail customerContactInformation = _mapper.Map<ContactDetail>(contactDetail);
@@ -121,32 +118,21 @@ namespace CafeMVC.Application.Services
             _customerRepository.UpdateContactDetail(contactDetailEdited);
         }
 
-        public void RemoveContactDetail(int contactDetailId)
-        {
-            _customerRepository.DeleteContactDetail(contactDetailId);
-        }
-
+        public void RemoveContactDetail(int contactDetailId) => _customerRepository.DeleteContactDetail(contactDetailId);
 
         public List<ContactDetailTypeForViewVm> GetAllContactDetailTypes()
-        {
-            List<ContactDetailTypeForViewVm> allContactTypes = _customerRepository.GetAllContactDetailTypes()
+            =>_customerRepository.GetAllContactDetailTypes()
                 .ProjectTo<ContactDetailTypeForViewVm>(_mapper.ConfigurationProvider).ToList();
-
-            return allContactTypes;
-        }
 
         public ContactInfoForCreationVm GetContactDetailForEdition(int contactDetailId)
         {
             ContactDetail contactDetail = _customerRepository.GetContactDetailById(contactDetailId);
-            ContactInfoForCreationVm contactDetailForEdition = _mapper.Map<ContactInfoForCreationVm>(contactDetail);
-            return contactDetailForEdition;
+            
+            return _mapper.Map<ContactInfoForCreationVm>(contactDetail);
         }
 
-        public List<AddressTypeVm> GetAllAddressTypes()
-        {
-            List < AddressTypeVm > allAddressType = _customerRepository.GetAllAddressTypes()
+        private List<AddressTypeVm> GetAllAddressTypes()
+            =>_customerRepository.GetAllAddressTypes()
                 .ProjectTo<AddressTypeVm>(_mapper.ConfigurationProvider).ToList();
-            return allAddressType;
-        }
     }
 }

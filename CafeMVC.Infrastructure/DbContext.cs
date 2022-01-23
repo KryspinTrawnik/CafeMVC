@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CafeMVC.Infrastructure
 {
-    public class Context : IdentityDbContext
+    public class DbContext : IdentityDbContext
     {
         public DbSet<Address> Adresses { get; set; }
 
@@ -42,7 +42,7 @@ namespace CafeMVC.Infrastructure
 
         public DbSet<OrderProduct> OrderProducts { get; set; }
 
-        public Context(DbContextOptions options) : base(options)
+        public DbContext(DbContextOptions options) : base(options)
         {
 
         }

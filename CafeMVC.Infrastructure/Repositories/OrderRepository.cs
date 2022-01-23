@@ -11,8 +11,8 @@ namespace CafeMVC.Infrastructure.Repositories
 {
     public class OrderRepository : IOrderRepository
     {
-        private readonly Context _context;
-        public OrderRepository(Context context) 
+        private readonly DbContext _context;
+        public OrderRepository(DbContext context) 
         {
             _context = context;
         }

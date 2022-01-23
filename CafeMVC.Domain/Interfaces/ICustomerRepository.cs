@@ -1,15 +1,12 @@
 ﻿using CafeMVC.Domain.Model;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CafeMVC.Domain.Interfaces
 {
-    public interface ICustomerRepository 
+    public interface ICustomerRepository
     {
-        ///***custommer aciton***///
+        // nie widzisz, ze twoje repozytoria robią kilka rzeczy na raz, tzn zarzadzaja customerem, jego adresem
+        // i kontaktem? Coś tu jest no yes
         int AddNewCustomer(Customer customer);
 
         Customer GetCustomerById(int id);
@@ -20,7 +17,6 @@ namespace CafeMVC.Domain.Interfaces
 
         void DeleteCustomer(int customerId);
         IQueryable<Customer> GetAllCustomers();
-        ///***Address Actionas***///
         int AddNewAddress(Address address);
 
         Address GetAddressById(int addressId);
@@ -30,7 +26,6 @@ namespace CafeMVC.Domain.Interfaces
         void UpdateAddress(Address address);
 
         void DeleteAddress(int addressId);
-        ///*** ContactDetail Actions***/
 
         int AddNewContactDetail(ContactDetail contactDetail);
 
@@ -39,7 +34,7 @@ namespace CafeMVC.Domain.Interfaces
         void UpdateContactDetail(ContactDetail contactDetail);
 
         void DeleteContactDetail(int contactDetailId);
-        
+
         ContactDetail GetContactDetailById(int contactDetailId);
     }
 }

@@ -24,63 +24,61 @@ namespace CafeMVC.Application.Services
         }
 
         public void AddNewMenu(MenuForCreationVm menuModel)
-        {
-            Menu menu = _mapper.Map<Menu>(menuModel);
-            _menuRepository.AddNewMenu(menu);
-        }
+            => _menuRepository.AddNewMenu(_mapper.Map<Menu>(menuModel));
 
         public void AddProductToMenu(int productId, int menuId)
         {
             Menu menu = _menuRepository.GetMenuById(menuId);
+            if (menu is null)
+            {
+                // jakas logika, nie sprawdzasz, czy takie menu istnieje
+            }
+
+            // nie sprawdzasz czy produkt istnieje w bazie i probujesz dodac nulla
             menu.Products.Add(_productRepository.GetProductById(productId));
             _menuRepository.UpdateMenu(menu);
         }
 
         public void ChangeMenu(MenuForViewVm menuModel)
-        {
-            Menu menu = _mapper.Map<Menu>(menuModel);
-            _menuRepository.UpdateMenu(menu);
-        }
+            => _menuRepository.UpdateMenu(_mapper.Map<Menu>(menuModel));
 
-        public void DeleteMenu(int menuId)
-        {
-            _menuRepository.DeleteMenu(menuId);
-        }
+        public void DeleteMenu(int menuId) =>  _menuRepository.DeleteMenu(menuId);
 
         public void DeleteProductFromMenu(int productId, int menuId)
         {
-            Product prodtuctToRemove = _productRepository.GetProductById(productId);
-            _menuRepository.GetMenuById(menuId).Products.Remove(prodtuctToRemove);
+            Product productToRemove = _productRepository.GetProductById(productId);
+            if (productToRemove is null)
+            {
+                // logika
+            }
+
+            _menuRepository.GetMenuById(menuId).Products.Remove(productToRemove);
         }
 
         public ListOfMenusVm GetAllMenus(int pageSize, int pageNo, string searchString)
         {
-            List<MenuForListVm> allMenus = _menuRepository.GetAllActiveMenus().ProjectTo<MenuForListVm>(_mapper.ConfigurationProvider).ToList();
-            var menusToDisplay = allMenus.Skip(pageSize * (pageNo - 1)).Take(pageSize).ToList();
-            ListOfMenusVm listOfMenus = new()
+            List<MenuForListVm> allMenus = _menuRepository
+                .GetAllActiveMenus().ProjectTo<MenuForListVm>(_mapper.ConfigurationProvider).Skip(pageSize * (pageNo - 1)).Take(pageSize)
+                .ToList();
+
+            return new()
             {
-                ListOfAllMenus = menusToDisplay,
+                ListOfAllMenus = allMenus,
                 PageSize = pageSize,
                 CurrentPage = pageNo,
                 SearchString = searchString,
                 Count = allMenus.Count
             };
-            return listOfMenus;
         }
 
-        public MenuForViewVm GetAllProducstOfMenu(int menuId)
-        {
-            Menu menu = _menuRepository.GetMenuById(menuId);
-            MenuForViewVm menuVm = _mapper.Map<MenuForViewVm>(menu);
-            return menuVm;
-        }
+        public MenuForViewVm GetAllProducstOfMenu(int menuId) => _mapper.Map<MenuForViewVm>(_menuRepository.GetMenuById(menuId));
 
         public MenuForViewVm GetProductsByDieteInfo(DietInfoForViewVm dieteInfoVm, int menuTypeId)
         {
             DietInfoTag dietInfo = _mapper.Map<DietInfoTag>(dieteInfoVm);
             Menu menu = _menuRepository.GetMenuByDietInformation(menuTypeId, dietInfo);
-            MenuForViewVm menuVm = _mapper.Map<MenuForViewVm>(menu);
-            return menuVm;
+
+            return _mapper.Map<MenuForViewVm>(menu);
         }
     }
 }

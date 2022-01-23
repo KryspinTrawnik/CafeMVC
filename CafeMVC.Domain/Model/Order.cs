@@ -17,11 +17,11 @@ namespace CafeMVC.Domain.Model
 
         public virtual Customer Customer { get; set; }
 
-        public virtual ICollection<ContactDetail> ContactDetails { get; set; }
+        public virtual ICollection<OrderContactDetail> OrderContactDetails { get; set; }
 
-        public virtual ICollection<Address> Addresses { get; set; }
+        public virtual ICollection<OrderAddress> OrderAddresses { get; set; }
 
-        public virtual ICollection<Product> Products { get; set; }
+        public virtual ICollection<OrderProduct> OrderProducts { get; set; }
 
         public string OrderConfirmation { get; set; }
 

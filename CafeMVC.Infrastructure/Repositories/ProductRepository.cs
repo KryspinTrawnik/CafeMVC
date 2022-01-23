@@ -9,156 +9,11 @@ namespace CafeMVC.Infrastructure.Repositories
     {
         private readonly Context _context;
 
-        public ProductRepository(Context context) 
+        public ProductRepository(Context context)
         {
             _context = context;
         }
-        public Product GetProductById(int productId)
-        {
-            var product = _context.Products.AsNoTracking()
-                .Include(x => x.ProductIngredients)
-                .Include(x => x.Allergens)
-                .Include(x => x.DietInformation)
-                .FirstOrDefault(x => x.Id == productId);
-            return product;
-        }
-
-        public void UpdateProduct(Product product)
-        {
-            _context.Attach(product);
-            _context.Entry(product).Property("Name");
-            _context.Entry(product).Property("Price");
-            _context.Entry(product).Property("Description");
-            _context.Entry(product).Property("ImagePath");
-            _context.Entry(product).Collection("Ingredients");
-            _context.Entry(product).Collection("Allergens");
-            _context.Entry(product).Collection("DietInformation");
-            _context.SaveChanges();
-        }
-        public void AddAllergenToProduct(int allergenId, int productId)
-        {
-            var product = GetProductById(productId);
-            product.ProductAllergens.Add(GetAllergenById(allergenId));
-            UpdateProduct(product);
-        }
-
-        public void AddIngredientToProduct(int ingredientId, int productId)
-        {
-            var product = GetProductById(productId);
-            product.ProductIngredients.Add(GetIngredientById(ingredientId));
-            UpdateProduct(product);
-        }
-
-        public IQueryable<Allergen> GetAllAllergensFromProduct(int productId)
-        {
-
-            return _context.Products.AsNoTracking().Include(x => x.ProductAllergens)
-                .FirstOrDefault(x => x.Id == productId).ProductAllergens.AsQueryable();
-        }
-
-        public IQueryable<Ingredient> GetAllProductIngredients(int productId)
-        {
-            return _context.Products.AsNoTracking().Include(x => x.ProductIngredients)
-                .FirstOrDefault(x => x.Id == productId).ProductIngredients.AsQueryable();
-
-        }
-
-        public void DeleteImageFromProduct(int productId)
-        {
-            Product product = GetProductById(productId);
-            product.ImagePath = null;
-            UpdateProduct(product);
-        }
-
-        public void AddNewImageToProduct(string imageName, int productId)
-        {
-            Product product = GetProductById(productId);
-            product.ImagePath = imageName;
-            UpdateProduct(product);
-        }
-
-        public void RemoveIngredientFromProduct(int ingredientId, int productId)
-        {
-            Product product = _context.Products.AsNoTracking().Include(x => x.ProductIngredients)
-                .FirstOrDefault(x =>x.Id == productId);
-            product.ProductIngredients.Remove(GetIngredientById(ingredientId));
-            UpdateProduct(product);
-        }
-
-
-        public void RemoveAllergenFromProduct(int allergenId, int productId)
-        {
-            Product product = _context.Products.AsNoTracking().Include(x => x.ProductAllergens)
-                .FirstOrDefault(x => x.Id == productId);
-            product.ProductAllergens.Remove(GetAllergenById(allergenId));
-            UpdateProduct(product);
-        }
-
-        public Ingredient GetIngredientById(int ingredientId) => _context.Ingredients.Find(ingredientId);
-
-        public IQueryable<Ingredient> GetAllIngredients()
-        {
-            return _context.Ingredients;
-        }
-
-        public void AddNewIngredient(Ingredient ingredient)
-        {
-            _context.Ingredients.Add(ingredient);
-            _context.SaveChanges();
-        }
-
-        public Allergen GetAllergenById(int id)
-        {
-            return _context.Allergens.Find(id);
-        }
-
-        public IQueryable<Allergen> GetAllAllergens()
-        {
-            return _context.Allergens.AsNoTracking();
-        }
-
-        public void DeleteIngredient(int ingredientId)
-        {
-            _context.Ingredients.Remove(GetIngredientById(ingredientId));
-            _context.SaveChanges();
-        }
-
-        public void AddNewAllergen(Allergen allergen)
-        {
-            _context.Allergens.Add(allergen);
-            _context.SaveChanges();
-        }
-
-        public void AddDietInfoToProduct(int dietInfoId, int productId)
-        {
-            var product = _context.Products.AsNoTracking().Include(x => x.DietInfoTags)
-                .FirstOrDefault(x => x.Id == productId);
-            product.DietInfoTags.Add(_context.DietInformations.Find(dietInfoId));
-            _context.SaveChanges();
-
-        }
-
-        public IQueryable<DietInfoTag> GetAllDietInfo()
-        {
-            return _context.DietInformations.AsNoTracking();
-        }
-
-        public IQueryable<DietInfoTag> GetAllProductDietInfo(int productId)
-        {
-            return _context.Products.AsNoTracking().Include(x => x.DietInfoTags)
-                .FirstOrDefault(x => x.Id == productId).DietInfoTags.AsQueryable();
-
-        }
-
-        public void RemoveDietInfoFromProduct(int dietInfoId, int productId)
-        {
-            var product = _context.Products.AsNoTracking().Include(x => x.DietInfoTags)
-                .FirstOrDefault(x => x.Id == productId);
-            product.DietInfoTags.Add(_context.DietInformations.Find(dietInfoId));
-
-            _context.SaveChanges();
-        }
-
+            ///*** Product Actions***\\\
         public int AddNewProduct(Product product)
         {
             _context.Products.Add(product);
@@ -179,6 +34,148 @@ namespace CafeMVC.Infrastructure.Repositories
         IQueryable<Product> IProductRepository.GetAllProducts()
         {
             return _context.Products.AsNoTracking();
+        }
+        public Product GetProductById(int productId)
+        {
+            var product = _context.Products.AsNoTracking()
+                .Include(x => x.ProductIngredients)
+                .Include(x => x.ProductAllergens)
+                .Include(x => x.ProductDietInfoTags)
+                .FirstOrDefault(x => x.Id == productId);
+            return product;
+        }
+
+        public void UpdateProduct(Product product)
+        {
+            _context.Attach(product);
+            _context.Entry(product).Property("Name");
+            _context.Entry(product).Property("Price");
+            _context.Entry(product).Property("Description");
+            _context.Entry(product).Property("ImagePath");
+            _context.Entry(product).Collection("ProductIngredients");
+            _context.Entry(product).Collection("ProductAllergens");
+            _context.Entry(product).Collection("ProductDietInfoTags");
+            _context.SaveChanges();
+        }
+        public void DeleteImageFromProduct(int productId)
+        {
+            Product product = GetProductById(productId);
+            product.ImagePath = null;
+            UpdateProduct(product);
+        }
+
+        public void AddNewImageToProduct(string imageName, int productId)
+        {
+            Product product = GetProductById(productId);
+            product.ImagePath = imageName;
+            UpdateProduct(product);
+        }
+        ///***Ingredient Actions***///
+        public void AddIngredientToProduct(ProductIngredient productIngredient)
+        {
+            var product = GetProductById(productIngredient.ProductId);
+            product.ProductIngredients.Add(productIngredient);
+            UpdateProduct(product);
+        }
+        public IQueryable<ProductIngredient> GetAllProductIngredients(int productId)
+        {
+            return _context.Products.AsNoTracking().Include(x => x.ProductIngredients)
+                .FirstOrDefault(x => x.Id == productId).ProductIngredients.AsQueryable();
+
+        }
+        public void RemoveIngredientFromProduct(ProductIngredient productIngredientToBeRemoved)
+        {
+            _context.ProductIngredients.Remove(productIngredientToBeRemoved);
+            _context.SaveChanges();
+            
+        }
+
+        public Ingredient GetIngredientById(int ingredientId) => _context.Ingredients.Find(ingredientId);
+
+        public IQueryable<Ingredient> GetAllIngredients()
+        {
+            return _context.Ingredients;
+        }
+
+        public void AddNewIngredient(Ingredient ingredient)
+        {
+            _context.Ingredients.Add(ingredient);
+            _context.SaveChanges();
+        }
+        public void DeleteIngredient(int ingredientId)
+        {
+            _context.Ingredients.Remove(GetIngredientById(ingredientId));
+            _context.SaveChanges();
+        }
+
+        ///***Allergens Actions***///
+        public void AddAllergenToProduct(ProductAllergen productAllergen)
+        {
+            var product = GetProductById(productAllergen.ProductId);
+            product.ProductAllergens.Add(productAllergen);
+            UpdateProduct(product);
+        }
+
+
+        public IQueryable<ProductAllergen> GetAllAllergensFromProduct(int productId)
+        {
+
+            return _context.Products.AsNoTracking().Include(x => x.ProductAllergens)
+                .FirstOrDefault(x => x.Id == productId).ProductAllergens.AsQueryable();
+        }
+
+        public void RemoveAllergenFromProduct(ProductAllergen productAllergenToBeRemoved)
+        {
+            _context.ProductAllergens.Remove(productAllergenToBeRemoved);
+            _context.SaveChanges();
+        }
+
+
+        public Allergen GetAllergenById(int id)
+        {
+            return _context.Allergens.Find(id);
+        }
+
+        public IQueryable<Allergen> GetAllAllergens()
+        {
+            return _context.Allergens.AsNoTracking();
+        }
+
+
+        public void AddNewAllergen(Allergen allergen)
+        {
+            _context.Allergens.Add(allergen);
+            _context.SaveChanges();
+        }
+        ///***Diet info Actions***///
+
+        public void AddDietInfoToProduct(ProductDietInfoTag productDietInfoTag )
+        {
+            _context.ProductDietInfoTags.Add(productDietInfoTag);
+            _context.SaveChanges();
+
+        }
+
+        public IQueryable<DietInfoTag> GetAllDietInfo()
+        {
+            return _context.DietInfotags.AsNoTracking();
+        }
+
+        public IQueryable<ProductDietInfoTag> GetAllProductDietInfo(int productId)
+        {
+            return _context.ProductDietInfoTags.Where(x => x.ProductId ==productId).AsQueryable();
+
+        }
+
+        public void RemoveDietInfoFromProduct(ProductDietInfoTag productDietInfoTagToBeRemoved)
+        {
+            _context.ProductDietInfoTags.Remove(productDietInfoTagToBeRemoved);
+            _context.SaveChanges();
+        }
+
+        public DietInfoTag GetDietInfoTagById(int dietInfoTagId)
+        {
+            return _context.DietInfotags.FirstOrDefault(x => x.Id == dietInfoTagId);
         }
     }
 }

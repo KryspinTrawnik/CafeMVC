@@ -21,7 +21,7 @@ namespace CafeMVC.Application.ViewModels.Orders
         public void Mapping(Profile profile)
         {
             profile.CreateMap<CafeMVC.Domain.Model.Order, OrderForUserListVm>()
-                .ForMember(s => s.ProductsCount, opt => opt.MapFrom(d => d.Products.Count));
+                .ForMember(s => s.ProductsCount, opt => opt.MapFrom(d => d.OrderProducts.Count));
         }
 
     }

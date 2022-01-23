@@ -50,7 +50,12 @@ namespace CafeMVC.Application.Services
         public void AddProductToOrder(int orderId, int productId)
         {
             Order order = _orderRepository.GetOrderById(orderId);
-            order.Products.Add(_productRepository.GetProductById(orderId));
+           OrderProduct newOrderProduct = new() { 
+               Order = order, 
+               OrderId = orderId, 
+               ProductId = productId, 
+               Product = _productRepository.GetProductById(productId) };
+            order.OrderProducts.Add(newOrderProduct);
             _orderRepository.UpdateOrder(order);
         }
 
@@ -58,9 +63,9 @@ namespace CafeMVC.Application.Services
         {
             Order order = _orderRepository.GetOrderById(orderId);
             Address newAddress = _mapper.Map<Address>(newDeliveryAddress);
-            var addresdToBeRemove = order.Addresses.FirstOrDefault(x => x.AddressType.Name == "DeliveryAdress");
-            order.Addresses.Remove(addresdToBeRemove);
-            order.Addresses.Add(newAddress);
+            var addresdToBeRemove = order.OrderAddresses.FirstOrDefault(x => x.Address.AddressType.Name == "DeliveryAdress");
+            order.OrderAddresses.Remove(order.OrderAddresses.FirstOrDefault(x => x.AddressId == addresdToBeRemove.AddressId));
+            order.OrderAddresses.Add(new OrderAddress { Address = newAddress, AddressId = newAddress.Id, Order = order, OrderId = order.Id});
             _orderRepository.UpdateOrder(order);
         }
 
@@ -129,7 +134,8 @@ namespace CafeMVC.Application.Services
         public void RemoveProduct(int productId, int orderId)
         {
             Order order = _orderRepository.GetOrderById(orderId);
-            order.Products.Remove(_productRepository.GetProductById(productId));
+            OrderProduct orderProductTobeRemoved =  order.OrderProducts.FirstOrDefault(x => x.ProductId == productId);
+            order.OrderProducts.Remove(orderProductTobeRemoved);
             _orderRepository.UpdateOrder(order);
         }
 

@@ -14,7 +14,7 @@ namespace CafeMVC.Infrastructure
 
         public DbSet<ContactDetailType> ContactDetailTypes { get; set; }
 
-        public DbSet<DietInfoTag> DietInformations { get; set; }
+        public DbSet<DietInfoTag> DietInfotags { get; set; }
 
         public DbSet<Ingredient> Ingredients { get; set; }
 
@@ -35,6 +35,12 @@ namespace CafeMVC.Infrastructure
         public DbSet<ProductAllergen> ProductAllergens { get; set; }
 
         public DbSet<ProductDietInfoTag> ProductDietInfoTags { get; set; }
+
+        public DbSet<OrderContactDetail> OrderContactDetails { get; set; }
+
+        public DbSet<OrderAddress> OrderAddresses { get; set; }
+
+        public DbSet<OrderProduct> OrderProducts { get; set; }
 
         public Context(DbContextOptions options) : base(options)
         {
@@ -80,6 +86,42 @@ namespace CafeMVC.Infrastructure
             .HasOne<DietInfoTag>(pp => pp.DietInfoTag)
             .WithMany(a => a.ProductDietInfoTags)
             .HasForeignKey(pp => pp.DietInfoTagId);
+
+            builder.Entity<OrderContactDetail>().HasKey(oc => new { oc.OrderId, oc.ContactDetailId });
+
+            builder.Entity<OrderContactDetail>()
+                .HasOne<Order>(oc => oc.Order)
+                .WithMany(o => o.OrderContactDetails)
+                .HasForeignKey(oc => oc.OrderId);
+
+            builder.Entity<OrderContactDetail>()
+                .HasOne<ContactDetail>(oc => oc.ContactDetail)
+                .WithMany(cd => cd.OrderContactDetails)
+                .HasForeignKey(oc => oc.ContactDetailId);
+
+            builder.Entity<OrderAddress>().HasKey(oa => new { oa.OrderId, oa.AddressId });
+
+            builder.Entity<OrderAddress>()
+                .HasOne<Order>(oa => oa.Order)
+                .WithMany( o => o.OrderAddresses)
+                .HasForeignKey(oa=> oa.OrderId);
+
+            builder.Entity<OrderAddress>()
+                .HasOne<Address>(cd => cd.Address)
+                .WithMany(a => a.OrderAddresses)
+                .HasForeignKey(oa => oa.AddressId);
+
+            builder.Entity<OrderProduct>().HasKey(op => new { op.OrderId, op.ProductId });
+
+            builder.Entity<OrderProduct>()
+                .HasOne<Order>(op => op.Order)
+                .WithMany(o => o.OrderProducts)
+                .HasForeignKey(op => op.OrderId);
+
+            builder.Entity<OrderProduct>()
+                .HasOne<Product>(op => op.Product)
+                .WithMany(p => p.OrderProducts)
+                .HasForeignKey(op => op.ProductId);
 
             builder.Entity<ContactDetailType>()
                 .HasData(new ContactDetailType { Id = 1, Name = "E-mail" },

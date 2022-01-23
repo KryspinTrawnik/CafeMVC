@@ -12,6 +12,7 @@ namespace CafeMVC.Web.Controllers
         {
             _productService = productService;
         }
+        ///*** Product Actions ***\\\
         [HttpGet]
         public IActionResult Index()
         {
@@ -129,7 +130,7 @@ namespace CafeMVC.Web.Controllers
             _productService.DeleteIngredient(productId, ingredientId);
             return View();
         }
-
+        ///***Diet info Actions***///
         [HttpGet]
         public IActionResult ChangeDietInformation()
         {
@@ -142,6 +143,8 @@ namespace CafeMVC.Web.Controllers
             _productService.AddDietInfoToProduct(productId, dietInfoId);
             return View();
         }
+
+        ///***Allergen Actions***///
         [HttpGet]
         public IActionResult AddNewAllergen()
         {
@@ -154,6 +157,7 @@ namespace CafeMVC.Web.Controllers
             _productService.AddNewAllergen(allergen);
             return View();
         }
+
 
     }
 }

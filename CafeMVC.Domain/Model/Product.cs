@@ -18,5 +18,7 @@ namespace CafeMVC.Domain.Model
         public virtual ICollection<ProductAllergen> ProductAllergens { get; set; }
 
         public virtual ICollection<ProductDietInfoTag> ProductDietInfoTags { get; set; }
+
+        public virtual ICollection<OrderProduct> OrderProducts { get; set; }
     }
 }

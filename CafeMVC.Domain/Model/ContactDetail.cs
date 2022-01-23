@@ -1,4 +1,7 @@
-﻿namespace CafeMVC.Domain.Model
+﻿using System.Collections.Generic;
+using static CafeMVC.Domain.Model.Order;
+
+namespace CafeMVC.Domain.Model
 {
     public class ContactDetail : BaseModel
     {
@@ -10,6 +13,7 @@
 
         public virtual ContactDetailType ContactDetailType { get; set; }
 
+        public virtual ICollection<OrderContactDetail> OrderContactDetails { get; set; }
         public virtual Customer Customer { get; set; }
     }
 }

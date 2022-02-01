@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using static CafeMVC.Domain.Model.Order;
 
 namespace CafeMVC.Domain.Model
 {

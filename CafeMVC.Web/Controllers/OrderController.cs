@@ -16,12 +16,15 @@ namespace CafeMVC.Web.Controllers
         private readonly IOrderService _orderService;
 
         private readonly IProductService _productService;
+
+        private readonly IAddressService _addressService;
         
-        public OrderController(IMenuService menuService, IOrderService orderService, IProductService productService)
+        public OrderController(IMenuService menuService, IOrderService orderService, IProductService productService, IAddressService  addressService)
         {
             _menuService = menuService;
             _orderService = orderService;
             _productService = productService;
+            _addressService = addressService;
         }
 
         [HttpGet]
@@ -138,9 +141,9 @@ namespace CafeMVC.Web.Controllers
         }
 
         [HttpPatch]
-        public IActionResult ChangeDeliveryAddress(AddressForCreationVm deliveryAddress, int orderId)
+        public IActionResult ChangeDeliveryAddress(AddressForCreationVm deliveryAddress)
         {
-            _orderService.ChangeDeliveryAddress(orderId, deliveryAddress);
+            _addressService.ChangeCustomerAddress(deliveryAddress);
             return View();
         }
 

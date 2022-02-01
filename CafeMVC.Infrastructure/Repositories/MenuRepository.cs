@@ -1,11 +1,7 @@
 ﻿using CafeMVC.Domain.Interfaces;
 using CafeMVC.Domain.Model;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CafeMVC.Infrastructure.Repositories
 {
@@ -46,23 +42,21 @@ namespace CafeMVC.Infrastructure.Repositories
             UpdateMenu(menu);
         }
 
-        public IQueryable<Product> GetAllProduct(int menuId)
-        {
-
-            return GetMenuById(menuId).Products.AsQueryable<Product>();
-        }
+        public IQueryable<Product> GetAllProduct(int menuId)=>GetMenuById(menuId).Products.AsQueryable();
 
         public Menu GetMenuByDietInformation(int menuId, DietInfoTag dietInformation)
         {
             var menu = GetMenuById(menuId);
             menu.Products = menu.Products.Where(x => x.ProductDietInfoTags.Any(x => x.DietInfoTagId == dietInformation.Id) ).ToList();
+
             return menu;
         }
 
-        int IMenuRepository.AddNewMenu(Menu menu)
+        public int AddNewMenu(Menu menu)
         {
             _context.Menus.Add(menu);
             _context.SaveChanges();
+
             return menu.Id;
         }
 
@@ -78,6 +72,7 @@ namespace CafeMVC.Infrastructure.Repositories
             var activeMenus = _context.Menus.AsNoTracking()
                 .Include(x => x.Products)
                 .Where(x => x.HasBeenRemoved == false);
+
             return activeMenus;
         }
     }

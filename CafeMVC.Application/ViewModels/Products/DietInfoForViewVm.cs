@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using CafeMVC.Application.Interfaces.Mapping;
-using System.Collections.Generic;
 
 namespace CafeMVC.Application.ViewModels.Products
 {

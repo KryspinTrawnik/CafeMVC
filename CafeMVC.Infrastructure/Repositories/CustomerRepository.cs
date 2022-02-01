@@ -37,12 +37,8 @@ namespace CafeMVC.Infrastructure.Repositories
             _context.SaveChanges();
         }
 
-        public IQueryable<Order> GetOrdersByCustomer(int customerId)
-        {
-            return GetCustomerById(customerId).Orders.AsQueryable();
-        }
-
-
+        public IQueryable<Order> GetOrdersByCustomer(int customerId)=> GetCustomerById(customerId).Orders.AsQueryable();
+    
         public int AddNewCustomer(Customer customer)
         {
             _context.Customers.Add(customer);
@@ -60,11 +56,8 @@ namespace CafeMVC.Infrastructure.Repositories
             }
         }
 
-        public IQueryable<Customer> GetAllCustomers()
-        {
-            return _context.Customers.AsNoTracking();
-        }
-
+        public IQueryable<Customer> GetAllCustomers()=>_context.Customers.AsNoTracking();
+       
         //////Address Actions/////////
 
         public int AddNewAddress(Address address)
@@ -82,10 +75,7 @@ namespace CafeMVC.Infrastructure.Repositories
             return address;
         }
 
-        public IQueryable<AddressType> GetAllAddressTypes()
-        {
-            return _context.AddressTypes.AsNoTracking();
-        }
+        public IQueryable<AddressType> GetAllAddressTypes()=>_context.AddressTypes.AsNoTracking();
 
         public void UpdateAddress(Address address)
         {
@@ -120,10 +110,7 @@ namespace CafeMVC.Infrastructure.Repositories
         }
 
 
-        public IQueryable<ContactDetailType> GetAllContactDetailTypes()
-        {
-            return _context.ContactDetailTypes.AsNoTracking();
-        }
+        public IQueryable<ContactDetailType> GetAllContactDetailTypes()=> _context.ContactDetailTypes.AsNoTracking();
 
         public void UpdateContactDetail(ContactDetail contactDetail)
         {

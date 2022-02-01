@@ -2,10 +2,6 @@
 using CafeMVC.Application.ViewModels.Menu;
 using CafeMVC.Application.ViewModels.Products;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace CafeMVC.Web.Controllers
 {

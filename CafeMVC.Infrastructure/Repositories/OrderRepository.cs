@@ -1,11 +1,7 @@
 ﻿using CafeMVC.Domain.Interfaces;
 using CafeMVC.Domain.Model;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CafeMVC.Infrastructure.Repositories
 {
@@ -80,18 +76,14 @@ namespace CafeMVC.Infrastructure.Repositories
             UpdateOrder(order);
         }
 
-        public IQueryable<Status> GetAllStatuses()
-        {
-            return _context.Statuses.AsNoTracking();
-        }
+        public IQueryable<Status> GetAllStatuses()=> _context.Statuses.AsNoTracking();
 
-        IQueryable<Order> IOrderRepository.GetAllOrders()
+        public IQueryable<Order> GetAllOrders()
         {
             return _context.Orders.AsNoTracking()
                     .Include(x => x.Customer)
                     .Include(x => x.OrderContactDetails)
                     .Include(x => x.OrderProducts);
-
         }
     }
 }

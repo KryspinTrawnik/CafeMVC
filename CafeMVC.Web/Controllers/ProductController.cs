@@ -7,10 +7,15 @@ namespace CafeMVC.Web.Controllers
     public class ProductController : Controller
     {
         private readonly IProductService _productService;
-        
-        public ProductController(IProductService productService)
+        private readonly IIngredientService _ingredientService;
+        private readonly IAllergenService _allergenService;
+
+
+        public ProductController(IProductService productService, IAllergenService allergenService,IIngredientService ingredientService )
         {
             _productService = productService;
+            _allergenService = allergenService;
+            _ingredientService = ingredientService;
         }
         ///*** Product Actions ***\\\
         [HttpGet]
@@ -96,7 +101,7 @@ namespace CafeMVC.Web.Controllers
         [HttpPost]
         public IActionResult AddIngredientsToProduct(int productId, int ingredientId)
         {
-            _productService.AddIngredientToProduct(productId, ingredientId);
+            _ingredientService.AddIngredientToProduct(productId, ingredientId);
             return View();
         }
 
@@ -109,7 +114,7 @@ namespace CafeMVC.Web.Controllers
         [HttpGet]
         public IActionResult ViewAllIngredients()
         {
-            ListOfIngredientsVm allIngredientsList = _productService.GetAllIngredients();
+            ListOfIngredientsVm allIngredientsList = _ingredientService.GetAllIngredients();
             return View(allIngredientsList);
         }
 
@@ -122,12 +127,12 @@ namespace CafeMVC.Web.Controllers
         [HttpPost]
         public IActionResult AddNewIngredient(IngredientForCreationVm ingredient)
         {
-            _productService.AddNewIngredient(ingredient);
+            _ingredientService.AddNewIngredient(ingredient);
             return View();
         }
         public IActionResult DeleteIngredientsFromProduct(int productId, int ingredientId)
         {
-            _productService.DeleteIngredient(productId, ingredientId);
+            _ingredientService.DeleteIngredient(productId, ingredientId);
             return View();
         }
         ///***Diet info Actions***///
@@ -154,7 +159,7 @@ namespace CafeMVC.Web.Controllers
         [HttpPost]
         public IActionResult AddNewAllergen(AllergenForViewVm allergen)
         {
-            _productService.AddNewAllergen(allergen);
+            _allergenService.AddNewAllergen(allergen);
             return View();
         }
 

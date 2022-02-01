@@ -2,10 +2,6 @@
 using CafeMVC.Application.ViewModels.Orders;
 using CafeMVC.Application.ViewModels.Products;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CafeMVC.Application.Interfaces
 {
@@ -24,8 +20,6 @@ namespace CafeMVC.Application.Interfaces
         string AddOrder(OrderForCreationVm orderForView);
 
         void ChangeLeadTime(int orderId, DateTime leadTimeOfOrder);
-
-        void ChangeDeliveryAddress(int orderId, AddressForCreationVm newDeliveryAddress);
 
         void AddOrChangeNote(int orderId, string annotation);
 

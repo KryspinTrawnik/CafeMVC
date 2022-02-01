@@ -2,9 +2,6 @@
 using CafeMVC.Application.ViewModels.Customer;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace CafeMVC.Web.Controllers
 {
@@ -12,9 +9,16 @@ namespace CafeMVC.Web.Controllers
     {
         private readonly ICustomerService _customerService;
 
-        public CustomerController(ICustomerService customerService)
+        private readonly IAddressService _addressService;
+
+        private readonly IContactDetailService _contactDetailService;
+
+
+        public CustomerController(ICustomerService customerService, IAddressService addressService, IContactDetailService contactDetailService)
         {
             _customerService = customerService;
+            _addressService = addressService;
+            _contactDetailService = contactDetailService;
         }
 
         [HttpGet]
@@ -58,10 +62,8 @@ namespace CafeMVC.Web.Controllers
         {
             if (customer.Btn == "Submit")
             {
-                int idNewcustomer = _customerService.AddNewCustomer(customer);
-                var lastcustomer = _customerService.GetLastAddedCustomer(idNewcustomer);
-
-                return View(lastcustomer);
+                CustomerForSummaryVm customerForSummary = _customerService.AddNewCustomer(customer);
+                return View(customerForSummary);
             }
             else
             {
@@ -82,7 +84,7 @@ namespace CafeMVC.Web.Controllers
             var newContactDetail = new ContactInfoForCreationVm()
             {
                 CustomerId = customerId,
-                AllContactDetailsTypes = _customerService.GetAllContactDetailTypes()
+                AllContactDetailsTypes = _contactDetailService.GetAllContactDetailTypes()
             };
             return View(newContactDetail);
         }
@@ -92,7 +94,7 @@ namespace CafeMVC.Web.Controllers
         {
             if (contactDetail.Btn == "Submit")
             {
-                _customerService.AddNewContactDetail(contactDetail);
+                _contactDetailService.AddNewContactDetail(contactDetail);
             }
             return RedirectToAction("CustomerView", "Customer", new { customerId = contactDetail.CustomerId });
         }
@@ -100,7 +102,7 @@ namespace CafeMVC.Web.Controllers
         [HttpGet]
         public IActionResult ChangeContactDetail(int contactDetailId)
         {
-            var contactDetailForEdition = _customerService.GetContactDetailForEdition(contactDetailId);
+            var contactDetailForEdition = _contactDetailService.GetContactDetailForEdition(contactDetailId);
             return View(contactDetailForEdition);
         }
 
@@ -109,15 +111,15 @@ namespace CafeMVC.Web.Controllers
         {
             if (contactDetail.Btn == "Submit")
             {
-                _customerService.ChangeContactDetails(contactDetail);
+                _contactDetailService.ChangeContactDetails(contactDetail);
             }
             return RedirectToAction("CustomerView", "Customer", new { customerId = contactDetail.CustomerId });
         }
 
         public IActionResult RemoveContactDetail(int contactDetailId)
         {
-            int customerId = _customerService.GetContactDetailForEdition(contactDetailId).CustomerId;
-            _customerService.RemoveContactDetail(contactDetailId);
+            int customerId = _contactDetailService.GetContactDetailForEdition(contactDetailId).CustomerId;
+            _contactDetailService.RemoveContactDetail(contactDetailId);
             return RedirectToAction("CustomerView", "Customer", new { customerId = customerId });
         }
         ////**** Address ****\\\\
@@ -129,7 +131,7 @@ namespace CafeMVC.Web.Controllers
             AddressForCreationVm addressForCreation = new()
             {
                 CustomerId = customerId,
-                AllAddressTypes = _customerService.GetAllAddressTypes()
+                AllAddressTypes = _addressService.GetAllAddressTypes()
 
             };
             return View(addressForCreation);
@@ -140,7 +142,7 @@ namespace CafeMVC.Web.Controllers
         {
             if (address.Btn == "Submit")
             {
-                _customerService.AddNewAddress(address);
+                _addressService.AddNewAddress(address);
             }
             return RedirectToAction("CustomerView", "Customer", new { customerId = address.CustomerId });
 
@@ -148,7 +150,7 @@ namespace CafeMVC.Web.Controllers
         [HttpGet]
         public IActionResult ChangeAddress(int addressId)
         {
-            AddressForCreationVm addressToBeEdited = _customerService.GetAddressToEdit(addressId);
+            AddressForCreationVm addressToBeEdited = _addressService.GetAddressToEdit(addressId);
             return View(addressToBeEdited);
         }
         [HttpPost]
@@ -156,21 +158,21 @@ namespace CafeMVC.Web.Controllers
         {
             if (editedAddress.Btn == "Submit")
             {
-                _customerService.ChangeCustomerAddress(editedAddress);
+                _addressService.ChangeCustomerAddress(editedAddress);
             }
             return RedirectToAction("CustomerView", "Customer", new { customerId = editedAddress.CustomerId });
         }
 
         public IActionResult DeleteAddress(int addressId)
         {
-            int customerId = _customerService.GetAddressToEdit(addressId).CustomerId;
-            _customerService.DeleteAddress(addressId);
+            int customerId = _addressService.GetAddressToEdit(addressId).CustomerId;
+            _addressService.DeleteAddress(addressId);
             return RedirectToAction("CustomerView", "Customer", new { customerId = customerId });
         }
         [HttpGet]
         public IActionResult ViewAddress(int addressId)
         {
-            AddressForCreationVm address = _customerService.GetAddressToEdit(addressId);
+            AddressForCreationVm address = _addressService.GetAddressToEdit(addressId);
             return View(address);
         }
 

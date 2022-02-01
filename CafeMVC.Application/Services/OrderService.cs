@@ -24,11 +24,8 @@ namespace CafeMVC.Application.Services
             _productRepository = productRepository;
             _mapper = mapper;
         }
-        public void AddOrChangeNote(int orderId, string note)
-        {
-            _orderRepository.AddOrChangeNote(orderId, note);
-        }
-
+        public void AddOrChangeNote(int orderId, string note) => _orderRepository.AddOrChangeNote(orderId, note);
+       
         public string AddOrder(OrderForCreationVm order)
         {
             Order newOrder = _mapper.Map<Order>(order);
@@ -36,14 +33,6 @@ namespace CafeMVC.Application.Services
             string orderConfirmation = GenerateOrderConfrimation(orderId);
             newOrder.OrderConfirmation = orderConfirmation;
             
-
-            return orderConfirmation;
-        }
-        private string GenerateOrderConfrimation(int orderId)
-        {
-            string todayDate = DateTime.Now.ToString("MMddyy");
-            string orderConfirmation = $"Order-{orderId}{todayDate}";
-
             return orderConfirmation;
         }
 
@@ -59,17 +48,7 @@ namespace CafeMVC.Application.Services
             _orderRepository.UpdateOrder(order);
         }
 
-        public void ChangeDeliveryAddress(int orderId, AddressForCreationVm newDeliveryAddress)
-        {
-            Order order = _orderRepository.GetOrderById(orderId);
-            Address newAddress = _mapper.Map<Address>(newDeliveryAddress);
-            var addresdToBeRemove = order.OrderAddresses.FirstOrDefault(x => x.Address.AddressType.Name == "DeliveryAdress");
-            order.OrderAddresses.Remove(order.OrderAddresses.FirstOrDefault(x => x.AddressId == addresdToBeRemove.AddressId));
-            order.OrderAddresses.Add(new OrderAddress { Address = newAddress, AddressId = newAddress.Id, Order = order, OrderId = order.Id});
-            _orderRepository.UpdateOrder(order);
-        }
-
-        public void ChangeLeadTime(int orderId, DateTime newLeadTimeOfOrder)
+         public void ChangeLeadTime(int orderId, DateTime newLeadTimeOfOrder)
         {
             Order order = _orderRepository.GetOrderById(orderId);
             order.LeadTime = newLeadTimeOfOrder;
@@ -79,17 +58,16 @@ namespace CafeMVC.Application.Services
         public ListOfOrdersVm GetOrdersToDisplay(int pageSize, int pageNo, string searchString)
         {
             List<OrderForListVm> orderForListVm = _orderRepository.GetAllOrders()
-                .ProjectTo<OrderForListVm>(_mapper.ConfigurationProvider).ToList();
-            List<OrderForListVm> ordersToDisplay = orderForListVm.Skip(pageSize * (pageNo - 1)).Take(pageSize).ToList();
-            ListOfOrdersVm listOfOrdersVm = new()
+                .ProjectTo<OrderForListVm>(_mapper.ConfigurationProvider).Skip(pageSize * (pageNo - 1)).Take(pageSize).ToList();
+            
+            return new()
             {
-                PageSize= pageSize,
-                CurrentPage =pageNo,
+                PageSize = pageSize,
+                CurrentPage = pageNo,
                 SearchString = searchString,
-                ListOfOrders = ordersToDisplay,
+                ListOfOrders = orderForListVm,
                 Count = orderForListVm.Count
             };
-            return listOfOrdersVm;
         }
 
         public ListOfProductsVm GetAllProducts(int orderId)
@@ -97,33 +75,26 @@ namespace CafeMVC.Application.Services
             List<ProductForListVm> productForListVm = _orderRepository.GetAllProductsFromOrder(orderId)
                  .ProjectTo<ProductForListVm>(_mapper.ConfigurationProvider).ToList();
 
-            ListOfProductsVm listOfProductsVm = new()
+            return new()
             {
                 ListOfAllProducts = productForListVm,
                 Count = productForListVm.Count
             };
-            return listOfProductsVm;
         }
-
         public ListOfOrdersVm GetAllOpenOrders()
         {
             List<OrderForListVm> ordersForListVm = _orderRepository.GetAllOpenOrders()
                 .ProjectTo<OrderForListVm>(_mapper.ConfigurationProvider).ToList();
-            ListOfOrdersVm listOfOrdersVm = new()
+            
+            return new()
             {
                 ListOfOrders = ordersForListVm,
                 Count = ordersForListVm.Count
             };
-            return listOfOrdersVm;
         }
 
-        public OrderForCreationVm GetOrderForCreationVmById(int orderId)
-        {
-            Order order = _orderRepository.GetOrderById(orderId);
-            OrderForCreationVm orderForCreationVm = _mapper.Map<OrderForCreationVm>(order);
-
-            return orderForCreationVm;
-        }
+        public OrderForCreationVm GetOrderForCreationVmById(int orderId)=> _mapper.Map<OrderForCreationVm>(_orderRepository.GetOrderById(orderId));
+        
         public OrderForSummaryVm GetOrderSummaryVmById(int orderId)
         {
             Order order = _orderRepository.GetOrderById(orderId);
@@ -139,17 +110,16 @@ namespace CafeMVC.Application.Services
             _orderRepository.UpdateOrder(order);
         }
 
-        public void ChangeOrderStatus(int orderId, int statusId)
-        {
-            _orderRepository.ChangeStatusOfOrder(orderId, statusId);
-        }
+        public void ChangeOrderStatus(int orderId, int statusId)=>_orderRepository.ChangeStatusOfOrder(orderId, statusId);
 
-        public OrderForViewVm GetOrderToView(int orderId)
+        public OrderForViewVm GetOrderToView(int orderId) => _mapper.Map<OrderForViewVm>(_orderRepository.GetOrderById(orderId));
+        
+        private string GenerateOrderConfrimation(int orderId)
         {
-            Order order = _orderRepository.GetOrderById(orderId);
-            OrderForViewVm orderForView = _mapper.Map<OrderForViewVm>(order);
+            string todayDate = DateTime.UtcNow.ToString("MMddyy");
+            string orderConfirmation = $"Order-{orderId}{todayDate}";
 
-            return orderForView;
+            return orderConfirmation;
         }
     }
 }

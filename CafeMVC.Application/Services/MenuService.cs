@@ -32,8 +32,11 @@ namespace CafeMVC.Application.Services
         public void AddProductToMenu(int productId, int menuId)
         {
             Menu menu = _menuRepository.GetMenuById(menuId);
-            menu.Products.Add(_productRepository.GetProductById(productId));
-            _menuRepository.UpdateMenu(menu);
+            if(menu != null)
+            {
+                menu.Products.Add(_productRepository.GetProductById(productId));
+                _menuRepository.UpdateMenu(menu);
+            }
         }
 
         public void ChangeMenu(MenuForViewVm menuModel)
@@ -42,11 +45,8 @@ namespace CafeMVC.Application.Services
             _menuRepository.UpdateMenu(menu);
         }
 
-        public void DeleteMenu(int menuId)
-        {
-            _menuRepository.DeleteMenu(menuId);
-        }
-
+        public void DeleteMenu(int menuId)=>_menuRepository.DeleteMenu(menuId);
+        
         public void DeleteProductFromMenu(int productId, int menuId)
         {
             Product prodtuctToRemove = _productRepository.GetProductById(productId);
@@ -55,32 +55,27 @@ namespace CafeMVC.Application.Services
 
         public ListOfMenusVm GetAllMenus(int pageSize, int pageNo, string searchString)
         {
-            List<MenuForListVm> allMenus = _menuRepository.GetAllActiveMenus().ProjectTo<MenuForListVm>(_mapper.ConfigurationProvider).ToList();
-            var menusToDisplay = allMenus.Skip(pageSize * (pageNo - 1)).Take(pageSize).ToList();
-            ListOfMenusVm listOfMenus = new()
+            List<MenuForListVm> allMenus = _menuRepository.GetAllActiveMenus().ProjectTo<MenuForListVm>(_mapper.ConfigurationProvider)
+                .Skip(pageSize * (pageNo - 1)).Take(pageSize).ToList();
+
+            return new()
             {
-                ListOfAllMenus = menusToDisplay,
+                ListOfAllMenus = allMenus,
                 PageSize = pageSize,
                 CurrentPage = pageNo,
                 SearchString = searchString,
                 Count = allMenus.Count
             };
-            return listOfMenus;
         }
 
-        public MenuForViewVm GetAllProducstOfMenu(int menuId)
-        {
-            Menu menu = _menuRepository.GetMenuById(menuId);
-            MenuForViewVm menuVm = _mapper.Map<MenuForViewVm>(menu);
-            return menuVm;
-        }
+        public MenuForViewVm GetAllProducstOfMenu(int menuId)=>_mapper.Map<MenuForViewVm>(_menuRepository.GetMenuById(menuId));
 
         public MenuForViewVm GetProductsByDieteInfo(DietInfoForViewVm dieteInfoVm, int menuTypeId)
         {
             DietInfoTag dietInfo = _mapper.Map<DietInfoTag>(dieteInfoVm);
             Menu menu = _menuRepository.GetMenuByDietInformation(menuTypeId, dietInfo);
-            MenuForViewVm menuVm = _mapper.Map<MenuForViewVm>(menu);
-            return menuVm;
+            
+            return _mapper.Map<MenuForViewVm>(menu); 
         }
     }
 }

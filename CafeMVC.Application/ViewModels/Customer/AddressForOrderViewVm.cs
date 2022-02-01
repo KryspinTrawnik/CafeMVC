@@ -1,14 +1,9 @@
 ﻿using AutoMapper;
 using CafeMVC.Application.Interfaces.Mapping;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CafeMVC.Application.ViewModels.Customer
 {
-   public class AddressForOrderViewVm : IMapFrom<CafeMVC.Domain.Model.Address>
+    public class AddressForOrderViewVm : IMapFrom<CafeMVC.Domain.Model.Address>
     {
         public int Id { get; set; }
 

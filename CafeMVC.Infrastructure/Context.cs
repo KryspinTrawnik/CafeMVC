@@ -56,72 +56,84 @@ namespace CafeMVC.Infrastructure
             builder.Entity<ProductIngredient>()
                 .HasOne<Product>(pi => pi.Product)
                 .WithMany(p => p.ProductIngredients)
-                .HasForeignKey(pi => pi.ProductId);
+                .HasForeignKey(pi => pi.ProductId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<ProductIngredient>()
                 .HasOne<Ingredient>(pi => pi.Ingredient)
                 .WithMany(i => i.ProductIngredients)
-                .HasForeignKey(pi => pi.IngredientId);
+                .HasForeignKey(pi => pi.IngredientId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<ProductAllergen>().HasKey(pa => new { pa.ProductId, pa.AllergenId });
 
             builder.Entity<ProductAllergen>()
                 .HasOne<Product>(pa => pa.Product)
                 .WithMany(p => p.ProductAllergens)
-                .HasForeignKey(pa => pa.ProductId);
+                .HasForeignKey(pa => pa.ProductId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<ProductAllergen>()
                 .HasOne<Allergen>(pa => pa.Allergen)
                 .WithMany(a => a.ProductAllergens)
-                .HasForeignKey(pa => pa.AllergenId);
+                .HasForeignKey(pa => pa.AllergenId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<ProductDietInfoTag>().HasKey(pp => new { pp.ProductId, pp.DietInfoTagId });
 
             builder.Entity<ProductDietInfoTag>()
                .HasOne<Product>(pp => pp.Product)
                .WithMany(p => p.ProductDietInfoTags)
-               .HasForeignKey(pp => pp.ProductId);
+               .HasForeignKey(pp => pp.ProductId)
+               .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<ProductDietInfoTag>()
             .HasOne<DietInfoTag>(pp => pp.DietInfoTag)
             .WithMany(a => a.ProductDietInfoTags)
-            .HasForeignKey(pp => pp.DietInfoTagId);
+            .HasForeignKey(pp => pp.DietInfoTagId)
+            .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<OrderContactDetail>().HasKey(oc => new { oc.OrderId, oc.ContactDetailId });
 
             builder.Entity<OrderContactDetail>()
                 .HasOne<Order>(oc => oc.Order)
                 .WithMany(o => o.OrderContactDetails)
-                .HasForeignKey(oc => oc.OrderId);
+                .HasForeignKey(oc => oc.OrderId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<OrderContactDetail>()
                 .HasOne<ContactDetail>(oc => oc.ContactDetail)
                 .WithMany(cd => cd.OrderContactDetails)
-                .HasForeignKey(oc => oc.ContactDetailId);
+                .HasForeignKey(oc => oc.ContactDetailId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<OrderAddress>().HasKey(oa => new { oa.OrderId, oa.AddressId });
 
             builder.Entity<OrderAddress>()
                 .HasOne<Order>(oa => oa.Order)
                 .WithMany( o => o.OrderAddresses)
-                .HasForeignKey(oa=> oa.OrderId);
+                .HasForeignKey(oa=> oa.OrderId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<OrderAddress>()
                 .HasOne<Address>(cd => cd.Address)
                 .WithMany(a => a.OrderAddresses)
-                .HasForeignKey(oa => oa.AddressId);
+                .HasForeignKey(oa => oa.AddressId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<OrderProduct>().HasKey(op => new { op.OrderId, op.ProductId });
 
             builder.Entity<OrderProduct>()
                 .HasOne<Order>(op => op.Order)
                 .WithMany(o => o.OrderProducts)
-                .HasForeignKey(op => op.OrderId);
+                .HasForeignKey(op => op.OrderId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<OrderProduct>()
                 .HasOne<Product>(op => op.Product)
                 .WithMany(p => p.OrderProducts)
-                .HasForeignKey(op => op.ProductId);
+                .HasForeignKey(op => op.ProductId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<ContactDetailType>()
                 .HasData(new ContactDetailType { Id = 1, Name = "E-mail" },

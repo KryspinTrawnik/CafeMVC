@@ -9,7 +9,7 @@
 
 
 ## General info
-The application is designed for my cousin's cafe to enable customers to make orders online. Also, the Aim of the project is to make an easy change of all Menu. The program will allow making an order for delivery or collection, then store it in the history of customer order. Also, the admin will be able to create a diverse menu and dishes from the ingredients list, creating an ingredient.
+The application is designed to enable customers to make orders online. Also, the Aim of the project is to make an easy change of all Menu. The program will allow making an order for delivery or collection, then store it in the history of customer order. Also, the admin will be able to create a diverse menu and dishes from the ingredients list, creating an ingredient.
 This application is built in Clean Architecture and the Service-Repository pattern.
 
 ## Technologies
@@ -29,5 +29,5 @@ This application is built in Clean Architecture and the Service-Repository patte
 * Orders managment for admin acceptance/cancel/check 
 * Adding images dietinfo tags to Products
 ## Status
-The application is still in progress. It is contected to MSSQL data base. Major part of services and repositories is done. I am about to look at Controllers and Views.
+The application is still in progress. It is contected to MSSQL data base. Interfaces are done and connected with . I am about to look at Controllers and Views.
 

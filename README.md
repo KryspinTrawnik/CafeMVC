@@ -29,5 +29,5 @@ This application is built in Clean Architecture and the Service-Repository patte
 * Orders managment for admin acceptance/cancel/check 
 * Adding images dietinfo tags to Products
 ## Status
-The application is still in progress. It is contected to MSSQL data base. Interfaces are done and connected with . I am about to look at Controllers and Views.
+The application is still in progress. It is contected to MSSQL database. Customer controller and views are fuctioning. Currently, I work on Product controller and views.
 

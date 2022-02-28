@@ -1,0 +1,79 @@
+﻿
+#displayPicture {
+    width: 100%;
+    height: 100%;
+    border: 1px solid black;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    text-align: center;
+}
+
+#pictureFrame {
+    width: 400px;
+    height: 300px;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+#container {
+    position: relative;
+    height: 300px;
+}
+#buttonAndName {
+    display: 
+    text-align: center;
+}
+#button {
+    position: relative;
+    top: -20%;
+    
+}
+.top {
+    width: 100%;
+    display: inline-block;
+    position: relative;
+    text-align: center;
+    overflow-y: auto;
+}
+.bottom {
+    position: relative;
+    border: double black 2px;
+    display: block;
+    overflow: auto;
+}
+.productTable {
+    float: left;
+    border: 1px solid white;
+    display: flex;
+    
+}
+
+table {
+    border-collapse: collapse;
+    border: 1px solid;
+    height: 400px;
+    width:fit-content;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: block;
+}
+td {
+    padding: 0px;
+    border: solid 1px #000000;
+}
+.Ingredients label {
+    display: block;
+    padding: 20px;
+  
+}
+.buttons, productIngredients, AllIngredients {
+    height: 400px;
+}
+
+.buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

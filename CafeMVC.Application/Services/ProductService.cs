@@ -29,7 +29,7 @@ namespace CafeMVC.Application.Services
 
         }
 
-        public ProductForCreationVm GetProductForCreationById(int productId)
+        public ProductForCreationVm GetProductForEdtitionById(int productId)
         {
             Product product = _productRepository.GetProductById(productId);
             ProductForCreationVm productForCreation = _mapper.Map<ProductForCreationVm>(product);
@@ -116,6 +116,16 @@ namespace CafeMVC.Application.Services
             ProductDietInfoTag productDietInfoTagToBeRemoved = _productRepository
                 .GetAllProductDietInfo(productId).FirstOrDefault(x => x.DietInfoTagId == dietInfoId);
             _productRepository.RemoveDietInfoFromProduct(productDietInfoTagToBeRemoved);
+        }
+
+        public ProductForCreationVm GetProductForCreation()
+        {
+            return new ProductForCreationVm()
+            {
+                AllAllergens = _productRepository.GetAllAllergens().ProjectTo<AllergenForViewVm>(_mapper.ConfigurationProvider).ToList(),
+                AllIngredients = _productRepository.GetAllIngredients().ProjectTo<IngredientForViewVm>(_mapper.ConfigurationProvider).ToList(),
+                AllDietInfoForViewVms = _productRepository.GetAllDietInfo().ProjectTo<DietInfoForViewVm>(_mapper.ConfigurationProvider).ToList()
+            };
         }
     }
 }

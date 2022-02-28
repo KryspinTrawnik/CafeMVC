@@ -1,6 +1,7 @@
 ﻿
 *{
     color: white !important;
+    
 }
 
 a.navbar-brand {
@@ -70,7 +71,7 @@ body {
     margin-bottom: 60px;
 }
 .footer {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     width: 100%;
     white-space: nowrap;

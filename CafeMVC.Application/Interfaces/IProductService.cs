@@ -11,7 +11,7 @@ namespace CafeMVC.Application.Interfaces
 
         ProductForViewVm GetProductForViewById(int productId);
 
-        ProductForCreationVm GetProductForCreationById(int productId);
+        ProductForCreationVm GetProductForEdtitionById(int productId);
 
         void UpdateProduct(ProductForCreationVm productModel);
 
@@ -25,6 +25,6 @@ namespace CafeMVC.Application.Interfaces
 
         void DeleteDietInfoFromProduct(int dietInfoId, int productId);
 
-
+        ProductForCreationVm GetProductForCreation();
     }
 }

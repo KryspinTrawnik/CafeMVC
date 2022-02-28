@@ -43,19 +43,21 @@
     display: block;
     overflow: auto;
 }
-.bottom div{
-   
-}
 .productTable {
     float: left;
     border: 1px solid white;
+    display: flex;
+    
 }
-.Ingredients{
-      float: left;
-  }
+
 table {
     border-collapse: collapse;
     border: 1px solid;
+    height: 400px;
+    width:fit-content;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: block;
 }
 td {
     padding: 0px;
@@ -66,16 +68,12 @@ td {
     padding: 20px;
   
 }
-.innerProductTable {
-    float: left;
-    display: block;
-    overflow: auto;
+.buttons, productIngredients, AllIngredients {
+    height: 400px;
 }
-#moveHighlighted, returnHighlighted {
-    vertical-align: central;
-    float: none;
-    
-}
-#returnHighlighted {
-    position: static;
+
+.buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

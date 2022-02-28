@@ -34,52 +34,54 @@
     </div>
     <div class="bottom">
         <div class="productTable">
-            <div class="innerProductTable">
-            <table class="Ingredients">
-                <thead>
-                    <tr>
-                        <th>Ingredients</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.AllIngredients)
-                    {
+            <div class="AllIngredients">
+                <table class="Ingredients">
+                    <thead>
                         <tr>
-                            <td>
-                                <input type="checkbox" id="@item.Id" style="display:none;"/>
-                                <label for="@item.Id">@item.Name</label>
-                            </td>
+                            <th>Ingredients</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
-            </div>
-            <div>
-            <button type="button" class="btn btn-secondary" id="moveHighlighted">&larr;</button>
-            <button type="button" class="btn btn-secondary" id="returnHighlighted">&rarr;</button>
-            </div>
-            <div class="innerProductTable">
-            <table class="Ingredients">
-                <thead>
-                    <tr>
-                        <th>Product Ingredients</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (Model.Ingredients != null)
-                    {
-                        @foreach (var item in Model.Ingredients)
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.AllIngredients)
                         {
                             <tr>
                                 <td>
-                                <input type="checkbox" id="@item.Id" style="display:none;"/>
-                                <label for="@item.Id">@item.Name</label>
+                                    <input type="checkbox" id="@item.Id" style="display:none;" />
+                                    <label for="@item.Id">@item.Name</label>
                                 </td>
                             </tr>
                         }
-                    }
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
+            <div class="buttons">
+                <div class="button2">
+                    <div><button type="button" class="btn btn-secondary" id="moveHighlighted">&larr;</button></div>
+                    <div><button type="button" class="btn btn-secondary" id="returnHighlighted">&rarr;</button></div>
+                </div>
+            </div>
+            <div class="productIngredients">
+                <table class="Ingredients">
+                    <thead>
+                        <tr>
+                            <th>Product Ingredients</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Ingredients != null)
+                        {
+                            @foreach (var item in Model.Ingredients)
+                            {
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" id="@item.Id" style="display:none;" />
+                                        <label for="@item.Id">@item.Name</label>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
             </div>
         </div>
         <div class="productTable"> <h4>blbabl</h4></div>
@@ -89,24 +91,24 @@
 
 @section Scripts{
 <script type="text/javascript">
-          const image_input = document.querySelector("#imageUpload");
-    image_input.addEventListener("change", function() {
-       const reader = new FileReader();
-       reader.addEventListener("load", () => {
-         const uploaded_image = reader.result;
-         document.querySelector("#displayPicture").style.backgroundImage = `url(${uploaded_image})`;
+              const image_input = document.querySelector("#imageUpload");
+        image_input.addEventListener("change", function() {
+           const reader = new FileReader();
+           reader.addEventListener("load", () => {
+             const uploaded_image = reader.result;
+             document.querySelector("#displayPicture").style.backgroundImage = `url(${uploaded_image})`;
+        });
+           reader.readAsDataURL(this.files[0]);
+        });
+        $(function(){
+        $( "input[type=checkbox]" ).on("change", function(){
+            if($(this).is(':checked'))
+                $(this).parent().css('background-color', '#265BFA');
+            else
+                $(this).parent().css('background-color', '');
+        });
     });
-       reader.readAsDataURL(this.files[0]);
-    });
-    $(function(){
-    $( "input[type=checkbox]" ).on("change", function(){
-        if($(this).is(':checked'))
-            $(this).parent().css('background-color', '#265BFA');
-        else
-            $(this).parent().css('background-color', '');
-    });
-});
-  
+
 </script>
 
 }

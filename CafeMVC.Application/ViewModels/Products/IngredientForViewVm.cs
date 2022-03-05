@@ -9,6 +9,8 @@ namespace CafeMVC.Application.ViewModels.Products
 
         public string Name { get; set; }
 
+        public bool Checkbox { get; set; }
+
         public void Mapping(Profile profile)
         {
             profile.CreateMap<CafeMVC.Domain.Model.Ingredient, IngredientForViewVm>();

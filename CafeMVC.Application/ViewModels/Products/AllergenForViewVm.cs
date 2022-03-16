@@ -5,9 +5,9 @@ namespace CafeMVC.Application.ViewModels.Products
 {
     public class AllergenForViewVm : IMapFrom<CafeMVC.Domain.Model.Allergen>
     {
-        int Id { get; set; }
+        public int Id { get; set; }
 
-        string Name { get; set; }
+        public string Name { get; set; }
 
         public void Mapping(Profile profile)
         {

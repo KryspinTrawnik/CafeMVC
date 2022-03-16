@@ -1,4 +1,5 @@
-﻿@model CafeMVC.Application.ViewModels.Products.ProductForCreationVm
+﻿
+@model CafeMVC.Application.ViewModels.Products.ProductForCreationVm
 @{
     string title = "Add new product";
 }
@@ -9,7 +10,7 @@
 
 </head>
 
-@using (Html.BeginForm("AddNewProduct", "Product", FormMethod.Post))
+@using (Html.BeginForm("AddNewProduct", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <h4>@title</h4>
     <div class="top">
@@ -22,7 +23,7 @@
             <div id="button">
                 <label for="imageUpload" class="btn btn-secondary">Choose file</label>
             </div>
-            <input type="file" id="imageUpload" name="files" multiple required style="display: none" />
+            <input type="file" id="imageUpload" name="file" multiple required style="display: none" />
             <br>
             <h4>Name</h4>
             @Html.TextBoxFor(m => m.Name, new { @class = "textBox" })
@@ -33,122 +34,136 @@
         <div class="productTable">
             <div class="jeden">
                 <div class="allIngredients">
-                    <table class="allIngredientsTable">
-                        <thead>
-                            <tr>
-                                <th>Ingredients</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model.AllIngredients)
+                    <select multiple="multiple" id="AllIngredients" name="AllIngredients">
+                        <optgroup label="All Ingredients">
+                            @if (Model.AllIngredients != null)
                             {
-                                <tr>
-                                    <td>
-                                        <input type="checkbox" id="@item.Id" style="display:none;" onclick="" />
-                                        <label for="@item.Id">@item.Name</label>
-                                    </td>
-                                    <td>
-                                        @item.Checkbox
-                                    </td>
-                                </tr>
+                                @foreach (var item in Model.AllIngredients)
+                                {
+
+                                    <option value="@item.Value">
+                                        @item.Text;
+                                    </option>
+
+                                }
                             }
-                        </tbody>
-                    </table>
+                        </optgroup>
+                    </select>
+
                 </div>
                 <div class="buttons">
-                    <button type="button" class="btn btn-secondary" >&larr;</button>
-                    <button type="button" class="btn btn-secondary" id="returnHighlighted">&rarr;</button>
+                    <input type="button" class="btn btn-secondary" id="remove" value="&larr;" />
+                    <input type="button" class="btn btn-secondary" id="move" value="&rarr;" />
                 </div>
                 <div class="productIngredients panel">
-                    <table class="productIngredientsTable">
-                        <thead>
-                            <tr>
-                                <th>Product Ingredients</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                    <select multiple="multiple" id="IngredientsId" name="Ingredients">
+                        <optgroup label="Product Ingredients">
                             @if (Model.Ingredients != null)
                             {
                                 @foreach (var item in Model.Ingredients)
                                 {
-                                    <tr>
-                                        <td>
-                                            <input type="checkbox" id="@item.Id" style="display:none;" />
-                                            <label for="@item.Id">@item.Name</label>
-                                        </td>
 
-                                        <td>@item.Checkbox</td>
-                                    </tr>
+                                    <option value="@item.Id.ToString()">@item.Name
+                                    </option>
+
                                 }
                             }
-                        </tbody>
-                    </table>
+                        </optgroup>
+                    </select>
+
                 </div>
             </div>
-            <div class="dwa"> <h4>dwa</h4></div>
-            <div class="trzy"> <h4>trzy</h4></div>
+            <div class="dwa">
+                <div>
+                   
+                    <select multiple="multiple" id="AllAllergens" name="AllAllergens">
+                        <optgroup label="All Allergens">
+                             @if (Model.AllAllergens != null)
+                            {
+                                @foreach (var item in Model.AllAllergens)
+                                {
+
+                                    <option value="@item.Id.ToString()">@item.Name</option>
+                                }
+                            }
+                        </optgroup>
+                    </select>
+
+                </div>
+                <div class="buttons">
+                    <input type="button" class="btn btn-secondary" id="removeAllergens" value="&larr;" />
+                    <input type="button" class="btn btn-secondary" id="moveAllergens" value="&rarr;" />
+                </div>
+                <div>
+                    <select size="3" multiple="multiple" id="Allergens" name="Allergens">
+                        <optgroup label="Product Allergens">
+                            @if (Model.Allergens != null)
+                            {
+                                @foreach (var item in Model.Allergens)
+                                {
+                                    <option value="@item.Id.ToString()">
+                                        @item.Name
+                                    </option>
+                                }
+                            }
+                        </optgroup>
+                    </select>
+                </div>
+            </div>
+            <div class="trzy">
+                <div>
+                    <select multiple="multiple" id="DietInfoForViewVms" name="DietInfoForViewVms">
+                        <optgroup label="Choose diet Information">
+                                @foreach (var item in Model.AllDietInfoForViewVms)
+                                {
+                                    <option value="@item.Id.ToString()">
+                                        @item.Name
+                                    </option>
+                                }
+                        </optgroup>
+                    </select>
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-success" value="Submit" name="Btn" role="button">Submit</button>
+                    <button type="submit" class="btn btn-danger" name="Btn" value="Cancel">Cancel</button>
+                </div>
+            </div>
         </div>
     </div>
 }
-@functions {
-    private void TickCheckBox(int id)
-    {
-        var ingredient = Model.AllIngredients.FirstOrDefault(x => x.Id == id);
-        if (ingredient != null)
-        {
-            if (ingredient.Checkbox == false)
-            {
-                Model.AllIngredients.FirstOrDefault(x => x.Id == id).Checkbox = true;
-            }
-            else
-            {
-                Model.AllIngredients.FirstOrDefault(x => x.Id == id).Checkbox = false;
-            }
-        }
-        else
-        {
-            if (ingredient.Checkbox == false)
-            {
-                Model.Ingredients.FirstOrDefault(x => x.Id == id).Checkbox = true;
-            }
-            else
-            {
-                Model.Ingredients.FirstOrDefault(x => x.Id == id).Checkbox = false;
-            }
-        }
-    }
 
-
-    private void MoveIngredientsToIngerdient()
-    {
-        foreach (var item in Model.AllIngredients)
-        {
-
-        }
-    }
-
-}
 @section Scripts{
 <script type="text/javascript">
-    const image_input = document.querySelector("#imageUpload");
-    image_input.addEventListener("change", function () {
-        const reader = new FileReader();
-        reader.addEventListener("load", () => {
-            const uploaded_image = reader.result;
-            document.querySelector("#displayPicture").style.backgroundImage = `url(${uploaded_image})`;
+        const image_input = document.querySelector("#imageUpload");
+        image_input.addEventListener("change", function () {
+            const reader = new FileReader();
+            reader.addEventListener("load", () => {
+                const uploaded_image = reader.result;
+                document.querySelector("#displayPicture").style.backgroundImage = `url(${uploaded_image})`;
+            });
+            reader.readAsDataURL(this.files[0]);
         });
-        reader.readAsDataURL(this.files[0]);
-    });
-    $(function () {
-        $("input[type=checkbox]").on("change", function () {
-            if ($(this).is(':checked'))
-                $(this).parent().css('background-color', '#265BFA');
-            else
-                $(this).parent().css('background-color', '');
-        });
+
+        $('#move').click(function () {
+      $('#AllIngredients option:selected').appendTo('#IngredientsId');
+      console.log(document.body.firstElementChild);
+      return false;
     });
 
+    $('#remove').click(function () {
+      $('#IngredientsId option:selected').appendTo('#AllIngredients');
+      return false;
+    });
+     $('#moveAllergens').click(function () {
+      $('#AllAllergens option:selected').appendTo('#Allergens');
+      console.log(document.body.firstElementChild);
+      return false;
+    });
 
+    $('#removeAllergens').click(function () {
+      $('#Allergens option:selected').appendTo('#AllAllergens');
+      return false;
+    });
 </script>
 
 }

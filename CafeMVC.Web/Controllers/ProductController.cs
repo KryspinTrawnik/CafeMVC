@@ -49,7 +49,7 @@ namespace CafeMVC.Web.Controllers
         public IActionResult AddNewProduct(ProductForCreationVm product)
         {
             _productService.AddNewProduct(product);
-            return View();
+            return RedirectToAction("Index");
         }
 
         [HttpGet]

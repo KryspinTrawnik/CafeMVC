@@ -1,5 +1,6 @@
 ﻿
 
+
 #displayPicture {
     width: 100%;
     height: 100%;
@@ -43,7 +44,7 @@
 
 .bottom {
     position: relative;
-    border: double black 2px;
+    /*border: double black 2px;*/
     display: grid;
     overflow: auto;
     height: 400px;
@@ -53,21 +54,15 @@
 .productTable {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    /*    float: left;*/
-    border: 5px solid green;
-    /*    width: calc(100% / 3);*/
+    /*border: 5px solid green;*/
     height: 100%;
-    /*    font-size: 0px;*/
 }
 
 
 .jeden {
     display: grid;
     grid-template-columns: 40% auto 40%;
-    /*        position:relative;
-            display: block;*/
-    /*        float: left;*/
-    border: 3px solid yellow;
+    /*border: 3px solid yellow;*/
     font-size: 16px;
     height: 100%;
 }
@@ -75,24 +70,27 @@
 .buttons {
     display: grid;
     justify-items: stretch;
-    border: solid red;
-    /*            top:30%;
-            height: auto;
-            align-self: center;
-            float:none;*/
+    /*border: solid red;*/
 }
 
 .dwa {
-    background-color: blue;
-    border: 3px solid blue;
+    /*border: 3px solid blue;*/
+    display: grid;
+    grid-template-columns: 40% auto 40%;
+    /*border: 3px solid yellow;*/
+    font-size: 16px;
+    height: 100%;
 }
 
 .trzy {
-    background-color: deeppink;
+    display: grid;
+    grid-template-rows: 50% 50%;
+    font-size: 16px;
 }
 
-table {
-    /*    display: grid;*/
+
+select {
+    width: 100%;
     height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
@@ -100,12 +98,9 @@ table {
     background-color: rgba(41,43,44, 0.8);
 }
 
-td {
-    /*    width: 100%;*/
-    border: solid 1px deeppink;
-    width: 40%;
-}
-
-td label {
+option {
+    /*border: solid 1px deeppink;*/
+    width: 100%;
     display: block;
 }
+

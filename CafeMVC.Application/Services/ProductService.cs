@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Web.Mvc;
 
 namespace CafeMVC.Application.Services
 {
@@ -24,7 +25,8 @@ namespace CafeMVC.Application.Services
 
         public void AddNewProduct(ProductForCreationVm product)
         {
-            Product newProduct = _mapper.Map<Product>(product);
+            ProductForCreationVm productWithAddedPicture = AddImageToNewProduct(product);
+            Product newProduct = _mapper.Map<Product>(productWithAddedPicture);
             _productRepository.AddNewProduct(newProduct);
 
         }
@@ -83,6 +85,27 @@ namespace CafeMVC.Application.Services
             }
             _productRepository.AddNewImageToProduct(fileName, productId);
         }
+        private  ProductForCreationVm AddImageToNewProduct(ProductForCreationVm newProduct)
+        {
+            var basePath = Path.Combine(Directory.GetCurrentDirectory() + "\\Images\\");
+            bool basePathExists = Directory.Exists(basePath);
+            if (!basePathExists)
+            {
+                Directory.CreateDirectory(basePath);
+            }
+            var fileName = Path.GetFileNameWithoutExtension(newProduct.File.FileName);
+            var filePath = Path.Combine(basePath, (newProduct.File.FileName));
+
+            if (!File.Exists(filePath))
+            {
+                using var stream = new FileStream(filePath, FileMode.Create);
+                {
+                    newProduct.File.CopyToAsync(stream);
+                }
+            }
+            newProduct.ImagePath = filePath;
+            return newProduct;
+        }
 
         public ProductForViewVm GetProductForViewById(int productId)
         {
@@ -123,7 +146,11 @@ namespace CafeMVC.Application.Services
             return new ProductForCreationVm()
             {
                 AllAllergens = _productRepository.GetAllAllergens().ProjectTo<AllergenForViewVm>(_mapper.ConfigurationProvider).ToList(),
-                AllIngredients = _productRepository.GetAllIngredients().ProjectTo<IngredientForViewVm>(_mapper.ConfigurationProvider).ToList(),
+                AllIngredients = _productRepository.GetAllIngredients().Select(i => new SelectListItem
+                {
+                    Value = i.Id.ToString(),
+                    Text = i.Name,
+                }).ToList(),
                 AllDietInfoForViewVms = _productRepository.GetAllDietInfo().ProjectTo<DietInfoForViewVm>(_mapper.ConfigurationProvider).ToList()
             };
         }

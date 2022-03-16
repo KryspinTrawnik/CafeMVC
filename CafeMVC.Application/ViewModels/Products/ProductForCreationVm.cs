@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using CafeMVC.Application.Interfaces.Mapping;
+using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
+using System.Web.Mvc;
 
 namespace CafeMVC.Application.ViewModels.Products
 {
@@ -14,7 +16,11 @@ namespace CafeMVC.Application.ViewModels.Products
 
         public string Description { get; set; }
 
-        public string ImageName { get; set; }
+        public string ImagePath  { get; set; }
+
+        public IFormFile File { get; set; }
+
+        public string[] IngredientsId { get; set; }
 
         public List<IngredientForViewVm> Ingredients { get; set; }
 
@@ -22,7 +28,7 @@ namespace CafeMVC.Application.ViewModels.Products
 
         public List<DietInfoForViewVm> DietInfoForViewVms { get; set; }
 
-        public List<IngredientForViewVm> AllIngredients { get; set; }
+        public List<SelectListItem> AllIngredients { get; set; }
 
         public List<AllergenForViewVm> AllAllergens { get; set; }
 

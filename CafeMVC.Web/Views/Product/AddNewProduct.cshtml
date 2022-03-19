@@ -1,5 +1,4 @@
-﻿
-@model CafeMVC.Application.ViewModels.Products.ProductForCreationVm
+﻿@model CafeMVC.Application.ViewModels.Products.ProductForCreationVm
 @{
     string title = "Add new product";
 }
@@ -9,6 +8,7 @@
     <script src="//code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>
 
 </head>
+
 
 @using (Html.BeginForm("AddNewProduct", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
@@ -27,6 +27,9 @@
             <br>
             <h4>Name</h4>
             @Html.TextBoxFor(m => m.Name, new { @class = "textBox" })
+            <br>
+            <h4>Price</h4>
+            @Html.TextBoxFor(m => m.PriceString, new {@class = "textBox"})
             <hr />
         </div>
     </div>
@@ -40,11 +43,9 @@
                             {
                                 @foreach (var item in Model.AllIngredients)
                                 {
-
                                     <option value="@item.Value">
-                                        @item.Text;
+                                        @item.Text
                                     </option>
-
                                 }
                             }
                         </optgroup>
@@ -56,29 +57,27 @@
                     <input type="button" class="btn btn-secondary" id="move" value="&rarr;" />
                 </div>
                 <div class="productIngredients panel">
-                    <select multiple="multiple" id="IngredientsId" name="Ingredients">
+                    <select multiple="multiple" id="IngredientsSelectList" name="IngredientsIds">
                         <optgroup label="Product Ingredients">
-                            @if (Model.Ingredients != null)
+                            @if (Model.IngredientsSelectList != null)
                             {
-                                @foreach (var item in Model.Ingredients)
+                                @foreach (var item in Model.IngredientsSelectList)
                                 {
-
-                                    <option value="@item.Id.ToString()">@item.Name
+                                    <option value="@item.Value">
+                                        @item.Text
                                     </option>
-
                                 }
                             }
                         </optgroup>
                     </select>
-
                 </div>
             </div>
             <div class="dwa">
                 <div>
-                   
+
                     <select multiple="multiple" id="AllAllergens" name="AllAllergens">
                         <optgroup label="All Allergens">
-                             @if (Model.AllAllergens != null)
+                            @if (Model.AllAllergens != null)
                             {
                                 @foreach (var item in Model.AllAllergens)
                                 {
@@ -95,7 +94,7 @@
                     <input type="button" class="btn btn-secondary" id="moveAllergens" value="&rarr;" />
                 </div>
                 <div>
-                    <select size="3" multiple="multiple" id="Allergens" name="Allergens">
+                    <select size="3" multiple="multiple" id="Allergens" name="AllergensIds">
                         <optgroup label="Product Allergens">
                             @if (Model.Allergens != null)
                             {
@@ -112,19 +111,23 @@
             </div>
             <div class="trzy">
                 <div>
-                    <select multiple="multiple" id="DietInfoForViewVms" name="DietInfoForViewVms">
+                    <select multiple="multiple" id="DietInfoForViewVms" name="DietInfoIds">
                         <optgroup label="Choose diet Information">
-                                @foreach (var item in Model.AllDietInfoForViewVms)
-                                {
-                                    <option value="@item.Id.ToString()">
-                                        @item.Name
-                                    </option>
-                                }
+                            @foreach (var item in Model.AllDietInfoForViewVms)
+                            {
+                                <option value="@item.Id.ToString()">
+                                    @item.Name
+                                </option>
+                            }
                         </optgroup>
                     </select>
                 </div>
+                <div class="Description">
+                    <h4>Description</h4>
+                    @Html.TextAreaFor(m => m.Description, new{@class ="DescriptionTextBox"})
+                </div>
                 <div>
-                    <button type="submit" class="btn btn-success" value="Submit" name="Btn" role="button">Submit</button>
+                    <button type="submit" class="btn btn-success" value="Submit" name="Btn" role="button" id="select_all">Submit</button>
                     <button type="submit" class="btn btn-danger" name="Btn" value="Cancel">Cancel</button>
                 </div>
             </div>
@@ -145,13 +148,13 @@
         });
 
         $('#move').click(function () {
-      $('#AllIngredients option:selected').appendTo('#IngredientsId');
+      $('#AllIngredients option:selected').appendTo('#IngredientsSelectList');
       console.log(document.body.firstElementChild);
       return false;
     });
 
     $('#remove').click(function () {
-      $('#IngredientsId option:selected').appendTo('#AllIngredients');
+      $('#IngredientsSelectList option:selected').appendTo('#AllIngredients');
       return false;
     });
      $('#moveAllergens').click(function () {
@@ -164,6 +167,12 @@
       $('#Allergens option:selected').appendTo('#AllAllergens');
       return false;
     });
+
+    $('#select_all').click(function() {
+    $('#IngredientsSelectList option').prop('selected', true);
+     $('#Allergens option').prop('selected', true);
+});
+
 </script>
 
 }

@@ -1,6 +1,4 @@
 ﻿
-
-
 #displayPicture {
     width: 100%;
     height: 100%;
@@ -84,10 +82,9 @@
 
 .trzy {
     display: grid;
-    grid-template-rows: 50% 50%;
+    grid-template-rows: 30% 50% 20%;
     font-size: 16px;
 }
-
 
 select {
     width: 100%;
@@ -102,5 +99,10 @@ option {
     /*border: solid 1px deeppink;*/
     width: 100%;
     display: block;
+}
+.DescriptionTextBox {
+    width: 100%;
+    height: 80%;
+    background-color: rgba(41,43,44, 0.8);
 }
 

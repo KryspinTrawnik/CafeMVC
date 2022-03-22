@@ -43,14 +43,13 @@
                             {
                                 @foreach (var item in Model.AllIngredients)
                                 {
-                                    <option value="@item.Value">
-                                        @item.Text
+                                    <option value="@item.Id">
+                                        @item.Name
                                     </option>
                                 }
                             }
                         </optgroup>
                     </select>
-
                 </div>
                 <div class="buttons">
                     <input type="button" class="btn btn-secondary" id="remove" value="&larr;" />
@@ -59,12 +58,12 @@
                 <div class="productIngredients panel">
                     <select multiple="multiple" id="IngredientsSelectList" name="IngredientsIds">
                         <optgroup label="Product Ingredients">
-                            @if (Model.IngredientsSelectList != null)
+                            @if (Model.Ingredients != null)
                             {
-                                @foreach (var item in Model.IngredientsSelectList)
+                                @foreach (var item in Model.Ingredients )
                                 {
-                                    <option value="@item.Value">
-                                        @item.Text
+                                    <option value="@item.Id">
+                                        @item.Name
                                     </option>
                                 }
                             }
@@ -82,7 +81,7 @@
                                 @foreach (var item in Model.AllAllergens)
                                 {
 
-                                    <option value="@item.Id.ToString()">@item.Name</option>
+                                    <option value="@item.Id">@item.Name</option>
                                 }
                             }
                         </optgroup>
@@ -100,7 +99,7 @@
                             {
                                 @foreach (var item in Model.Allergens)
                                 {
-                                    <option value="@item.Id.ToString()">
+                                    <option value="@item.Id">
                                         @item.Name
                                     </option>
                                 }
@@ -113,7 +112,7 @@
                 <div>
                     <select multiple="multiple" id="DietInfoForViewVms" name="DietInfoIds">
                         <optgroup label="Choose diet Information">
-                            @foreach (var item in Model.AllDietInfoForViewVms)
+                            @foreach (var item in Model.AllDietInfo)
                             {
                                 <option value="@item.Id.ToString()">
                                     @item.Name

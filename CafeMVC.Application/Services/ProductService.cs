@@ -23,10 +23,52 @@ namespace CafeMVC.Application.Services
             _mapper = mapper;
         }
 
+        private string AddImageToNewProduct(IFormFile newProductImage)
+        {
+            var basePath = Path.Combine(Directory.GetCurrentDirectory() + "\\Images\\");
+            bool basePathExists = Directory.Exists(basePath);
+            if (!basePathExists)
+            {
+                Directory.CreateDirectory(basePath);
+            }
+            var fileName = Path.GetFileNameWithoutExtension(newProductImage.FileName);
+            var filePath = Path.Combine(basePath, (newProductImage.FileName));
+
+            if (!File.Exists(filePath))
+            {
+                using var stream = new FileStream(filePath, FileMode.Create);
+                {
+                    newProductImage.CopyToAsync(stream);
+                }
+            }
+            
+            return filePath;
+        }
+        private ProductForCreationVm ConvertListOfIdToListOfObjectOfNewProduct(ProductForCreationVm newProduct)
+        {
+            ProductForCreationVm product = newProduct;
+            product.Ingredients = _productRepository.GetAllIngredients()
+                .Where( x => newProduct.IngredientsIds.Contains(x.Id)).ProjectTo<IngredientForViewVm>(_mapper.ConfigurationProvider).ToList();
+            product.Allergens = _productRepository.GetAllAllergens()
+                .Where(x => newProduct.AllergensIds.Contains(x.Id)).ProjectTo<AllergenForViewVm>(_mapper.ConfigurationProvider).ToList();
+            product.DietInfoForViewVms = _productRepository.GetAllDietInfo()
+                .Where(x => newProduct.DietInfoIds.Contains(x.Id)).ProjectTo<DietInfoForViewVm>(_mapper.ConfigurationProvider).ToList();
+                
+
+            return product;
+        }
+        private ProductForCreationVm PrepareProductForAutoMapper(ProductForCreationVm newProduct)
+        {
+            ProductForCreationVm productForCreationVm = ConvertListOfIdToListOfObjectOfNewProduct(newProduct);
+            productForCreationVm.Price = Helper.StringToDouble(newProduct.PriceString);
+            productForCreationVm.ImagePath = AddImageToNewProduct(newProduct.File);
+
+            return productForCreationVm;
+        }
         public void AddNewProduct(ProductForCreationVm product)
         {
-            ProductForCreationVm productWithAddedPicture = AddImageToNewProduct(product);
-            Product newProduct = _mapper.Map<Product>(productWithAddedPicture);
+            
+            Product newProduct = _mapper.Map<Product>(PrepareProductForAutoMapper(product));
             _productRepository.AddNewProduct(newProduct);
 
         }
@@ -38,7 +80,6 @@ namespace CafeMVC.Application.Services
 
             return productForCreation;
         }
-
 
         public void DeleteProduct(int productId)
         {
@@ -85,28 +126,6 @@ namespace CafeMVC.Application.Services
             }
             _productRepository.AddNewImageToProduct(fileName, productId);
         }
-        private  ProductForCreationVm AddImageToNewProduct(ProductForCreationVm newProduct)
-        {
-            var basePath = Path.Combine(Directory.GetCurrentDirectory() + "\\Images\\");
-            bool basePathExists = Directory.Exists(basePath);
-            if (!basePathExists)
-            {
-                Directory.CreateDirectory(basePath);
-            }
-            var fileName = Path.GetFileNameWithoutExtension(newProduct.File.FileName);
-            var filePath = Path.Combine(basePath, (newProduct.File.FileName));
-
-            if (!File.Exists(filePath))
-            {
-                using var stream = new FileStream(filePath, FileMode.Create);
-                {
-                    newProduct.File.CopyToAsync(stream);
-                }
-            }
-            newProduct.ImagePath = filePath;
-            return newProduct;
-        }
-
         public ProductForViewVm GetProductForViewById(int productId)
         {
             Product product = _productRepository.GetProductById(productId);
@@ -146,13 +165,10 @@ namespace CafeMVC.Application.Services
             return new ProductForCreationVm()
             {
                 AllAllergens = _productRepository.GetAllAllergens().ProjectTo<AllergenForViewVm>(_mapper.ConfigurationProvider).ToList(),
-                AllIngredients = _productRepository.GetAllIngredients().Select(i => new SelectListItem
-                {
-                    Value = i.Id.ToString(),
-                    Text = i.Name,
-                }).ToList(),
-                AllDietInfoForViewVms = _productRepository.GetAllDietInfo().ProjectTo<DietInfoForViewVm>(_mapper.ConfigurationProvider).ToList()
+                AllIngredients = _productRepository.GetAllIngredients().ProjectTo<IngredientForViewVm>(_mapper.ConfigurationProvider).ToList(),
+                AllDietInfo = _productRepository.GetAllDietInfo().ProjectTo<DietInfoForViewVm>(_mapper.ConfigurationProvider).ToList()
             };
         }
+
     }
 }

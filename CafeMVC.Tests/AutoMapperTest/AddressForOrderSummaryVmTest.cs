@@ -3,11 +3,6 @@ using CafeMVC.Application.Interfaces.Mapping;
 using CafeMVC.Application.ViewModels.Customer;
 using CafeMVC.Domain.Model;
 using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace CafeMVC.Tests.AutoMapperTest.CustomerVmTests

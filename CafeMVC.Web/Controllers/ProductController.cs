@@ -53,21 +53,6 @@ namespace CafeMVC.Web.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpGet]
-        public IActionResult ChangeNameOfProduct(int productId)
-        {
-            ProductForCreationVm productForChange = _productService.GetProductForEdtitionById(productId);
-            return View(productForChange);
-        }
-
-        [HttpPatch]
-        public IActionResult ChangeNameOfProduct(ProductForCreationVm productModel)
-        {
-            _productService.UpdateProduct(productModel);
-            return View();
-        }
-    
-
         public IActionResult DeleteProduct(int productId)
         {
             _productService.DeleteProduct(productId);

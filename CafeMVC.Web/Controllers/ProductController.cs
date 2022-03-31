@@ -56,7 +56,7 @@ namespace CafeMVC.Web.Controllers
         public IActionResult DeleteProduct(int productId)
         {
             _productService.DeleteProduct(productId);
-            return View();
+            return RedirectToAction("Index");
         }
 
         [HttpGet]

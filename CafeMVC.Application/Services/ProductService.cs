@@ -95,7 +95,8 @@ namespace CafeMVC.Application.Services
 
     public void DeleteProduct(int productId)
     {
-        _productRepository.DeleteProduct(productId);
+            DeleteImageFromProduct(productId);
+            _productRepository.DeleteProduct(productId);
     }
     public ListOfProductsVm GetAllProducts(int pageSize, int pageNo, string searchString)
     {

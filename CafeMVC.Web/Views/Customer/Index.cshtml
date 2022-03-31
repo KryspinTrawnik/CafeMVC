@@ -39,7 +39,7 @@
                             @Html.DisplayFor(modelItem => item.FullName)
                         </td>
                         <td width=50%>
-                            @Html.ActionLink("Details", "CustomerView", new {  customerId=item.Id  }) |
+                            @Html.ActionLink("Details", "CustomerView", new {  customerId = item.Id  }) |
                             @Html.ActionLink("Delete", "DeleteCustomer", new { customerId = item.Id})
                         </td>
                     </tr>

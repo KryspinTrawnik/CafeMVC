@@ -23,7 +23,7 @@ namespace CafeMVC.Infrastructure.Repositories
 
         public void DeleteProduct(int productId)
         {
-            var product = _context.Products.Find(productId);
+            var product = _context.Products.FirstOrDefault(x => x.Id ==productId);
             if (product != null)
             {
                 _context.Products.Remove(product);

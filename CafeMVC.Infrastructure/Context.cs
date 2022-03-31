@@ -53,17 +53,13 @@ namespace CafeMVC.Infrastructure
 
             builder.Entity<ProductIngredient>().HasKey(pi => new { pi.ProductId, pi.IngredientId });
 
-            builder.Entity<ProductIngredient>()
-                .HasOne<Product>(pi => pi.Product)
-                .WithMany(p => p.ProductIngredients)
-                .HasForeignKey(pi => pi.ProductId)
-                .OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<ProductIngredient>().HasOne<Product>(pi => pi.Product).WithMany(p => p.ProductIngredients).HasForeignKey(pi => pi.ProductId);
 
             builder.Entity<ProductIngredient>()
                 .HasOne<Ingredient>(pi => pi.Ingredient)
                 .WithMany(i => i.ProductIngredients)
                 .HasForeignKey(pi => pi.IngredientId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .IsRequired();
 
             builder.Entity<ProductAllergen>().HasKey(pa => new { pa.ProductId, pa.AllergenId });
 
@@ -71,13 +67,13 @@ namespace CafeMVC.Infrastructure
                 .HasOne<Product>(pa => pa.Product)
                 .WithMany(p => p.ProductAllergens)
                 .HasForeignKey(pa => pa.ProductId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<ProductAllergen>()
                 .HasOne<Allergen>(pa => pa.Allergen)
                 .WithMany(a => a.ProductAllergens)
                 .HasForeignKey(pa => pa.AllergenId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .IsRequired();
 
             builder.Entity<ProductDietInfoTag>().HasKey(pp => new { pp.ProductId, pp.DietInfoTagId });
 
@@ -85,13 +81,13 @@ namespace CafeMVC.Infrastructure
                .HasOne<Product>(pp => pp.Product)
                .WithMany(p => p.ProductDietInfoTags)
                .HasForeignKey(pp => pp.ProductId)
-               .OnDelete(DeleteBehavior.Restrict);
+               .IsRequired();
 
             builder.Entity<ProductDietInfoTag>()
             .HasOne<DietInfoTag>(pp => pp.DietInfoTag)
             .WithMany(a => a.ProductDietInfoTags)
             .HasForeignKey(pp => pp.DietInfoTagId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .IsRequired();
 
             builder.Entity<OrderContactDetail>().HasKey(oc => new { oc.OrderId, oc.ContactDetailId });
 
@@ -99,7 +95,7 @@ namespace CafeMVC.Infrastructure
                 .HasOne<Order>(oc => oc.Order)
                 .WithMany(o => o.OrderContactDetails)
                 .HasForeignKey(oc => oc.OrderId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .IsRequired();
 
             builder.Entity<OrderContactDetail>()
                 .HasOne<ContactDetail>(oc => oc.ContactDetail)
@@ -111,9 +107,9 @@ namespace CafeMVC.Infrastructure
 
             builder.Entity<OrderAddress>()
                 .HasOne<Order>(oa => oa.Order)
-                .WithMany( o => o.OrderAddresses)
-                .HasForeignKey(oa=> oa.OrderId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .WithMany(o => o.OrderAddresses)
+                .HasForeignKey(oa => oa.OrderId)
+                .IsRequired();
 
             builder.Entity<OrderAddress>()
                 .HasOne<Address>(cd => cd.Address)
@@ -127,13 +123,13 @@ namespace CafeMVC.Infrastructure
                 .HasOne<Order>(op => op.Order)
                 .WithMany(o => o.OrderProducts)
                 .HasForeignKey(op => op.OrderId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .IsRequired();
 
             builder.Entity<OrderProduct>()
                 .HasOne<Product>(op => op.Product)
                 .WithMany(p => p.OrderProducts)
                 .HasForeignKey(op => op.ProductId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .IsRequired();
 
             builder.Entity<ContactDetailType>()
                 .HasData(new ContactDetailType { Id = 1, Name = "E-mail" },

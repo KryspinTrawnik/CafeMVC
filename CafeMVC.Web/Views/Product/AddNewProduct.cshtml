@@ -12,6 +12,7 @@
 
 @using (Html.BeginForm("AddNewProduct", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
+    @Html.HiddenFor(m => m.Id)
     <h4>@title</h4>
     <div class="top">
         <div id="container">
@@ -39,9 +40,9 @@
                 <div class="allIngredients">
                     <select multiple="multiple" id="AllIngredients" name="AllIngredients">
                         <optgroup label="All Ingredients">
-                            @if (Model.AllIngredients != null)
+                            @if (Model.Ingredients != null)
                             {
-                                @foreach (var item in Model.AllIngredients)
+                                @foreach (var item in Model.Ingredients)
                                 {
                                     <option value="@item.Id">
                                         @item.Name
@@ -57,17 +58,7 @@
                 </div>
                 <div class="productIngredients panel">
                     <select multiple="multiple" id="IngredientsSelectList" name="IngredientsIds">
-                        <optgroup label="Product Ingredients">
-                            @if (Model.Ingredients != null)
-                            {
-                                @foreach (var item in Model.Ingredients )
-                                {
-                                    <option value="@item.Id">
-                                        @item.Name
-                                    </option>
-                                }
-                            }
-                        </optgroup>
+                        <optgroup label="Product Ingredients"></optgroup>
                     </select>
                 </div>
             </div>
@@ -76,11 +67,10 @@
 
                     <select multiple="multiple" id="AllAllergens" name="AllAllergens">
                         <optgroup label="All Allergens">
-                            @if (Model.AllAllergens != null)
+                            @if (Model.Allergens != null)
                             {
-                                @foreach (var item in Model.AllAllergens)
+                                @foreach (var item in Model.Allergens)
                                 {
-
                                     <option value="@item.Id">@item.Name</option>
                                 }
                             }
@@ -94,17 +84,7 @@
                 </div>
                 <div>
                     <select size="3" multiple="multiple" id="Allergens" name="AllergensIds">
-                        <optgroup label="Product Allergens">
-                            @if (Model.Allergens != null)
-                            {
-                                @foreach (var item in Model.Allergens)
-                                {
-                                    <option value="@item.Id">
-                                        @item.Name
-                                    </option>
-                                }
-                            }
-                        </optgroup>
+                        <optgroup label="Product Allergens"></optgroup>
                     </select>
                 </div>
             </div>
@@ -112,7 +92,7 @@
                 <div>
                     <select multiple="multiple" id="DietInfoForViewVms" name="DietInfoIds">
                         <optgroup label="Choose diet Information">
-                            @foreach (var item in Model.AllDietInfo)
+                            @foreach (var item in Model.DietInfoForViewVms)
                             {
                                 <option value="@item.Id.ToString()">
                                     @item.Name
@@ -136,41 +116,41 @@
 
 @section Scripts{
 <script type="text/javascript">
-        const image_input = document.querySelector("#imageUpload");
-        image_input.addEventListener("change", function () {
-            const reader = new FileReader();
-            reader.addEventListener("load", () => {
-                const uploaded_image = reader.result;
-                document.querySelector("#displayPicture").style.backgroundImage = `url(${uploaded_image})`;
+            const image_input = document.querySelector("#imageUpload");
+            image_input.addEventListener("change", function () {
+                const reader = new FileReader();
+                reader.addEventListener("load", () => {
+                    const uploaded_image = reader.result;
+                    document.querySelector("#displayPicture").style.backgroundImage = `url(${uploaded_image})`;
+                });
+                reader.readAsDataURL(this.files[0]);
             });
-            reader.readAsDataURL(this.files[0]);
+
+            $('#move').click(function () {
+          $('#AllIngredients option:selected').appendTo('#IngredientsSelectList');
+          console.log(document.body.firstElementChild);
+          return false;
         });
 
-        $('#move').click(function () {
-      $('#AllIngredients option:selected').appendTo('#IngredientsSelectList');
-      console.log(document.body.firstElementChild);
-      return false;
-    });
+        $('#remove').click(function () {
+          $('#IngredientsSelectList option:selected').appendTo('#AllIngredients');
+          return false;
+        });
+         $('#moveAllergens').click(function () {
+          $('#AllAllergens option:selected').appendTo('#Allergens');
+          console.log(document.body.firstElementChild);
+          return false;
+        });
 
-    $('#remove').click(function () {
-      $('#IngredientsSelectList option:selected').appendTo('#AllIngredients');
-      return false;
-    });
-     $('#moveAllergens').click(function () {
-      $('#AllAllergens option:selected').appendTo('#Allergens');
-      console.log(document.body.firstElementChild);
-      return false;
-    });
+        $('#removeAllergens').click(function () {
+          $('#Allergens option:selected').appendTo('#AllAllergens');
+          return false;
+        });
 
-    $('#removeAllergens').click(function () {
-      $('#Allergens option:selected').appendTo('#AllAllergens');
-      return false;
+        $('#select_all').click(function() {
+        $('#IngredientsSelectList option').prop('selected', true);
+         $('#Allergens option').prop('selected', true);
     });
-
-    $('#select_all').click(function() {
-    $('#IngredientsSelectList option').prop('selected', true);
-     $('#Allergens option').prop('selected', true);
-});
 
 </script>
 

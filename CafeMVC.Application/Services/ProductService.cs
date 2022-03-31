@@ -41,134 +41,147 @@ namespace CafeMVC.Application.Services
                     newProductImage.CopyToAsync(stream);
                 }
             }
-            
+
             return filePath;
         }
-        private ProductForCreationVm ConvertListOfIdToListOfObjectOfNewProduct(ProductForCreationVm newProduct)
+        private Product AddjoiningTables(Product newProduct, ProductForCreationVm productVm)
         {
-            ProductForCreationVm product = newProduct;
-            product.Ingredients = _productRepository.GetAllIngredients()
-                .Where( x => newProduct.IngredientsIds.Contains(x.Id)).ProjectTo<IngredientForViewVm>(_mapper.ConfigurationProvider).ToList();
-            product.Allergens = _productRepository.GetAllAllergens()
-                .Where(x => newProduct.AllergensIds.Contains(x.Id)).ProjectTo<AllergenForViewVm>(_mapper.ConfigurationProvider).ToList();
-            product.DietInfoForViewVms = _productRepository.GetAllDietInfo()
-                .Where(x => newProduct.DietInfoIds.Contains(x.Id)).ProjectTo<DietInfoForViewVm>(_mapper.ConfigurationProvider).ToList();
-                
-
-            return product;
-        }
-        private ProductForCreationVm PrepareProductForAutoMapper(ProductForCreationVm newProduct)
-        {
-            ProductForCreationVm productForCreationVm = ConvertListOfIdToListOfObjectOfNewProduct(newProduct);
-            productForCreationVm.Price = Helper.StringToDouble(newProduct.PriceString);
-            productForCreationVm.ImagePath = AddImageToNewProduct(newProduct.File);
-
-            return productForCreationVm;
-        }
-        public void AddNewProduct(ProductForCreationVm product)
-        {
-            
-            Product newProduct = _mapper.Map<Product>(PrepareProductForAutoMapper(product));
-            _productRepository.AddNewProduct(newProduct);
-
-        }
-
-        public ProductForCreationVm GetProductForEdtitionById(int productId)
-        {
-            Product product = _productRepository.GetProductById(productId);
-            ProductForCreationVm productForCreation = _mapper.Map<ProductForCreationVm>(product);
-
-            return productForCreation;
-        }
-
-        public void DeleteProduct(int productId)
-        {
-            _productRepository.DeleteProduct(productId);
-        }
-        public ListOfProductsVm GetAllProducts(int pageSize, int pageNo, string searchString)
-        {
-            List<ProductForListVm> allProducts = _productRepository.GetAllProducts()
-                .ProjectTo<ProductForListVm>(_mapper.ConfigurationProvider).ToList();
-            List<ProductForListVm> productsToDisplay = allProducts.Skip(pageSize * (pageNo - 1)).Take(pageSize).ToList();
-            ListOfProductsVm listOfAllProducts = new()
+            newProduct.ProductIngredients = new List<ProductIngredient>();
+            newProduct.ProductAllergens = new List<ProductAllergen>();
+            newProduct.ProductDietInfoTags = new List<ProductDietInfoTag>();
+            foreach (int item in productVm.IngredientsIds)
             {
-                PageSize = pageSize,
-                CurrentPage = pageNo,
-                SearchString = searchString,
-                ListOfAllProducts = productsToDisplay,
-                Count = allProducts.Count
-            };
-
-            return listOfAllProducts;
-        }
-        public void DeleteImageFromProduct(int productId)
-        {
-            Product product = _productRepository.GetProductById(productId);
-            File.Delete(product.ImagePath);
-            product.ImagePath = null;
-            _productRepository.UpdateProduct(product);
-        }
-        public void AddNewImageToProduct(IFormFile image, int productId)
-        {
-            var basePath = Path.Combine(Directory.GetCurrentDirectory() + "\\Images\\");
-            bool basePathExists = Directory.Exists(basePath);
-            if (!basePathExists)
-            {
-                Directory.CreateDirectory(basePath);
+                newProduct.ProductIngredients.Add(new ProductIngredient()
+                {
+                    IngredientId = item,
+                });
             }
-            var fileName = Path.GetFileNameWithoutExtension(image.FileName);
-            var filePath = Path.Combine(basePath, image.FileName);
 
-            if (!File.Exists(filePath))
+            foreach (int item in productVm.AllergensIds)
             {
-                using var stream = new FileStream(filePath, FileMode.Create);
-                image.CopyToAsync(stream);
-            }
-            _productRepository.AddNewImageToProduct(fileName, productId);
-        }
-        public ProductForViewVm GetProductForViewById(int productId)
-        {
-            Product product = _productRepository.GetProductById(productId);
-            ProductForViewVm productForView = _mapper.Map<ProductForViewVm>(product);
-
-            return productForView;
-        }
-
-        public void UpdateProduct(ProductForCreationVm productModel)
-        {
-            Product updatedProduct = _mapper.Map<Product>(productModel);
-            _productRepository.UpdateProduct(updatedProduct);
-        }
-
-        public void AddDietInfoToProduct(int dietInfoId, int productId)
-        {
-            Product product = _productRepository.GetProductById(productId);
-            DietInfoTag dietInfoTag = _productRepository.GetDietInfoTagById(dietInfoId);
-            _productRepository.AddDietInfoToProduct(new ProductDietInfoTag
-            {
-                Product = product,
-                ProductId = productId,
-                DietInfoTag = dietInfoTag,
-                DietInfoTagId = dietInfoId
-            });
-        }
-
-        public void DeleteDietInfoFromProduct(int dietInfoId, int productId)
-        {
-            ProductDietInfoTag productDietInfoTagToBeRemoved = _productRepository
-                .GetAllProductDietInfo(productId).FirstOrDefault(x => x.DietInfoTagId == dietInfoId);
-            _productRepository.RemoveDietInfoFromProduct(productDietInfoTagToBeRemoved);
-        }
-
-        public ProductForCreationVm GetProductForCreation()
-        {
-            return new ProductForCreationVm()
-            {
-                AllAllergens = _productRepository.GetAllAllergens().ProjectTo<AllergenForViewVm>(_mapper.ConfigurationProvider).ToList(),
-                AllIngredients = _productRepository.GetAllIngredients().ProjectTo<IngredientForViewVm>(_mapper.ConfigurationProvider).ToList(),
-                AllDietInfo = _productRepository.GetAllDietInfo().ProjectTo<DietInfoForViewVm>(_mapper.ConfigurationProvider).ToList()
+                newProduct.ProductAllergens.Add(new ProductAllergen()
+                {
+                    AllergenId = item,
+                });
             };
+            foreach (int item in productVm.DietInfoIds)
+            {
+                newProduct.ProductDietInfoTags.Add(new ProductDietInfoTag()
+                {
+                    DietInfoTagId = item,
+                });
+            };
+            return newProduct;
         }
+    private Product PrepareProductForSaving(ProductForCreationVm newProductVm)
+    {
+        newProductVm.Price = Helper.StringToDouble(newProductVm.PriceString);
+        newProductVm.ImagePath = AddImageToNewProduct(newProductVm.File);
 
+            return AddjoiningTables(_mapper.Map<Product>(newProductVm), newProductVm);
     }
+    public void AddNewProduct(ProductForCreationVm productVm)
+    {
+            _productRepository.AddNewProduct(PrepareProductForSaving(productVm));
+    }
+
+    public ProductForCreationVm GetProductForEdtitionById(int productId)
+    {
+        Product product = _productRepository.GetProductById(productId);
+        ProductForCreationVm productForCreation = _mapper.Map<ProductForCreationVm>(product);
+
+        return productForCreation;
+    }
+
+    public void DeleteProduct(int productId)
+    {
+            DeleteImageFromProduct(productId);
+            _productRepository.DeleteProduct(productId);
+    }
+    public ListOfProductsVm GetAllProducts(int pageSize, int pageNo, string searchString)
+    {
+        List<ProductForListVm> allProducts = _productRepository.GetAllProducts()
+            .ProjectTo<ProductForListVm>(_mapper.ConfigurationProvider).ToList();
+        List<ProductForListVm> productsToDisplay = allProducts.Skip(pageSize * (pageNo - 1)).Take(pageSize).ToList();
+        ListOfProductsVm listOfAllProducts = new()
+        {
+            PageSize = pageSize,
+            CurrentPage = pageNo,
+            SearchString = searchString,
+            ListOfAllProducts = productsToDisplay,
+            Count = allProducts.Count
+        };
+
+        return listOfAllProducts;
+    }
+    public void DeleteImageFromProduct(int productId)
+    {
+        Product product = _productRepository.GetProductById(productId);
+        File.Delete(product.ImagePath);
+        product.ImagePath = null;
+        _productRepository.UpdateProduct(product);
+    }
+    public void AddNewImageToProduct(IFormFile image, int productId)
+    {
+        var basePath = Path.Combine(Directory.GetCurrentDirectory() + "\\Images\\");
+        bool basePathExists = Directory.Exists(basePath);
+        if (!basePathExists)
+        {
+            Directory.CreateDirectory(basePath);
+        }
+        var fileName = Path.GetFileNameWithoutExtension(image.FileName);
+        var filePath = Path.Combine(basePath, image.FileName);
+
+        if (!File.Exists(filePath))
+        {
+            using var stream = new FileStream(filePath, FileMode.Create);
+            image.CopyToAsync(stream);
+        }
+        _productRepository.AddNewImageToProduct(fileName, productId);
+    }
+    public ProductForViewVm GetProductForViewById(int productId)
+    {
+        Product product = _productRepository.GetProductById(productId);
+        ProductForViewVm productForView = _mapper.Map<ProductForViewVm>(product);
+
+        return productForView;
+    }
+
+    public void UpdateProduct(ProductForCreationVm productModel)
+    {
+        Product updatedProduct = _mapper.Map<Product>(productModel);
+        _productRepository.UpdateProduct(updatedProduct);
+    }
+
+    public void AddDietInfoToProduct(int dietInfoId, int productId)
+    {
+        Product product = _productRepository.GetProductById(productId);
+        DietInfoTag dietInfoTag = _productRepository.GetDietInfoTagById(dietInfoId);
+        _productRepository.AddDietInfoToProduct(new ProductDietInfoTag
+        {
+            Product = product,
+            ProductId = productId,
+            DietInfoTag = dietInfoTag,
+            DietInfoTagId = dietInfoId
+        });
+    }
+
+    public void DeleteDietInfoFromProduct(int dietInfoId, int productId)
+    {
+        ProductDietInfoTag productDietInfoTagToBeRemoved = _productRepository
+            .GetAllProductDietInfo(productId).FirstOrDefault(x => x.DietInfoTagId == dietInfoId);
+        _productRepository.RemoveDietInfoFromProduct(productDietInfoTagToBeRemoved);
+    }
+
+    public ProductForCreationVm GetProductForCreation()
+    {
+        return new ProductForCreationVm()
+        {
+            Allergens = _productRepository.GetAllAllergens().ProjectTo<AllergenForViewVm>(_mapper.ConfigurationProvider).ToList(),
+            Ingredients = _productRepository.GetAllIngredients().ProjectTo<IngredientForViewVm>(_mapper.ConfigurationProvider).ToList(),
+            DietInfoForViewVms = _productRepository.GetAllDietInfo().ProjectTo<DietInfoForViewVm>(_mapper.ConfigurationProvider).ToList()
+        };
+    }
+
+}
 }

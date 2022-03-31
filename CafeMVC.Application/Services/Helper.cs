@@ -9,8 +9,6 @@ namespace CafeMVC.Application.Services
 {
     public static class Helper
     {
-     
-
         public static double StringToDouble(string numberToConvert)
         {
             CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("en-GB");

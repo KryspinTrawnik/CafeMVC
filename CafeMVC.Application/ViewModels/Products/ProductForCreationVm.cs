@@ -26,7 +26,7 @@ namespace CafeMVC.Application.ViewModels.Products
         public List<DietInfoForViewVm> DietInfoForViewVms { get; set; }
 
         public IFormFile File { get; set; }
-        
+            
         public string PriceString { get; set; }
 
         public List<int> IngredientsIds { get; set; }
@@ -34,12 +34,6 @@ namespace CafeMVC.Application.ViewModels.Products
         public List<int> AllergensIds { get; set; }
 
         public List<int> DietInfoIds { get; set; }
-
-        public List<IngredientForViewVm> AllIngredients { get; set; }
-
-        public List<AllergenForViewVm> AllAllergens { get; set; }
-
-        public List<DietInfoForViewVm> AllDietInfo { get; set; }
 
         public void Mapping(Profile profile)
         {

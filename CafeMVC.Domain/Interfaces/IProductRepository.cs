@@ -59,6 +59,5 @@ namespace CafeMVC.Domain.Interfaces
         void RemoveDietInfoFromProduct(ProductDietInfoTag productDietInfoTagToBeRemoved);
 
         void AddDietInfoToProduct(ProductDietInfoTag productDietInfoTag);
-
     }
 }

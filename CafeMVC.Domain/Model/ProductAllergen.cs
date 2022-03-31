@@ -4,10 +4,10 @@
     {
         public int ProductId { get; set; }
 
-        public Product Product { get; set; }
+        public virtual Product Product { get; set; }
 
         public int AllergenId { get; set; }
 
-        public Allergen Allergen { get; set; }
+        public virtual Allergen Allergen { get; set; }
     }
 }

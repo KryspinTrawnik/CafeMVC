@@ -23,7 +23,7 @@ namespace CafeMVC.Infrastructure.Repositories
 
         public void DeleteProduct(int productId)
         {
-            var product = _context.Products.Find(productId);
+            var product = _context.Products.FirstOrDefault(x => x.Id ==productId);
             if (product != null)
             {
                 _context.Products.Remove(product);
@@ -44,14 +44,14 @@ namespace CafeMVC.Infrastructure.Repositories
 
         public void UpdateProduct(Product product)
         {
-            _context.Attach(product);
-            _context.Entry(product).Property("Name");
-            _context.Entry(product).Property("Price");
-            _context.Entry(product).Property("Description");
-            _context.Entry(product).Property("ImagePath");
-            _context.Entry(product).Collection("ProductIngredients");
-            _context.Entry(product).Collection("ProductAllergens");
-            _context.Entry(product).Collection("ProductDietInfoTags");
+           // _context.Attach(product);
+            _context.Entry(product).Property("Name").IsModified = true;
+            _context.Entry(product).Property("Price").IsModified = true;
+            _context.Entry(product).Property("Description").IsModified = true;
+            _context.Entry(product).Property("ImagePath").IsModified = true;
+            _context.Entry(product).Collection("ProductIngredients").IsModified = true;
+            _context.Entry(product).Collection("ProductAllergens").IsModified = true;
+            _context.Entry(product).Collection("ProductDietInfoTags").IsModified = true;
             _context.SaveChanges();
         }
         public void DeleteImageFromProduct(int productId)
@@ -70,9 +70,8 @@ namespace CafeMVC.Infrastructure.Repositories
         ///***Ingredient Actions***///
         public void AddIngredientToProduct(ProductIngredient productIngredient)
         {
-            var product = GetProductById(productIngredient.ProductId);
-            product.ProductIngredients.Add(productIngredient);
-            UpdateProduct(product);
+            _context.ProductIngredients.Add(productIngredient);
+            _context.SaveChanges();
         }
         public IQueryable<ProductIngredient> GetAllProductIngredients(int productId)
         => _context.Products.AsNoTracking().Include(x => x.ProductIngredients).FirstOrDefault(x => x.Id == productId)
@@ -102,9 +101,8 @@ namespace CafeMVC.Infrastructure.Repositories
         ///***Allergens Actions***///
         public void AddAllergenToProduct(ProductAllergen productAllergen)
         {
-            var product = GetProductById(productAllergen.ProductId);
-            product.ProductAllergens.Add(productAllergen);
-            UpdateProduct(product);
+            _context.ProductAllergens.Add(productAllergen);
+            _context.SaveChanges();
         }
 
 
@@ -147,5 +145,6 @@ namespace CafeMVC.Infrastructure.Repositories
         }
 
         public DietInfoTag GetDietInfoTagById(int dietInfoTagId) => _context.DietInfotags.FirstOrDefault(x => x.Id == dietInfoTagId);
+
     }
 }

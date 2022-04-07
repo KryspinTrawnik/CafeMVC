@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace CafeMVC.Application.Services
 {
+    
     public static class Helper
     {
         public static double StringToDouble(string numberToConvert)

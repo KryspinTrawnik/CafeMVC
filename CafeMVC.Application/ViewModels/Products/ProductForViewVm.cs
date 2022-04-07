@@ -14,7 +14,9 @@ namespace CafeMVC.Application.ViewModels.Products
 
         public string Description { get; set; }
 
-        public string ImageName { get; set; }
+        public string ImagePath  { get; set; }
+
+        public string BasePath { get; set; }
 
         public List<IngredientForViewVm> Ingredients { get; set; }
 

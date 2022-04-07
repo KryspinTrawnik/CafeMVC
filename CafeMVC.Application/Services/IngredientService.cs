@@ -22,7 +22,7 @@ namespace CafeMVC.Application.Services
         }
 
        
-        public void AddNewIngredient(IngredientForCreationVm ingredient)
+        public void AddNewIngredient(IngredientForViewVm ingredient)
         {
             Ingredient newIngredient = _mapper.Map<Ingredient>(ingredient);
             _productRepository.AddNewIngredient(newIngredient);

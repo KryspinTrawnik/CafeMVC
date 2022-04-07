@@ -1,0 +1,157 @@
+﻿@model CafeMVC.Application.ViewModels.Products.ProductForCreationVm
+@{
+    string title = "Add new product";
+}
+<head>
+    <link rel="stylesheet" href="~/css/AddProduct.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <script src="//code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>
+
+</head>
+
+<body>
+    @using (Html.BeginForm("AddNewProduct", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.HiddenFor(m => m.Id)
+        <h4>@title</h4>
+        <div class="top">
+            <div id="container">
+                <div id="pictureFrame">
+                    <div id="displayPicture"></div>
+                </div>
+            </div>
+            <div id="buttonAndName">
+                <div id="button">
+                    <label for="imageUpload" class="btn btn-secondary">Choose file</label>
+                </div>
+                <input type="file" id="imageUpload" name="file" multiple required style="display: none" />
+                <br>
+                <h4>Name</h4>
+                @Html.TextBoxFor(m => m.Name, new { @class = "textBox" })
+                <br>
+                <h4>Price</h4>
+                @Html.TextBoxFor(m => m.PriceString, new {@class = "textBox"})
+                <hr />
+            </div>
+        </div>
+        <div class="bottom">
+            <div class="productTable">
+                <div class="Ingredients">
+                    <div class="allIngredients">
+                        <select multiple="multiple" id="AllIngredients" name="AllIngredients">
+                            <optgroup label="All Ingredients">
+                                @if (Model.Ingredients != null)
+                                {
+                                    @foreach (var item in Model.Ingredients)
+                                    {
+                                        <option value="@item.Id">
+                                            @item.Name
+                                        </option>
+                                    }
+                                }
+                            </optgroup>
+                        </select>
+                    </div>
+                    <div class="buttons">
+                        <input type="button" class="btn btn-secondary" id="remove" value="&larr;" />
+                        <input type="button" class="btn btn-secondary" id="move" value="&rarr;" />
+                    </div>
+                    <div class="productIngredients panel">
+                        <select multiple="multiple" id="IngredientsSelectList" name="IngredientsIds">
+                            <optgroup label="Product Ingredients"></optgroup>
+                        </select>
+                    </div>
+                </div>
+                <div class="Allergens">
+                    <div>
+
+                        <select multiple="multiple" id="AllAllergens" name="AllAllergens">
+                            <optgroup label="All Allergens">
+                                @if (Model.Allergens != null)
+                                {
+                                    @foreach (var item in Model.Allergens)
+                                    {
+                                        <option value="@item.Id">@item.Name</option>
+                                    }
+                                }
+                            </optgroup>
+                        </select>
+
+                    </div>
+                    <div class="buttons">
+                        <input type="button" class="btn btn-secondary" id="removeAllergens" value="&larr;" />
+                        <input type="button" class="btn btn-secondary" id="moveAllergens" value="&rarr;" />
+                    </div>
+                    <div>
+                        <select size="3" multiple="multiple" id="Allergens" name="AllergensIds">
+                            <optgroup label="Product Allergens"></optgroup>
+                        </select>
+                    </div>
+                </div>
+                <div class="DietInfo_Submit">
+                    <div>
+                        <select multiple="multiple" id="DietInfoForViewVms" name="DietInfoIds">
+                            <optgroup label="Choose diet Information">
+                                @foreach (var item in Model.DietInfoForViewVms)
+                                {
+                                    <option value="@item.Id.ToString()">
+                                        @item.Name
+                                    </option>
+                                }
+                            </optgroup>
+                        </select>
+                    </div>
+                    <div class="Description">
+                        <h4>Description</h4>
+                        @Html.TextAreaFor(m => m.Description, new{@class ="DescriptionTextBox"})
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-success" value="Submit" name="Btn" role="button" id="select_all">Submit</button>
+                        <button type="submit" class="btn btn-danger" name="Btn" value="Cancel">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</body>
+@section Scripts{
+<script type="text/javascript">
+            const image_input = document.querySelector("#imageUpload");
+            image_input.addEventListener("change", function () {
+                const reader = new FileReader();
+                reader.addEventListener("load", () => {
+                    const uploaded_image = reader.result;
+                    document.querySelector("#displayPicture").style.backgroundImage = `url(${uploaded_image})`;
+                });
+                reader.readAsDataURL(this.files[0]);
+            });
+
+            $('#move').click(function () {
+          $('#AllIngredients option:selected').appendTo('#IngredientsSelectList');
+          console.log(document.body.firstElementChild);
+          return false;
+        });
+
+        $('#remove').click(function () {
+          $('#IngredientsSelectList option:selected').appendTo('#AllIngredients');
+          return false;
+        });
+         $('#moveAllergens').click(function () {
+          $('#AllAllergens option:selected').appendTo('#Allergens');
+          console.log(document.body.firstElementChild);
+          return false;
+        });
+
+        $('#removeAllergens').click(function () {
+          $('#Allergens option:selected').appendTo('#AllAllergens');
+          return false;
+        });
+
+        $('#select_all').click(function() {
+        $('#IngredientsSelectList option').prop('selected', true);
+         $('#Allergens option').prop('selected', true);
+    });
+
+</script>
+
+}

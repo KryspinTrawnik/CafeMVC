@@ -1,0 +1,52 @@
+﻿@model CafeMVC.Application.ViewModels.Products.ProductForViewVm
+@{
+    string ingredients = String.Join(", ", Model.Ingredients.Select(x => x.Name));
+    string allergens = String.Join(", ", Model.Allergens.Select(x => x.Name));
+    string DietInformation ="";
+    if(Model.DietInformations !=null)
+    {
+         DietInformation = String.Join(", ", Model.DietInformations.Select(x => x.Name));
+    }
+}
+<head>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/CssViewProduct.css" />
+    <style>
+        #displayPicture {
+            background-image: url('@Model.BasePath');
+        }
+        .description {
+    
+}
+
+    </style>
+</head>
+<body>
+    <div>
+        <h4>@Model.Name</h4>
+    </div>
+    <div class="picture">
+        <div id="pictureFrame">
+            <div id="displayPicture"></div>
+        </div>
+    </div>
+    <div class="section">
+    <div class="description">
+        <h4> Description</h4>
+        <h5>@Model.Description</h5>
+        <br />
+        <h4>Ingredients</h4>
+        <h5>@ingredients</h5>
+        <br />
+        <h4>Allergens</h4>
+        <h5>@allergens</h5>
+        
+        @if(Model.DietInformations != null)
+        {
+            <br />
+            <h4> Product is:</h4>
+            <h5>@DietInformation</h5>
+        }
+    </div>
+    </div>
+</body>

@@ -21,8 +21,8 @@ namespace CafeMVC.Application.ViewModels.Customer
         public void Mapping(Profile profile)
         {
             profile.CreateMap<Address, AddressDetailsForViewVm>()
-                .ForMember(s => s.Type, opt => opt.MapFrom(d => d.AddressType.Name))
-                .ForMember(s => s.Address, opt => opt.MapFrom(new ShortAddressResolver().Resolve));
+                .ForMember(d => d.Type, opt => opt.MapFrom(s => s.AddressType.Name))
+                .ForMember(d => d.Address, opt => opt.MapFrom(new ShortAddressResolver().Resolve));
 
         }
 

@@ -3,6 +3,7 @@ using AutoMapper;
 using CafeMVC.Application.Interfaces.Mapping;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Web.Mvc;
 
 namespace CafeMVC.Application.ViewModels.Products

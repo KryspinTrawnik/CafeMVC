@@ -77,6 +77,20 @@ namespace CafeMVC.Web.Controllers
             ProductForViewVm productView = _productService.GetProductForViewById(productId);
             return View(productView);
         }
+
+        [HttpGet]
+        public IActionResult EditProduct( int productId)
+        {
+            ProductForCreationVm productForEdtiting = _productService.GetProductForEdtitionById(productId);
+            return View(productForEdtiting);
+        }
+        [HttpPost]
+        public IActionResult EditProduct(ProductForCreationVm editedProduct)
+        {
+            _productService.UpdateProduct(editedProduct);
+
+            return RedirectToAction("Index");
+        }
         ///***Ingredient Actions***///
         [HttpGet]
         public IActionResult AddIngredientsToProduct()
@@ -111,7 +125,7 @@ namespace CafeMVC.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddNewIngredient(IngredientForCreationVm ingredient)
+        public IActionResult AddNewIngredient(IngredientForViewVm ingredient)
         {
             _ingredientService.AddNewIngredient(ingredient);
             return View();

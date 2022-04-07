@@ -42,7 +42,6 @@
 
 .bottom {
     position: relative;
-    /*border: double black 2px;*/
     display: grid;
     overflow: auto;
     height: 400px;
@@ -52,15 +51,13 @@
 .productTable {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    /*border: 5px solid green;*/
     height: 100%;
 }
 
 
-.jeden {
+.Ingredients {
     display: grid;
     grid-template-columns: 40% auto 40%;
-    /*border: 3px solid yellow;*/
     font-size: 16px;
     height: 100%;
 }
@@ -68,19 +65,16 @@
 .buttons {
     display: grid;
     justify-items: stretch;
-    /*border: solid red;*/
 }
 
-.dwa {
-    /*border: 3px solid blue;*/
+.Allergens {
     display: grid;
     grid-template-columns: 40% auto 40%;
-    /*border: 3px solid yellow;*/
     font-size: 16px;
     height: 100%;
 }
 
-.trzy {
+.DietInfo_Submit {
     display: grid;
     grid-template-rows: 30% 50% 20%;
     font-size: 16px;
@@ -96,7 +90,6 @@ select {
 }
 
 option {
-    /*border: solid 1px deeppink;*/
     width: 100%;
     display: block;
 }

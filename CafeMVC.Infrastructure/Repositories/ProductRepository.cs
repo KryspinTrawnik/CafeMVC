@@ -35,9 +35,9 @@ namespace CafeMVC.Infrastructure.Repositories
         public Product GetProductById(int productId)
         {
             var product = _context.Products.AsNoTracking()
-                .Include(x => x.ProductIngredients)
-                .Include(x => x.ProductAllergens)
-                .Include(x => x.ProductDietInfoTags)
+                .Include(x => x.ProductIngredients).ThenInclude(x => x.Ingredient)
+                .Include(x => x.ProductAllergens).ThenInclude(x => x.Allergen)
+                .Include(x => x.ProductDietInfoTags).ThenInclude(x => x.DietInfoTag)
                 .FirstOrDefault(x => x.Id == productId);
             return product;
         }
@@ -73,9 +73,9 @@ namespace CafeMVC.Infrastructure.Repositories
             _context.ProductIngredients.Add(productIngredient);
             _context.SaveChanges();
         }
-        public IQueryable<ProductIngredient> GetAllProductIngredients(int productId)
-        => _context.Products.AsNoTracking().Include(x => x.ProductIngredients).FirstOrDefault(x => x.Id == productId)
-            .ProductIngredients.AsQueryable();
+        public IQueryable<Ingredient> GetAllProductIngredients(int productId)
+        => _context.ProductIngredients.Where(x => x.ProductId == productId).Select(x => x.Ingredient).AsQueryable();
+           
         public void RemoveIngredientFromProduct(ProductIngredient productIngredientToBeRemoved)
         {
             _context.ProductIngredients.Remove(productIngredientToBeRemoved);
@@ -96,7 +96,10 @@ namespace CafeMVC.Infrastructure.Repositories
         {
             _context.Ingredients.Remove(GetIngredientById(ingredientId));
             _context.SaveChanges();
+
         }
+
+
 
         ///***Allergens Actions***///
         public void AddAllergenToProduct(ProductAllergen productAllergen)
@@ -106,9 +109,8 @@ namespace CafeMVC.Infrastructure.Repositories
         }
 
 
-        public IQueryable<ProductAllergen> GetAllAllergensFromProduct(int productId)
-        => _context.Products.AsNoTracking().Include(x => x.ProductAllergens)
-            .FirstOrDefault(x => x.Id == productId).ProductAllergens.AsQueryable();
+        public IQueryable<Allergen> GetAllAllergensFromProduct(int productId)
+        => _context.ProductAllergens.Where(x => x.ProductId == productId).Select(x => x.Allergen).AsQueryable();
 
         public void RemoveAllergenFromProduct(ProductAllergen productAllergenToBeRemoved)
         {
@@ -135,8 +137,8 @@ namespace CafeMVC.Infrastructure.Repositories
 
         public IQueryable<DietInfoTag> GetAllDietInfo()=> _context.DietInfotags.AsNoTracking();
 
-        public IQueryable<ProductDietInfoTag> GetAllProductDietInfo(int productId) => _context.ProductDietInfoTags
-            .Where(x => x.ProductId == productId).AsQueryable();
+        public IQueryable<DietInfoTag> GetAllProductDietInfo(int productId) => _context.ProductDietInfoTags
+            .Where(x => x.ProductId == productId).Select(x => x.DietInfoTag).AsQueryable();
 
         public void RemoveDietInfoFromProduct(ProductDietInfoTag productDietInfoTagToBeRemoved)
         {

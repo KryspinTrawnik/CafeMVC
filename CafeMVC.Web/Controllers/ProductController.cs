@@ -60,18 +60,6 @@ namespace CafeMVC.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult AddImageToProduct()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult AddImageToProduct(string pathway)
-        {
-            return View();
-        }
-
-        [HttpGet]
         public IActionResult ViewProduct(int productId)
         {
             ProductForViewVm productView = _productService.GetProductForViewById(productId);
@@ -81,11 +69,11 @@ namespace CafeMVC.Web.Controllers
         [HttpGet]
         public IActionResult EditProduct( int productId)
         {
-            ProductForCreationVm productForEdtiting = _productService.GetProductForEdtitionById(productId);
+            ProductForEditionVm productForEdtiting = _productService.GetProductForEdtitionById(productId);
             return View(productForEdtiting);
         }
         [HttpPost]
-        public IActionResult EditProduct(ProductForCreationVm editedProduct)
+        public IActionResult EditProduct(ProductForEditionVm editedProduct)
         {
             _productService.UpdateProduct(editedProduct);
 
@@ -114,7 +102,7 @@ namespace CafeMVC.Web.Controllers
         [HttpGet]
         public IActionResult ViewAllIngredients()
         {
-            ListOfIngredientsVm allIngredientsList = _ingredientService.GetAllIngredients();
+            List<IngredientForViewVm> allIngredientsList = _ingredientService.GetAllIngredients();
             return View(allIngredientsList);
         }
 

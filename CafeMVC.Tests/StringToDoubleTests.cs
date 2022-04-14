@@ -32,5 +32,16 @@ namespace CafeMVC.Tests
             result.Should().Be(9.42);
         }
 
+        [Fact]
+        public void StringWithCommaToDoubleReturnCorrect()
+        {
+            //Arrange
+            string number = "9,42";
+            //Act
+            double result = Helper.StringToDouble(number);
+            //Assert
+            result.Should().Be(9.42);
+        }
+
     }
 }

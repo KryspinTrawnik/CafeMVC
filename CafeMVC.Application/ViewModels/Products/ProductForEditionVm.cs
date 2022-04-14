@@ -1,13 +1,23 @@
-﻿using System;
+﻿using AutoMapper;
+using CafeMVC.Application.Interfaces.Mapping;
+using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CafeMVC.Application.ViewModels.Products
 {
-    public class ProductForEditionVm
+
+    public class ProductForEditionVm : ProductForCreationVm, IMapFrom<CafeMVC.Domain.Model.Product> 
     {
+        public List<IngredientForViewVm> AllIngredients { get; set; }
+
+        public List<AllergenForViewVm> AllAllergens { get; set; }
+
+        public List<DietInfoForViewVm> AllDietInfoForViewVms { get; set; }
+
+        public new void Mapping(Profile profile)
+        {
+            profile.CreateMap<CafeMVC.Domain.Model.Product, ProductForEditionVm>().ReverseMap();
+        }
 
     }
 }

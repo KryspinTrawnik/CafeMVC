@@ -36,21 +36,39 @@ namespace CafeMVC.Application.Services
         }
 
 
-        public ListOfIngredientsVm GetAllIngredients()
-        {
-            List<IngredientForViewVm> allIngredients = _productRepository.GetAllIngredients()
+        public List<IngredientForViewVm> GetAllIngredients() => _productRepository.GetAllIngredients()
                   .ProjectTo<IngredientForViewVm>(_mapper.ConfigurationProvider).ToList();
-            ListOfIngredientsVm listOfIngredients = new()
-            {
-                Ingredients = allIngredients,
-                Count = allIngredients.Count
-            };
-            return listOfIngredients;
-        }
-
+         
         void IIngredientService.AddIngredientToProduct(int productId, int ingredientId)
         {
             throw new System.NotImplementedException();
+        }
+
+        public List<IngredientForViewVm> GetProductAllIngredients(int productId)
+        => _productRepository.GetAllProductIngredients(productId).Select(x => x.Ingredient)
+            .ProjectTo<IngredientForViewVm>(_mapper.ConfigurationProvider).ToList();
+
+        public void UpdateProductIngredientTable(int productId, List<ProductIngredient> productIngredients)
+        {
+            var list = _productRepository.GetAllProductIngredients(productId).ToList();
+            List<ProductIngredient> toBeRemoved = list.Except(productIngredients, new Helper()).ToList();
+            if (toBeRemoved != null)
+            {
+                for (int i = 0; i < toBeRemoved.Count; i++)
+                {
+                    _productRepository.RemoveIngredientFromProduct(toBeRemoved[i]);
+                }
+            }
+            List<ProductIngredient> toBeAdded = productIngredients
+                .Except(_productRepository.GetAllProductIngredients(productId), new Helper()).ToList();
+            if (toBeAdded != null)
+            {
+                for (int i = 0; i < toBeAdded.Count; i++)
+                {
+                    toBeAdded[i].ProductId = productId;
+                    _productRepository.AddIngredientToProduct(toBeAdded[i]);
+                }
+            }
         }
     }
 }

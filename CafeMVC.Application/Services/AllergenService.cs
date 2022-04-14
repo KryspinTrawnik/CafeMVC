@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using CafeMVC.Application.Interfaces;
 using CafeMVC.Application.ViewModels.Products;
 using CafeMVC.Domain.Interfaces;
 using CafeMVC.Domain.Model;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CafeMVC.Application.Services
 {
@@ -38,14 +41,39 @@ namespace CafeMVC.Application.Services
             });
         }
 
-        void IAllergenService.deleteAllergen(int allergenId)
+        public void DeleteAllergen(int allergenId)
         {
             throw new NotImplementedException();
         }
 
-        void IAllergenService.DeleteAllergenFromProduct(int productId, int allergenId)
+        public List<AllergenForViewVm> GetAllAllergens() => _productRepository.GetAllAllergens()
+        .ProjectTo<AllergenForViewVm>(_mapper.ConfigurationProvider).ToList();
+
+        public List<AllergenForViewVm> GetAllProductAllergens(int productId)
+        => _productRepository.GetAllAllergensFromProduct(productId).Select(x => x.Allergen)
+            .ProjectTo<AllergenForViewVm>(_mapper.ConfigurationProvider).ToList();
+
+        public void UpdateProductAllergenTable(int productId, List<ProductAllergen> productAllergens)
         {
-            throw new NotImplementedException();
+            List<ProductAllergen> allProductAllergens = _productRepository.GetAllAllergensFromProduct(productId).ToList();
+            List<ProductAllergen> toBeRemoved = allProductAllergens.Except(productAllergens, new Helper()).ToList();
+            if (toBeRemoved != null)
+            {
+                for (int i = 0; i < toBeRemoved.Count; i++)
+                {
+                    _productRepository.RemoveAllergenFromProduct(toBeRemoved[i]);
+                }
+            }
+            List<ProductAllergen> toBeAdded = productAllergens
+                .Except(_productRepository.GetAllAllergensFromProduct(productId), new Helper()).ToList();
+            if (toBeAdded != null)
+            {
+                for (int i = 0; i < toBeAdded.Count; i++)
+                {
+                    toBeAdded[i].ProductId = productId;
+                    _productRepository.AddAllergenToProduct(toBeAdded[i]);
+                }
+            }
         }
     }
 }

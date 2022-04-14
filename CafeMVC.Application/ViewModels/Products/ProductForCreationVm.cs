@@ -36,7 +36,7 @@ namespace CafeMVC.Application.ViewModels.Products
 
         public List<int> DietInfoIds { get; set; }
 
-        public void Mapping(Profile profile)
+        public virtual void Mapping(Profile profile)
         {
             profile.CreateMap<CafeMVC.Domain.Model.Product, ProductForCreationVm>().ReverseMap();
         }

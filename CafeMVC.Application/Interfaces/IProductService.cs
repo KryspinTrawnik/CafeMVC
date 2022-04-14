@@ -11,14 +11,12 @@ namespace CafeMVC.Application.Interfaces
 
         ProductForViewVm GetProductForViewById(int productId);
 
-        ProductForCreationVm GetProductForEdtitionById(int productId);
+        ProductForEditionVm GetProductForEdtitionById(int productId);
 
-        void UpdateProduct(ProductForCreationVm productModel);
+        void UpdateProduct(ProductForEditionVm productModel);
 
         void DeleteProduct(int productId);
 
-        void AddNewImageToProduct(IFormFile image, int productId);
-        
         void DeleteImageFromProduct(int productId);
 
         void AddDietInfoToProduct(int dietInfoId, int productId);

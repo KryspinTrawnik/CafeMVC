@@ -1,6 +1,7 @@
 ﻿using CafeMVC.Domain.Interfaces;
 using CafeMVC.Domain.Model;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace CafeMVC.Infrastructure.Repositories
@@ -61,20 +62,14 @@ namespace CafeMVC.Infrastructure.Repositories
             UpdateProduct(product);
         }
 
-        public void AddNewImageToProduct(string imageName, int productId)
-        {
-            Product product = GetProductById(productId);
-            product.ImagePath = imageName;
-            UpdateProduct(product);
-        }
         ///***Ingredient Actions***///
         public void AddIngredientToProduct(ProductIngredient productIngredient)
         {
             _context.ProductIngredients.Add(productIngredient);
             _context.SaveChanges();
         }
-        public IQueryable<Ingredient> GetAllProductIngredients(int productId)
-        => _context.ProductIngredients.Where(x => x.ProductId == productId).Select(x => x.Ingredient).AsQueryable();
+        public IQueryable<ProductIngredient> GetAllProductIngredients(int productId)
+        => _context.ProductIngredients.Where(x => x.ProductId == productId).AsQueryable();
            
         public void RemoveIngredientFromProduct(ProductIngredient productIngredientToBeRemoved)
         {
@@ -100,7 +95,6 @@ namespace CafeMVC.Infrastructure.Repositories
         }
 
 
-
         ///***Allergens Actions***///
         public void AddAllergenToProduct(ProductAllergen productAllergen)
         {
@@ -109,8 +103,8 @@ namespace CafeMVC.Infrastructure.Repositories
         }
 
 
-        public IQueryable<Allergen> GetAllAllergensFromProduct(int productId)
-        => _context.ProductAllergens.Where(x => x.ProductId == productId).Select(x => x.Allergen).AsQueryable();
+        public IQueryable<ProductAllergen> GetAllAllergensFromProduct(int productId)
+        => _context.ProductAllergens.Where(x => x.ProductId == productId).AsQueryable();
 
         public void RemoveAllergenFromProduct(ProductAllergen productAllergenToBeRemoved)
         {
@@ -137,8 +131,8 @@ namespace CafeMVC.Infrastructure.Repositories
 
         public IQueryable<DietInfoTag> GetAllDietInfo()=> _context.DietInfotags.AsNoTracking();
 
-        public IQueryable<DietInfoTag> GetAllProductDietInfo(int productId) => _context.ProductDietInfoTags
-            .Where(x => x.ProductId == productId).Select(x => x.DietInfoTag).AsQueryable();
+        public IQueryable<ProductDietInfoTag> GetAllProductDietInfo(int productId) => _context.ProductDietInfoTags
+            .Where(x => x.ProductId == productId).AsQueryable();
 
         public void RemoveDietInfoFromProduct(ProductDietInfoTag productDietInfoTagToBeRemoved)
         {

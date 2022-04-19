@@ -5,7 +5,9 @@
 <head>
     <link rel="stylesheet" href="~/css/AddProduct.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-    <script src="//code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>
+    <script src="//code.jquery.com/jquery-2.1.1.min.js" type="text/javascript">
+        
+    </script>
 
 </head>
 
@@ -54,6 +56,13 @@
                     </div>
                     <div class="buttons">
                         <input type="button" class="btn btn-secondary" id="remove" value="&larr;" />
+
+                        <a class="btn btn-primary" href="@Url.Action("AddNewIngredient", "Product")" title="Add New Ingredient">
+                            +
+                        </a>
+                        <a class="btn btn-primary" id="deleteIngredient" title="Delete Ingredient">
+                            -
+                        </a>
                         <input type="button" class="btn btn-secondary" id="move" value="&rarr;" />
                     </div>
                     <div class="productIngredients panel">
@@ -80,6 +89,7 @@
                     </div>
                     <div class="buttons">
                         <input type="button" class="btn btn-secondary" id="removeAllergens" value="&larr;" />
+
                         <input type="button" class="btn btn-secondary" id="moveAllergens" value="&rarr;" />
                     </div>
                     <div>
@@ -115,6 +125,8 @@
     }
 </body>
 @section Scripts{
+    <script src="C:\Users\Dell\Desktop\Kurs Zostan Programista NET\CafeMVC.Web\CafeMVC.Web\wwwroot\js\site.js">
+        </script>
 <script type="text/javascript">
             const image_input = document.querySelector("#imageUpload");
             image_input.addEventListener("change", function () {
@@ -151,6 +163,29 @@
         $('#IngredientsSelectList option').prop('selected', true);
          $('#Allergens option').prop('selected', true);
     });
+  
+    $('#deleteIngredient').click(function () {
+    if ($('#AllIngredients option:selected').to !== null) {
+        //$('#AllIngredients option:selected').each(function (index, value) {
+        $.ajax({
+
+            url: '@Url.Action("DeleteIngredient","Product")',
+            data: JSON.stringify({ ingridientId: value }),
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("XSRF-TOKEN",
+                    $('input:hidden[name="__RequestVerificationToken"]').val());
+            },
+            dataType: 'json',
+            success: function (result) {
+            },
+            error: {
+            }
+        //});
+        });
+        $('#AllIngredients option:selected').remove();
+    }
+
+});
 
 </script>
 

@@ -6,12 +6,10 @@ namespace CafeMVC.Application.Interfaces
 {
     public interface IIngredientService
     {
-        void DeleteIngredient(int productId, int ingredientId);
+        void DeleteIngredient( int ingredientId);
 
         List<IngredientForViewVm> GetAllIngredients();
     
-        void AddIngredientToProduct(int productId, int ingredientId);
-        
         void AddNewIngredient(IngredientForViewVm ingredient);
 
         List<IngredientForViewVm> GetProductAllIngredients(int productId);

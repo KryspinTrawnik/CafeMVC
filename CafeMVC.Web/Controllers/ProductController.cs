@@ -49,13 +49,18 @@ namespace CafeMVC.Web.Controllers
         [HttpPost]
         public IActionResult AddNewProduct(ProductForCreationVm product)
         {
+            if (product.Btn == "Submit")
+            {
             _productService.AddNewProduct(product);
-            return RedirectToAction("Index");
+            }
+            
+             return RedirectToAction("index");
         }
 
         public IActionResult DeleteProduct(int productId)
         {
             _productService.DeleteProduct(productId);
+            
             return RedirectToAction("Index");
         }
 
@@ -63,6 +68,7 @@ namespace CafeMVC.Web.Controllers
         public IActionResult ViewProduct(int productId)
         {
             ProductForViewVm productView = _productService.GetProductForViewById(productId);
+            
             return View(productView);
         }
 
@@ -70,33 +76,25 @@ namespace CafeMVC.Web.Controllers
         public IActionResult EditProduct( int productId)
         {
             ProductForEditionVm productForEdtiting = _productService.GetProductForEdtitionById(productId);
+            
             return View(productForEdtiting);
         }
         [HttpPost]
         public IActionResult EditProduct(ProductForEditionVm editedProduct)
         {
-            _productService.UpdateProduct(editedProduct);
-
-            return RedirectToAction("Index");
+            if (editedProduct.Btn == "Submit")
+            {
+                _productService.UpdateProduct(editedProduct);
+            }
+                return RedirectToAction("Index");
         }
+
         ///***Ingredient Actions***///
-        [HttpGet]
-        public IActionResult AddIngredientsToProduct()
+       
+        [HttpDelete]
+        public void DeleteIngredient(int ingredientId)
         {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult AddIngredientsToProduct(int productId, int ingredientId)
-        {
-            _ingredientService.AddIngredientToProduct(productId, ingredientId);
-            return View();
-        }
-
-        [HttpGet]
-        public IActionResult DeleteIngredientsFromProduct()
-        {
-            return View();
+            _ingredientService.DeleteIngredient(ingredientId);
         }
 
         [HttpGet]
@@ -118,11 +116,7 @@ namespace CafeMVC.Web.Controllers
             _ingredientService.AddNewIngredient(ingredient);
             return View();
         }
-        public IActionResult DeleteIngredientsFromProduct(int productId, int ingredientId)
-        {
-            _ingredientService.DeleteIngredient(productId, ingredientId);
-            return View();
-        }
+       
         ///***Diet info Actions***///
         [HttpGet]
         public IActionResult ChangeDietInformation()

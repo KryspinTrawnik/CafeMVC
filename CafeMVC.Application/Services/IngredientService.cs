@@ -21,7 +21,6 @@ namespace CafeMVC.Application.Services
             _mapper = mapper;
         }
 
-       
         public void AddNewIngredient(IngredientForViewVm ingredient)
         {
             Ingredient newIngredient = _mapper.Map<Ingredient>(ingredient);
@@ -29,29 +28,23 @@ namespace CafeMVC.Application.Services
 
         }
 
-        public void DeleteIngredient(int productId, int ingredientId)
+        public void DeleteIngredient( int ingredientId)
         {
-            Product product = _productRepository.GetProductById(productId);
-            product.ProductIngredients.Remove(product.ProductIngredients.FirstOrDefault(x => x.IngredientId == ingredientId));
+            _productRepository.DeleteIngredient(ingredientId);
+            
         }
-
 
         public List<IngredientForViewVm> GetAllIngredients() => _productRepository.GetAllIngredients()
                   .ProjectTo<IngredientForViewVm>(_mapper.ConfigurationProvider).ToList();
          
-        void IIngredientService.AddIngredientToProduct(int productId, int ingredientId)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public List<IngredientForViewVm> GetProductAllIngredients(int productId)
         => _productRepository.GetAllProductIngredients(productId).Select(x => x.Ingredient)
             .ProjectTo<IngredientForViewVm>(_mapper.ConfigurationProvider).ToList();
 
         public void UpdateProductIngredientTable(int productId, List<ProductIngredient> productIngredients)
         {
-            var list = _productRepository.GetAllProductIngredients(productId).ToList();
-            List<ProductIngredient> toBeRemoved = list.Except(productIngredients, new Helper()).ToList();
+            List<ProductIngredient> allProductIngredient = _productRepository.GetAllProductIngredients(productId).ToList();
+            List<ProductIngredient> toBeRemoved = allProductIngredient.Except(productIngredients, new Helper()).ToList();
             if (toBeRemoved != null)
             {
                 for (int i = 0; i < toBeRemoved.Count; i++)

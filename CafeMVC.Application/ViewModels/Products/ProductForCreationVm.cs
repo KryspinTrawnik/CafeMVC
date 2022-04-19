@@ -35,6 +35,7 @@ namespace CafeMVC.Application.ViewModels.Products
         public List<int> AllergensIds { get; set; }
 
         public List<int> DietInfoIds { get; set; }
+        public string Btn { get; set; }
 
         public virtual void Mapping(Profile profile)
         {

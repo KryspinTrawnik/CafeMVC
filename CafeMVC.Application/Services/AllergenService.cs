@@ -43,7 +43,7 @@ namespace CafeMVC.Application.Services
 
         public void DeleteAllergen(int allergenId)
         {
-            throw new NotImplementedException();
+            
         }
 
         public List<AllergenForViewVm> GetAllAllergens() => _productRepository.GetAllAllergens()

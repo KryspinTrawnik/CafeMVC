@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Serialization;
 
 namespace CafeMVC.Web
 {
@@ -20,6 +22,8 @@ namespace CafeMVC.Web
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
+
+        [System.Obsolete]
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<Context>(options =>
@@ -29,6 +33,9 @@ namespace CafeMVC.Web
             services.AddApplication();
             services.AddInfrastructure();
             services.AddDatabaseDeveloperPageExceptionFilter();
+            services.AddMvc()
+            .AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
+            services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<Context>();

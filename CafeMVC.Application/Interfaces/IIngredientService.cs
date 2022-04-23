@@ -8,6 +8,8 @@ namespace CafeMVC.Application.Interfaces
     {
         void DeleteIngredient( int ingredientId);
 
+        ListOfIngredientsVm GetListIngredientsForEdition(int pageSize, int pageNo, string searchString);
+
         List<IngredientForViewVm> GetAllIngredients();
     
         void AddNewIngredient(IngredientForViewVm ingredient);

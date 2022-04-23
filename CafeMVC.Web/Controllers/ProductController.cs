@@ -90,31 +90,50 @@ namespace CafeMVC.Web.Controllers
         }
 
         ///***Ingredient Actions***///
-       
-        [HttpDelete]
-        public void DeleteIngredient(int ingredientId)
+    
+        public IActionResult DeleteIngredient(int ingredientId)
         {
             _ingredientService.DeleteIngredient(ingredientId);
+            
+            return RedirectToAction("EditAllIngredients");
         }
 
         [HttpGet]
-        public IActionResult ViewAllIngredients()
+        public IActionResult EditAllIngredients()
         {
-            List<IngredientForViewVm> allIngredientsList = _ingredientService.GetAllIngredients();
-            return View(allIngredientsList);
+            return View(_ingredientService.GetListIngredientsForEdition(20, 1, ""));
+        }
+        [HttpPost]
+        public IActionResult EditAllIngredients(int pageSize, int? pageNo, string searchString)
+        {
+            if (!pageNo.HasValue)
+            {
+                pageNo = 1;
+            }
+            if (searchString is null)
+            {
+                searchString = string.Empty;
+                pageSize = 20;
+            }
+            
+            var ingredientsForEditionList = _ingredientService.GetListIngredientsForEdition(pageSize, pageNo.Value, searchString);
+            return View(ingredientsForEditionList);
         }
 
         [HttpGet]
         public IActionResult AddNewIngredient()
         {
-            return View();
+            return View(new IngredientForViewVm());
         }
 
         [HttpPost]
         public IActionResult AddNewIngredient(IngredientForViewVm ingredient)
         {
+            if (ingredient.Btn == "Submit")
+            {
             _ingredientService.AddNewIngredient(ingredient);
-            return View();
+            }
+            return RedirectToAction("EditAllIngredients");
         }
        
         ///***Diet info Actions***///

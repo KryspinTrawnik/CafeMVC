@@ -4,6 +4,7 @@ using CafeMVC.Application.Interfaces;
 using CafeMVC.Application.ViewModels.Products;
 using CafeMVC.Domain.Interfaces;
 using CafeMVC.Domain.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -62,6 +63,23 @@ namespace CafeMVC.Application.Services
                     _productRepository.AddIngredientToProduct(toBeAdded[i]);
                 }
             }
+        }
+
+        public ListOfIngredientsVm GetListIngredientsForEdition(int pageSize, int pageNo, string searchString)
+        {
+            List<IngredientForViewVm> allIngredients = _productRepository.GetAllIngredients().Where(x => x.Name.StartsWith(searchString))
+                .ProjectTo<IngredientForViewVm>(_mapper.ConfigurationProvider).ToList();
+            List<IngredientForViewVm> ingredientsToDisplay = allIngredients.Skip(pageSize * (pageNo - 1)).Take(pageSize).ToList();
+            ListOfIngredientsVm listOfAllIngredients = new()
+            {
+                PageSize = pageSize,
+                CurrentPage = pageNo,
+                SearchString = searchString,
+                Ingredients = ingredientsToDisplay,
+                Count = allIngredients.Count
+            };
+
+            return listOfAllIngredients;
         }
     }
 }

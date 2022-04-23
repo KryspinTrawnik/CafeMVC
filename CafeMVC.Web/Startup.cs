@@ -7,8 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Serialization;
 
 namespace CafeMVC.Web
 {
@@ -28,14 +26,11 @@ namespace CafeMVC.Web
         {
             services.AddDbContext<Context>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection"), 
-                    b => b.MigrationsAssembly(typeof (Context).Assembly.FullName)));
+                    Configuration.GetConnectionString("DefaultConnection"),
+                    b => b.MigrationsAssembly(typeof(Context).Assembly.FullName)));
             services.AddApplication();
             services.AddInfrastructure();
             services.AddDatabaseDeveloperPageExceptionFilter();
-            services.AddMvc()
-            .AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
-            services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<Context>();

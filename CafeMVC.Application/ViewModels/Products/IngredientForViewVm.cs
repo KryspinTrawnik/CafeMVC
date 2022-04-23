@@ -8,10 +8,12 @@ namespace CafeMVC.Application.ViewModels.Products
         public int Id { get; set; }
 
         public string Name { get; set; }
-
+        
+        public string Btn { get; set; }
+        
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<CafeMVC.Domain.Model.Ingredient, IngredientForViewVm>();
+            profile.CreateMap<CafeMVC.Domain.Model.Ingredient, IngredientForViewVm>().ReverseMap();
         }
     }
 }

@@ -123,7 +123,7 @@ namespace CafeMVC.Application.Services
         }
         public ListOfProductsVm GetAllProducts(int pageSize, int pageNo, string searchString)
         {
-            List<ProductForListVm> allProducts = _productRepository.GetAllProducts()
+            List<ProductForListVm> allProducts = _productRepository.GetAllProducts().Where(x => x.Name.StartsWith(searchString))
                 .ProjectTo<ProductForListVm>(_mapper.ConfigurationProvider).ToList();
             List<ProductForListVm> productsToDisplay = allProducts.Skip(pageSize * (pageNo - 1)).Take(pageSize).ToList();
             ListOfProductsVm listOfAllProducts = new()

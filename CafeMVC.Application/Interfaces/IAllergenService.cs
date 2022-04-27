@@ -6,8 +6,6 @@ namespace CafeMVC.Application.Interfaces
 {
     public interface IAllergenService
     {
-        void AddAllergenToProduct(int productId, int allergenId);
-       
         void AddNewAllergen(AllergenForViewVm allergen);
 
         void DeleteAllergen(int allergenId);
@@ -17,5 +15,7 @@ namespace CafeMVC.Application.Interfaces
         List<AllergenForViewVm> GetAllProductAllergens(int productId);
 
         void UpdateProductAllergenTable(int productId, List<ProductAllergen> productAllergens);
+
+        ListOfAllergensVm GetAllergensForEdition(int pageSize, int pageNo, string searchString);
     }
 }

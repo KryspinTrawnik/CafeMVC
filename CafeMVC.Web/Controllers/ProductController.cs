@@ -1,7 +1,6 @@
 ﻿using CafeMVC.Application.Interfaces;
 using CafeMVC.Application.ViewModels.Products;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 
 namespace CafeMVC.Web.Controllers
 {
@@ -11,8 +10,7 @@ namespace CafeMVC.Web.Controllers
         private readonly IIngredientService _ingredientService;
         private readonly IAllergenService _allergenService;
 
-
-        public ProductController(IProductService productService, IAllergenService allergenService,IIngredientService ingredientService )
+        public ProductController(IProductService productService, IAllergenService allergenService, IIngredientService ingredientService)
         {
             _productService = productService;
             _allergenService = allergenService;
@@ -23,21 +21,23 @@ namespace CafeMVC.Web.Controllers
         public IActionResult Index()
         {
             ListOfProductsVm allProductsList = _productService.GetAllProducts(20, 1, "");
+
             return View(allProductsList);
         }
         [HttpPost]
         public IActionResult Index(int pageSize, int? pageNo, string searchString)
         {
-            if(!pageNo.HasValue)
+            if (!pageNo.HasValue)
             {
                 pageNo = 1;
             }
-            if(searchString is null)
+            if (searchString is null)
             {
                 searchString = string.Empty;
                 pageSize = 20;
             }
             ListOfProductsVm allProductsList = _productService.GetAllProducts(pageSize, pageNo.Value, searchString);
+
             return View(allProductsList);
         }
         [HttpGet]
@@ -51,16 +51,16 @@ namespace CafeMVC.Web.Controllers
         {
             if (product.Btn == "Submit")
             {
-            _productService.AddNewProduct(product);
+                _productService.AddNewProduct(product);
             }
-            
-             return RedirectToAction("index");
+
+            return RedirectToAction("index");
         }
 
         public IActionResult DeleteProduct(int productId)
         {
             _productService.DeleteProduct(productId);
-            
+
             return RedirectToAction("Index");
         }
 
@@ -68,15 +68,15 @@ namespace CafeMVC.Web.Controllers
         public IActionResult ViewProduct(int productId)
         {
             ProductForViewVm productView = _productService.GetProductForViewById(productId);
-            
+
             return View(productView);
         }
 
         [HttpGet]
-        public IActionResult EditProduct( int productId)
+        public IActionResult EditProduct(int productId)
         {
             ProductForEditionVm productForEdtiting = _productService.GetProductForEdtitionById(productId);
-            
+
             return View(productForEdtiting);
         }
         [HttpPost]
@@ -86,25 +86,25 @@ namespace CafeMVC.Web.Controllers
             {
                 _productService.UpdateProduct(editedProduct);
             }
-                return RedirectToAction("Index");
+            return RedirectToAction("Index");
         }
 
         ///***Ingredient Actions***///
-    
+
         public IActionResult DeleteIngredient(int ingredientId)
         {
             _ingredientService.DeleteIngredient(ingredientId);
-            
-            return RedirectToAction("EditAllIngredients");
+
+            return RedirectToAction("EditIngredientsList");
         }
 
         [HttpGet]
-        public IActionResult EditAllIngredients()
+        public IActionResult EditIngredientsList()
         {
             return View(_ingredientService.GetListIngredientsForEdition(20, 1, ""));
         }
         [HttpPost]
-        public IActionResult EditAllIngredients(int pageSize, int? pageNo, string searchString)
+        public IActionResult EditIngredientsList(int pageSize, int? pageNo, string searchString)
         {
             if (!pageNo.HasValue)
             {
@@ -115,8 +115,8 @@ namespace CafeMVC.Web.Controllers
                 searchString = string.Empty;
                 pageSize = 20;
             }
-            
-            var ingredientsForEditionList = _ingredientService.GetListIngredientsForEdition(pageSize, pageNo.Value, searchString);
+            ListOfIngredientsVm ingredientsForEditionList = _ingredientService.GetListIngredientsForEdition(pageSize, pageNo.Value, searchString);
+
             return View(ingredientsForEditionList);
         }
 
@@ -131,39 +131,56 @@ namespace CafeMVC.Web.Controllers
         {
             if (ingredient.Btn == "Submit")
             {
-            _ingredientService.AddNewIngredient(ingredient);
+                _ingredientService.AddNewIngredient(ingredient);
             }
-            return RedirectToAction("EditAllIngredients");
-        }
-       
-        ///***Diet info Actions***///
-        [HttpGet]
-        public IActionResult ChangeDietInformation()
-        {
-            return View();
-        }
-
-        [HttpPatch]
-        public IActionResult AddDietInfo(int productId, int dietInfoId)
-        {
-            _productService.AddDietInfoToProduct(productId, dietInfoId);
-            return View();
+            return RedirectToAction("EditIngredientsList");
         }
 
         ///***Allergen Actions***///
         [HttpGet]
         public IActionResult AddNewAllergen()
         {
-            return View();
+            return View(new AllergenForViewVm());
         }
 
         [HttpPost]
         public IActionResult AddNewAllergen(AllergenForViewVm allergen)
         {
-            _allergenService.AddNewAllergen(allergen);
-            return View();
+            if (allergen.Btn == "Submit")
+            {
+                _allergenService.AddNewAllergen(allergen);
+            }
+
+            return RedirectToAction("EditAllergensList");
+        }
+        public IActionResult DeleteAllergen(int AllergenId)
+        {
+            _allergenService.DeleteAllergen(AllergenId);
+
+            return RedirectToAction("EditAllergensList");
         }
 
+        [HttpGet]
+        public IActionResult EditAllergensList()
+        {
+            return View(_allergenService.GetAllergensForEdition(20, 1, ""));
+        }
+        [HttpPost]
+        public IActionResult EditAllergensList(int pageSize, int? pageNo, string searchString)
+        {
+            if (!pageNo.HasValue)
+            {
+                pageNo = 1;
+            }
+            if (searchString is null)
+            {
+                searchString = string.Empty;
+                pageSize = 20;
+            }
+            ListOfAllergensVm allergensForList = _allergenService.GetAllergensForEdition(pageSize, pageNo.Value, searchString);
+
+            return View(allergensForList);
+        }
 
     }
 }

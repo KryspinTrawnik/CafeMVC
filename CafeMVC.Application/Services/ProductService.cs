@@ -15,11 +15,13 @@ namespace CafeMVC.Application.Services
     {
         private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
-        private readonly IIngredientService _ingredientService; 
+        private readonly IIngredientService _ingredientService;
         private readonly IAllergenService _allergernService;
+
+
         public ProductService(IProductRepository productRepository, IMapper mapper, IIngredientService ingredientService, IAllergenService allergenService)
         {
-             _allergernService = allergenService;
+            _allergernService = allergenService;
             _ingredientService = ingredientService;
             _productRepository = productRepository;
             _mapper = mapper;
@@ -76,9 +78,9 @@ namespace CafeMVC.Application.Services
         private Product PrepareProductForSaving(ProductForCreationVm newProductVm)
         {
             newProductVm.Price = Helper.StringToDouble(newProductVm.PriceString);
-            if(newProductVm.File != null) 
-            { 
-            newProductVm.ImagePath = SaveImageOnFile(newProductVm.File);
+            if (newProductVm.File != null)
+            {
+                newProductVm.ImagePath = SaveImageOnFile(newProductVm.File);
             }
             else
             {
@@ -87,11 +89,41 @@ namespace CafeMVC.Application.Services
             return AddjoiningTables(_mapper.Map<Product>(newProductVm), newProductVm);
         }
 
-        private List<DietInfoForViewVm>GetAllDietInfo()=> _productRepository.GetAllDietInfo()
+        private List<DietInfoForViewVm> GetAllDietInfo() => _productRepository.GetAllDietInfo()
             .ProjectTo<DietInfoForViewVm>(_mapper.ConfigurationProvider).ToList();
 
-        private List<DietInfoForViewVm> GetAllProductDietInfo(int productId)=>_productRepository.GetAllProductDietInfo(productId)
+        private List<DietInfoForViewVm> GetAllProductDietInfo(int productId) => _productRepository.GetAllProductDietInfo(productId)
             .Select(x => x.DietInfoTag).ProjectTo<DietInfoForViewVm>(_mapper.ConfigurationProvider).ToList();
+
+        private void UpdateProductDieteInfoTagTable(int productId, List<ProductDietInfoTag> productDietInfoTag)
+        {
+            List<ProductDietInfoTag> allProductDietInfoTags = _productRepository.GetAllProductDietInfo(productId).ToList();
+            List<ProductDietInfoTag> toBeRemoved = allProductDietInfoTags.Except(productDietInfoTag, new Helper()).ToList();
+            if (toBeRemoved != null)
+            {
+                for (int i = 0; i < toBeRemoved.Count; i++)
+                {
+                    _productRepository.RemoveDietInfoFromProduct(toBeRemoved[i]);
+                }
+            }
+            List<ProductDietInfoTag> toBeAdded = productDietInfoTag
+                .Except(_productRepository.GetAllProductDietInfo(productId), new Helper()).ToList();
+            if (toBeAdded != null)
+            {
+                for (int i = 0; i < toBeAdded.Count; i++)
+                {
+                    toBeAdded[i].ProductId = productId;
+                    _productRepository.AddDietInfoToProduct(toBeAdded[i]);
+                }
+            }
+        }
+        private void UpdateJoningTables(Product product)
+        {
+
+            _ingredientService.UpdateProductIngredientTable(product.Id, product.ProductIngredients.ToList());
+            _allergernService.UpdateProductAllergenTable(product.Id, product.ProductAllergens.ToList());
+            UpdateProductDieteInfoTagTable(product.Id, product.ProductDietInfoTags.ToList());
+        }
         public void AddNewProduct(ProductForCreationVm productVm)
         {
             _productRepository.AddNewProduct(PrepareProductForSaving(productVm));
@@ -110,7 +142,7 @@ namespace CafeMVC.Application.Services
             productForEdition.AllIngredients = residualIngredients;
             productForEdition.AllDietInfoForViewVms = GetAllDietInfo();
             productForEdition.PriceString = productForEdition.Price.ToString();
-            
+
             productForEdition.ImagePath = $"../Imgs/{productForEdition.ImagePath}";
 
             return productForEdition;
@@ -148,7 +180,6 @@ namespace CafeMVC.Application.Services
             product.ImagePath = null;
             _productRepository.UpdateProduct(product);
         }
-       
 
         public ProductForViewVm GetProductForViewById(int productId)
         {
@@ -169,33 +200,6 @@ namespace CafeMVC.Application.Services
             _productRepository.UpdateProduct(product);
         }
 
-        private void UpdateJoningTables(Product product)
-        {
-           
-            _ingredientService.UpdateProductIngredientTable(product.Id, product.ProductIngredients.ToList());
-            _allergernService.UpdateProductAllergenTable(product.Id, product.ProductAllergens.ToList());
-            UpdateProductDieteInfoTagTable(product.Id, product.ProductDietInfoTags.ToList());
-        }
-
-        public void AddDietInfoToProduct(int dietInfoId, int productId)
-        {
-            Product product = _productRepository.GetProductById(productId);
-            DietInfoTag dietInfoTag = _productRepository.GetDietInfoTagById(dietInfoId);
-            _productRepository.AddDietInfoToProduct(new ProductDietInfoTag
-            {
-                Product = product,
-                ProductId = productId,
-                DietInfoTag = dietInfoTag,
-                DietInfoTagId = dietInfoId
-            });
-        }
-
-        public void DeleteDietInfoFromProduct(int dietInfoId, int productId)
-        {
-            ProductDietInfoTag productDietInfoTagToBeRemoved = _productRepository
-                .GetProductById(productId).ProductDietInfoTags.FirstOrDefault(x => x.DietInfoTagId == dietInfoId);
-            _productRepository.RemoveDietInfoFromProduct(productDietInfoTagToBeRemoved);
-        }
         public ProductForCreationVm GetProductForCreation()
         {
             return new ProductForCreationVm()
@@ -205,29 +209,5 @@ namespace CafeMVC.Application.Services
                 DietInfoForViewVms = GetAllDietInfo()
             };
         }
-
-        private void UpdateProductDieteInfoTagTable(int productId, List<ProductDietInfoTag> productDietInfoTag)
-        {
-            List<ProductDietInfoTag> allProductDietInfoTags = _productRepository.GetAllProductDietInfo(productId).ToList();
-            List<ProductDietInfoTag> toBeRemoved = allProductDietInfoTags.Except(productDietInfoTag, new Helper()).ToList();
-            if (toBeRemoved != null)
-            {
-                for (int i = 0; i < toBeRemoved.Count; i++)
-                {
-                    _productRepository.RemoveDietInfoFromProduct(toBeRemoved[i]);
-                }
-            }
-            List<ProductDietInfoTag> toBeAdded = productDietInfoTag
-                .Except(_productRepository.GetAllProductDietInfo(productId), new Helper()).ToList();
-            if (toBeAdded != null)
-            {
-                for (int i = 0; i < toBeAdded.Count; i++)
-                {
-                    toBeAdded[i].ProductId = productId;
-                    _productRepository.AddDietInfoToProduct(toBeAdded[i]);
-                }
-            }
-        }
-
     }
 }

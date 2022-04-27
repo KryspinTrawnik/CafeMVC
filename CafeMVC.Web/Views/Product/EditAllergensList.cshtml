@@ -1,25 +1,21 @@
-﻿@model CafeMVC.Application.ViewModels.Products.ListOfProductsVm
+﻿@model CafeMVC.Application.ViewModels.Products.ListOfAllergensVm
 
 @{
-    string title = "All Product";
+    string title = "All Allergens";
 }
 
 <h1>@title</h1>
 
 <p>
-    <a asp-action="AddNewProduct">Create New Product</a>
-    <br/>
-    <a asp-action="EditIngredientsList">Go To All Ingredient </a>
-    <br />
-    <a asp-action="EditAllergensList">Go To All Allergens </a>
+    <a asp-action="AddNewAllergen">Create New Allergen</a>
 </p>
-<form asp-action="Index" , asp-controller="product" method="post">
+<form asp-action="EditAllergensList" , asp-controller="product" method="post">
     <div class="row">
-        <input type="text" asp-for="SearchString" class ="searchString" name="searchString" id="searchString" placeholder="Looking for..." />
-        <input type="submit" value="Search" class="searchString"/>
+        <input type="text" asp-for="SearchString" class="searchString" name="searchString" id="searchString" placeholder="Looking for..." />
+        <input type="submit" value="Search" class="searchString" />
     </div>
-    <div class=" row">
-        <table class="table table-dark">
+    <div class="row">
+        <table style="width:60%;">
             <thead>
                 <tr>
                     <th>
@@ -28,12 +24,11 @@
                     <th>
                         Name
                     </th>
-
                     <th></th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model.ListOfAllProducts)
+                @foreach (var item in Model.ListOfAllergens)
                 {
                     <tr>
                         <td>
@@ -43,9 +38,7 @@
                             @Html.DisplayFor(modelItem => item.Name)
                         </td>
                         <td>
-                            @Html.ActionLink("Details", "ViewProduct", new { productId = item.Id }) |
-                            @Html.ActionLink("Edit", "EditProduct", new {productId = item.Id}) |
-                            @Html.ActionLink("Delete", "DeleteProduct", new { productId = item.Id })
+                            @Html.ActionLink("Delete", "DeleteAllergen", new {allergenId = item.Id })
                         </td>
                     </tr>
                 }
@@ -55,16 +48,16 @@
     <div class="row">
         <table>
             <tr>
-                @for(int i = 1; i <= (Math.Ceiling(Model.Count / (double)Model.PageSize)); i++)
+                @for (int i = 1; i <= (Math.Ceiling(Model.Count / (double)Model.PageSize)); i++)
                 {
-                    if(i != Model.CurrentPage)
-                {
-                    <a href="javascript:PageClick(@i)">@i</a>
+                    if (i != Model.CurrentPage)
+                    {
+                        <a href="javascript:PageClick(@i)">@i</a>
                     }
                     else
-                {
-                    @i
-                }
+                    {
+                        @i
+                    }
                 }
             </tr>
         </table>
@@ -75,7 +68,7 @@
 @section Scripts
 {
 <script type="text/javascript">
-    
+
     function PagerClick(index)
     {
         document.getElementById("pageNo").value = index;

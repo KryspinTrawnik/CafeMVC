@@ -4,13 +4,12 @@ using CafeMVC.Application.Interfaces;
 using CafeMVC.Application.ViewModels.Products;
 using CafeMVC.Domain.Interfaces;
 using CafeMVC.Domain.Model;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace CafeMVC.Application.Services
 {
-    public class IngredientService :IIngredientService
+    public class IngredientService : IIngredientService
     {
 
         private readonly IProductRepository _productRepository;
@@ -29,15 +28,15 @@ namespace CafeMVC.Application.Services
 
         }
 
-        public void DeleteIngredient( int ingredientId)
+        public void DeleteIngredient(int ingredientId)
         {
             _productRepository.DeleteIngredient(ingredientId);
-            
+
         }
 
         public List<IngredientForViewVm> GetAllIngredients() => _productRepository.GetAllIngredients()
                   .ProjectTo<IngredientForViewVm>(_mapper.ConfigurationProvider).ToList();
-         
+
         public List<IngredientForViewVm> GetProductAllIngredients(int productId)
         => _productRepository.GetAllProductIngredients(productId).Select(x => x.Ingredient)
             .ProjectTo<IngredientForViewVm>(_mapper.ConfigurationProvider).ToList();

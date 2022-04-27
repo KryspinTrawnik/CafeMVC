@@ -4,7 +4,6 @@ using CafeMVC.Application.Interfaces;
 using CafeMVC.Application.ViewModels.Products;
 using CafeMVC.Domain.Interfaces;
 using CafeMVC.Domain.Model;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -28,22 +27,10 @@ namespace CafeMVC.Application.Services
             _productRepository.AddNewAllergen(newAllergen);
 
         }
-        public void AddAllergenToProduct(int productId, int allergenId)
-        {
-            Product product = _productRepository.GetProductById(productId);
-            Allergen allergen = _productRepository.GetAllergenById(allergenId);
-            _productRepository.AddAllergenToProduct(new ProductAllergen
-            {
-                Allergen = allergen,
-                AllergenId = allergenId,
-                Product = product,
-                ProductId = productId
-            });
-        }
 
         public void DeleteAllergen(int allergenId)
         {
-            
+            _productRepository.DeleteAllergen(allergenId);
         }
 
         public List<AllergenForViewVm> GetAllAllergens() => _productRepository.GetAllAllergens()
@@ -74,6 +61,23 @@ namespace CafeMVC.Application.Services
                     _productRepository.AddAllergenToProduct(toBeAdded[i]);
                 }
             }
+        }
+
+        public ListOfAllergensVm GetAllergensForEdition(int pageSize, int pageNo, string searchString)
+        {
+            List<AllergenForViewVm> allAllergens = _productRepository.GetAllAllergens().Where(x => x.Name.StartsWith(searchString))
+                 .ProjectTo<AllergenForViewVm>(_mapper.ConfigurationProvider).ToList();
+            List<AllergenForViewVm> allergensToDisplay = allAllergens.Skip(pageSize * (pageNo - 1)).Take(pageSize).ToList();
+            ListOfAllergensVm listOfAllAllergens = new()
+            {
+                PageSize = pageSize,
+                CurrentPage = pageNo,
+                SearchString = searchString,
+                ListOfAllergens = allergensToDisplay,
+                Count = allAllergens.Count
+            };
+
+            return listOfAllAllergens;
         }
     }
 }

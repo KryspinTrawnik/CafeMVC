@@ -19,10 +19,6 @@ namespace CafeMVC.Application.Interfaces
 
         void DeleteImageFromProduct(int productId);
 
-        void AddDietInfoToProduct(int dietInfoId, int productId);
-
-        void DeleteDietInfoFromProduct(int dietInfoId, int productId);
-
         ProductForCreationVm GetProductForCreation();
     }
 }

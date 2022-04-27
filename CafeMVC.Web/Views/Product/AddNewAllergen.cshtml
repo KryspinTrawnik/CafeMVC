@@ -1,0 +1,18 @@
+﻿@model CafeMVC.Application.ViewModels.Products.AllergenForViewVm
+@{ 
+    string title = "Add New Allergen";
+
+}
+
+<h5>@title</h5>
+<br />
+<br />
+@using (Html.BeginForm("AddNewAllergen", "Product", FormMethod.Post))
+{
+    @Html.Hidden("Id")
+    <h5>Name of new ingredient</h5>
+        @Html.TextBoxFor(m => m.Name, new { @class = "textBox"})
+    <br />
+    <button type="submit" class="btn btn-success" name="Btn" value="Submit">Submit</button>   
+    <button type="submit" class="btn btn-danger" name="Btn" value="Cancel">Cancel</button>
+}

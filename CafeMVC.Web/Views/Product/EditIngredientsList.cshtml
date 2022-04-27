@@ -9,7 +9,7 @@
 <p>
     <a asp-action="AddNewIngredient">Create Ingredient</a>
 </p>
-<form asp-action="EditAllIngredients" , asp-controller="product" method="post">
+<form asp-action="EditIngredientsList" , asp-controller="product" method="post">
     <div class="row">
         <input type="text" asp-for="SearchString" class="searchString" name="searchString" id="searchString" placeholder="Looking for..." />
         <input type="submit" value="Search" class="searchString" />

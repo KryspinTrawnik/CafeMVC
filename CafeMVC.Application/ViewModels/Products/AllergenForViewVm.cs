@@ -9,9 +9,11 @@ namespace CafeMVC.Application.ViewModels.Products
 
         public string Name { get; set; }
 
+        public string Btn { get; set; }
+
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<CafeMVC.Domain.Model.Allergen, AllergenForViewVm>();
+            profile.CreateMap<CafeMVC.Domain.Model.Allergen, AllergenForViewVm>().ReverseMap();
         }
     }
 }

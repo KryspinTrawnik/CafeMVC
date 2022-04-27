@@ -10,8 +10,6 @@ namespace CafeMVC.Domain.Interfaces
 
         int AddNewProduct(Product product);
 
-        void DeleteImageFromProduct(int productId);
-        
         void UpdateProduct(Product product);
 
         void DeleteProduct(int productId);
@@ -48,8 +46,8 @@ namespace CafeMVC.Domain.Interfaces
 
         //*** Diet info Actions **\\
 
-        DietInfoTag GetDietInfoTagById(int dietInfoTagId);
-
+        void DeleteAllergen(int allergenId);
+        
         IQueryable<DietInfoTag> GetAllDietInfo();
 
         IQueryable<ProductDietInfoTag> GetAllProductDietInfo(int productId);

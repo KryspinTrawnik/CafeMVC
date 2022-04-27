@@ -1,7 +1,6 @@
 ﻿using CafeMVC.Domain.Interfaces;
 using CafeMVC.Domain.Model;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace CafeMVC.Infrastructure.Repositories
@@ -14,7 +13,7 @@ namespace CafeMVC.Infrastructure.Repositories
         {
             _context = context;
         }
-            ///*** Product Actions***\\\
+        ///*** Product Actions***\\\
         public int AddNewProduct(Product product)
         {
             _context.Products.Add(product);
@@ -24,7 +23,7 @@ namespace CafeMVC.Infrastructure.Repositories
 
         public void DeleteProduct(int productId)
         {
-            var product = _context.Products.FirstOrDefault(x => x.Id ==productId);
+            var product = _context.Products.FirstOrDefault(x => x.Id == productId);
             if (product != null)
             {
                 _context.Products.Remove(product);
@@ -32,7 +31,7 @@ namespace CafeMVC.Infrastructure.Repositories
             }
         }
 
-        public IQueryable<Product> GetAllProducts()=> _context.Products.AsNoTracking();
+        public IQueryable<Product> GetAllProducts() => _context.Products.AsNoTracking();
         public Product GetProductById(int productId)
         {
             var product = _context.Products.AsNoTracking()
@@ -45,7 +44,7 @@ namespace CafeMVC.Infrastructure.Repositories
 
         public void UpdateProduct(Product product)
         {
-           // _context.Attach(product);
+            // _context.Attach(product);
             _context.Entry(product).Property("Name").IsModified = true;
             _context.Entry(product).Property("Price").IsModified = true;
             _context.Entry(product).Property("Description").IsModified = true;
@@ -54,12 +53,6 @@ namespace CafeMVC.Infrastructure.Repositories
             _context.Entry(product).Collection("ProductAllergens").IsModified = true;
             _context.Entry(product).Collection("ProductDietInfoTags").IsModified = true;
             _context.SaveChanges();
-        }
-        public void DeleteImageFromProduct(int productId)
-        {
-            Product product = GetProductById(productId);
-            product.ImagePath = null;
-            UpdateProduct(product);
         }
 
         ///***Ingredient Actions***///
@@ -70,12 +63,12 @@ namespace CafeMVC.Infrastructure.Repositories
         }
         public IQueryable<ProductIngredient> GetAllProductIngredients(int productId)
         => _context.ProductIngredients.Where(x => x.ProductId == productId).AsQueryable();
-           
+
         public void RemoveIngredientFromProduct(ProductIngredient productIngredientToBeRemoved)
         {
             _context.ProductIngredients.Remove(productIngredientToBeRemoved);
             _context.SaveChanges();
-            
+
         }
 
         public Ingredient GetIngredientById(int ingredientId) => _context.Ingredients.Find(ingredientId);
@@ -94,14 +87,12 @@ namespace CafeMVC.Infrastructure.Repositories
 
         }
 
-
         ///***Allergens Actions***///
         public void AddAllergenToProduct(ProductAllergen productAllergen)
         {
             _context.ProductAllergens.Add(productAllergen);
             _context.SaveChanges();
         }
-
 
         public IQueryable<ProductAllergen> GetAllAllergensFromProduct(int productId)
         => _context.ProductAllergens.Where(x => x.ProductId == productId).AsQueryable();
@@ -112,24 +103,29 @@ namespace CafeMVC.Infrastructure.Repositories
             _context.SaveChanges();
         }
 
-        public Allergen GetAllergenById(int id)=> _context.Allergens.Find(id);
+        public Allergen GetAllergenById(int id) => _context.Allergens.Find(id);
 
-        public IQueryable<Allergen> GetAllAllergens()=> _context.Allergens.AsNoTracking();
+        public IQueryable<Allergen> GetAllAllergens() => _context.Allergens.AsNoTracking();
 
         public void AddNewAllergen(Allergen allergen)
         {
             _context.Allergens.Add(allergen);
             _context.SaveChanges();
         }
+        public void DeleteAllergen(int allergenId)
+        {
+            _context.Allergens.Remove(GetAllergenById(allergenId));
+            _context.SaveChanges();
+        }
         ///***Diet info Actions***///
 
-        public void AddDietInfoToProduct(ProductDietInfoTag productDietInfoTag )
+        public void AddDietInfoToProduct(ProductDietInfoTag productDietInfoTag)
         {
             _context.ProductDietInfoTags.Add(productDietInfoTag);
             _context.SaveChanges();
         }
 
-        public IQueryable<DietInfoTag> GetAllDietInfo()=> _context.DietInfotags.AsNoTracking();
+        public IQueryable<DietInfoTag> GetAllDietInfo() => _context.DietInfotags.AsNoTracking();
 
         public IQueryable<ProductDietInfoTag> GetAllProductDietInfo(int productId) => _context.ProductDietInfoTags
             .Where(x => x.ProductId == productId).AsQueryable();
@@ -139,8 +135,6 @@ namespace CafeMVC.Infrastructure.Repositories
             _context.ProductDietInfoTags.Remove(productDietInfoTagToBeRemoved);
             _context.SaveChanges();
         }
-
-        public DietInfoTag GetDietInfoTagById(int dietInfoTagId) => _context.DietInfotags.FirstOrDefault(x => x.Id == dietInfoTagId);
 
     }
 }

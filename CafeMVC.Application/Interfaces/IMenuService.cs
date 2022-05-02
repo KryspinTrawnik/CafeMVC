@@ -21,5 +21,6 @@ namespace CafeMVC.Application.Interfaces
 
         void ChangeMenu(MenuForViewVm menuModel);
         MenuForCreationVm GetMenuForCreation();
+        MenuForViewVm GetMenuForView(int manuId);
     }
 }

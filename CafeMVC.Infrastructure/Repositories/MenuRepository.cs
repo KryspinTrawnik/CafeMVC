@@ -16,6 +16,7 @@ namespace CafeMVC.Infrastructure.Repositories
 
         public Menu GetMenuById(int menuId)
         {
+
             Menu menu = _context.Menus.AsNoTracking()
                 .Include(x => x.Products)
                 .FirstOrDefault(x => x.Id == menuId);

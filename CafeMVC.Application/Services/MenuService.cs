@@ -5,6 +5,7 @@ using CafeMVC.Application.ViewModels.Menu;
 using CafeMVC.Application.ViewModels.Products;
 using CafeMVC.Domain.Interfaces;
 using CafeMVC.Domain.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,19 +15,33 @@ namespace CafeMVC.Application.Services
     {
         private readonly IMenuRepository _menuRepository;
         private readonly IProductRepository _productRepository;
+        private readonly IProductService _productService;
         private readonly IMapper _mapper;
 
-        public MenuService(IMenuRepository menuRepository, IMapper mapper, IProductRepository productRepository)
+        public MenuService(IMenuRepository menuRepository, IMapper mapper, IProductRepository productRepository, IProductService productService)
         {
             _productRepository = productRepository;
             _menuRepository = menuRepository;
+            _productService = productService;
             _mapper = mapper;
         }
 
         public void AddNewMenu(MenuForCreationVm menuModel)
         {
             Menu menu = _mapper.Map<Menu>(menuModel);
+            menu.Products = AddListOfProducts(menuModel.ProductsIds);
             _menuRepository.AddNewMenu(menu);
+        }
+
+        private List<Product> AddListOfProducts(List<int> productsIds)
+        {
+            List<Product> menuListofProducts = new();
+            for(int i = 0; i < productsIds.Count; i++)
+            {
+                menuListofProducts.Add(_productRepository.GetProductById(productsIds[i]));
+            }
+
+            return menuListofProducts;
         }
 
         public void AddProductToMenu(int productId, int menuId)
@@ -55,7 +70,8 @@ namespace CafeMVC.Application.Services
 
         public ListOfMenusVm GetAllMenus(int pageSize, int pageNo, string searchString)
         {
-            List<MenuForListVm> allMenus = _menuRepository.GetAllActiveMenus().ProjectTo<MenuForListVm>(_mapper.ConfigurationProvider)
+            List<MenuForListVm> allMenus = _menuRepository.GetAllActiveMenus().Where(x => x.Name.StartsWith(searchString))
+                .ProjectTo<MenuForListVm>(_mapper.ConfigurationProvider)
                 .Skip(pageSize * (pageNo - 1)).Take(pageSize).ToList();
 
             return new()
@@ -77,5 +93,9 @@ namespace CafeMVC.Application.Services
             
             return _mapper.Map<MenuForViewVm>(menu); 
         }
+
+        public MenuForCreationVm GetMenuForCreation()=>new(){ AllProducts = _productRepository.GetAllProducts()
+            .ProjectTo<ProductForListVm>(_mapper.ConfigurationProvider).ToList() };
+        
     }
 }

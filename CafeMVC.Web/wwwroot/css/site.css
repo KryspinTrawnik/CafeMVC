@@ -97,9 +97,10 @@ td.number {
     background-color: #292b2c;
    
 }
-table tr td, table tr th {
+/*table tr td, table tr th {
     background-color: rgba(41,43,44, 0.8);
 }
+*/
 .searchString {
     background-color: #212429;
     width: 30%;

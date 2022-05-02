@@ -1,4 +1,5 @@
-﻿using CafeMVC.Application.Interfaces;
+﻿
+using CafeMVC.Application.Interfaces;
 using CafeMVC.Application.ViewModels.Menu;
 using CafeMVC.Application.ViewModels.Products;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +19,7 @@ namespace CafeMVC.Web.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            var ListOfMenus = _menuService.GetAllMenus(2, 1, "");
+            var ListOfMenus = _menuService.GetAllMenus(20, 1, "");
             return View(ListOfMenus);
         }
         [HttpPost]
@@ -31,8 +32,10 @@ namespace CafeMVC.Web.Controllers
             if(searchString is null)
             {
                 searchString = string.Empty;
+                pageSize = 20;
             }
-            var ListOfMenus = _menuService.GetAllMenus(pageSize,pageNo.Value, searchString);
+            var ListOfMenus = _menuService.GetAllMenus(pageSize, pageNo.Value, searchString);
+
             return View(ListOfMenus);
         }
 
@@ -83,14 +86,19 @@ namespace CafeMVC.Web.Controllers
         [HttpGet]
         public IActionResult AddNewMenu()
         {
-            return View();
+            return View(_menuService.GetMenuForCreation());
         }
         
         [HttpPost]
         public IActionResult AddNewMenu(MenuForCreationVm menuModel)
         {
-            _menuService.AddNewMenu(menuModel);
-            return View();
+            if (menuModel.Btn == "Submit")
+            {
+                _menuService.AddNewMenu(menuModel);
+            }
+
+            return RedirectToAction("index");
+            
         }
 
         [HttpGet]

@@ -3,6 +3,13 @@
 @{
     string title = "All Customers";
 }
+<head>
+    <style>
+        .table {
+    background-color: rgba(41,43,44, 0.8) !important;
+}
+    </style>
+</head>
 <h1>@title</h1>
 
 <p>
@@ -16,7 +23,7 @@
     </div>
     <div class="row">
 
-        <table class="table table-dark" style="width:60%">
+        <table class="table" style="width:60%">
             <thead>
                 <tr>
                     <th>
@@ -48,7 +55,7 @@
         </table>
     </div>
     <div class="row">
-        <tabl>
+        <table class="clean">
             <tr>
                 @for (int i = 1; i <= Math.Ceiling(Model.Count / (double)Model.PageSize); i++)
                 {

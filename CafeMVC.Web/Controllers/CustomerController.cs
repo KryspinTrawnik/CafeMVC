@@ -41,6 +41,7 @@ namespace CafeMVC.Web.Controllers
                 pageSize = 20;
             }
             var listOfCustomers = _customerService.GetCustomersForPages(pageSize, pageNo.Value, searchString);
+
             return View(listOfCustomers);
         }
 

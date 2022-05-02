@@ -51,9 +51,17 @@ namespace CafeMVC.Infrastructure
         {
             base.OnModelCreating(builder);
 
+            builder.Entity<Menu>()
+                .HasMany(m => m.Products)
+                .WithOne(p => p.Menu)
+                .HasForeignKey(p =>p.MenuId)
+                .OnDelete(DeleteBehavior.SetNull);
+
             builder.Entity<ProductIngredient>().HasKey(pi => new { pi.ProductId, pi.IngredientId });
 
-            builder.Entity<ProductIngredient>().HasOne<Product>(pi => pi.Product).WithMany(p => p.ProductIngredients).HasForeignKey(pi => pi.ProductId);
+            builder.Entity<ProductIngredient>().HasOne<Product>(pi => pi.Product)
+                .WithMany(p => p.ProductIngredients)
+                .HasForeignKey(pi => pi.ProductId);
 
             builder.Entity<ProductIngredient>()
                 .HasOne<Ingredient>(pi => pi.Ingredient)

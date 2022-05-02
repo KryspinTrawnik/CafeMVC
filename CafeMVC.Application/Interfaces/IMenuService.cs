@@ -20,6 +20,6 @@ namespace CafeMVC.Application.Interfaces
         void DeleteMenu(int menuId);
 
         void ChangeMenu(MenuForViewVm menuModel);
-
+        MenuForCreationVm GetMenuForCreation();
     }
 }

@@ -3,6 +3,13 @@
 @{
     string title = "All Product";
 }
+<head>
+    <style>
+        .table {
+    background-color: rgba(41,43,44, 0.8) !important;
+}
+    </style>
+</head>
 
 <h1>@title</h1>
 
@@ -19,7 +26,7 @@
         <input type="submit" value="Search" class="searchString"/>
     </div>
     <div class=" row">
-        <table class="table table-dark">
+        <table class="table">
             <thead>
                 <tr>
                     <th>
@@ -53,7 +60,7 @@
         </table>
     </div>
     <div class="row">
-        <table>
+        <table class="clean">
             <tr>
                 @for(int i = 1; i <= (Math.Ceiling(Model.Count / (double)Model.PageSize)); i++)
                 {

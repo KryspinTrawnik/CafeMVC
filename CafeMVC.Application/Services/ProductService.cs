@@ -155,19 +155,19 @@ namespace CafeMVC.Application.Services
         }
         public ListOfProductsVm GetAllProducts(int pageSize, int pageNo, string searchString)
         {
-            List<ProductForListVm> allProducts = _productRepository.GetAllProducts().Where(x => x.Name.StartsWith(searchString))
+            List<ProductForListVm> productsToDisplay = _productRepository.GetAllProducts().Where(x => x.Name.StartsWith(searchString))
+                .Skip(pageSize * (pageNo - 1)).Take(pageSize)
                 .ProjectTo<ProductForListVm>(_mapper.ConfigurationProvider).ToList();
-            List<ProductForListVm> productsToDisplay = allProducts.Skip(pageSize * (pageNo - 1)).Take(pageSize).ToList();
-            ListOfProductsVm listOfAllProducts = new()
+          
+           
+            return new()
             {
                 PageSize = pageSize,
                 CurrentPage = pageNo,
                 SearchString = searchString,
                 ListOfAllProducts = productsToDisplay,
-                Count = allProducts.Count
+                Count = productsToDisplay.Count
             };
-
-            return listOfAllProducts;
         }
         public void DeleteImageFromProduct(int productId)
         {

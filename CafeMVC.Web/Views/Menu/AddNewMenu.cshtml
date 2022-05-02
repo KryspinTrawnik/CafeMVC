@@ -1,0 +1,112 @@
+﻿@model CafeMVC.Application.ViewModels.Menu.MenuForCreationVm
+@{
+    string title = "Create New Menu";
+}
+<head>
+    <link rel="stylesheet" href="~/css/Menu.css" />
+   <style>
+       table{
+border: solid !important;
+}
+   </style>
+</head>
+<h1>@title</h1>
+<br />
+<br />
+@using (Html.BeginForm("AddNewMenu", "Menu", FormMethod.Post))
+{
+    <div>
+        @Html.HiddenFor(m => m.Id)
+        <h4>Menu Name</h4>
+        @Html.TextBoxFor(m => m.Name, new { @class = "textBox" })
+    </div>
+    <div class="menuContainer">
+        <div class="menuConteinerChild">
+            <div class="products">
+                <div class="allProducts" id="allProducts">
+                    @Html.ActionLink("Create New Product", "AddNewProduct", "Product")
+                    <br>
+                    @Html.ActionLink("Edit List Of Products", "Index", "Product")
+                    <table id="allProductsTable">
+                        <tr>
+                            <th>Name</th>
+                            <th>Links</th>
+                        </tr>
+                        <tbody>
+                            @if (Model != null)
+                            {
+                                @if (Model.AllProducts != null)
+                                {
+                                    @foreach (var item in Model.AllProducts)
+                                    {
+                                        if (item != null)
+                                        {
+                                        <tr>
+                                            <td>@item.Name</td>
+                                            <td>
+                                                @Html.ActionLink("View", "ViewProduct", "Product", new{productId = item.Id }) |
+                                                @Html.ActionLink("Edit", "EditProduct", "Product", new{productId = item.Id })
+                                            </td>
+                                            <td>
+                                                <input type="checkbox" class="checkbox" id="checkbox" name="ProductsIds" value=@item.Id><label>Check ME!</label>
+                                            </td>
+                                        </tr>
+                                        }
+                                    }
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="buttons">
+                    
+                </div>
+                <div class="menuProducts">
+                    <table id="menuProductsTable">
+                        <tr>
+                            <th>Name</th>
+                            <th>Links</th>
+                        </tr>
+                        <tbody>
+                        
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+                 <div>
+                        <button type="submit" class="btn btn-success" value="Submit" name="Btn" role="button" >Submit</button>
+                        <button type="submit" class="btn btn-danger" name="Btn" value="Cancel">Cancel</button>
+                    </div>
+            </div>
+        </div>
+    </div>
+}
+@section Scripts{
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script type="text/javascript">
+
+        $('body').on('click','#allProductsTable tbody tr td input.checkbox', function(){
+    if( $(this).attr('checked')){
+    var row = $(this).closest('tr');
+    var value =$(this).value;
+    $
+     $('#menuProductsTable tbody').append(row);
+         $(this).closest('tr').remove();
+    }
+     
+});
+$('body').on('click','#menuProductsTable tbody tr td input.checkbox', function(){
+    //if( $(this).attr('checked')){
+    var row = $(this).closest('tr');
+     $('#allProductsTable tbody').append(row);
+         $(this).closest('tr').remove();
+    //}
+     
+});
+    </Script>
+}

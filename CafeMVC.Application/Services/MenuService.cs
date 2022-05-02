@@ -26,22 +26,22 @@ namespace CafeMVC.Application.Services
             _mapper = mapper;
         }
 
+        private void AddListOfProducts(List<int> productsIds, int newMenuId)
+        {
+            for(int i = 0; i < productsIds.Count; i++)
+            {
+                Product product = _productRepository.GetProductById(productsIds[i]);
+                product.MenuId = newMenuId;
+                _productRepository.UpdateProduct(product);
+            }
+        }
+
         public void AddNewMenu(MenuForCreationVm menuModel)
         {
             Menu menu = _mapper.Map<Menu>(menuModel);
-            menu.Products = AddListOfProducts(menuModel.ProductsIds);
-            _menuRepository.AddNewMenu(menu);
-        }
-
-        private List<Product> AddListOfProducts(List<int> productsIds)
-        {
-            List<Product> menuListofProducts = new();
-            for(int i = 0; i < productsIds.Count; i++)
-            {
-                menuListofProducts.Add(_productRepository.GetProductById(productsIds[i]));
-            }
-
-            return menuListofProducts;
+            int newMenuId = _menuRepository.AddNewMenu(menu);
+            AddListOfProducts(menuModel.ProductsIds, newMenuId);
+          
         }
 
         public void AddProductToMenu(int productId, int menuId)
@@ -96,6 +96,12 @@ namespace CafeMVC.Application.Services
 
         public MenuForCreationVm GetMenuForCreation()=>new(){ AllProducts = _productRepository.GetAllProducts()
             .ProjectTo<ProductForListVm>(_mapper.ConfigurationProvider).ToList() };
-        
+
+        public MenuForViewVm GetMenuForView(int manuId)
+        {
+            Menu menu = _menuRepository.GetMenuById(manuId);
+
+            return _mapper.Map<MenuForViewVm>(menu);
+        }
     }
 }

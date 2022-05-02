@@ -48,6 +48,7 @@ namespace CafeMVC.Infrastructure.Repositories
             _context.Entry(product).Property("Name").IsModified = true;
             _context.Entry(product).Property("Price").IsModified = true;
             _context.Entry(product).Property("Description").IsModified = true;
+            _context.Entry(product).Property("MenuId").IsModified = true;
             _context.Entry(product).Property("ImagePath").IsModified = true;
             _context.Entry(product).Collection("ProductIngredients").IsModified = true;
             _context.Entry(product).Collection("ProductAllergens").IsModified = true;

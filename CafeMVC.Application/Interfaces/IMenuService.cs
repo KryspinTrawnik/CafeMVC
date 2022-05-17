@@ -5,7 +5,7 @@ namespace CafeMVC.Application.Interfaces
 {
     public interface IMenuService
     {
-        ListOfMenusVm GetAllMenus(int pageSize, int pageNo, string searchString);
+        ListOfMenusVm GetMenusToDisplay(int pageSize, int pageNo, string searchString);
 
         MenuForViewVm GetAllProducstOfMenu(int menuTypeId);
 
@@ -19,8 +19,12 @@ namespace CafeMVC.Application.Interfaces
 
         void DeleteMenu(int menuId);
 
-        void ChangeMenu(MenuForViewVm menuModel);
+        void ChangeMenu(MenuForCreationVm menuModel);
+
         MenuForCreationVm GetMenuForCreation();
+
         MenuForViewVm GetMenuForView(int manuId);
+
+        MenuForCreationVm GetMenuForEdition(int menuId);
     }
 }

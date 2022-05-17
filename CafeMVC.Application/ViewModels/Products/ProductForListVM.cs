@@ -11,7 +11,7 @@ namespace CafeMVC.Application.ViewModels.Products
         
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<CafeMVC.Domain.Model.Product, ProductForListVm>();
+            profile.CreateMap<CafeMVC.Domain.Model.Product, ProductForListVm>().ReverseMap();
         }
     }
 }

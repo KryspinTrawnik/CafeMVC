@@ -2,21 +2,55 @@
     position: relative;
     display: grid;
     overflow: auto;
-    height: 410px;
+    height: 400px;
     font-size: 0px;
 }
+
 .menuConteinerChild {
     display: grid;
     grid-template-columns: 1fr;
     height: 100%;
 }
+
+.productTables {
+    width: 100%;
+    background-color: rgba(41,43,44, 0.8);
+    
+   
+}
+
+tr {
+    height: 40px;
+    position: relative;
+    border-bottom: dotted thin;
+}
+
+table td {
+    width: auto;
+    height: 10%;
+}
+
+
+.headerTable {
+    text-align: center;
+    font-size: medium;
+    border-bottom: none;
+}
+.secondHeader{
+    border-bottom:solid;
+}
+
 .products {
     display: grid;
-    grid-template-columns: 40% auto 40%;
+    grid-template-columns: 50% 50%;
     font-size: 16px;
     height: 100%;
 }
+
 .buttons {
     display: grid;
     justify-items: stretch;
+}
+.submitButtons{
+    text-align: right;
 }

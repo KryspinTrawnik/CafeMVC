@@ -38,8 +38,8 @@ namespace CafeMVC.Web.Controllers
             if (searchString is null)
             {
                 searchString = String.Empty;
-                pageSize = 20;
             }
+            pageSize = 20;
             var listOfCustomers = _customerService.GetCustomersForPages(pageSize, pageNo.Value, searchString);
 
             return View(listOfCustomers);

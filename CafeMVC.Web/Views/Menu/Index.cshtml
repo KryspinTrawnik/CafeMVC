@@ -47,9 +47,9 @@
                         </td>
 
                         <td>
-                            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                            @Html.ActionLink("Edit", "EditMenu", new {  menuId = item.Id }) |
                             @Html.ActionLink("Details", "ViewMenu", new { menuId = item.Id }) |
-                            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                            @Html.ActionLink("Delete", "DeleteMenu", new { menuId = item.Id})
                         </td>
                     </tr>
                 }
@@ -57,7 +57,7 @@
         </table>
     </div>
     <div class="row">
-        <table class="clean">
+        <table class="pagerTable">
             <tr>
                 @for (int i = 1; i <= Math.Ceiling(Model.Count / (double)Model.PageSize); i++)
                 {
@@ -75,7 +75,7 @@
             </tr>
         </table>
         <input type="hidden" name="pageNo" id="pageNo" />
-        <input type="hidden" name="pageSize" id="pageSize" value="2" />
+        <input type="hidden" name="pageSize" id="pageSize"/>
     </div>
 </form>
 @section Scripts

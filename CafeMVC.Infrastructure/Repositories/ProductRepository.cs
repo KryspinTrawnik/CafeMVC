@@ -31,14 +31,26 @@ namespace CafeMVC.Infrastructure.Repositories
             }
         }
 
-        public IQueryable<Product> GetAllProducts() => _context.Products.AsNoTracking();
+        public IQueryable<Product> GetAllProducts() => _context.Products.AsNoTrackingWithIdentityResolution();
+            //.Include(x => x.Menu).AsNoTracking()
+            //.Include(x => x.ProductIngredients)
+            //    .ThenInclude(x => x.Ingredient).AsNoTracking()
+            // .Include(x => x.ProductAllergens)
+            //     .ThenInclude(x => x.Allergen).AsNoTracking()
+            // .Include(x => x.ProductDietInfoTags)
+            //     .ThenInclude(x => x.DietInfoTag).AsNoTracking();
         public Product GetProductById(int productId)
         {
-            var product = _context.Products.AsNoTracking()
-                .Include(x => x.ProductIngredients).ThenInclude(x => x.Ingredient)
-                .Include(x => x.ProductAllergens).ThenInclude(x => x.Allergen)
-                .Include(x => x.ProductDietInfoTags).ThenInclude(x => x.DietInfoTag)
+            Product product = _context.Products
+                //.Include(x => x.Menu).AsNoTracking()
+                //.Include(x => x.ProductIngredients)
+                //    .ThenInclude(x => x.Ingredient).AsNoTracking()
+                //.Include(x => x.ProductAllergens)
+                //    .ThenInclude(x => x.Allergen).AsNoTracking()
+                //.Include(x => x.ProductDietInfoTags)
+                //    .ThenInclude(x => x.DietInfoTag).AsNoTracking()
                 .FirstOrDefault(x => x.Id == productId);
+            
             return product;
         }
 

@@ -1,7 +1,118 @@
 ﻿@model CafeMVC.Application.ViewModels.Menu.MenuForViewVm
 @{
     string title = Model.Name;
+    string ingredientToDisplay, dietInfoToDisplay;
 }
+<head>
+    <link rel="stylesheet" href="~/css/Menu.css" />
+
+</head>
+
 
 <h1>@title</h1>
+<div class="ViewMenuContainer">
+    @foreach (var item in Model.Products)
+    {
+        <div class="ViewMenuContainerChild">
+            <div class="picture">
+                <div class="pictureFrame">
+                    <div class="displayPicture" style=" background-image: url('@item.BasePath');"></div>
+                </div>
+            </div>
+            <div class="description">
+                <div>
+                    <h3>@item.Name</h3>
+                    <hr>
+                </div>
 
+                <div>@item.Description</div>
+                <hr>
+                <div>
+                    <p>Igredients: &emsp;
+                    @for (int i = 0; i < item.Ingredients.Count; i++)
+                    {
+                        if (i != (item.Ingredients.Count - 1))
+                        {
+                            ingredientToDisplay = item.Ingredients[i].Name + ", ";
+                            @ingredientToDisplay
+                        }
+                        else
+                        {
+                            @item.Ingredients[i].Name
+                        }
+                    }
+                    <hr>
+                </div>
+                @if (item.Allergens != null)
+                {
+                    <div>
+                        Allergens: &emsp;
+                        @for (int i = 0; i < item.Allergens.Count; i++)
+                        {
+                            if (i != (item.Allergens.Count - 1))
+                            {
+                                dietInfoToDisplay = item.Allergens[i].Name + ", ";
+                                @dietInfoToDisplay
+                            }
+                            else
+                            {
+                                @item.Allergens[i].Name
+                            }
+                        }
+                        <hr>
+                    </div>
+                }
+                @if (item.DietInformations != null)
+                {
+                    <div>
+                        Product is: &emsp;
+                        @for (int i = 0; i < item.DietInformations.Count; i++)
+                        {
+                            if (i != (item.DietInformations.Count - 1))
+                            {
+                                dietInfoToDisplay = item.DietInformations[i].Name + ", ";
+                                @dietInfoToDisplay
+                            }
+                            else
+                            {
+                                @item.DietInformations[i].Name
+                            }
+                        }
+                    </div>
+                }
+            </div>
+            <div class="functions">
+                <div><h3 id="price">&#163;@item.Price</h3></div>
+                <div><button class="button button5 btn-plus" data-id="textbox{@item.Id}" id="@item.Id" onclick="functionUp('textbox{@item.Id}')">+</button></div>
+
+                <div><input type="text" min="0" id="textbox{@item.Id}" class="counter textBox" value="0" /></div>
+                <div><button class="button button5 btn-minus" onclick="functionDown('textbox{@item.Id}')">-</button></div>
+                <br>
+                <div> <button name="AddToCart" id="AddToCart" class="textBox">Add To Cart</button></div>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        function functionUp(id) {
+            var value = parseInt(document.getElementById(id).value, 10);
+            value = isNaN(value) ? 0 : value;
+            value++;
+            document.getElementById(id).value = value;
+        }
+        function functionDown(id) {
+            var value = parseInt(document.getElementById(id).value, 10);
+            value = isNaN(value) ? 0 : value;
+            value--;
+            if (value >= 0) {
+
+                document.getElementById(id).value = value;
+            }
+        }
+    </script>
+
+
+
+}

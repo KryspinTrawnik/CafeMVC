@@ -15,12 +15,14 @@ namespace CafeMVC.Application.Services
     {
         private readonly IMenuRepository _menuRepository;
         private readonly IProductRepository _productRepository;
+        private readonly IProductService _productService;
         private readonly IMapper _mapper;
 
         public MenuService(IMenuRepository menuRepository, IMapper mapper, IProductRepository productRepository, IProductService productService)
         {
             _productRepository = productRepository ?? throw new ArgumentNullException();
             _menuRepository = menuRepository ?? throw new ArgumentNullException();
+            _productService = productService ?? throw new ArgumentNullException();
             _mapper = mapper ?? throw new ArgumentNullException();
         }
 
@@ -130,8 +132,14 @@ namespace CafeMVC.Application.Services
         public MenuForViewVm GetMenuForView(int manuId)
         {
             Menu menu = _menuRepository.GetMenuById(manuId);
+            MenuForViewVm menuForView = _mapper.Map<MenuForViewVm>(menu);
+            for (int i = 0; i < menuForView.Products.Count; i++ )
+            {
+                var productForView = _productService.GetProductForViewById(menuForView.Products[i].Id);
+                menuForView.Products[i] = productForView;
+            }
 
-            return _mapper.Map<MenuForViewVm>(menu);
+            return menuForView;
         }
 
         public MenuForCreationVm GetMenuForEdition(int menuId)

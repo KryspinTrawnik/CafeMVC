@@ -11,6 +11,8 @@ namespace CafeMVC.Application.ViewModels.Menu
         
         public string Name { get; set; }
 
+        public List<ProductForListVm> Products { get; set; }
+
         public List<ProductForListVm> AllProducts { get; set; }
 
         public List <int> ProductsIds { get; set; }

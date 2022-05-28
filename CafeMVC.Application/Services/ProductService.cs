@@ -52,27 +52,36 @@ namespace CafeMVC.Application.Services
             newProduct.ProductIngredients = new List<ProductIngredient>();
             newProduct.ProductAllergens = new List<ProductAllergen>();
             newProduct.ProductDietInfoTags = new List<ProductDietInfoTag>();
-            foreach (int item in productVm.IngredientsIds)
+            if (productVm.IngredientsIds != null)
             {
-                newProduct.ProductIngredients.Add(new ProductIngredient()
+                foreach (int item in productVm.IngredientsIds)
                 {
-                    IngredientId = item,
-                });
+                    newProduct.ProductIngredients.Add(new ProductIngredient()
+                    {
+                        IngredientId = item,
+                    });
+                }
             }
-            foreach (int item in productVm.AllergensIds)
+            if (productVm.AllergensIds != null)
             {
-                newProduct.ProductAllergens.Add(new ProductAllergen()
+                foreach (int item in productVm.AllergensIds)
                 {
-                    AllergenId = item,
-                });
-            };
-            foreach (int item in productVm.DietInfoIds)
+                    newProduct.ProductAllergens.Add(new ProductAllergen()
+                    {
+                        AllergenId = item,
+                    });
+                };
+            }
+            if (productVm.DietInfoIds != null)
             {
-                newProduct.ProductDietInfoTags.Add(new ProductDietInfoTag()
+                foreach (int item in productVm.DietInfoIds)
                 {
-                    DietInfoTagId = item,
-                });
-            };
+                    newProduct.ProductDietInfoTags.Add(new ProductDietInfoTag()
+                    {
+                        DietInfoTagId = item,
+                    });
+                };
+            }
             return newProduct;
         }
         private Product PrepareProductForSaving(ProductForCreationVm newProductVm)
@@ -95,10 +104,10 @@ namespace CafeMVC.Application.Services
         private List<DietInfoForViewVm> GetAllProductDietInfo(int productId) => _productRepository.GetAllProductDietInfo(productId)
             .Select(x => x.DietInfoTag).ProjectTo<DietInfoForViewVm>(_mapper.ConfigurationProvider).ToList();
 
-        private void UpdateProductDieteInfoTagTable(int productId, List<ProductDietInfoTag> productDietInfoTag)
+        private void UpdateProductDieteInfoTagTable(int productId, List<ProductDietInfoTag> productDietInfoTags)
         {
             List<ProductDietInfoTag> allProductDietInfoTags = _productRepository.GetAllProductDietInfo(productId).ToList();
-            List<ProductDietInfoTag> toBeRemoved = allProductDietInfoTags.Except(productDietInfoTag, new Helper()).ToList();
+            List<ProductDietInfoTag> toBeRemoved = allProductDietInfoTags.Except(productDietInfoTags, new Helper()).ToList();
             if (toBeRemoved != null)
             {
                 for (int i = 0; i < toBeRemoved.Count; i++)
@@ -106,7 +115,7 @@ namespace CafeMVC.Application.Services
                     _productRepository.RemoveDietInfoFromProduct(toBeRemoved[i]);
                 }
             }
-            List<ProductDietInfoTag> toBeAdded = productDietInfoTag
+            List<ProductDietInfoTag> toBeAdded = productDietInfoTags
                 .Except(_productRepository.GetAllProductDietInfo(productId), new Helper()).ToList();
             if (toBeAdded != null)
             {
@@ -158,8 +167,8 @@ namespace CafeMVC.Application.Services
             List<ProductForListVm> productsToDisplay = _productRepository.GetAllProducts().Where(x => x.Name.StartsWith(searchString))
                 .Skip(pageSize * (pageNo - 1)).Take(pageSize)
                 .ProjectTo<ProductForListVm>(_mapper.ConfigurationProvider).ToList();
-          
-           
+
+
             return new()
             {
                 PageSize = pageSize,

@@ -5,9 +5,9 @@ namespace CafeMVC.Domain.Interfaces
 {
     public interface IMenuRepository
     {
-        IQueryable<Menu> GetAllActiveMenus();
+        IQueryable<Menu> GetAllMenus();
 
-        void AddNewProduct(Product product, int menuId);
+        void AddProductToMenu(int productId, int menuId);
 
         int AddNewMenu(Menu menu);
 

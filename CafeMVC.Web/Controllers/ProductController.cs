@@ -34,8 +34,8 @@ namespace CafeMVC.Web.Controllers
             if (searchString is null)
             {
                 searchString = string.Empty;
-                pageSize = 20;
             }
+            pageSize = 20;
             ListOfProductsVm allProductsList = _productService.GetAllProducts(pageSize, pageNo.Value, searchString);
 
             return View(allProductsList);

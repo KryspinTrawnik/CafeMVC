@@ -20,47 +20,48 @@ namespace CafeMVC.Application.Services
         {
             _customerRepository = customerRepository ?? throw new ArgumentNullException();
             _mapper = mapper ?? throw new ArgumentNullException();
-            _addressService = addressService ?? throw new ArgumentNullException() ;
+            _addressService = addressService ?? throw new ArgumentNullException();
         }
 
         public CustomerForSummaryVm AddNewCustomer(CustomerForCreationVm customerVm)
         {
             CustomerForCreationVm newCustomer = _addressService.SetInitialContactsAndAddressesTypes(customerVm);
             Customer customer = _mapper.Map<Customer>(newCustomer);
-            
+
             return GetLastAddedCustomer(_customerRepository.AddNewCustomer(customer));
         }
 
         public void DeleteCustomer(int customerId) => _customerRepository.DeleteCustomer(customerId);
-        
+
         public ListOfCustomers GetCustomersForPages(int pageSize, int pageNo, string searchString)
         {
-            List<CustomerForListVm> customersForLists = _customerRepository.GetAllCustomers().Where(x => x.FirstName.StartsWith(searchString) || x.Surname.StartsWith(searchString))
-                .ProjectTo<CustomerForListVm>(_mapper.ConfigurationProvider).Skip(pageSize * (pageNo - 1)).Take(pageSize).ToList();
-            
+            List<CustomerForListVm> allCustomers = _customerRepository.GetAllCustomers().Where(x => x.FirstName.StartsWith(searchString) || x.Surname.StartsWith(searchString))
+                .ProjectTo<CustomerForListVm>(_mapper.ConfigurationProvider).ToList();
+            List<CustomerForListVm> customersToDisplay = allCustomers.Skip(pageSize * (pageNo - 1)).Take(pageSize).ToList();
+
             return new()
             {
-                ListOfAllCustomers = customersForLists,
+                ListOfAllCustomers = customersToDisplay,
                 PageSize = pageSize,
                 CurrentPage = pageNo,
                 SearchString = searchString,
-                Count = customersForLists.Count
+                Count = allCustomers.Count
             };
         }
 
         public CustomerForSummaryVm GetLastAddedCustomer(int id)
         {
             Customer theLastCustomer = _customerRepository.GetCustomerById(id);
-          
+
             return _mapper.Map<CustomerForSummaryVm>(theLastCustomer);
         }
 
         public CustomerDetailViewsVm GetCustomerDetail(int customerId)
         {
             Customer customer = _customerRepository.GetCustomerById(customerId);
-            
+
             return _mapper.Map<CustomerDetailViewsVm>(customer);
         }
-        
+
     }
 }

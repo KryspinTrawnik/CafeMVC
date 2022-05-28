@@ -110,3 +110,10 @@ td.number {
     background-color: #815654;
     width: 10%;
 }
+
+.pagerTable{
+    width:auto;
+}
+.pagerTable td{
+    width: 30px;
+}

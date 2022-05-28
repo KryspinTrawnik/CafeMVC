@@ -17,30 +17,33 @@ namespace CafeMVC.Infrastructure.Repositories
         public Menu GetMenuById(int menuId)
         {
 
-            Menu menu = _context.Menus.AsNoTracking()
-                .Include(x => x.Products)
+            Menu menu = _context.Menus.AsNoTrackingWithIdentityResolution()
+                .Include(x => x.Products).AsNoTracking()
                 .FirstOrDefault(x => x.Id == menuId);
+
             return menu;
         }
         public void UpdateMenu(Menu menu)
         {
-            _context.Attach(menu);
-            _context.Entry(menu).Property("Products");
-            _context.Entry(menu).Property("Name");
+            _context.Entry(menu).Collection("Products").IsModified = true;
+            _context.Entry(menu).Property("Name").IsModified = true;
+            _context.Entry(menu).Property("HasBeenRemoved").IsModified = true;
             _context.SaveChanges();
         }
-        public void AddNewProduct(Product product, int menuId)
+        public void AddProductToMenu(int menuId, int productId)
         {
-            var menu = GetMenuById(menuId);
-            menu.Products.Add(product);
-            UpdateMenu(menu);
+           Product product= _context.Products.FirstOrDefault(x => x.Id == productId);
+           product.MenuId = menuId;
+            _context.Entry(product).Property("MenuId").IsModified = true;
+            _context.SaveChanges();
         }
 
         public void DeleteProductFromMenu(int menuId, int productId)
         {
-            var menu = GetMenuById(menuId);
-            menu.Products.Remove(menu.Products.ToList().Find(x => x.Id == productId));
-            UpdateMenu(menu);
+            Product product = _context.Products.FirstOrDefault(x => x.Id == productId);
+            product.MenuId = null;
+            _context.Entry(product).Property("MenuId").IsModified = true;
+            _context.SaveChanges();
         }
 
         public IQueryable<Product> GetAllProduct(int menuId)=>GetMenuById(menuId).Products.AsQueryable();
@@ -63,17 +66,18 @@ namespace CafeMVC.Infrastructure.Repositories
 
         public void DeleteMenu(int menuId)
         {
-            var menu = _context.Menus.Find(menuId);
-            menu.HasBeenRemoved = true;
-            UpdateMenu(menu);
+            Menu menu = _context.Menus.FirstOrDefault(x => x.Id == menuId);
+            if(menu != null)
+            {
+                _context.Menus.Remove(menu);
+                _context.SaveChanges();
+            }
         }
 
-        public IQueryable<Menu> GetAllActiveMenus()
+        public IQueryable<Menu> GetAllMenus()
         {
-            var activeMenus = _context.Menus.AsNoTracking()
-                .Include(x => x.Products)
-                .Where(x => x.HasBeenRemoved == false);
-
+            var activeMenus = _context.Menus.AsNoTracking();
+                
             return activeMenus;
         }
     }

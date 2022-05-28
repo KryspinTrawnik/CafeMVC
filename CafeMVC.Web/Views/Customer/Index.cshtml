@@ -55,7 +55,7 @@
         </table>
     </div>
     <div class="row">
-        <table class="clean">
+        <table class="pagerTable">
             <tr>
                 @for (int i = 1; i <= Math.Ceiling(Model.Count / (double)Model.PageSize); i++)
                 {
@@ -73,7 +73,7 @@
             </tr>
             </table>
             <input type="hidden" name="pageNo" id="pageNo" />
-            <input type="hidden" name="pageSize" id="pageSize" value="20" />
+            <input type="hidden" name="pageSize" id="pageSize" />
     </div>
 </form>
 @section Scripts

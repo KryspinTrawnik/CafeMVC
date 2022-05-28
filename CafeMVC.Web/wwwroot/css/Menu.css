@@ -1,22 +1,134 @@
-﻿.menuContainer {
+﻿input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    /*opacity: 0;*/
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.menuContainer {
     position: relative;
     display: grid;
     overflow: auto;
-    height: 410px;
+    height: 400px;
     font-size: 0px;
 }
+
 .menuConteinerChild {
     display: grid;
     grid-template-columns: 1fr;
     height: 100%;
 }
+
+.productTables {
+    width: 100%;
+    background-color: rgba(41,43,44, 0.8);
+    
+}
+
+tr {
+    height: 40px;
+    position: relative;
+    border-bottom: dotted thin;
+}
+
+table td {
+    width: auto;
+    height: 10%;
+}
+
+
+.headerTable {
+    text-align: center;
+    font-size: medium;
+    border-bottom: none;
+}
+.secondHeader{
+    border-bottom:solid;
+}
+
 .products {
     display: grid;
-    grid-template-columns: 40% auto 40%;
+    grid-template-columns: 50% 50%;
     font-size: 16px;
     height: 100%;
 }
+
 .buttons {
     display: grid;
     justify-items: stretch;
+}
+.submitButtons{
+    text-align: right;
+}
+.ViewMenuContainer {
+    font-size: 0px;
+    position: relative;
+    /*border: solid green;*/
+}
+
+.ViewMenuContainerChild {
+    display: grid;
+    grid-template-columns: 300px 1fr 20%;
+    font-size: 18px;
+    height: 300px;
+    border-bottom:dotted;
+    background-color: rgba(41,43,44, 0.8);
+}
+.displayPicture {
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    background-size: cover;
+    text-align: center;
+}
+.pictureFrame {
+    height: 100%;
+    border: solid black;
+}
+.picture{
+    height: 100%;
+}
+
+.description {
+    /*border: solid yellow;*/
+    margin: 4px;
+    text-align: center;
+}
+#price{
+    align-self: self-end;
+    margin-right: -5%;
+}
+.functions {
+    text-align: right;
+    margin: 4px;
+   margin-right: 10%;
+}
+.button {
+    background-color: #616161;
+    border: none;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+   
+}
+.button5 {
+    border-radius: 80%;
+}
+.counter{
+    width: 40px;
+    text-align: center;
+}
+#AddToCart {
+    background-color: #616161;
+    font-size: 16px;
+    margin-right: -10%;
+    width: 25%;
 }

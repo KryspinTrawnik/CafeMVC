@@ -13,7 +13,7 @@ namespace CafeMVC.Application.Services
 {
     
     public class Helper : IEqualityComparer<AllergenForViewVm>, IEqualityComparer<IngredientForViewVm>, IEqualityComparer<ProductIngredient>
-        , IEqualityComparer<ProductAllergen> , IEqualityComparer<ProductDietInfoTag>
+        , IEqualityComparer<ProductAllergen> , IEqualityComparer<ProductDietInfoTag>, IEqualityComparer<int>
     {
         public static double StringToDouble(string numberToConvert)
         {
@@ -122,6 +122,25 @@ namespace CafeMVC.Application.Services
             if (Object.ReferenceEquals(obj, null)) return 0;
 
             int hashProductCode = obj.DietInfoTagId.GetHashCode();
+
+            return hashProductCode;
+        }
+
+        public bool Equals(int x, int y)
+        {
+            if (Object.ReferenceEquals(x, y)) return true;
+
+            if (Object.ReferenceEquals(x, null) || Object.ReferenceEquals(y, null))
+                return false;
+
+            return x == y;
+        }
+
+        public int GetHashCode(int obj)
+        {
+            if (Object.ReferenceEquals(obj, null)) return 0;
+
+            int hashProductCode = obj.GetHashCode();
 
             return hashProductCode;
         }

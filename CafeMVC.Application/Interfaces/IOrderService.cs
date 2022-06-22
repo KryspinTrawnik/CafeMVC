@@ -1,6 +1,6 @@
-﻿using CafeMVC.Application.ViewModels.Customer;
-using CafeMVC.Application.ViewModels.Orders;
+﻿using CafeMVC.Application.ViewModels.Orders;
 using CafeMVC.Application.ViewModels.Products;
+using Microsoft.AspNetCore.Http;
 using System;
 
 namespace CafeMVC.Application.Interfaces
@@ -11,7 +11,7 @@ namespace CafeMVC.Application.Interfaces
 
         ListOfProductsVm GetAllProducts(int orderId);
 
-        void AddProductToOrder(int orderId, int productId);
+        void AddProductToOrder(int quantity, int productId, ISession session);
 
         void RemoveProduct(int productId, int orderId);
 

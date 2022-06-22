@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using CafeMVC.Application.Interfaces;
+using CafeMVC.Application.Services.Helpers;
 using CafeMVC.Application.ViewModels.Menu;
 using CafeMVC.Application.ViewModels.Products;
 using CafeMVC.Domain.Interfaces;

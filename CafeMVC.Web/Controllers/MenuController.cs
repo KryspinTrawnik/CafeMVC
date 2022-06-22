@@ -1,7 +1,7 @@
-﻿
-using CafeMVC.Application.Interfaces;
+﻿using CafeMVC.Application.Interfaces;
 using CafeMVC.Application.ViewModels.Menu;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 
 namespace CafeMVC.Web.Controllers
 {
@@ -17,16 +17,17 @@ namespace CafeMVC.Web.Controllers
         public IActionResult Index()
         {
             var ListOfMenus = _menuService.GetMenusToDisplay(20, 1, "");
+           
             return View(ListOfMenus);
         }
         [HttpPost]
         public IActionResult Index(int pageSize, int? pageNo, string searchString)
         {
-            if(!pageNo.HasValue)
+            if (!pageNo.HasValue)
             {
                 pageNo = 1;
             }
-            if(searchString is null)
+            if (searchString is null)
             {
                 searchString = string.Empty;
             }
@@ -40,13 +41,14 @@ namespace CafeMVC.Web.Controllers
         public IActionResult VieWProductsByMenuType(int menuTypeId)
         {
             var ListOfProductByMenu = _menuService.GetAllProducstOfMenu(menuTypeId);
+            
             return View(ListOfProductByMenu);
         }
         [HttpGet]
         public IActionResult ViewMenu(int menuId)
         {
             MenuForViewVm menuForView = _menuService.GetMenuForView(menuId);
-
+            
             return View(menuForView);
         }
 
@@ -55,7 +57,7 @@ namespace CafeMVC.Web.Controllers
         {
             return View(_menuService.GetMenuForCreation());
         }
-        
+
         [HttpPost]
         public IActionResult AddNewMenu(MenuForCreationVm menuModel)
         {
@@ -65,7 +67,7 @@ namespace CafeMVC.Web.Controllers
             }
 
             return RedirectToAction("index");
-            
+
         }
 
         public IActionResult DeleteMenu(int menuId)
@@ -79,6 +81,7 @@ namespace CafeMVC.Web.Controllers
         public IActionResult EditMenu(int menuId)
         {
             MenuForCreationVm menu = _menuService.GetMenuForEdition(menuId);
+            
             return View(menu);
         }
         [HttpPost]

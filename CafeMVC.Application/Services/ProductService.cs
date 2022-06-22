@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using CafeMVC.Application.Helpers;
 using CafeMVC.Application.Interfaces;
+using CafeMVC.Application.Services.Helpers;
 using CafeMVC.Application.ViewModels.Products;
 using CafeMVC.Domain.Interfaces;
 using CafeMVC.Domain.Model;
@@ -107,7 +109,7 @@ namespace CafeMVC.Application.Services
         private void UpdateProductDieteInfoTagTable(int productId, List<ProductDietInfoTag> productDietInfoTags)
         {
             List<ProductDietInfoTag> allProductDietInfoTags = _productRepository.GetAllProductDietInfo(productId).ToList();
-            List<ProductDietInfoTag> toBeRemoved = allProductDietInfoTags.Except(productDietInfoTags, new Helper()).ToList();
+            List<ProductDietInfoTag> toBeRemoved = allProductDietInfoTags.Except(productDietInfoTags, new DietInfoTagComparerHelper()).ToList();
             if (toBeRemoved != null)
             {
                 for (int i = 0; i < toBeRemoved.Count; i++)
@@ -116,7 +118,7 @@ namespace CafeMVC.Application.Services
                 }
             }
             List<ProductDietInfoTag> toBeAdded = productDietInfoTags
-                .Except(_productRepository.GetAllProductDietInfo(productId), new Helper()).ToList();
+                .Except(_productRepository.GetAllProductDietInfo(productId), new DietInfoTagComparerHelper()).ToList();
             if (toBeAdded != null)
             {
                 for (int i = 0; i < toBeAdded.Count; i++)
@@ -145,9 +147,10 @@ namespace CafeMVC.Application.Services
             productForEdition.Allergens = _allergernService.GetAllProductAllergens(productId);
             productForEdition.DietInfoForViewVms = GetAllProductDietInfo(productId);
             productForEdition.Ingredients = _ingredientService.GetProductAllIngredients(productId);
-            List<AllergenForViewVm> residualAllergens = _allergernService.GetAllAllergens().Except(productForEdition.Allergens, new Helper()).ToList();
+            List<AllergenForViewVm> residualAllergens = _allergernService.GetAllAllergens().Except(productForEdition.Allergens, new AllergenComparerHelper()).ToList();
             productForEdition.AllAllergens = residualAllergens;
-            List<IngredientForViewVm> residualIngredients = _ingredientService.GetAllIngredients().Except(productForEdition.Ingredients, new Helper()).ToList();
+            List<IngredientForViewVm> residualIngredients = _ingredientService.GetAllIngredients()
+                .Except(productForEdition.Ingredients, new IngredientComparerHelper()).ToList();
             productForEdition.AllIngredients = residualIngredients;
             productForEdition.AllDietInfoForViewVms = GetAllDietInfo();
             productForEdition.PriceString = productForEdition.Price.ToString();

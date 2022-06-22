@@ -13,6 +13,7 @@ namespace CafeMVC.Domain.Model
         public string ImagePath { get; set; }
 
         public int? MenuId { get; set; }
+
         public virtual Menu Menu { get; set; }
 
         public virtual ICollection<ProductIngredient> ProductIngredients { get; set; }
@@ -21,6 +22,6 @@ namespace CafeMVC.Domain.Model
 
         public virtual ICollection<ProductDietInfoTag> ProductDietInfoTags { get; set; }
 
-        public virtual ICollection<OrderProduct> OrderProducts { get; set; }
+        public virtual ICollection<OrderedProductDetails> OrderedProductsDetails { get; set; }
     }
 }

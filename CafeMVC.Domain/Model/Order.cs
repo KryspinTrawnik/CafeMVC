@@ -21,7 +21,7 @@ namespace CafeMVC.Domain.Model
 
         public virtual ICollection<OrderAddress> OrderAddresses { get; set; }
 
-        public virtual ICollection<OrderProduct> OrderProducts { get; set; }
+        public virtual ICollection<OrderedProductDetails> OrderedProductsDetails { get; set; }
 
         public string OrderConfirmation { get; set; }
 

@@ -18,7 +18,7 @@ namespace CafeMVC.Infrastructure.Repositories
             var order = _context.Orders.AsNoTracking()
                 .Include(x => x.Customer)
                 .Include(x => x.OrderContactDetails)
-                .Include(x => x.OrderProducts)
+                .Include(x => x.OrderedProductsDetails)
                 .FirstOrDefault(x => x.Id == orderId);
 
             return order;
@@ -28,7 +28,7 @@ namespace CafeMVC.Infrastructure.Repositories
             return _context.Orders.AsNoTracking()
                 .Include(x => x.Customer)
                 .Include(x=> x.OrderContactDetails)
-                .Include(x=> x.OrderProducts)
+                .Include(x=> x.OrderedProductsDetails)
                 .Where(x => x.Status.Name == "Open");
 
         }
@@ -55,10 +55,10 @@ namespace CafeMVC.Infrastructure.Repositories
             return order.Id;
         }
 
-        public IQueryable<OrderProduct> GetAllProductsFromOrder(int orderId)
+        public IQueryable<OrderedProductDetails> GetAllProductsFromOrder(int orderId)
         {
             var productsFromOrder = _context.Orders.AsNoTracking()
-                .Include(x => x.OrderProducts).FirstOrDefault(x => x.Id == orderId).OrderProducts.AsQueryable();
+                .Include(x => x.OrderedProductsDetails).FirstOrDefault(x => x.Id == orderId).OrderedProductsDetails.AsQueryable();
             return productsFromOrder;
         }
 
@@ -83,7 +83,7 @@ namespace CafeMVC.Infrastructure.Repositories
             return _context.Orders.AsNoTracking()
                     .Include(x => x.Customer)
                     .Include(x => x.OrderContactDetails)
-                    .Include(x => x.OrderProducts);
+                    .Include(x => x.OrderedProductsDetails);
         }
     }
 }

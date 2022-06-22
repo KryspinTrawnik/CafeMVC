@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using CafeMVC.Application.Helpers;
 using CafeMVC.Application.Interfaces;
+using CafeMVC.Application.Services.Helpers;
 using CafeMVC.Application.ViewModels.Products;
 using CafeMVC.Domain.Interfaces;
 using CafeMVC.Domain.Model;
@@ -44,7 +46,7 @@ namespace CafeMVC.Application.Services
         public void UpdateProductIngredientTable(int productId, List<ProductIngredient> productIngredients)
         {
             List<ProductIngredient> allProductIngredient = _productRepository.GetAllProductIngredients(productId).ToList();
-            List<ProductIngredient> toBeRemoved = allProductIngredient.Except(productIngredients, new Helper()).ToList();
+            List<ProductIngredient> toBeRemoved = allProductIngredient.Except(productIngredients, new IngredientComparerHelper()).ToList();
             if (toBeRemoved != null)
             {
                 for (int i = 0; i < toBeRemoved.Count; i++)
@@ -53,7 +55,7 @@ namespace CafeMVC.Application.Services
                 }
             }
             List<ProductIngredient> toBeAdded = productIngredients
-                .Except(_productRepository.GetAllProductIngredients(productId), new Helper()).ToList();
+                .Except(_productRepository.GetAllProductIngredients(productId), new IngredientComparerHelper()).ToList();
             if (toBeAdded != null)
             {
                 for (int i = 0; i < toBeAdded.Count; i++)

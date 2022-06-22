@@ -1,13 +1,13 @@
-﻿using CafeMVC.Application.Services;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Xunit;
+using CafeMVC.Application.Services.Helpers;
 
-namespace CafeMVC.Tests
+namespace CafeMVC.Tests.HelperTests
 {
     public class StringToDoubleTests
     {
@@ -17,7 +17,7 @@ namespace CafeMVC.Tests
             //Arrange
             string number = "9.42";
             //Act
-            double result =  Helper.StringToDouble(number);
+            double result = Helper.StringToDouble(number);
             //Assert
             result.Should().NotBe(0);
         }

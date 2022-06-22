@@ -5,9 +5,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Session;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using System;
 
 namespace CafeMVC.Web
 {
@@ -25,19 +26,28 @@ namespace CafeMVC.Web
         [System.Obsolete]
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<Context>(options => {
+            services.AddDbContext<Context>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection"),
-                    b => b.MigrationsAssembly(typeof(Context).Assembly.FullName));
-                options.EnableSensitiveDataLogging(true);
-            });
+                    b => b.MigrationsAssembly(typeof(Context).Assembly.FullName)));
             services.AddApplication();
             services.AddInfrastructure();
             services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<Context>();
             services.AddControllersWithViews();
-            
+            services.AddDistributedMemoryCache();
+
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+                options.Cookie.Name = ".BlackCofee.Session";
+                options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.None;
+            });
+            services.AddControllersWithViews();
+            services.AddApplicationInsightsTelemetry();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,6 +71,7 @@ namespace CafeMVC.Web
 
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

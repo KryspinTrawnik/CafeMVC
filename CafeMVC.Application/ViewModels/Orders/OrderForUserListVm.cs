@@ -12,7 +12,7 @@ namespace CafeMVC.Application.ViewModels.Orders
 
         public int ProductsCount { get; set; }
 
-        public double TotalPrice { get; set; }
+        public decimal TotalPrice { get; set; }
     
         public void Mapping(Profile profile)
         {

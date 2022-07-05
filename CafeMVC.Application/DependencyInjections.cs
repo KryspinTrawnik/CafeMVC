@@ -19,6 +19,7 @@ namespace CafeMVC.Application
             services.AddTransient<IAddressService, AddressService>();
             services.AddTransient<IContactDetailService, ContactDetailService>();
             services.AddTransient<IAllergenService, AllergenService>();
+            services.AddTransient<ICartService, CartService>();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddTransient<ShortAddressResolver>();
             

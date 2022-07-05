@@ -15,9 +15,9 @@ namespace CafeMVC.Tests.HelperTests
         public void SummaryListOfIntsZero()
         {
             //Arrange
-            List<double> numbers = new() { 1, 2, 3, 4, 5 };
+            List<decimal> numbers = new() { 1, 2, 3, 4, 5 };
             //Act
-            double result = Helper.SumUpListOfDoubles(numbers);
+            decimal result = Helper.SumUpListOfDecimals(numbers);
             //Assert
             result.Should().NotBe(0);
         }
@@ -27,10 +27,10 @@ namespace CafeMVC.Tests.HelperTests
         {
 
             //Arrange
-            List<double> numbers = new() { 1, 2, 3, 4, 5 };
-            double expected = 15;
+            List<decimal> numbers = new() { 1, 2, 3, 4, 5 };
+            decimal expected = 15;
             //Act
-            double result = Helper.SumUpListOfDoubles(numbers);
+            decimal result = Helper.SumUpListOfDecimals(numbers);
             //Assert
             result.Should().Be(expected);
         }

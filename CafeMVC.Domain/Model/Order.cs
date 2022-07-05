@@ -9,7 +9,7 @@ namespace CafeMVC.Domain.Model
 
         public DateTime DateOfOrder { get; set; }
 
-        public double TotalPrice { get; set; }
+        public decimal TotalPrice { get; set; }
 
         public string Note { get; set; }
 

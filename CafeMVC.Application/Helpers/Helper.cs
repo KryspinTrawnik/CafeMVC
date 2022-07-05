@@ -8,14 +8,14 @@ namespace CafeMVC.Application.Services.Helpers
 
     public class Helper : IEqualityComparer<int>
     {
-        public static double StringToDouble(string numberToConvert)
+        public static decimal StringToDecimal(string numberToConvert)
         {
             CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("en-GB");
             if (numberToConvert.Contains(",") == true)
             {
                 numberToConvert = numberToConvert.Replace(",", ".");
             }
-            double result = double.TryParse(numberToConvert, out result) ? Convert.ToDouble(numberToConvert) : 0;
+            decimal result = decimal.TryParse(numberToConvert, out result) ? Convert.ToDecimal(numberToConvert) : 0;
 
             return result;
         }
@@ -50,12 +50,12 @@ namespace CafeMVC.Application.Services.Helpers
             return result;
         }
 
-        public static double SumUpListOfDoubles(List<double> list)
+        public static decimal SumUpListOfDecimals(List<decimal> list)
         {
-            double result = 0;
+            decimal result = 0;
             for (int i = 0; i < list.Count; i++)
             {
-                result += list[i];
+                result = result + list[i];
             }
             
             return result;

@@ -6,9 +6,9 @@
 
         public decimal Discount { get; set; }
 
-        public double BasePrice { get; set; }
+        public decimal BasePrice { get; set; }
 
-        public double OverallPrice { get; set; } 
+        public decimal OverallPrice { get; set; } 
 
         public int OrderId { get; set; }
 

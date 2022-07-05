@@ -1,0 +1,51 @@
+﻿@model CafeMVC.Application.ViewModels.Orders.OrderForCreationVm
+
+<div class="customerContactInfo">
+    @Html.BeginForm( "Checkout", "Order", FormMethod.Get)
+    <div class="personalInfo">
+        <div class="textbox">
+            <h5>@Html.LabelFor(m => m.Customer.FirstName)</h5>
+            <h6>@Html.TextBoxFor(m => m.Customer.FirstName)</h6> 
+        </div>
+        <div class="textbox">
+            <h5>@Html.LabelFor(m => m.Customer.Surname)</h5>
+            <h6>@Html.TextBoxFor(m => m.Customer.Surname)</h6>
+        </div>
+        <div class="textbox">
+            <h5>E-mail</h5>
+             @Html.HiddenFor(m => m.Customer.ContactDetails[0].Id)
+            @Html.HiddenFor(m => m.Customer.ContactDetails[0].ContactDetailTypeId)
+            <h6>@Html.TextBoxFor(m => m.Customer.ContactDetails[0])</h6>
+        </div>
+        <div class="textbox">
+            <h5>Contact phone</h5>
+             @Html.HiddenFor(m => m.Customer.ContactDetails[1].Id)
+            @Html.HiddenFor(m => m.Customer.ContactDetails[1].ContactDetailTypeId)
+            <h6>@Html.TextBoxFor(m => m.Customer.ContactDetails[1])</h6>
+        </div>
+    </div>
+    <div class="billingAddress">
+        <div class="textbox"></div>
+        <div class="textbox"></div>
+        <div class="textbox"></div>
+        <div class="textbox"></div>
+        <div class="textbox"></div>
+        <div class="textbox"></div>
+        <div class="textbox"></div>
+        <div class="textbox"></div>
+    </div>
+    @if(Model.IsCollection == false)
+    {
+    <div class="personalInfo">
+        <div class="textbox"></div>
+        <div class="textbox"></div>
+        <div class="textbox"></div>
+        <div class="textbox"></div>
+        <div class="textbox"></div>
+        <div class="textbox"></div>
+        <div class="textbox"></div>
+        <div class="textbox"></div>
+    </div>
+        
+    }
+</div>

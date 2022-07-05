@@ -9,38 +9,38 @@ using CafeMVC.Application.Services.Helpers;
 
 namespace CafeMVC.Tests.HelperTests
 {
-    public class StringToDoubleTests
+    public class StringToDecimalTests
     {
         [Fact]
-        public void StringToDoubleIsNotZero()
+        public void StringToDecimalIsNotZero()
         {
             //Arrange
             string number = "9.42";
             //Act
-            double result = Helper.StringToDouble(number);
+            decimal result = Helper.StringToDecimal(number);
             //Assert
             result.Should().NotBe(0);
         }
         [Fact]
-        public void StringToDoubleReturnCorrect()
+        public void StringToDecimalReturnCorrect()
         {
             //Arrange
             string number = "9.42";
             //Act
-            double result = Helper.StringToDouble(number);
+            decimal result = Helper.StringToDecimal(number);
             //Assert
-            result.Should().Be(9.42);
+            result.Should().Be((decimal)9.42);
         }
 
         [Fact]
-        public void StringWithCommaToDoubleReturnCorrect()
+        public void StringWithCommaToDecimalReturnCorrect()
         {
             //Arrange
             string number = "9,42";
             //Act
-            double result = Helper.StringToDouble(number);
+            decimal result = Helper.StringToDecimal(number);
             //Assert
-            result.Should().Be(9.42);
+            result.Should().Be((decimal)9.42);
         }
 
     }

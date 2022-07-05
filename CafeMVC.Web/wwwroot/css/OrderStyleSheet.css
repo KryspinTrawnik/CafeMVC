@@ -1,81 +1,49 @@
 ﻿input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
-    /*opacity: 0;*/
     margin: 0;
 }
 
 input[type=number] {
     -moz-appearance: textfield;
 }
-
-.menuContainer {
-    position: relative;
+.wrapper {
     display: grid;
-    overflow: auto;
-    height: 400px;
-    font-size: 0px;
+    grid-template-columns: 300px 2fr 1fr;
+    grid-auto-rows: minmax(100px, auto);
+    height: auto;
 }
-
-.menuConteinerChild {
-    display: grid;
-    grid-template-columns: 1fr;
-    height: 100%;
-}
-
-.productTables {
-    width: 100%;
+.productBar {
+    grid-column: 1 / 3;
+    grid-row: 1 / 6;
+    overflow-y: auto;
     background-color: rgba(41,43,44, 0.8);
-    
-}
-
-tr {
-    height: 40px;
-    position: relative;
-    border-bottom: dotted thin;
-}
-
-table td {
-    width: auto;
-    height: 10%;
-}
-
-
-.headerTable {
-    text-align: center;
-    font-size: medium;
-    border-bottom: none;
-}
-.secondHeader{
-    border-bottom:solid;
-}
-
-.products {
-    display: grid;
-    grid-template-columns: 50% 50%;
-    font-size: 16px;
-    height: 100%;
-}
-
-.buttons {
-    display: grid;
-    justify-items: stretch;
-}
-.submitButtons{
-    text-align: right;
-}
-.ViewMenuContainer {
     font-size: 0px;
     position: relative;
+    display: table-row;
 }
-
-.ViewMenuContainerChild {
+.product{
     display: grid;
     grid-template-columns: 300px 1fr 20%;
     font-size: 18px;
     height: 300px;
     border-bottom:dotted;
-    background-color: rgba(41,43,44, 0.8);
+}
+
+.checkoutBar {
+    border: groove;
+    grid-column: 3 / 4;
+    grid-row: 1 / 4;
+    background-color: #212121;
+    align-self: start;
+    position: sticky;
+    top: 0rem;
+    height: 100%;
+    padding: 10px;
+}
+.productLine {
+    height: 300px;
+
 }
 .displayPicture {
     width: 100%;
@@ -84,28 +52,31 @@ table td {
     background-size: cover;
     text-align: center;
 }
+
 .pictureFrame {
     height: 100%;
     border: solid black;
 }
-.picture{
+
+.picture {
     height: 100%;
 }
-
 .description {
-    /*border: solid yellow;*/
     margin: 4px;
     text-align: center;
 }
-#price{
+
+#price {
     align-self: self-end;
     margin-right: -5%;
 }
+
 .functions {
     text-align: right;
     margin: 4px;
-   margin-right: 10%;
+    margin-right: 10%;
 }
+
 .button {
     background-color: #616161;
     border: none;
@@ -116,18 +87,20 @@ table td {
     font-size: 16px;
     margin: 4px 2px;
     cursor: pointer;
-   
 }
+
 .button5 {
     border-radius: 80%;
 }
-.counter{
+
+.counter {
     width: 40px;
     text-align: center;
 }
-#AddToCart {
+
+#UpdateCart {
     background-color: #616161;
     font-size: 16px;
     margin-right: -10%;
-    width: 25%;
+    width: auto;
 }

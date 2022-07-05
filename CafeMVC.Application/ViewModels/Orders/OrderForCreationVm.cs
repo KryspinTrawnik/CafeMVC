@@ -23,9 +23,9 @@ namespace CafeMVC.Application.ViewModels.Orders
 
         public int CustomerId { get; set; }
 
-        public List <AddressForCreationVm> Addresses { get; set; }
+        public CustomerForCreationVm Customer { get; set; }
 
-        public List<ProductForViewVm> Products { get; set; }
+        public List<ProductForOrderVm> Products { get; set; }
 
         public void Mapping(Profile profile)
         {

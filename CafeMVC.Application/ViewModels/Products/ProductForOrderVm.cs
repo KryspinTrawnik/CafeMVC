@@ -9,13 +9,13 @@ namespace CafeMVC.Application.ViewModels.Products
 
         public int Quantity { get; set; }
 
-        public double Price { get; set; }
+        public decimal Price { get; set; }
 
         public decimal Discount { get; set; }
 
-        public double OverallPrice { get; set; }
+        public decimal OverallPrice { get; set; }
 
-        public ProductForListVm Product { get; set; }
+        public ProductForViewVm Product { get; set; }
 
         public virtual void Mapping(Profile profile)
         {

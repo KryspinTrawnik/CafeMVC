@@ -13,7 +13,7 @@ namespace CafeMVC.Application.ViewModels.Orders
 
         public string CustomerName { get; set; }
 
-        public double TotalPrice { get; set; }
+        public decimal TotalPrice { get; set; }
 
         public string OrderConfirmation { get; set; }
 

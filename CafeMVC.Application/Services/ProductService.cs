@@ -88,7 +88,7 @@ namespace CafeMVC.Application.Services
         }
         private Product PrepareProductForSaving(ProductForCreationVm newProductVm)
         {
-            newProductVm.Price = Helper.StringToDouble(newProductVm.PriceString);
+            newProductVm.Price = Helper.StringToDecimal(newProductVm.PriceString);
             if (newProductVm.File != null)
             {
                 newProductVm.ImagePath = SaveImageOnFile(newProductVm.File);

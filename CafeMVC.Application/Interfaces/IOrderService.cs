@@ -11,8 +11,6 @@ namespace CafeMVC.Application.Interfaces
 
         ListOfProductsVm GetAllProducts(int orderId);
 
-        void AddProductToOrder(int quantity, int productId, ISession session);
-
         void RemoveProduct(int productId, int orderId);
 
         OrderForCreationVm GetOrderForCreationVmById(int orderId);
@@ -30,5 +28,6 @@ namespace CafeMVC.Application.Interfaces
         void ChangeOrderStatus(int orderId, int statusId);
 
         OrderForViewVm GetOrderToView(int orderId);
+        OrderForCreationVm PrepareOrderForCreation(bool isCollection);
     }
 }

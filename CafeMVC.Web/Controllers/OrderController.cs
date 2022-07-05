@@ -16,11 +16,13 @@ namespace CafeMVC.Web.Controllers
 
         private readonly IAddressService _addressService;
 
+        private readonly ICartService _cartService;
 
-        public OrderController(IOrderService orderService, IAddressService addressService)
+        public OrderController(IOrderService orderService, IAddressService addressService, ICartService cartService)
         {
             _orderService = orderService;
             _addressService = addressService;
+            _cartService = cartService;
         }
 
         [HttpGet]
@@ -45,14 +47,15 @@ namespace CafeMVC.Web.Controllers
             return View(ordersForView);
 
         }
+
         [HttpGet]
         public IActionResult Cart()
         {
-            
-           List<ProductForOrderVm> cart = SessionHelper.GetObjectFromJson<List<ProductForOrderVm>>(HttpContext.Session, "cart");
-
-            return View(cart);
+            OrderForCreationVm orderForCart = _cartService.GetProductForCart(HttpContext.Session);
+           
+            return View(orderForCart);
         }
+
         [HttpGet]
         public IActionResult OrderView(int orderId)
         {
@@ -61,19 +64,28 @@ namespace CafeMVC.Web.Controllers
             return View(order);
         }
 
-        public IActionResult AddProductToOrder(int quantity, int productId, int menuId)
+        [HttpPost]
+        public IActionResult AddProductToCart(int quantity, int productId, int menuId)
         {
-            _orderService.AddProductToOrder(quantity, productId, HttpContext.Session);
+            _cartService.AddProductToCart(quantity, productId, HttpContext.Session);
        
             return RedirectToAction("ViewMenu", "Menu", new { menuId = menuId });
 
         }
 
-        public IActionResult DeleteProductFromOrder(int productId, int orderId)
+        public IActionResult UpdateCartProduct(int quantity, int productId)
         {
-            _orderService.RemoveProduct(productId, orderId);
+            _cartService.UpdateCartProduct(quantity, productId, HttpContext.Session);
 
-            return View();
+            return RedirectToAction("Cart");
+
+        }
+
+        public IActionResult RemoveProductFromCart(int id)
+        {
+            _cartService.RemoveProductFromCart(id, HttpContext.Session);
+
+            return RedirectToAction("Cart");
 
         }
         [HttpGet]
@@ -88,36 +100,28 @@ namespace CafeMVC.Web.Controllers
         public IActionResult OrderSummary(OrderForCreationVm orderForView)
         {
             string orderConfirmation = _orderService.AddOrder(orderForView);
+
             return View(orderConfirmation);
         }
-
         [HttpGet]
-        public IActionResult ChangeLeadTime(int orderId)
+        public IActionResult CustomerInfo(bool isCollection)
         {
-            DateTime LeadtimeOfOrder = _orderService.GetOrderForCreationVmById(orderId).LeadTime;
-            return View(LeadtimeOfOrder);
-        }
+            OrderForCreationVm newOrder = _orderService.PrepareOrderForCreation(isCollection);
 
-        [HttpPatch]
-        public IActionResult ChangeLeadTime(DateTime leadTimeOfOrder, int orderId)
-        {
-            _orderService.ChangeLeadTime(orderId, leadTimeOfOrder);
-
-            return View();
+            return View(newOrder);
         }
 
         [HttpGet]
-        public IActionResult ChangeDeliveryAddress(int orderId)
+        public IActionResult Checkout(bool isCollection)
         {
-            List<AddressForCreationVm> DeliveryAddress = _orderService.GetOrderForCreationVmById(orderId).Addresses;
-
-            return View(DeliveryAddress);
+            OrderForCreationVm newOrder = new() { IsCollection = isCollection };
+           
+            return View(newOrder);
         }
 
-        [HttpPatch]
-        public IActionResult ChangeDeliveryAddress(AddressForCreationVm deliveryAddress)
+        [HttpPost]
+        public IActionResult Checkout(OrderForCreationVm order)
         {
-            _addressService.ChangeCustomerAddress(deliveryAddress);
 
             return View();
         }

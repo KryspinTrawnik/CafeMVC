@@ -88,44 +88,30 @@ namespace CafeMVC.Web.Controllers
             return RedirectToAction("Cart");
 
         }
-        [HttpGet]
-        public IActionResult OrderSummary(int orderId)
-        {
-            OrderForSummaryVm orderForSummary = _orderService.GetOrderSummaryVmById(orderId);
-
-            return View(orderForSummary);
-        }
-
+       
         [HttpPost]
-        public IActionResult OrderSummary(OrderForCreationVm orderForView)
+        public IActionResult OrderSummary(OrderForCreationVm orderToBeSaved)
         {
-            string orderConfirmation = _orderService.AddOrder(orderForView);
+
+            OrderForSummaryVm orderConfirmation = _orderService.AddOrder(orderToBeSaved);
 
             return View(orderConfirmation);
+
         }
         [HttpGet]
         public IActionResult CustomerInfo(bool isCollection)
         {
-            OrderForCreationVm newOrder = _orderService.PrepareOrderForCreation(isCollection);
+            OrderForCreationVm newOrder = new()
+            { IsCollection = isCollection};
 
             return View(newOrder);
         }
 
         [HttpGet]
-        public IActionResult Checkout(bool isCollection)
+        public IActionResult Checkout(OrderForCreationVm newOrder)
         {
-            OrderForCreationVm newOrder = new() { IsCollection = isCollection };
-           
             return View(newOrder);
         }
-
-        [HttpPost]
-        public IActionResult Checkout(OrderForCreationVm order)
-        {
-
-            return View();
-        }
-
 
         [HttpGet]
         public IActionResult ChangeAnntotation()

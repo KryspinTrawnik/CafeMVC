@@ -23,6 +23,8 @@ namespace CafeMVC.Application.ViewModels.Orders
 
         public int CustomerId { get; set; }
 
+        public PaymentForCreationVm Payment { get; set; }
+
         public CustomerForCreationVm Customer { get; set; }
 
         public List<ProductForOrderVm> Products { get; set; }

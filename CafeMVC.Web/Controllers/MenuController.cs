@@ -67,7 +67,6 @@ namespace CafeMVC.Web.Controllers
             }
 
             return RedirectToAction("index");
-
         }
 
         public IActionResult DeleteMenu(int menuId)

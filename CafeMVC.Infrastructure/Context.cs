@@ -30,6 +30,14 @@ namespace CafeMVC.Infrastructure
 
         public DbSet<Status> Statuses { get; set; }
 
+        public DbSet<PaymentCard> PaymentCards { get; set; }
+
+        public DbSet<CardType> CardTypes { get; set; }
+
+        public DbSet<Payment> Payments { get; set; }
+
+        public DbSet<PaymentType> PaymentTypes { get; set; }
+
         public DbSet<ProductIngredient> ProductIngredients { get; set; }
 
         public DbSet<ProductAllergen> ProductAllergens { get; set; }
@@ -141,6 +149,16 @@ namespace CafeMVC.Infrastructure
                     new Status { Id = 3, Name = "Ready" },
                     new Status { Id = 4, Name = "Closed" },
                     new Status { Id = 5, Name = "Cancelled" });
+
+            builder.Entity<PaymentType>()
+                .HasData(new PaymentType { Id = 1, Name = "Card" },
+                new PaymentType { Id = 2, Name = "Cash" });
+
+            builder.Entity<CardType>()
+               .HasData(new CardType { Id = 1, Name = "Debit" },
+               new CardType { Id = 2, Name = "Credit" });
+
+
         }
 
     }

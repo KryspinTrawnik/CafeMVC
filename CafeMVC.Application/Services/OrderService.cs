@@ -19,27 +19,36 @@ namespace CafeMVC.Application.Services
         private readonly IOrderRepository _orderRepository;
         private readonly IMapper _mapper;
         private readonly IProductRepository _productRepository;
-        private readonly IProductService _productService;
+        private readonly ICustomerService _customerService;
 
-        public OrderService(IOrderRepository orderRepository, IMapper mapper, IProductRepository productRepository, IProductService productService)
+        public OrderService(IOrderRepository orderRepository, IMapper mapper, IProductRepository productRepository, ICustomerService customerService)
         {
             _orderRepository = orderRepository;
             _mapper = mapper;
             _productRepository = productRepository;
-            _productService = productService;
+            _customerService = customerService;
         }
 
+        private string GenerateOrderConfrimation(int orderId)
+        {
+            string todayDate = DateTime.UtcNow.ToString("MMddyy");
+            string orderConfirmation = $"Order-{orderId}{todayDate}";
+
+            return orderConfirmation;
+        }
         public void AddOrChangeNote(int orderId, string note) => _orderRepository.AddOrChangeNote(orderId, note);
 
-        public string AddOrder(OrderForCreationVm order)
-       
+        public OrderForSummaryVm AddOrder(OrderForCreationVm order)
         {
             Order newOrder = _mapper.Map<Order>(order);
             int orderId = _orderRepository.AddNewOrder(newOrder);
             string orderConfirmation = GenerateOrderConfrimation(orderId);
             newOrder.OrderConfirmation = orderConfirmation;
 
-            return orderConfirmation;
+            _orderRepository.UpdateOrder(newOrder);
+            OrderForSummaryVm orderForSummary = _mapper.Map<OrderForSummaryVm>(newOrder);
+
+            return orderForSummary;
         }
 
        
@@ -109,16 +118,14 @@ namespace CafeMVC.Application.Services
 
         public OrderForViewVm GetOrderToView(int orderId) => _mapper.Map<OrderForViewVm>(_orderRepository.GetOrderById(orderId));
 
-        private string GenerateOrderConfrimation(int orderId)
-        {
-            string todayDate = DateTime.UtcNow.ToString("MMddyy");
-            string orderConfirmation = $"Order-{orderId}{todayDate}";
-
-            return orderConfirmation;
-        }
+      
 
         public OrderForCreationVm PrepareOrderForCreation(bool isCollection)
         {
+            OrderForCreationVm newOrder = new()
+            {
+               
+            };
 
             throw new NotImplementedException();
         }

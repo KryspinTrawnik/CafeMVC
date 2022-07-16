@@ -1,51 +1,187 @@
 ﻿@model CafeMVC.Application.ViewModels.Orders.OrderForCreationVm
+<head>
+    <link rel="stylesheet" href="~/css/OrderStyleSheet.css" />
+</head>
+@using (Html.BeginForm("Checkout", "Order", FormMethod.Get))
+{
+    <div id="customerContactInfo">
 
-<div class="customerContactInfo">
-    @Html.BeginForm( "Checkout", "Order", FormMethod.Get)
-    <div class="personalInfo">
-        <div class="textbox">
-            <h5>@Html.LabelFor(m => m.Customer.FirstName)</h5>
-            <h6>@Html.TextBoxFor(m => m.Customer.FirstName)</h6> 
+        <div class="header">
+            <h2>Personal Details</h2>
+            <hr>
         </div>
-        <div class="textbox">
-            <h5>@Html.LabelFor(m => m.Customer.Surname)</h5>
-            <h6>@Html.TextBoxFor(m => m.Customer.Surname)</h6>
-        </div>
-        <div class="textbox">
-            <h5>E-mail</h5>
-             @Html.HiddenFor(m => m.Customer.ContactDetails[0].Id)
-            @Html.HiddenFor(m => m.Customer.ContactDetails[0].ContactDetailTypeId)
-            <h6>@Html.TextBoxFor(m => m.Customer.ContactDetails[0])</h6>
-        </div>
-        <div class="textbox">
-            <h5>Contact phone</h5>
-             @Html.HiddenFor(m => m.Customer.ContactDetails[1].Id)
-            @Html.HiddenFor(m => m.Customer.ContactDetails[1].ContactDetailTypeId)
-            <h6>@Html.TextBoxFor(m => m.Customer.ContactDetails[1])</h6>
+
+        <div class="innerGrid">
+            <div class="columnOne">
+                <h5>@Html.LabelFor(m => m.Customer.FirstName)</h5>
+                <h6>@Html.TextBoxFor(m => m.Customer.FirstName, new {@class = "textBox textbox2"})</h6>
+
+                <h5>@Html.LabelFor(m => m.Customer.Surname)</h5>
+                <h6>@Html.TextBoxFor(m => m.Customer.Surname, new {@class = "textBox textbox2"})</h6>
+            </div>
+
+            <div class="columnTwo">
+                <h5>E-mail</h5>
+                @Html.HiddenFor(m => m.Customer.ContactDetails[0].Id)
+                @Html.HiddenFor(m => m.Customer.ContactDetails[0].ContactDetailTypeId)
+                <h6>@Html.TextBoxFor(m => m.Customer.ContactDetails[0], new {@class = "textBox textbox2"})</h6>
+                <h5>Contact phone</h5>
+                @Html.HiddenFor(m => m.Customer.ContactDetails[1].Id)
+                @Html.HiddenFor(m => m.Customer.ContactDetails[1].ContactDetailTypeId)
+                <h6>@Html.TextBoxFor(m => m.Customer.ContactDetails[1], new {@class = "textBox textbox2"})</h6>
+            </div>
         </div>
     </div>
-    <div class="billingAddress">
-        <div class="textbox"></div>
-        <div class="textbox"></div>
-        <div class="textbox"></div>
-        <div class="textbox"></div>
-        <div class="textbox"></div>
-        <div class="textbox"></div>
-        <div class="textbox"></div>
-        <div class="textbox"></div>
+
+
+    <div id="billingAddress">
+        <div class="header">
+            <h2>Billing Address</h2>
+            <hr>
+            @Html.HiddenFor(m => m.Customer.Addresses[0].AddressTypeId)
+        </div>
+
+        <div class="innerGrid">
+            <div class="columnOne">
+                <div class="textbox">
+                    <h5>Street</h5>
+                    <h6>
+                        @Html.TextBoxFor(m => m.Customer.Addresses[0].Street, new { @class = "textBox textbox2", @id = "streetB"})
+                    </h6>
+                </div>
+                <div class="textbox">
+                    <h5>Building Number</h5>
+                    <h6>
+                        @Html.TextBoxFor(m => m.Customer.Addresses[0].BuildingNumber, new { @class = "textBox textbox2",  @id = "buildingNumberB"})
+                    </h6>
+                </div>
+                <div class="textbox">
+                    <h5>Flat Number</h5>
+                    <h6>
+                        @Html.TextBoxFor(m => m.Customer.Addresses[0].FlatNumber, new { @class = "textBox textbox2", @id = "flatNumberB"})
+                    </h6>
+                </div>
+            </div>
+
+            <div class="columnTwo">
+                <div class="textbox">
+                    <h5>Post Code</h5>
+                    <h6>
+                        @Html.TextBoxFor(m => m.Customer.Addresses[0].ZipCode, new { @class = "textBox textbox2", @id = "zipCodeB"})
+                    </h6>
+                </div>
+                <div class="textbox">
+                    <h5>City</h5>
+                    <h6>
+                        @Html.TextBoxFor(m => m.Customer.Addresses[0].City, new { @class = "textBox textbox2", @id = "cityB"})
+                    </h6>
+                </div>
+                <div class="textbox">
+                    <h5>Country</h5>
+                    <h6>
+                        @Html.TextBoxFor(m => m.Customer.Addresses[0].Country, new { @class = "textBox textbox2", @id = "countryB"})
+                    </h6>
+                </div>
+            </div>
+        </div>
     </div>
-    @if(Model.IsCollection == false)
+
+    @if (Model.IsCollection == false)
     {
-    <div class="personalInfo">
-        <div class="textbox"></div>
-        <div class="textbox"></div>
-        <div class="textbox"></div>
-        <div class="textbox"></div>
-        <div class="textbox"></div>
-        <div class="textbox"></div>
-        <div class="textbox"></div>
-        <div class="textbox"></div>
-    </div>
-        
+        <div id="deliveryCheckBox">
+            <p><b>Delivery Information <label><input type="checkbox" value="" id="check-address" onclick="FillShippingAddress()">Same as billing?</label></b></p>
+        </div>
+        <div id="deliveryAddress">
+
+            <div class="header">
+                <h2>Delivery Address</h2>
+                <hr>
+                @Html.HiddenFor(m => m.Customer.Addresses[1].AddressTypeId)
+            </div>
+
+            <div class="innerGrid">
+                <div class="columnOne">
+                    <div class="textbox">
+                        <h5>Street</h5>
+                        <h6>
+                            @Html.TextBoxFor(m => m.Customer.Addresses[1].Street, new { @class = "textBox textbox2", @id = "streetD"})
+                        </h6>
+                    </div>
+                    <div class="textbox">
+                        <h5>Building Number</h5>
+                        <h6>
+                            @Html.TextBoxFor(m => m.Customer.Addresses[1].BuildingNumber, new { @class = "textBox textbox2",  @id = "buildingNumberD"})
+                        </h6>
+                    </div>
+                    <div class="textbox">
+                        <h5>Flat Number</h5>
+                        <h6>
+                            @Html.TextBoxFor(m => m.Customer.Addresses[1].FlatNumber, new { @class = "textBox textbox2", @id = "flatNumberD"})
+                        </h6>
+                    </div>
+                </div>
+
+                <div class="columnTwo">
+                    <div class="textbox">
+                        <h5>Post Code</h5>
+                        <h6>
+                            @Html.TextBoxFor(m => m.Customer.Addresses[1].ZipCode, new { @class = "textBox textbox2", @id = "zipCodeD"})
+                        </h6>
+                    </div>
+                    <div class="textbox">
+                        <h5>City</h5>
+                        <h6>
+                            @Html.TextBoxFor(m => m.Customer.Addresses[1].City, new { @class = "textBox textbox2", @id = "cityD"})
+                        </h6>
+                    </div>
+                    <div class="textbox">
+                        <h5>Country</h5>
+                        <h6>
+                            @Html.TextBoxFor(m => m.Customer.Addresses[1].Country, new { @class = "textBox textbox2", @id = "countryD"})
+                        </h6>
+                    </div>
+                </div>
+            </div>
+        </div>
     }
-</div>
+    <div id="submit">
+        <button type="submit" class="btn btn-success" value="Submit" name="Btn" role="button">Submit</button>
+        <button type="submit" class="btn btn-danger" name="Btn" value="Cancel">Cancel</button>
+    </div>
+
+}
+
+<script type="text/javascript">
+    function FillShippingAddress() {
+        var checkBox = document.getElementById("check-address");
+        var streetBil = document.getElementById("streetB");
+        var streetDel = document.getElementById("streetD");
+        var buildingNoBil = document.getElementById("buildingNumberB");
+        var buildingNoDel = document.getElementById("buildingNumberD");
+        var flatNumberBil = document.getElementById("flatNumberB");
+        var flatNumberDel = document.getElementById("flatNumberD");
+        var zipCodeBil = document.getElementById("zipCodeB");
+        var zipCodeDel = document.getElementById("zipCodeD");
+        var cityBil = document.getElementById("cityB");
+        var cityDel = document.getElementById("cityD");
+        var countryBil = document.getElementById("countryB");
+        var countryDel = document.getElementById("countryD");
+
+        if (checkBox.checked == true) {
+            streetDel.value = streetBil.value;
+            buildingNoDel.value = buildingNoBil.value;
+            flatNumberDel.value = flatNumberBil.value;
+            zipCodeDel.value = zipCodeBil.value;
+            cityDel.value = cityBil.value;
+            countryDel.value = countryBil.value;
+        } else {
+            streetDel.value = "";
+            buildingNoDel.value = "";
+            flatNumberDel.value = "";
+            zipCodeDel.value = "";
+            cityDel.value = "";
+            countryDel.value = "";
+        }
+    };
+
+</script>

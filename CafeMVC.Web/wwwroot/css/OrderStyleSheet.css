@@ -104,3 +104,42 @@ input[type=number] {
     margin-right: -10%;
     width: auto;
 }
+
+#customerContactInfo #billingAddress #deliveryAddress {
+    display: grid;
+    /* grid-template-columns: 1fr 1fr; */
+    /* grid-template-rows: repeat(4, auto 1fr); */
+    border: solid;
+    overflow-y: auto;
+}
+
+.innerGrid {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    background-color: rgba(41,43,44, 0.8);
+    padding: 10px;
+    text-align: center;
+}
+hr {
+    margin-bottom: 0;
+    background-color: rgba(41,43,44, 0.8);
+}
+
+.textbox2{
+    width: 80%;
+    text-align: center;
+}
+
+.header h2 {
+    text-decoration-line: underline;
+    text-align: center;
+    margin-top: 10px;
+}
+#submit {
+    text-align: center;
+    margin: 3%;
+    word-spacing: 50px;
+}
+#deliveryCheckBox{
+    font-size: 28px;
+}

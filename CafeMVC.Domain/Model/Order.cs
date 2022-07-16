@@ -17,6 +17,10 @@ namespace CafeMVC.Domain.Model
 
         public virtual Customer Customer { get; set; }
 
+        public int PaymantId { get; set; }
+
+        public virtual Payment Payment { get; set; }
+
         public virtual ICollection<OrderContactDetail> OrderContactDetails { get; set; }
 
         public virtual ICollection<OrderAddress> OrderAddresses { get; set; }

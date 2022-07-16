@@ -8,6 +8,8 @@ namespace CafeMVC.Domain.Model
 
         public string Surname { get; set; }
 
+        public virtual ICollection<PaymentCard> PaymentCards { get; set; }
+
         public virtual ICollection<Address> Addresses { get; set; }
 
         public virtual ICollection<ContactDetail> ContactDetails {get; set;}

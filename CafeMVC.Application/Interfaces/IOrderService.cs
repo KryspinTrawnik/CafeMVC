@@ -15,7 +15,7 @@ namespace CafeMVC.Application.Interfaces
 
         OrderForCreationVm GetOrderForCreationVmById(int orderId);
 
-        OrderForSummaryVm AddOrder(OrderForCreationVm orderForView);
+        int AddOrder(OrderForCreationVm orderForView, ISession session);
 
         void ChangeLeadTime(int orderId, DateTime leadTimeOfOrder);
 

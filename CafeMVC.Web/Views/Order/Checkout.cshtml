@@ -1,0 +1,122 @@
+﻿@model CafeMVC.Application.ViewModels.Orders.OrderForCreationVm
+@using Microsoft.AspNetCore.Http;
+@using CafeMVC.Application.Helpers;
+
+<head>
+    <link rel="stylesheet" href="~/css/OrderStyleSheet.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+</head>
+@{
+    string addressnubmer;
+    if(@Model.Addresses[1].FlatNumber != 0)
+    {
+        addressnubmer = $"{@Model.Addresses[1].BuildingNumber} / {@Model.Addresses[1].FlatNumber}";
+    }
+    else
+    {
+        addressnubmer = @Model.Addresses[1].BuildingNumber.ToString();
+    }
+}
+@using (Html.BeginForm("PlaceOrder", "Order", FormMethod.Get))
+{
+    <div id="container">
+        <div id="top">
+            <div id="leadTime">
+                <h4>Order to be ready:</h4>
+                <input type="radio" id="asap" name="LeadTime" value="ASAP">
+                <label for="asap">ASAP</label><br>
+                <input type="radio" id="delivery" name="LeadTime" value="false">
+                <label for="delivery">
+                    <input id="timeBox" type="time" min="09:00" max="18:00"> <span class="validity"></span> &nbsp; &nbsp; &nbsp;
+                    <input type="date" id="dateBox"> <span class="validity"></span>
+                </label><br>
+                <h5></h5>
+            </div>
+            <div id="note">
+                <h4>Note</h4>
+                <textarea id="notebox" class="otherInput" name="Note" type="text"></textarea>
+            </div>
+        </div>
+        <div id="down">
+            <div id="card">
+                <h4>Payment Card</h4>
+                <div id="cardType">
+                    @Html.DropDownListFor(m => m.Payment.PaymentCard.CardType, new List<SelectListItem>{
+                new SelectListItem { Text = "Debit", Value="Debit"},
+                new SelectListItem { Text = "Credit", Value="Credit"},
+                }, new{@class="otherInput"})
+                </div>
+                <br>
+                <div id="cardHolder">
+                    <h5>Card Holder Name</h5>
+                    @Html.TextBoxFor(m => m.Payment.PaymentCard.CardHolderName)
+                </div>
+                <div id="cardNumber">
+                    <h5>Card Number</h5>
+                    @Html.TextBoxFor(m => m.Payment.PaymentCard.CardNumber)
+                </div>
+                <div id="expiryDate">
+                    <h5>Expiry Date</h5>
+                    @Html.TextBoxFor(m => m.Payment.PaymentCard.ExpirationDate)
+                </div>
+                <div id="cvc">
+                    <h5>CVC</h5>
+                    @Html.TextBoxFor(m => m.Payment.PaymentCard.SecureityCode)
+                </div>
+            </div>
+            <div id="total">
+                <h4>Your Cart ( @Context.Session.GetInt32("qty") products ):</h4>
+                <h4>Total:  &#163; @Context.Session.GetString("total")</h4>
+                <h4>Delivery to:</h4>
+                @if(@Model.IsCollection == false)
+                {
+                    <h5>@addressnubmer @Model.Addresses[1].Street</h5>
+                    <h5>@Model.Addresses[1].City @Model.Addresses[1].ZipCode</h5>
+                    <h5>@Model.Addresses[1].Country</h5>
+                }
+                else
+                {
+                   <h5>x Collection</h5>
+                }
+
+                <button type="submit" class="btn btn-success" value="Submit" name= "Btn" role="button">Proceed and Pay</button>
+            </div>
+        </div>
+    </div>
+}
+@section Scripts{
+    <script type="text/javascript">
+
+        function selectedRadioButton() {
+            console.log($($('input[name=radiobutton]:checked').closest('.input-group').find("input[type=time]")).val());
+        }
+        function currentTime() {
+            var today = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            console.log(today);
+
+            return today;
+        }
+        function currentDate() {
+            //const options = {year: 'numeric', month: 'numeric', day: 'numeric' };
+            var today = new Date().toLocaleDateString();
+            console.log(today);
+
+            return today;
+        }
+
+        document.getElementById("timeBox").value = currentTime();
+
+        var date = new Date();
+
+        var day = date.getDate();
+        var month = date.getMonth() + 1;
+        var year = date.getFullYear();
+
+        if (month < 10) month = "0" + month;
+        if (day < 10) day = "0" + day;
+
+        var today = year + "-" + month + "-" + day;
+        document.getElementById("dateBox").value = today;
+         document.getElementById("dateBox").setAttribute("min", today);
+    </script>
+}

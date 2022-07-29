@@ -20,13 +20,15 @@ namespace CafeMVC.Application.Services
         private readonly IMapper _mapper;
         private readonly IProductRepository _productRepository;
         private readonly ICustomerService _customerService;
+        private readonly ICartService _cartService;
 
-        public OrderService(IOrderRepository orderRepository, IMapper mapper, IProductRepository productRepository, ICustomerService customerService)
+        public OrderService(IOrderRepository orderRepository, IMapper mapper, IProductRepository productRepository, ICustomerService customerService, ICartService cartService )
         {
             _orderRepository = orderRepository;
             _mapper = mapper;
             _productRepository = productRepository;
             _customerService = customerService;
+            _cartService = cartService;
         }
 
         private string GenerateOrderConfrimation(int orderId)
@@ -38,17 +40,17 @@ namespace CafeMVC.Application.Services
         }
         public void AddOrChangeNote(int orderId, string note) => _orderRepository.AddOrChangeNote(orderId, note);
 
-        public OrderForSummaryVm AddOrder(OrderForCreationVm order)
+        public int AddOrder(OrderForCreationVm order, ISession session)
         {
+            order.Products = _cartService.GetListOfCartProducts(session);
+            order.DateOfOrder = DateTime.Now;
             Order newOrder = _mapper.Map<Order>(order);
             int orderId = _orderRepository.AddNewOrder(newOrder);
             string orderConfirmation = GenerateOrderConfrimation(orderId);
             newOrder.OrderConfirmation = orderConfirmation;
-
             _orderRepository.UpdateOrder(newOrder);
-            OrderForSummaryVm orderForSummary = _mapper.Map<OrderForSummaryVm>(newOrder);
 
-            return orderForSummary;
+            return orderId;
         }
 
        

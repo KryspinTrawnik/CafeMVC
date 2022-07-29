@@ -31,6 +31,7 @@ namespace CafeMVC.Web.Controllers
             ListOfOrdersVm ordersForView = _orderService.GetOrdersToDisplay(2, 1, "");
             return View(ordersForView);
         }
+
         [HttpPost]
         public IActionResult Index(int pageSize, int? pageNo, string searchString)
         {
@@ -45,7 +46,6 @@ namespace CafeMVC.Web.Controllers
             ListOfOrdersVm ordersForView = _orderService.GetOrdersToDisplay(pageSize, pageNo.Value, searchString);
 
             return View(ordersForView);
-
         }
 
         [HttpGet]
@@ -70,7 +70,6 @@ namespace CafeMVC.Web.Controllers
             _cartService.AddProductToCart(quantity, productId, HttpContext.Session);
        
             return RedirectToAction("ViewMenu", "Menu", new { menuId = menuId });
-
         }
 
         public IActionResult UpdateCartProduct(int quantity, int productId)
@@ -86,18 +85,16 @@ namespace CafeMVC.Web.Controllers
             _cartService.RemoveProductFromCart(id, HttpContext.Session);
 
             return RedirectToAction("Cart");
-
         }
        
         [HttpPost]
-        public IActionResult OrderSummary(OrderForCreationVm orderToBeSaved)
+        public IActionResult OrderSummary(int orderId)
         {
-
-            OrderForSummaryVm orderConfirmation = _orderService.AddOrder(orderToBeSaved);
+            OrderForSummaryVm orderConfirmation = _orderService.GetOrderSummaryVmById(orderId);
 
             return View(orderConfirmation);
-
         }
+
         [HttpGet]
         public IActionResult CustomerInfo(bool isCollection)
         {
@@ -112,6 +109,16 @@ namespace CafeMVC.Web.Controllers
         {
             return View(newOrder);
         }
+        
+        [HttpPost]
+        public IActionResult PlaceOrder(OrderForCreationVm newOrder)
+        {
+            int id = _orderService.AddOrder(newOrder, HttpContext.Session);
+
+            return RedirectToAction("OrderSummary", new { orderId = id });
+
+        }
+
 
         [HttpGet]
         public IActionResult ChangeAnntotation()
@@ -126,6 +133,7 @@ namespace CafeMVC.Web.Controllers
             
             return View();
         }
+
         [HttpGet]
         public IActionResult CanceleOrder()
         {
@@ -136,6 +144,7 @@ namespace CafeMVC.Web.Controllers
         public IActionResult CanceleOrder(int orderId, int statusId)
         {
             _orderService.ChangeOrderStatus(orderId, statusId);
+
             return View();
         }
 

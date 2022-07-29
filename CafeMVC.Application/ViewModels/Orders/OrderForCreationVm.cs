@@ -15,7 +15,7 @@ namespace CafeMVC.Application.ViewModels.Orders
 
         public string OrderConfirmation { get; set; }
 
-        public DateTime LeadTime { get; set; }
+        public string LeadTime { get; set; }
 
         public DateTime DateOfOrder { get; set; }
 
@@ -26,6 +26,10 @@ namespace CafeMVC.Application.ViewModels.Orders
         public PaymentForCreationVm Payment { get; set; }
 
         public CustomerForCreationVm Customer { get; set; }
+
+        public List<AddressForCreationVm> Addresses { get; set; }
+
+        public List<ContactInfoForCreationVm> ContactDetails { get; set; }
 
         public List<ProductForOrderVm> Products { get; set; }
 

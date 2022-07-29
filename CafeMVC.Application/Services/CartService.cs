@@ -153,5 +153,10 @@ namespace CafeMVC.Application.Services
             }
             UpdateCartDataOnView(session);
         }
+
+        public List<ProductForOrderVm> GetListOfCartProducts(ISession session)
+        {
+            return SessionHelper.GetObjectFromJson<List<ProductForOrderVm>>(session, "cart");
+        }
     }
 }

@@ -1,27 +1,18 @@
-﻿using CafeMVC.Application.Helpers;
-using CafeMVC.Application.Interfaces;
-using CafeMVC.Application.ViewModels.Customer;
+﻿using CafeMVC.Application.Interfaces;
 using CafeMVC.Application.ViewModels.Orders;
-using CafeMVC.Application.ViewModels.Products;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 
 namespace CafeMVC.Web.Controllers
 {
     public class OrderController : Controller
     {
         private readonly IOrderService _orderService;
-
-        private readonly IAddressService _addressService;
-
         private readonly ICartService _cartService;
 
-        public OrderController(IOrderService orderService, IAddressService addressService, ICartService cartService)
+        public OrderController(IOrderService orderService, ICartService cartService)
         {
             _orderService = orderService;
-            _addressService = addressService;
             _cartService = cartService;
         }
 
@@ -51,9 +42,17 @@ namespace CafeMVC.Web.Controllers
         [HttpGet]
         public IActionResult Cart()
         {
-            OrderForCreationVm orderForCart = _cartService.GetProductForCart(HttpContext.Session);
-           
+            OrderForCreationVm orderForCart = _orderService.GetOrderForCart(HttpContext.Session);
+
             return View(orderForCart);
+        }
+
+        [HttpGet]
+        public IActionResult CustomerInfo(bool isCollection, int paymentTypeId)
+        {
+            OrderForCreationVm newOrder = _cartService.GetOrderFromCart(isCollection, paymentTypeId, HttpContext.Session);
+
+            return View(newOrder);
         }
 
         [HttpGet]
@@ -68,7 +67,7 @@ namespace CafeMVC.Web.Controllers
         public IActionResult AddProductToCart(int quantity, int productId, int menuId)
         {
             _cartService.AddProductToCart(quantity, productId, HttpContext.Session);
-       
+
             return RedirectToAction("ViewMenu", "Menu", new { menuId = menuId });
         }
 
@@ -86,7 +85,7 @@ namespace CafeMVC.Web.Controllers
 
             return RedirectToAction("Cart");
         }
-       
+
         [HttpPost]
         public IActionResult OrderSummary(int orderId)
         {
@@ -95,43 +94,21 @@ namespace CafeMVC.Web.Controllers
             return View(orderConfirmation);
         }
 
-        [HttpGet]
-        public IActionResult CustomerInfo(bool isCollection)
-        {
-            OrderForCreationVm newOrder = new()
-            { IsCollection = isCollection};
-
-            return View(newOrder);
-        }
 
         [HttpGet]
         public IActionResult Checkout(OrderForCreationVm newOrder)
         {
-            return View(newOrder);
+            OrderForCreationVm order = _cartService.UpdateOrdertForCheckout(newOrder, HttpContext.Session);
+
+            return View(order);
         }
-        
+
         [HttpPost]
         public IActionResult PlaceOrder(OrderForCreationVm newOrder)
         {
             int id = _orderService.AddOrder(newOrder, HttpContext.Session);
 
             return RedirectToAction("OrderSummary", new { orderId = id });
-
-        }
-
-
-        [HttpGet]
-        public IActionResult ChangeAnntotation()
-        {
-            return View();
-        }
-
-        [HttpPatch]
-        public IActionResult ChangeAnntotation(string annotation, int orderId)
-        {
-            _orderService.AddOrChangeNote(orderId, annotation);
-            
-            return View();
         }
 
         [HttpGet]
@@ -140,7 +117,6 @@ namespace CafeMVC.Web.Controllers
             return View();
         }
 
-        [HttpDelete]
         public IActionResult CanceleOrder(int orderId, int statusId)
         {
             _orderService.ChangeOrderStatus(orderId, statusId);
@@ -148,11 +124,10 @@ namespace CafeMVC.Web.Controllers
             return View();
         }
 
-
         public IActionResult CloseOrder(int orderId, int statusId)
         {
             _orderService.ChangeOrderStatus(orderId, statusId);
-            
+
             return View();
         }
 
@@ -160,7 +135,7 @@ namespace CafeMVC.Web.Controllers
         public IActionResult ViewOpenOrders()
         {
             ListOfOrdersVm openOrders = _orderService.GetAllOpenOrders();
-            
+
             return View(openOrders);
         }
     }

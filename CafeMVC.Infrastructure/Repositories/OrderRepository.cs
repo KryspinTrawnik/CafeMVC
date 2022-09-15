@@ -86,5 +86,7 @@ namespace CafeMVC.Infrastructure.Repositories
                     .ThenInclude(x => x.ContactDetails)
                     .Include(x => x.OrderedProductsDetails);
         }
+
+        public IQueryable<PaymentType> GetAllPaymenTypes()=> _context.PaymentTypes.AsNoTracking();
     }
 }

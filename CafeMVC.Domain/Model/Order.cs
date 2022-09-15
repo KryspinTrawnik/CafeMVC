@@ -13,6 +13,10 @@ namespace CafeMVC.Domain.Model
 
         public string Note { get; set; }
 
+        public string OrderConfirmation { get; set; }
+
+        public bool IsCollection { get; set; }
+
         public int CustomerId { get; set; }
 
         public virtual Customer Customer { get; set; }
@@ -21,18 +25,15 @@ namespace CafeMVC.Domain.Model
 
         public virtual Payment Payment { get; set; }
 
-        public virtual ICollection<OrderContactDetail> OrderContactDetails { get; set; }
-
-        public virtual ICollection<OrderAddress> OrderAddresses { get; set; }
-
-        public virtual ICollection<OrderedProductDetails> OrderedProductsDetails { get; set; }
-
-        public string OrderConfirmation { get; set; }
-
-        public bool IsCollection { get; set; }
-
         public int StatusId { get; set; }
 
         public virtual Status Status { get; set; }
+
+        public virtual ICollection<OrderAddress> OrderAddresses { get; set; }
+
+        public virtual ICollection<OrderContactDetail> OrderContactDetails { get; set; }
+
+        public virtual ICollection<OrderedProductDetails> OrderedProductsDetails { get; set; }
+
     }
 }

@@ -14,7 +14,7 @@ using CafeMVC.Application.Helpers;
 namespace CafeMVC.Application.Services
 {
     public class OrderService : IOrderService
-    {   
+    {
 
         private readonly IOrderRepository _orderRepository;
         private readonly IMapper _mapper;
@@ -22,7 +22,7 @@ namespace CafeMVC.Application.Services
         private readonly ICustomerService _customerService;
         private readonly ICartService _cartService;
 
-        public OrderService(IOrderRepository orderRepository, IMapper mapper, IProductRepository productRepository, ICustomerService customerService, ICartService cartService )
+        public OrderService(IOrderRepository orderRepository, IMapper mapper, IProductRepository productRepository, ICustomerService customerService, ICartService cartService)
         {
             _orderRepository = orderRepository;
             _mapper = mapper;
@@ -30,7 +30,11 @@ namespace CafeMVC.Application.Services
             _customerService = customerService;
             _cartService = cartService;
         }
-
+        private bool MakePayment(PaymentForCreationVm payment)
+        {
+            //Left for connection with bank or paypal system
+            return true;
+        }
         private string GenerateOrderConfrimation(int orderId)
         {
             string todayDate = DateTime.UtcNow.ToString("MMddyy");
@@ -38,22 +42,61 @@ namespace CafeMVC.Application.Services
 
             return orderConfirmation;
         }
+
+        private void AssignOrderConfirmation(Order newOrder)
+        {
+            string orderConfirmation = GenerateOrderConfrimation(newOrder.Id);
+            newOrder.OrderConfirmation = orderConfirmation;
+
+            _orderRepository.UpdateOrder(newOrder);
+        }
+
+
+        private Order PrepareOrderForSaving(OrderForCreationVm order, ISession session)
+        {
+            order.Customer = _cartService.GetCustomerInfo(session);
+            order.ContactDetails = _cartService.GetContactDetails(session);
+            order.Addresses = _cartService.GetAddresses(session);
+            order.Products = _cartService.GetListOfCartProducts(session);
+            order.DateOfOrder = DateTime.Now;
+            order.TotalPrice = _cartService.GetTotalPrice(session);
+            order.Payment.IsCompleted = MakePayment(order.Payment);
+            order.LeadTime = GenerateLeadTime(order.LeadTime, order.DateOfOrder.ToString());
+
+            return _mapper.Map<Order>(order);
+        }
+        private string GenerateLeadTime(string leadTime, string dateOfOrder)
+        {
+            string datetimeformatLeaditme;
+            if (leadTime == "ASAP")
+            {
+                datetimeformatLeaditme = dateOfOrder;
+            }
+            else
+            {
+                datetimeformatLeaditme = leadTime;
+
+            }
+
+            return datetimeformatLeaditme;
+        }
+
+        private List<PaymentTypeForCreationVm> GetAllPaymentTypes()
+           => _orderRepository.GetAllPaymenTypes().ProjectTo<PaymentTypeForCreationVm>(_mapper.ConfigurationProvider).ToList();
+
         public void AddOrChangeNote(int orderId, string note) => _orderRepository.AddOrChangeNote(orderId, note);
 
         public int AddOrder(OrderForCreationVm order, ISession session)
         {
-            order.Products = _cartService.GetListOfCartProducts(session);
-            order.DateOfOrder = DateTime.Now;
-            Order newOrder = _mapper.Map<Order>(order);
+            Order newOrder = PrepareOrderForSaving(order, session);
+            
             int orderId = _orderRepository.AddNewOrder(newOrder);
-            string orderConfirmation = GenerateOrderConfrimation(orderId);
-            newOrder.OrderConfirmation = orderConfirmation;
-            _orderRepository.UpdateOrder(newOrder);
+
+            AssignOrderConfirmation(newOrder);
 
             return orderId;
         }
 
-       
         public void ChangeLeadTime(int orderId, DateTime newLeadTimeOfOrder)
         {
             Order order = _orderRepository.GetOrderById(orderId);
@@ -98,7 +141,6 @@ namespace CafeMVC.Application.Services
                 Count = ordersForListVm.Count
             };
         }
-
         public OrderForCreationVm GetOrderForCreationVmById(int orderId) => _mapper.Map<OrderForCreationVm>(_orderRepository.GetOrderById(orderId));
 
         public OrderForSummaryVm GetOrderSummaryVmById(int orderId)
@@ -120,16 +162,34 @@ namespace CafeMVC.Application.Services
 
         public OrderForViewVm GetOrderToView(int orderId) => _mapper.Map<OrderForViewVm>(_orderRepository.GetOrderById(orderId));
 
-      
-
-        public OrderForCreationVm PrepareOrderForCreation(bool isCollection)
+        public OrderForCreationVm GetOrderForCart(ISession session)
         {
             OrderForCreationVm newOrder = new()
             {
-               
+                Payment = new()
+                {
+                    AllPaymentTypes = GetAllPaymentTypes()
+                },
             };
+                if (SessionHelper.GetObjectFromJson<List<ProductForOrderVm>>(session, "cart") != null)
+                {
+                newOrder.Products = _cartService.GetListOfCartProducts(session);
+                };
 
-            throw new NotImplementedException();
+            return newOrder;
+        }
+
+        public OrderForCreationVm AssignAddressesTypes(OrderForCreationVm newOrder)
+        {
+            bool condition = newOrder.Payment.PaymentType.Name != "Card";
+            newOrder.Addresses[0].AddressTypeId = condition ? 2 : 1;
+           
+            if(condition == false)
+            {
+                newOrder.Addresses[1].AddressTypeId = 2;
+            }
+
+            return newOrder;
         }
     }
 

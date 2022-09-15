@@ -28,6 +28,9 @@ namespace CafeMVC.Application.Interfaces
         void ChangeOrderStatus(int orderId, int statusId);
 
         OrderForViewVm GetOrderToView(int orderId);
-        OrderForCreationVm PrepareOrderForCreation(bool isCollection);
+
+        OrderForCreationVm GetOrderForCart(ISession session);
+
+        OrderForCreationVm AssignAddressesTypes(OrderForCreationVm newOrder);
     }
 }

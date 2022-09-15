@@ -8,13 +8,17 @@ namespace CafeMVC.Application.ViewModels.Orders
     {
         public int Id { get; set; }
 
-        public PaymentCardForCreationVm PaymentCard { get; set; }
+        public virtual PaymentCardForCreationVm PaymentCard { get; set; }
 
         public bool IsCompleted { get; set; }
 
         public int? PaymentCardId { get; set; }
 
-        public List<PaymentTypeForCreation> AllPaymentTypes{ get; set; }
+        public List<PaymentTypeForCreationVm> AllPaymentTypes { get; set; }
+
+        public int PaymentTypeId { get; set; }
+
+        public PaymentTypeForCreationVm PaymentType { get; set; }
 
         public void Mapping(Profile profile)
         {

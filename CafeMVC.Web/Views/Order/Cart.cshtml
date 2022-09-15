@@ -4,33 +4,41 @@
 @{
     string title = "Your Cart";
     string ingredientToDisplay, dietInfoToDisplay;
+    var listOfPaymentTypesForDropdown = new List<SelectListItem>();
+    for (int i = 0; i < Model.Payment.AllPaymentTypes.Count; i++)
+    {
+        listOfPaymentTypesForDropdown.Add(
+            new SelectListItem { Value = Model.Payment.AllPaymentTypes[i].Id.ToString(), Text = Model.Payment.AllPaymentTypes[i].Name }
+        );
+    }
 }
 <head>
     <link rel="stylesheet" href="~/css/OrderStyleSheet.css" />
-    
+
 </head>
 <h1>@title</h1>
 <div class="wrapper">
+    @if (@Context.Session.GetInt32("qty").HasValue == true)
+    {
+        <div class="productBar">
+            @for (int i = 0; i < Model.Products.Count; i++)
+            {
+                <div class="product">
 
-    <div class="productBar">
-        @for (int i = 0; i < Model.Products.Count; i++)
-        {
-            <div class="product">
-
-                <div class="picture">
-                    <div class="pictureFrame">
-                        <div class="displayPicture" style=" background-image: url('@Model.Products[i].Product.BasePath');"></div>
+                    <div class="picture">
+                        <div class="pictureFrame">
+                            <div class="displayPicture" style=" background-image: url('@Model.Products[i].Product.BasePath');"></div>
+                        </div>
                     </div>
-                </div>
-                <div class="description">
-                    <div>
-                        <h3>@Model.Products[i].Product.Name</h3>
+                    <div class="description">
+                        <div>
+                            <h3>@Model.Products[i].Product.Name</h3>
+                            <hr>
+                        </div>
+
+                        <div>@Model.Products[i].Product.Description</div>
                         <hr>
-                    </div>
-
-                    <div>@Model.Products[i].Product.Description</div>
-                    <hr>
-                    <div>
+                        <div>
                             Igredients: &emsp;
                             @for (int j = 0; j < Model.Products[i].Product.Ingredients.Count; j++)
                             {
@@ -45,87 +53,101 @@
                                 }
                             }
                             <hr>
+                        </div>
+                        @if (Model.Products[i].Product.Allergens != null)
+                        {
+                            <div>
+                                Allergens: &emsp;
+                                @for (int j = 0; j < Model.Products[i].Product.Allergens.Count; j++)
+                                {
+                                    if (j != (Model.Products[i].Product.Allergens.Count - 1))
+                                    {
+                                        dietInfoToDisplay = Model.Products[i].Product.Allergens[j].Name + ", ";
+                                        @dietInfoToDisplay
+                                    }
+                                    else
+                                    {
+                                        @Model.Products[i].Product.Allergens[j].Name
+                                    }
+                                }
+                                <hr>
+                            </div>
+                        }
+                        @if (Model.Products[i].Product.DietInformations != null)
+                        {
+                            <div>
+                                Product is: &emsp;
+                                @for (int j = 0; j < Model.Products[i].Product.DietInformations.Count; j++)
+                                {
+                                    if (j != (Model.Products[i].Product.DietInformations.Count - 1))
+                                    {
+                                        dietInfoToDisplay = Model.Products[i].Product.DietInformations[j].Name + ", ";
+                                        @dietInfoToDisplay
+                                    }
+                                    else
+                                    {
+                                        @Model.Products[i].Product.DietInformations[j].Name
+                                    }
+                                }
+                            </div>
+                        }
                     </div>
-                    @if (Model.Products[i].Product.Allergens != null)
-                    {
-                        <div>
-                            Allergens: &emsp;
-                            @for (int j = 0; j < Model.Products[i].Product.Allergens.Count; j++)
-                            {
-                                if (j != (Model.Products[i].Product.Allergens.Count - 1))
-                                {
-                                    dietInfoToDisplay = Model.Products[i].Product.Allergens[j].Name + ", ";
-                                    @dietInfoToDisplay
-                                }
-                                else
-                                {
-                                    @Model.Products[i].Product.Allergens[j].Name
-                                }
-                            }
-                            <hr>
-                        </div>
-                    }
-                    @if (Model.Products[i].Product.DietInformations != null)
-                    {
-                        <div>
-                            Product is: &emsp;
-                            @for (int j = 0; j < Model.Products[i].Product.DietInformations.Count; j++)
-                            {
-                                if (j != (Model.Products[i].Product.DietInformations.Count - 1))
-                                {
-                                    dietInfoToDisplay = Model.Products[i].Product.DietInformations[j].Name + ", ";
-                                    @dietInfoToDisplay
-                                }
-                                else
-                                {
-                                    @Model.Products[i].Product.DietInformations[j].Name
-                                }
-                            }
-                        </div>
-                    }
+                    <div class="functions">
+                        @using (Html.BeginForm("UpdateCartProduct", "Order", FormMethod.Post))
+                        {
+                            <input type="hidden" name="productId" value="@Model.Products[i].Product.Id">
+
+                            <div><h3 id="price">&#163;@Model.Products[i].Product.Price</h3></div>
+                            <div><button type="button" class="button button5 btn-plus" data-id="textbox{@Model.Products[i].Product.Id}" id="@Model.Products[i].Product.Id" onclick="functionUp('textbox{@Model.Products[i].Product.Id}')">+</button></div>
+
+                            <div><input type="text" min="1" name="quantity" id="textbox{@Model.Products[i].Product.Id}" class="counter textBox" value="@Model.Products[i].Quantity" /></div>
+                            <div><button type="button" class="button button5 btn-minus" onclick="functionDown('textbox{@Model.Products[i].Product.Id}')">-</button></div>
+
+                            <br>
+                            <div> <button type="submit" id="UpdateCart" class="textBox">Update</button></div>
+                        }
+                        @using (Html.BeginForm("RemoveProductFromCart", "Order"))
+                        {
+
+                            <div>
+                                <a asp-action="RemoveProductFromCart" asp-controller="Order" asp-route-id="@Model.Products[i].Product.Id">
+
+                                    <i class="fa-solid fa-trash-can"> </i>
+                                </a>
+                            </div>
+                        }
+                    </div>
+
                 </div>
-                <div class="functions">
-                    @using (Html.BeginForm("UpdateCartProduct", "Order", FormMethod.Post))
-                    {
-                        <input type="hidden" name="productId" value="@Model.Products[i].Product.Id">
+            }
+        </div>
+        <div class="checkoutBar">
+            <h4>Your Cart ( @Context.Session.GetInt32("qty") products ):</h4>
+            <h4>Total:  &#163; @Context.Session.GetString("total")</h4>
+            <br />
+            @using (Html.BeginForm("CustomerInfo", "Order", FormMethod.Get))
+            {
+                <input type="radio" id="collection" name="isCollection" value="true">
+                <label for="collection">Collection</label>
 
-                        <div><h3 id="price">&#163;@Model.Products[i].Product.Price</h3></div>
-                        <div><button type="button" class="button button5 btn-plus" data-id="textbox{@Model.Products[i].Product.Id}" id="@Model.Products[i].Product.Id" onclick="functionUp('textbox{@Model.Products[i].Product.Id}')">+</button></div>
+                <br>
+                <input type="radio" id="delivery" name="isCollection" value="false">
+                <label for="delivery">Delivery</label>
 
-                        <div><input type="text" min="1" name="quantity" id="textbox{@Model.Products[i].Product.Id}" class="counter textBox" value="@Model.Products[i].Quantity" /></div>
-                        <div><button type="button" class="button button5 btn-minus" onclick="functionDown('textbox{@Model.Products[i].Product.Id}')">-</button></div>
-
-                        <br>
-                        <div> <button type="submit" id="UpdateCart" class="textBox">Update</button></div>
-                    }
-                    @using (Html.BeginForm("RemoveProductFromCart", "Order"))
-                    {
-
-                        <div>
-                            <a asp-action="RemoveProductFromCart" asp-controller="Order" asp-route-id="@Model.Products[i].Product.Id">
-
-                                <i class="fa-solid fa-trash-can"> </i>
-                            </a>
-                        </div>
-                    }
-                </div>
-
-            </div>
-        }
-    </div>
-    <div class="checkoutBar">
-        <h4>Your Cart ( @Context.Session.GetInt32("qty") products ):</h4>
-        <h4>Total:  &#163; @Context.Session.GetString("total")</h4>
-        <br />
-        @using (Html.BeginForm("CustomerInfo", "Order", FormMethod.Get))
-        {
-            <input type="radio" id="collection" name="isCollection" value="true">
-             <label for="collection">Collection</label><br>
-             <input type="radio" id="delivery" name="isCollection" value="false">
-             <label for="delivery">Delivery</label><br>
-             <button type="submit" class="btn btn-success" value="Submit" name= "Btn" role="button">Proceed</button>
-        }
-    </div>
+                <br>
+                <br />
+                <h4>Payment Method</h4>
+                @Html.DropDownList("paymentTypeId", listOfPaymentTypesForDropdown, new{@class="otherInput", @id="paymentTypeDropdown"})
+                <br />
+                <br />
+                <button type="submit" class="btn btn-success" value="Submit" name="Btn" role="button">Proceed</button>
+            }
+        </div>
+    }
+    else
+    {
+        <h2>Your cart is empty</h2>
+    }
 </div>
 
 @section Scripts{
@@ -145,6 +167,10 @@
                 document.getElementById(id).value = value;
             }
         }
+        document.getElementById('paymentTypeDropdown').onchange = function (e) {
+            var value = parseInt(e.value.target);
+            alert(value);
+        };
     </script>
 
 }

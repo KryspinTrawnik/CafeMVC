@@ -3,7 +3,7 @@ using CafeMVC.Application.Interfaces.Mapping;
 
 namespace CafeMVC.Application.ViewModels.Orders
 {
-    public class PaymentTypeForCreationVm :IMapFrom<CafeMVC.Domain.Model.Payment>
+    public class StatusForCreationVm : IMapFrom<CafeMVC.Domain.Model.Status>
     {
         public int Id { get; set; }
 
@@ -11,7 +11,7 @@ namespace CafeMVC.Application.ViewModels.Orders
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<PaymentTypeForCreationVm, CafeMVC.Domain.Model.PaymentType>().ReverseMap();
+            profile.CreateMap<CafeMVC.Domain.Model.Status, StatusForCreationVm>().ReverseMap();
 
         }
     }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CafeMVC.Application.Helpers;
 using CafeMVC.Application.Interfaces;
+using CafeMVC.Application.ViewModels.Customer;
 using CafeMVC.Application.ViewModels.Orders;
 using CafeMVC.Application.ViewModels.Products;
 using CafeMVC.Domain.Interfaces;
@@ -9,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace CafeMVC.Application.Services
 {
@@ -38,10 +38,8 @@ namespace CafeMVC.Application.Services
             decimal overallOrderPrice = 0;
             if (SessionHelper.GetObjectFromJson<List<ProductForOrderVm>>(session, "cart") != null)
             {
-
                 overallOrderPrice = Helpers.Helper
                     .SumUpListOfDecimals(SessionHelper.GetObjectFromJson<List<ProductForOrderVm>>(session, "cart").Select(x => x.OverallPrice).ToList());
-
             }
 
             session.SetString("total", overallOrderPrice.ToString());
@@ -69,7 +67,7 @@ namespace CafeMVC.Application.Services
                     return i;
                 }
             }
-            
+
             return -1;
         }
         private ProductForOrderVm CreateNewOrderedProduct(int productId, int quantity)
@@ -114,22 +112,6 @@ namespace CafeMVC.Application.Services
             UpdateCartDataOnView(session);
         }
 
-        public OrderForCreationVm GetProductForCart(ISession session)
-        {
-            List<ProductForOrderVm> cart = SessionHelper.GetObjectFromJson<List<ProductForOrderVm>>(session, "cart");
-            for (int i = 0; i < cart.Count; i++)
-            {
-                cart[i].Product = _productService.GetProductForViewById(cart[i].Product.Id);
-            }
-            OrderForCreationVm orderForCart = new()
-            {
-                Products = cart
-
-            };
-
-            return orderForCart;
-        }
-
         public void RemoveProductFromCart(int productId, ISession session)
         {
             List<ProductForOrderVm> cart = SessionHelper.GetObjectFromJson<List<ProductForOrderVm>>(session, "cart");
@@ -156,7 +138,57 @@ namespace CafeMVC.Application.Services
 
         public List<ProductForOrderVm> GetListOfCartProducts(ISession session)
         {
-            return SessionHelper.GetObjectFromJson<List<ProductForOrderVm>>(session, "cart");
+            List<ProductForOrderVm> cart = SessionHelper.GetObjectFromJson<List<ProductForOrderVm>>(session, "cart");
+            for (int i = 0; i < cart.Count; i++)
+            {
+                cart[i].Product = _productService.GetProductForViewById(cart[i].Product.Id);
+            }
+
+            return cart;
         }
+
+        public decimal GetTotalPrice(ISession session)
+        {
+            string totalprice = session.GetString("total");
+            Decimal totalDecimalPrice = Decimal.Parse(totalprice);
+
+            return totalDecimalPrice;
+        }
+        public OrderForCreationVm GetOrderFromCart(bool isCollection, int paymentTypeId, ISession session)
+        {
+            OrderForCreationVm newOrder = new()
+            {
+                IsCollection = isCollection,
+                Payment = new PaymentForCreationVm()
+                {
+                    PaymentTypeId = paymentTypeId
+                },
+                TotalPrice = GetTotalPrice(session),
+                Products = GetListOfCartProducts(session)
+            };
+            SessionHelper.SetObjectAsJson(session, "order", newOrder);
+
+            return newOrder;
+        }
+
+        public OrderForCreationVm UpdateOrdertForCheckout(OrderForCreationVm newOrder, ISession session)
+        {
+            OrderForCreationVm order = SessionHelper.GetObjectFromJson<OrderForCreationVm>(session, "order");
+            order.ContactDetails = newOrder.ContactDetails;
+            order.Customer = newOrder.Customer;
+            order.Addresses = newOrder.Addresses;
+            SessionHelper.SetObjectAsJson(session, "order", newOrder);
+
+            return order;
+        }
+
+        public CustomerForCreationVm GetCustomerInfo(ISession session)
+            => SessionHelper.GetObjectFromJson<OrderForCreationVm>(session, "order").Customer;
+
+        public List<ContactInfoForCreationVm> GetContactDetails(ISession session)
+            => SessionHelper.GetObjectFromJson<OrderForCreationVm>(session, "order").ContactDetails;
+
+        public List<AddressForCreationVm> GetAddresses(ISession session)
+        => SessionHelper.GetObjectFromJson<OrderForCreationVm>(session, "order").Addresses;
     }
 }

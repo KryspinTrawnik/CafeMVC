@@ -61,5 +61,10 @@ namespace CafeMVC.Application.Services.Helpers
             return result;
 
         }
+
+        public DateTime ConvertStringToDateTime(string dateTimeString)
+        => Convert.ToDateTime(dateTimeString);
+
+
     }
 }

@@ -1,4 +1,5 @@
-﻿using CafeMVC.Application.Interfaces.Mapping;
+﻿using AutoMapper;
+using CafeMVC.Application.Interfaces.Mapping;
 
 namespace CafeMVC.Application.ViewModels.Orders
 {
@@ -8,8 +9,6 @@ namespace CafeMVC.Application.ViewModels.Orders
 
         public string CardNumber { get; set; }
 
-        public string CardType { get; set; }
-
         public int CardTypeId { get; set; }
 
         public string ExpirationDate { get; set; }
@@ -17,6 +16,14 @@ namespace CafeMVC.Application.ViewModels.Orders
         public string CardHolderName { get; set; }
 
         public string SecureityCode { get; set; }
+
+        public int CustomerId { get; set; }
+
+        public void Mapping(Profile profile)
+        {
+            profile.CreateMap<CafeMVC.Domain.Model.PaymentCard, PaymentCardForCreationVm>().ReverseMap();
+
+        }
 
     }
 }

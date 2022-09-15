@@ -5,19 +5,28 @@
 <head>
     <link rel="stylesheet" href="~/css/OrderStyleSheet.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 </head>
-@{
-    string addressnubmer;
-    if(@Model.Addresses[1].FlatNumber != 0)
+//@{
+    int indexOfDeliverAddress = 0;
+    string addressnubmer = "";
+    if (@Model.IsCollection == false)
     {
-        addressnubmer = $"{@Model.Addresses[1].BuildingNumber} / {@Model.Addresses[1].FlatNumber}";
-    }
-    else
-    {
-        addressnubmer = @Model.Addresses[1].BuildingNumber.ToString();
+        indexOfDeliverAddress = @Model.Addresses.FindIndex(x => x.AddressTypeId == 2);
+        if (Model.Addresses[0] != null)
+        {
+            if (@Model.Addresses[indexOfDeliverAddress].FlatNumber != 0)
+            {
+                addressnubmer = $"{@Model.Addresses[indexOfDeliverAddress].BuildingNumber} / {@Model.Addresses[indexOfDeliverAddress].FlatNumber}";
+            }
+            else
+            {
+                addressnubmer = @Model.Addresses[indexOfDeliverAddress].BuildingNumber.ToString();
+            }
+        }
     }
 }
-@using (Html.BeginForm("PlaceOrder", "Order", FormMethod.Get))
+@using (Html.BeginForm("PlaceOrder", "Order", FormMethod.Post))
 {
     <div id="container">
         <div id="top">
@@ -25,10 +34,9 @@
                 <h4>Order to be ready:</h4>
                 <input type="radio" id="asap" name="LeadTime" value="ASAP">
                 <label for="asap">ASAP</label><br>
-                <input type="radio" id="delivery" name="LeadTime" value="false">
+                <input type="radio" id="delivery" name="LeadTime" value="">
                 <label for="delivery">
-                    <input id="timeBox" type="time" min="09:00" max="18:00"> <span class="validity"></span> &nbsp; &nbsp; &nbsp;
-                    <input type="date" id="dateBox"> <span class="validity"></span>
+                    <input id="dateBox" type="date"> <span class="validity"></span>&nbsp;&nbsp;&nbsp;&nbsp; <input id="timeBox" type="time" min="10:00" max="20:00"> <span class="validity"></span>
                 </label><br>
                 <h5></h5>
             </div>
@@ -41,10 +49,10 @@
             <div id="card">
                 <h4>Payment Card</h4>
                 <div id="cardType">
-                    @Html.DropDownListFor(m => m.Payment.PaymentCard.CardType, new List<SelectListItem>{
-                new SelectListItem { Text = "Debit", Value="Debit"},
-                new SelectListItem { Text = "Credit", Value="Credit"},
-                }, new{@class="otherInput"})
+                    @Html.DropDownListFor(m => m.Payment.PaymentCard.CardTypeId, new List<SelectListItem>{
+                new SelectListItem { Text = "Debit", Value="1"},
+                new SelectListItem { Text = "Credit", Value="2"}
+                }, new{@class="otherInput", @id="cardType"})
                 </div>
                 <br>
                 <div id="cardHolder">
@@ -68,55 +76,73 @@
                 <h4>Your Cart ( @Context.Session.GetInt32("qty") products ):</h4>
                 <h4>Total:  &#163; @Context.Session.GetString("total")</h4>
                 <h4>Delivery to:</h4>
-                @if(@Model.IsCollection == false)
+                @if (@Model.IsCollection == false)
                 {
-                    <h5>@addressnubmer @Model.Addresses[1].Street</h5>
-                    <h5>@Model.Addresses[1].City @Model.Addresses[1].ZipCode</h5>
-                    <h5>@Model.Addresses[1].Country</h5>
+                    <h5>@addressnubmer @Model.Addresses[indexOfDeliverAddress].Street</h5>
+                    <h5>@Model.Addresses[indexOfDeliverAddress].City @Model.Addresses[indexOfDeliverAddress].ZipCode</h5>
+                    <h5>@Model.Addresses[indexOfDeliverAddress].Country</h5>
                 }
                 else
                 {
-                   <h5>x Collection</h5>
+                    <h5>x Collection</h5>
                 }
-
-                <button type="submit" class="btn btn-success" value="Submit" name= "Btn" role="button">Proceed and Pay</button>
+                <button type="submit" class="btn btn-success" value="Submit" name="Btn" role="button" onclick="AssignValueToRadio()" id="submitButton">Proceed and Pay</button>
             </div>
         </div>
     </div>
 }
 @section Scripts{
     <script type="text/javascript">
+        CombineDateAndTime = function (day, time) {
+            var newDate = day + " " + time + ":00";
 
+            return newDate;
+        };
+
+        function getDateWithHour(dateString, hour) {
+            var date = new Date(dateString);
+            date.setHours(hour, 0, 0);
+            return date.toString();
+        }
+        var today = new Date();
+        var openingTime = new Date(getDateWithHour(today, 10));
+        var closingTime = new Date(getDateWithHour(today, 21));
+        var time = document.getElementById("timeBox");
+        var date = document.getElementById("dateBox");
+        var nextDate = new Date();
+        nextDate.setDate(nextDate.getDate() + 1);
+
+        if (today < openingTime) {
+            time.setAttribute("min", "10:00");
+            time.value = "10:00";
+            date.value = today.toISOString().slice(0, 10);
+            date.setAttribute("min", today.toISOString().slice(0, 10));
+        }
+        else if (today > closingTime) {
+            time.setAttribute("min", "10:00");
+            time.value = "10:00";
+            date.setAttribute("min", nextDate.toISOString().slice(0, 10));
+            date.value = nextDate.toISOString().slice(0, 10);
+        }
+        else {
+            time.value = new Date().toLocaleTimeString([], { hour: '2-digit', minute: "2-digit" }).toString();
+            time.setAttribute("min", new Date().toLocaleTimeString([], { hour: '2-digit', minute: "2-digit" }).toString());
+            date.value = today.toISOString().slice(0, 10);
+            date.setAttribute("min", today.toISOString().slice(0, 10));
+        }
+        // assigning value to radio button
         function selectedRadioButton() {
-            console.log($($('input[name=radiobutton]:checked').closest('.input-group').find("input[type=time]")).val());
+            var radio = document.getElementById("delivery");
+            var time = document.getElementById("timeBox");
+            var date = document.getElementById("dateBox");
+
+            if (radio.checked == true) {
+                radio.value = CombineDateAndTime(date.value, time.value);
+            }
         }
-        function currentTime() {
-            var today = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            console.log(today);
-
-            return today;
-        }
-        function currentDate() {
-            //const options = {year: 'numeric', month: 'numeric', day: 'numeric' };
-            var today = new Date().toLocaleDateString();
-            console.log(today);
-
-            return today;
-        }
-
-        document.getElementById("timeBox").value = currentTime();
-
-        var date = new Date();
-
-        var day = date.getDate();
-        var month = date.getMonth() + 1;
-        var year = date.getFullYear();
-
-        if (month < 10) month = "0" + month;
-        if (day < 10) day = "0" + day;
-
-        var today = year + "-" + month + "-" + day;
-        document.getElementById("dateBox").value = today;
-         document.getElementById("dateBox").setAttribute("min", today);
+        document.getElementById('cardType').onchange = function (e) {
+            var value = parseInt(e.value.target);
+            alert(value);
+        };
     </script>
 }

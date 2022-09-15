@@ -22,5 +22,7 @@ namespace CafeMVC.Domain.Interfaces
         IQueryable<Status> GetAllStatuses();
 
         IQueryable<Order> GetAllOrders();
+
+        IQueryable<PaymentType> GetAllPaymenTypes();
     }
 }

@@ -152,7 +152,8 @@ namespace CafeMVC.Infrastructure
 
             builder.Entity<PaymentType>()
                 .HasData(new PaymentType { Id = 1, Name = "Card" },
-                new PaymentType { Id = 2, Name = "Cash" });
+                new PaymentType { Id = 2, Name = "Cash" },
+                new PaymentType { Id = 3, Name = "PayPal" });
 
             builder.Entity<CardType>()
                .HasData(new CardType { Id = 1, Name = "Debit" },

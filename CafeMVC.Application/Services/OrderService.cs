@@ -61,7 +61,7 @@ namespace CafeMVC.Application.Services
             order.DateOfOrder = DateTime.Now;
             order.TotalPrice = _cartService.GetTotalPrice(session);
             order.Payment.IsCompleted = MakePayment(order.Payment);
-            order.LeadTime = GenerateLeadTime(order.LeadTime, order.DateOfOrder.ToString());
+            //order.LeadTime = GenerateLeadTime(order.LeadTime, order.DateOfOrder.ToString());
 
             return _mapper.Map<Order>(order);
         }

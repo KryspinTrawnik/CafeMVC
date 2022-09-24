@@ -12,7 +12,7 @@ namespace CafeMVC.Application.ViewModels.Orders
     {
         public int Id { get; set; }
 
-        public string LeadTime { get; set; }
+        public DateTime LeadTime { get; set; }
        
         public DateTime DateOfOrder { get; set; }
        
@@ -40,12 +40,12 @@ namespace CafeMVC.Application.ViewModels.Orders
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<CafeMVC.Domain.Model.Order, OrderForCreationVm>().ReverseMap()
-              .ForMember(s => s.LeadTime, opt =>
-              {
-                  opt.MapFrom(x => new Helper().ConvertStringToDateTime(LeadTime)) ;
+            profile.CreateMap<CafeMVC.Domain.Model.Order, OrderForCreationVm>().ReverseMap();
+              //.ForMember(s => s.LeadTime, opt =>
+              //{
+              //    opt.MapFrom(x => new Helper().ConvertStringToDateTime(LeadTime)) ;
 
-              });
+              //});
 
         }
 

@@ -95,9 +95,13 @@
                 </div>
             </div>
         </div>
+        @if (Model.IsCollection == false)
+        {
+
         <div id="deliveryCheckBox">
             <p><b>Delivery Information <label><input type="checkbox" value="" id="check-address" onclick="FillShippingAddress()">Same as billing?</label></b></p>
         </div>
+        }
     }
     @if (Model.IsCollection == false)
     {

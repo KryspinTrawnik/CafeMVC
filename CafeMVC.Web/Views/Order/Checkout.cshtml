@@ -32,11 +32,9 @@
         <div id="top">
             <div id="leadTime">
                 <h4>Order to be ready:</h4>
-                <input type="radio" id="asap" name="LeadTime" value="ASAP">
-                <label for="asap">ASAP</label><br>
-                <input type="radio" id="delivery" name="LeadTime" value="">
+                <input type="hidden" id="delivery" name="LeadTime" value="">
                 <label for="delivery">
-                    <input id="dateBox" type="date"> <span class="validity"></span>&nbsp;&nbsp;&nbsp;&nbsp; <input id="timeBox" type="time" min="10:00" max="20:00"> <span class="validity"></span>
+                    <input id="dateBox" type="date" onchange="onChangeMinTime()"> <span class="validity"></span>&nbsp;&nbsp;&nbsp;&nbsp; <input id="timeBox" type="time" min="10:00" max="20:00"> <span class="validity"></span>
                 </label><br>
                 <h5></h5>
             </div>
@@ -104,34 +102,75 @@
             date.setHours(hour, 0, 0);
             return date.toString();
         }
+        var minimumTime = "10:00"
         var today = new Date();
         var openingTime = new Date(getDateWithHour(today, 10));
+
         var closingTime = new Date(getDateWithHour(today, 21));
         var time = document.getElementById("timeBox");
         var date = document.getElementById("dateBox");
         var nextDate = new Date();
         nextDate.setDate(nextDate.getDate() + 1);
+        console.log(openingTime);
+        console.log(closingTime);
+        console.log(today);
+        console.log(nextDate);
+
+        console.log(Boolean(today < openingTime));
+        console.log(Boolean(today > closingTime));
 
         if (today < openingTime) {
-            time.setAttribute("min", "10:00");
-            time.value = "10:00";
+            time.setAttribute("min", minimumTime);
+            time.value = minimumTime;
             date.value = today.toISOString().slice(0, 10);
             date.setAttribute("min", today.toISOString().slice(0, 10));
         }
         else if (today > closingTime) {
-            time.setAttribute("min", "10:00");
-            time.value = "10:00";
+            time.setAttribute("min", minimumTime);
+            time.value = minimumTime;
             date.setAttribute("min", nextDate.toISOString().slice(0, 10));
             date.value = nextDate.toISOString().slice(0, 10);
         }
-        else {
+        else if (today > openingTime && today < closingTime) {
             time.value = new Date().toLocaleTimeString([], { hour: '2-digit', minute: "2-digit" }).toString();
             time.setAttribute("min", new Date().toLocaleTimeString([], { hour: '2-digit', minute: "2-digit" }).toString());
             date.value = today.toISOString().slice(0, 10);
             date.setAttribute("min", today.toISOString().slice(0, 10));
         }
+        function onChangeMinTime() {
+            var amendedDate = document.getElementById("dateBox").value;
+            console.log(amendedDate);
+            var fullChangedDate = new Date(amendedDate + "T00:00:00Z");
+            console.log(fullChangedDate);
+            if (fullChangedDate < today) {
+                if (today < openingTime) {
+                    time.setAttribute("min", minimumTime);
+                    time.value = minimumTime;
+                    date.value = today.toISOString().slice(0, 10);
+                    date.setAttribute("min", today.toISOString().slice(0, 10));
+                }
+                else if (today > closingTime) {
+                    time.setAttribute("min", minimumTime);
+                    time.value = minimumTime;
+                    date.setAttribute("min", nextDate.toISOString().slice(0, 10));
+                    date.value = nextDate.toISOString().slice(0, 10);
+                }
+                else if (today > openingTime && today < closingTime) {
+                    time.value = new Date().toLocaleTimeString([], { hour: '2-digit', minute: "2-digit" }).toString();
+                    time.setAttribute("min", new Date().toLocaleTimeString([], { hour: '2-digit', minute: "2-digit" }).toString());
+                    date.value = today.toISOString().slice(0, 10);
+                    date.setAttribute("min", today.toISOString().slice(0, 10));
+                }
+
+            }
+            else if (fullChangedDate > today) {
+                time.setAttribute("min", minimumTime);
+                time.value = minimumTime;
+            }
+           
+        }
         // assigning value to radio button
-        function selectedRadioButton() {
+        function AssignValueToRadio() {
             var radio = document.getElementById("delivery");
             var time = document.getElementById("timeBox");
             var date = document.getElementById("dateBox");

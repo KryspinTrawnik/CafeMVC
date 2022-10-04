@@ -30,10 +30,7 @@ namespace CafeMVC.Web.Controllers
             {
                 pageNo = 1;
             }
-            if (searchString is null)
-            {
-                searchString = string.Empty;
-            }
+            searchString ??= string.Empty;
             ListOfOrdersVm ordersForView = _orderService.GetOrdersToDisplay(pageSize, pageNo.Value, searchString);
 
             return View(ordersForView);
@@ -48,9 +45,10 @@ namespace CafeMVC.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult CustomerInfo(bool isCollection, int paymentTypeId)
+        public IActionResult CustomerInfo(bool isCollection, int paymentTypeId, string paymentName )
         {
             OrderForCreationVm newOrder = _cartService.GetOrderFromCart(isCollection, paymentTypeId, HttpContext.Session);
+            newOrder.Payment.PaymentType.Name = paymentName;
 
             return View(newOrder);
         }
@@ -86,12 +84,12 @@ namespace CafeMVC.Web.Controllers
             return RedirectToAction("Cart");
         }
 
-        [HttpPost]
+        [HttpGet]
         public IActionResult OrderSummary(int orderId)
         {
-            OrderForSummaryVm orderConfirmation = _orderService.GetOrderSummaryVmById(orderId);
+            OrderForSummaryVm orderSummary = _orderService.GetOrderSummaryVmById(orderId);
 
-            return View(orderConfirmation);
+            return View(orderSummary);
         }
 
 

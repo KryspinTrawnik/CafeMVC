@@ -27,66 +27,66 @@
 
                     <div class="picture">
                         <div class="pictureFrame">
-                            <div class="displayPicture" style=" background-image: url('@Model.Products[i].Product.BasePath');"></div>
+                            <div class="displayPicture" style=" background-image: url('@Model.Products[i].ProductVm.BasePath');"></div>
                         </div>
                     </div>
                     <div class="description">
                         <div>
-                            <h3>@Model.Products[i].Product.Name</h3>
+                            <h3>@Model.Products[i].ProductVm.Name</h3>
                             <hr>
                         </div>
 
-                        <div>@Model.Products[i].Product.Description</div>
+                        <div>@Model.Products[i].ProductVm.Description</div>
                         <hr>
                         <div>
                             Igredients: &emsp;
-                            @for (int j = 0; j < Model.Products[i].Product.Ingredients.Count; j++)
+                            @for (int j = 0; j < Model.Products[i].ProductVm.Ingredients.Count; j++)
                             {
-                                if (j != (Model.Products[i].Product.Ingredients.Count - 1))
+                                if (j != (Model.Products[i].ProductVm.Ingredients.Count - 1))
                                 {
-                                    ingredientToDisplay = Model.Products[i].Product.Ingredients[j].Name + ", ";
+                                    ingredientToDisplay = Model.Products[i].ProductVm.Ingredients[j].Name + ", ";
                                     @ingredientToDisplay
                                 }
                                 else
                                 {
-                                    @Model.Products[i].Product.Ingredients[j].Name
+                                    @Model.Products[i].ProductVm.Ingredients[j].Name
                                 }
                             }
                             <hr>
                         </div>
-                        @if (Model.Products[i].Product.Allergens != null)
+                        @if (Model.Products[i].ProductVm.Allergens != null)
                         {
                             <div>
                                 Allergens: &emsp;
-                                @for (int j = 0; j < Model.Products[i].Product.Allergens.Count; j++)
+                                @for (int j = 0; j < Model.Products[i].ProductVm.Allergens.Count; j++)
                                 {
-                                    if (j != (Model.Products[i].Product.Allergens.Count - 1))
+                                    if (j != (Model.Products[i].ProductVm.Allergens.Count - 1))
                                     {
-                                        dietInfoToDisplay = Model.Products[i].Product.Allergens[j].Name + ", ";
+                                        dietInfoToDisplay = Model.Products[i].ProductVm.Allergens[j].Name + ", ";
                                         @dietInfoToDisplay
                                     }
                                     else
                                     {
-                                        @Model.Products[i].Product.Allergens[j].Name
+                                        @Model.Products[i].ProductVm.Allergens[j].Name
                                     }
                                 }
                                 <hr>
                             </div>
                         }
-                        @if (Model.Products[i].Product.DietInformations != null)
+                        @if (Model.Products[i].ProductVm.DietInformations != null)
                         {
                             <div>
                                 Product is: &emsp;
-                                @for (int j = 0; j < Model.Products[i].Product.DietInformations.Count; j++)
+                                @for (int j = 0; j < Model.Products[i].ProductVm.DietInformations.Count; j++)
                                 {
-                                    if (j != (Model.Products[i].Product.DietInformations.Count - 1))
+                                    if (j != (Model.Products[i].ProductVm.DietInformations.Count - 1))
                                     {
-                                        dietInfoToDisplay = Model.Products[i].Product.DietInformations[j].Name + ", ";
+                                        dietInfoToDisplay = Model.Products[i].ProductVm.DietInformations[j].Name + ", ";
                                         @dietInfoToDisplay
                                     }
                                     else
                                     {
-                                        @Model.Products[i].Product.DietInformations[j].Name
+                                        @Model.Products[i].ProductVm.DietInformations[j].Name
                                     }
                                 }
                             </div>
@@ -95,13 +95,13 @@
                     <div class="functions">
                         @using (Html.BeginForm("UpdateCartProduct", "Order", FormMethod.Post))
                         {
-                            <input type="hidden" name="productId" value="@Model.Products[i].Product.Id">
+                            <input type="hidden" name="productId" value="@Model.Products[i].ProductVm.Id">
 
-                            <div><h3 id="price">&#163;@Model.Products[i].Product.Price</h3></div>
-                            <div><button type="button" class="button button5 btn-plus" data-id="textbox{@Model.Products[i].Product.Id}" id="@Model.Products[i].Product.Id" onclick="functionUp('textbox{@Model.Products[i].Product.Id}')">+</button></div>
+                            <div><h3 id="price">&#163;@Model.Products[i].ProductVm.Price</h3></div>
+                            <div><button type="button" class="button button5 btn-plus" data-id="textbox{@Model.Products[i].ProductVm.Id}" id="@Model.Products[i].ProductVm.Id" onclick="functionUp('textbox{@Model.Products[i].ProductVm.Id}')">+</button></div>
 
-                            <div><input type="text" min="1" name="quantity" id="textbox{@Model.Products[i].Product.Id}" class="counter textBox" value="@Model.Products[i].Quantity" /></div>
-                            <div><button type="button" class="button button5 btn-minus" onclick="functionDown('textbox{@Model.Products[i].Product.Id}')">-</button></div>
+                            <div><input type="text" min="1" name="quantity" id="textbox{@Model.Products[i].ProductVm.Id}" class="counter textBox" value="@Model.Products[i].Quantity" /></div>
+                            <div><button type="button" class="button button5 btn-minus" onclick="functionDown('textbox{@Model.Products[i].ProductVm.Id}')">-</button></div>
 
                             <br>
                             <div> <button type="submit" id="UpdateCart" class="textBox">Update</button></div>
@@ -110,7 +110,7 @@
                         {
 
                             <div>
-                                <a asp-action="RemoveProductFromCart" asp-controller="Order" asp-route-id="@Model.Products[i].Product.Id">
+                                <a asp-action="RemoveProductFromCart" asp-controller="Order" asp-route-id="@Model.Products[i].ProductVm.Id">
 
                                     <i class="fa-solid fa-trash-can"> </i>
                                 </a>
@@ -138,9 +138,10 @@
                 <br />
                 <h4>Payment Method</h4>
                 @Html.DropDownList("paymentTypeId", listOfPaymentTypesForDropdown, new{@class="otherInput", @id="paymentTypeDropdown"})
+                <input type="hidden" id="paymentTypeName" name="paymentName" />
                 <br />
                 <br />
-                <button type="submit" class="btn btn-success" value="Submit" name="Btn" role="button">Proceed</button>
+                <button type="submit" class="btn btn-success" onclick="assignPaymentName()" value="Submit" name="Btn" role="button">Proceed</button>
             }
         </div>
     }
@@ -170,7 +171,15 @@
         document.getElementById('paymentTypeDropdown').onchange = function (e) {
             var value = parseInt(e.value.target);
             alert(value);
+            
         };
+
+        function assignPaymentName()
+        {
+            var paymentName = document.getElementById('paymentTypeName');
+            var dropdownList = document.getElementById('paymentTypeDropdown');
+            paymentName.value = dropdownList.options[dropdownList.selectedIndex].text;
+        }
     </script>
 
 }

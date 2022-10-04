@@ -16,7 +16,8 @@ namespace CafeMVC.Application.ViewModels.Customer
 
         public List<ContactDetailTypeForViewVm> AllContactDetailsTypes { get; set; }
 
-        public int CustomerId { get; set; }
+        public int? CustomerId { get; set; }
+
         public string Btn { get; set; }
 
         public void Mapping(Profile profile)

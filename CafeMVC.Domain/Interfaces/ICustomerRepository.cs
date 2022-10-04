@@ -19,6 +19,8 @@ namespace CafeMVC.Domain.Interfaces
         ///***Address Actionas***///
         int AddNewAddress(Address address);
 
+        IQueryable<Address> GetAllAddressesFromOrder(int orderId);
+
         Address GetAddressById(int addressId);
 
         IQueryable<AddressType> GetAllAddressTypes();
@@ -37,5 +39,7 @@ namespace CafeMVC.Domain.Interfaces
         void DeleteContactDetail(int contactDetailId);
         
         ContactDetail GetContactDetailById(int contactDetailId);
+
+        IQueryable<ContactDetail> GetAllContactDetailsFromOrder(int orderId);
     }
 }

@@ -11,19 +11,26 @@ namespace CafeMVC.Application.ViewModels.Orders
     {
         public int Id { get; set; }
 
+        public string CustomerName { get; set; }
+
         public string Note { get; set; }
 
         public string OrderConfirmation { get; set; }
 
         public DateTime LeadTime { get; set; }
 
-        public List<AddressForSummaryVm> Addresses { get; set; }
+        public bool IsCollection { get; set; }
 
-        public List<ProductForListVm> Products { get; set; }
+        public AddressForSummaryVm DeliveryAddress { get; set; }
+
+        public List<ProductForOrderSummaryVm> Products { get; set; }
+
+        public List<CustomerContactInfoForViewVm> ContactDetails { get; set; }
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<CafeMVC.Domain.Model.Order, OrderForSummaryVm>();
+            profile.CreateMap<CafeMVC.Domain.Model.Order, OrderForSummaryVm>()
+                .ForPath(d => d.CustomerName, opt => opt.MapFrom(s => s.Customer.FirstName + s.Customer.Surname));
 
         }
     }

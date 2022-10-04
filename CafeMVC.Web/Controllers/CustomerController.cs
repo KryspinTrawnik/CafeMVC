@@ -119,7 +119,7 @@ namespace CafeMVC.Web.Controllers
 
         public IActionResult RemoveContactDetail(int contactDetailId)
         {
-            int customerId = _contactDetailService.GetContactDetailForEdition(contactDetailId).CustomerId;
+            int customerId = _contactDetailService.GetContactDetailForEdition(contactDetailId).CustomerId.Value;
             _contactDetailService.RemoveContactDetail(contactDetailId);
             return RedirectToAction("CustomerView", "Customer", new { customerId = customerId });
         }

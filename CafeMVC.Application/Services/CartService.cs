@@ -62,7 +62,7 @@ namespace CafeMVC.Application.Services
             List<ProductForOrderVm> cart = SessionHelper.GetObjectFromJson<List<ProductForOrderVm>>(session, "cart");
             for (int i = 0; i < cart.Count; i++)
             {
-                if (cart[i].Product.Id.Equals(id))
+                if (cart[i].ProductVm.Id.Equals(id))
                 {
                     return i;
                 }
@@ -74,10 +74,12 @@ namespace CafeMVC.Application.Services
         {
             ProductForOrderVm newOrderedProduct = new()
             {
-                Price = _productRepository.GetProductById(productId).Price,
+                BasePrice = _productRepository.GetProductById(productId).Price,
                 Quantity = quantity,
                 OverallPrice = (decimal)quantity * _productRepository.GetProductById(productId).Price,
-                Product = _mapper.Map<ProductForViewVm>(_productRepository.GetProductById(productId))
+                ProductVm = _mapper.Map<ProductForViewVm>(_productRepository.GetProductById(productId)),
+                ProductId = productId
+                
             };
 
             return newOrderedProduct;
@@ -99,7 +101,7 @@ namespace CafeMVC.Application.Services
                 if (index != -1)
                 {
                     cart[index].Quantity += quantity;
-                    cart[index].OverallPrice = cart[index].Price * (decimal)cart[index].Quantity;
+                    cart[index].OverallPrice = cart[index].BasePrice * (decimal)cart[index].Quantity;
                 }
                 else
                 {
@@ -115,9 +117,9 @@ namespace CafeMVC.Application.Services
         public void RemoveProductFromCart(int productId, ISession session)
         {
             List<ProductForOrderVm> cart = SessionHelper.GetObjectFromJson<List<ProductForOrderVm>>(session, "cart");
-            if (cart.FirstOrDefault(x => x.Product.Id == productId) != null)
+            if (cart.FirstOrDefault(x => x.ProductVm.Id == productId) != null)
             {
-                cart.Remove(cart.FirstOrDefault(x => x.Product.Id == productId));
+                cart.Remove(cart.FirstOrDefault(x => x.ProductVm.Id == productId));
                 SessionHelper.SetObjectAsJson(session, "cart", cart);
             }
             UpdateCartDataOnView(session);
@@ -126,11 +128,11 @@ namespace CafeMVC.Application.Services
         public void UpdateCartProduct(int quantity, int productId, ISession session)
         {
             List<ProductForOrderVm> cart = SessionHelper.GetObjectFromJson<List<ProductForOrderVm>>(session, "cart");
-            if (cart.FirstOrDefault(x => x.Product.Id == productId) != null)
+            if (cart.FirstOrDefault(x => x.ProductVm.Id == productId) != null)
             {
-                int index = cart.IndexOf(cart.FirstOrDefault(x => x.Product.Id == productId));
+                int index = cart.IndexOf(cart.FirstOrDefault(x => x.ProductVm.Id == productId));
                 cart[index].Quantity = quantity;
-                cart[index].OverallPrice = cart[index].Price * quantity;
+                cart[index].OverallPrice = cart[index].BasePrice * quantity;
                 SessionHelper.SetObjectAsJson(session, "cart", cart);
             }
             UpdateCartDataOnView(session);
@@ -141,7 +143,7 @@ namespace CafeMVC.Application.Services
             List<ProductForOrderVm> cart = SessionHelper.GetObjectFromJson<List<ProductForOrderVm>>(session, "cart");
             for (int i = 0; i < cart.Count; i++)
             {
-                cart[i].Product = _productService.GetProductForViewById(cart[i].Product.Id);
+                cart[i].ProductVm = _productService.GetProductForViewById(cart[i].ProductVm.Id);
             }
 
             return cart;
@@ -161,7 +163,11 @@ namespace CafeMVC.Application.Services
                 IsCollection = isCollection,
                 Payment = new PaymentForCreationVm()
                 {
-                    PaymentTypeId = paymentTypeId
+                    PaymentTypeId = paymentTypeId,
+                    PaymentType = new()
+                    {
+                        Name=""
+                    }
                 },
                 TotalPrice = GetTotalPrice(session),
                 Products = GetListOfCartProducts(session)
@@ -177,6 +183,7 @@ namespace CafeMVC.Application.Services
             order.ContactDetails = newOrder.ContactDetails;
             order.Customer = newOrder.Customer;
             order.Addresses = newOrder.Addresses;
+            order.Payment = newOrder.Payment;
             SessionHelper.SetObjectAsJson(session, "order", newOrder);
 
             return order;

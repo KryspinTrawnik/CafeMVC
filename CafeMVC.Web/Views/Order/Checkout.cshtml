@@ -28,6 +28,8 @@
 }
 @using (Html.BeginForm("PlaceOrder", "Order", FormMethod.Post))
 {
+    @Html.HiddenFor(m => m.Payment.PaymentTypeId, new{@value= Model.Payment.PaymentTypeId})
+    @Html.HiddenFor(m => m.IsCollection, new{@value= Model.IsCollection})
     <div id="container">
         <div id="top">
             <div id="leadTime">
@@ -45,30 +47,37 @@
         </div>
         <div id="down">
             <div id="card">
-                <h4>Payment Card</h4>
-                <div id="cardType">
-                    @Html.DropDownListFor(m => m.Payment.PaymentCard.CardTypeId, new List<SelectListItem>{
+                @if (Model.Payment.PaymentTypeId == 1)
+                {
+                    <h4>Payment Card</h4>
+                    <div id="cardType">
+                        @Html.DropDownListFor(m => m.Payment.PaymentCard.CardTypeId, new List<SelectListItem>{
                 new SelectListItem { Text = "Debit", Value="1"},
                 new SelectListItem { Text = "Credit", Value="2"}
                 }, new{@class="otherInput", @id="cardType"})
-                </div>
-                <br>
-                <div id="cardHolder">
-                    <h5>Card Holder Name</h5>
-                    @Html.TextBoxFor(m => m.Payment.PaymentCard.CardHolderName)
-                </div>
-                <div id="cardNumber">
-                    <h5>Card Number</h5>
-                    @Html.TextBoxFor(m => m.Payment.PaymentCard.CardNumber)
-                </div>
-                <div id="expiryDate">
-                    <h5>Expiry Date</h5>
-                    @Html.TextBoxFor(m => m.Payment.PaymentCard.ExpirationDate)
-                </div>
-                <div id="cvc">
-                    <h5>CVC</h5>
-                    @Html.TextBoxFor(m => m.Payment.PaymentCard.SecureityCode)
-                </div>
+                    </div>
+                    <br>
+                    <div id="cardHolder">
+                        <h5>Card Holder Name</h5>
+                        @Html.TextBoxFor(m => m.Payment.PaymentCard.CardHolderName)
+                    </div>
+                    <div id="cardNumber">
+                        <h5>Card Number</h5>
+                        @Html.TextBoxFor(m => m.Payment.PaymentCard.CardNumber)
+                    </div>
+                    <div id="expiryDate">
+                        <h5>Expiry Date</h5>
+                        @Html.TextBoxFor(m => m.Payment.PaymentCard.ExpirationDate)
+                    </div>
+                    <div id="cvc">
+                        <h5>CVC</h5>
+                        @Html.TextBoxFor(m => m.Payment.PaymentCard.SecureityCode)
+                    </div>
+                }
+                else
+                {
+                    <h4>Payment Method:   @Model.Payment.PaymentType.Name</h4>
+                }
             </div>
             <div id="total">
                 <h4>Your Cart ( @Context.Session.GetInt32("qty") products ):</h4>
@@ -84,7 +93,7 @@
                 {
                     <h5>x Collection</h5>
                 }
-                <button type="submit" class="btn btn-success" value="Submit" name="Btn" role="button" onclick="AssignValueToRadio()" id="submitButton">Proceed and Pay</button>
+                <button type="submit" class="btn btn-success" value="Submit" name="Btn" role="button" onclick="AssignValueToLeadTime()" id="submitButton">Proceed and Pay</button>
             </div>
         </div>
     </div>
@@ -167,17 +176,16 @@
                 time.setAttribute("min", minimumTime);
                 time.value = minimumTime;
             }
-           
+
         }
         // assigning value to radio button
-        function AssignValueToRadio() {
-            var radio = document.getElementById("delivery");
+        function AssignValueToLeadTime() {
+            var leadTimeHidden = document.getElementById("delivery");
             var time = document.getElementById("timeBox");
             var date = document.getElementById("dateBox");
 
-            if (radio.checked == true) {
-                radio.value = CombineDateAndTime(date.value, time.value);
-            }
+            leadTimeHidden.value = CombineDateAndTime(date.value, time.value);
+
         }
         document.getElementById('cardType').onchange = function (e) {
             var value = parseInt(e.value.target);

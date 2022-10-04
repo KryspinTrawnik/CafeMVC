@@ -1,15 +1,16 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using CafeMVC.Application.Helpers;
 using CafeMVC.Application.Interfaces;
+using CafeMVC.Application.ViewModels.Customer;
 using CafeMVC.Application.ViewModels.Orders;
 using CafeMVC.Application.ViewModels.Products;
 using CafeMVC.Domain.Interfaces;
 using CafeMVC.Domain.Model;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Http;
-using CafeMVC.Application.Helpers;
 
 namespace CafeMVC.Application.Services
 {
@@ -56,40 +57,69 @@ namespace CafeMVC.Application.Services
         {
             order.Customer = _cartService.GetCustomerInfo(session);
             order.ContactDetails = _cartService.GetContactDetails(session);
-            order.Addresses = _cartService.GetAddresses(session);
             order.Products = _cartService.GetListOfCartProducts(session);
             order.DateOfOrder = DateTime.Now;
             order.TotalPrice = _cartService.GetTotalPrice(session);
             order.Payment.IsCompleted = MakePayment(order.Payment);
-            //order.LeadTime = GenerateLeadTime(order.LeadTime, order.DateOfOrder.ToString());
+            Order orderForSaving = _mapper.Map<Order>(order);
+            orderForSaving.OrderContactDetails = GetNewOrderContactDetails(order.ContactDetails);
+            order.Addresses = _cartService.GetAddresses(session);
+            if (order.Addresses != null)
+            {
+                orderForSaving.OrderAddresses = GetNewOrderAdresses(order.Addresses);
 
-            return _mapper.Map<Order>(order);
+            }
+            orderForSaving.StatusId = 1; // status open
+
+            return orderForSaving;
         }
-        private string GenerateLeadTime(string leadTime, string dateOfOrder)
+
+        private ICollection<OrderAddress> GetNewOrderAdresses(List<AddressForCreationVm> addresses)
         {
-            string datetimeformatLeaditme;
-            if (leadTime == "ASAP")
+            List<OrderAddress> orderAddresses = new();
+            foreach (var address in addresses)
             {
-                datetimeformatLeaditme = dateOfOrder;
+                OrderAddress orderAddress = new OrderAddress()
+                {
+                    Address = _mapper.Map<Address>(address)
+                };
+                orderAddresses.Add(orderAddress);
             }
-            else
+
+            return orderAddresses;
+        }
+
+        private ICollection<OrderContactDetail> GetNewOrderContactDetails(List<ContactInfoForCreationVm> contactDetails)
+        {
+            List<OrderContactDetail> newOrderContactDetails = new();
+            foreach (var contactInfoForCreation in contactDetails)
             {
-                datetimeformatLeaditme = leadTime;
+                newOrderContactDetails.Add(new OrderContactDetail()
+                {
+                    ContactDetail = _mapper.Map<ContactDetail>(contactInfoForCreation)
+                }
+                );
 
             }
 
-            return datetimeformatLeaditme;
+            return newOrderContactDetails;
         }
 
         private List<PaymentTypeForCreationVm> GetAllPaymentTypes()
            => _orderRepository.GetAllPaymenTypes().ProjectTo<PaymentTypeForCreationVm>(_mapper.ConfigurationProvider).ToList();
 
+        private AddressForSummaryVm GetDeliveryAddressFromOrder(int orderId)
+        {
+            Address deliveryAddress = _orderRepository.GetAllAddressesFromOrder(orderId).FirstOrDefault(x => x.AddressTypeId == 2);
+
+            return _mapper.Map<AddressForSummaryVm>(deliveryAddress);
+        }
         public void AddOrChangeNote(int orderId, string note) => _orderRepository.AddOrChangeNote(orderId, note);
 
         public int AddOrder(OrderForCreationVm order, ISession session)
         {
             Order newOrder = PrepareOrderForSaving(order, session);
-            
+
             int orderId = _orderRepository.AddNewOrder(newOrder);
 
             AssignOrderConfirmation(newOrder);
@@ -146,10 +176,23 @@ namespace CafeMVC.Application.Services
         public OrderForSummaryVm GetOrderSummaryVmById(int orderId)
         {
             Order order = _orderRepository.GetOrderById(orderId);
-            OrderForSummaryVm orderForCreationVm = _mapper.Map<OrderForSummaryVm>(order);
+            OrderForSummaryVm orderForSummaryVm = _mapper.Map<OrderForSummaryVm>(order);
+            orderForSummaryVm.Products = _mapper.Map<List<ProductForOrderSummaryVm>>(order.OrderedProductsDetails);
+            orderForSummaryVm.ContactDetails = GetContactDetailsFromOrder(orderId);
 
-            return orderForCreationVm;
+            if(order.IsCollection == false)
+            {
+                orderForSummaryVm.DeliveryAddress = GetDeliveryAddressFromOrder(orderId);
+            }
+            
+            
+           return orderForSummaryVm;
         }
+
+        private List<CustomerContactInfoForViewVm> GetContactDetailsFromOrder(int orderId) =>
+            _orderRepository.GetAllContactDetailsFromOrder(orderId)
+            .ProjectTo<CustomerContactInfoForViewVm>(_mapper.ConfigurationProvider).ToList();
+
         public void RemoveProduct(int productId, int orderId)
         {
             Order order = _orderRepository.GetOrderById(orderId);
@@ -171,10 +214,10 @@ namespace CafeMVC.Application.Services
                     AllPaymentTypes = GetAllPaymentTypes()
                 },
             };
-                if (SessionHelper.GetObjectFromJson<List<ProductForOrderVm>>(session, "cart") != null)
-                {
+            if (SessionHelper.GetObjectFromJson<List<ProductForOrderVm>>(session, "cart") != null)
+            {
                 newOrder.Products = _cartService.GetListOfCartProducts(session);
-                };
+            };
 
             return newOrder;
         }
@@ -183,8 +226,8 @@ namespace CafeMVC.Application.Services
         {
             bool condition = newOrder.Payment.PaymentType.Name != "Card";
             newOrder.Addresses[0].AddressTypeId = condition ? 2 : 1;
-           
-            if(condition == false)
+
+            if (condition == false)
             {
                 newOrder.Addresses[1].AddressTypeId = 2;
             }

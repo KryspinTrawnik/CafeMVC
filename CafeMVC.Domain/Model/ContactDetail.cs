@@ -8,7 +8,7 @@ namespace CafeMVC.Domain.Model
 
         public int ContactDetailTypeId { get; set; }
 
-        public int CustomerId { get; set; }
+        public int? CustomerId { get; set; }
 
         public virtual ContactDetailType ContactDetailType { get; set; }
 

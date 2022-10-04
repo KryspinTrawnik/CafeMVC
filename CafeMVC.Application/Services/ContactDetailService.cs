@@ -49,6 +49,7 @@ namespace CafeMVC.Application.Services
         {
             ContactDetail contactDetail = _customerRepository.GetContactDetailById(contactDetailId);
             ContactInfoForCreationVm contactDetailForEdition = _mapper.Map<ContactInfoForCreationVm>(contactDetail);
+            
             return contactDetailForEdition;
         }
 

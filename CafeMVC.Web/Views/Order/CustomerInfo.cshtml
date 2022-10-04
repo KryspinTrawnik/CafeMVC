@@ -39,6 +39,7 @@
         </div>
     </div>
     @Html.HiddenFor(m => m.Payment.PaymentTypeId, new{@value= Model.Payment.PaymentTypeId})
+    @Html.HiddenFor(m => m.Payment.PaymentType.Name, new{@value= Model.Payment.PaymentType.Name})
     @Html.HiddenFor(m => m.IsCollection, new{@value= Model.IsCollection})
     @if (Model.Payment.PaymentTypeId == 1)
     {

@@ -1,0 +1,50 @@
+﻿@model CafeMVC.Application.ViewModels.Orders.OrderForSummaryVm
+<head>
+    <link rel="stylesheet" href="~/css/OrderSummary.css" />
+</head>
+@{
+    string textForDelivery;
+    string header;
+    if (Model.IsCollection == false)
+    {
+        header = "Delivery to:";
+        textForDelivery = $"{Model.DeliveryAddress.Address}";
+    }
+    else
+    {
+        header = "Collection";
+        textForDelivery = " ";
+    }
+}
+<div id="main">
+    <div id="header">
+        <h1>Order Confirmation</h1>
+        <h2>@Model.OrderConfirmation</h2>
+    </div>
+    <div id="description">
+        <div id="products">
+            <h3>Ordered Products:</h3>
+            @foreach(var product in Model.Products)
+            {
+                string productText = $"{product.Quantity}x {product.Name}  -- {product.OverallPrice}";
+                <h5>@productText</h5>
+            }
+        </div>
+        <div id="delivery">
+            @if (Model.IsCollection == false)
+            {
+            <h3>@header</h3>
+            <h3>@textForDelivery</h3>
+            }
+            else
+            {
+                <h3>@header</h3>
+            }
+            <h3>To be ready on:</h3>
+            <h3>@Model.LeadTime.ToShortDateString() at @Model.LeadTime.ToShortTimeString()</h3>
+        </div>
+        <div id="time">
+            <h3></h3>
+        </div>
+    </div>
+</div>

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using AutoMapper.Configuration.Annotations;
 using CafeMVC.Application.Interfaces.Mapping;
-using CafeMVC.Application.Services.Helpers;
 using CafeMVC.Application.ViewModels.Customer;
 using CafeMVC.Application.ViewModels.Products;
 using System;
@@ -8,6 +8,7 @@ using System.Collections.Generic;
 
 namespace CafeMVC.Application.ViewModels.Orders
 {
+    [AutoMap(typeof(CafeMVC.Domain.Model.Order))]
     public class OrderForCreationVm : IMapFrom<CafeMVC.Domain.Model.Order>
     {
         public int Id { get; set; }
@@ -31,22 +32,18 @@ namespace CafeMVC.Application.ViewModels.Orders
         public PaymentForCreationVm Payment { get; set; }
 
         public StatusForCreationVm Status { get; set; }
-
+        [Ignore]
         public List<AddressForCreationVm> Addresses { get; set; }
 
+        [Ignore]
         public List<ContactInfoForCreationVm> ContactDetails { get; set; }
 
         public List<ProductForOrderVm> Products { get; set; }
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<CafeMVC.Domain.Model.Order, OrderForCreationVm>().ReverseMap();
-              //.ForMember(s => s.LeadTime, opt =>
-              //{
-              //    opt.MapFrom(x => new Helper().ConvertStringToDateTime(LeadTime)) ;
-
-              //});
-
+            profile.CreateMap<CafeMVC.Domain.Model.Order, OrderForCreationVm>().ReverseMap()
+                .ForMember(d => d.OrderedProductsDetails, s => s.MapFrom(opt => opt.Products));
         }
 
     }

@@ -1,0 +1,30 @@
+﻿body {
+}
+#main {
+    display: grid;
+    top: 30%;
+    transform: translate(-50%, -50%);
+    padding: 10px;
+    left: 50%;
+    position: absolute;
+    width: 100%;
+    border: solid black;
+}
+#description {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    height: 40%;
+}
+#header {
+    border: solid yellow;
+    text-align: center;
+}
+#products {
+    border: solid red;
+}
+#delivery {
+    border: solid green;
+}
+#time {
+    border: solid blue;
+}

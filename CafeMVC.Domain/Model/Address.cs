@@ -18,7 +18,7 @@ namespace CafeMVC.Domain.Model
 
         public int AddressTypeId { get; set; }
 
-        public int CustomerId { get; set; }
+        public int? CustomerId { get; set; }
    
         public ICollection<OrderAddress> OrderAddresses { get; set; }
 

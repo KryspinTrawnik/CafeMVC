@@ -1,13 +1,15 @@
 ﻿using AutoMapper;
 using CafeMVC.Application.Interfaces.Mapping;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace CafeMVC.Application.ViewModels.Customer
 {
     public class CustomerForCreationVm : IMapFrom<CafeMVC.Domain.Model.Customer>
     {
         public int Id { get; set; }
-
+        
+        [DisplayName("First Name")]
         public string FirstName { get; set; }
 
         public string Surname { get; set; }

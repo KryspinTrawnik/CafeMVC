@@ -24,5 +24,9 @@ namespace CafeMVC.Domain.Interfaces
         IQueryable<Order> GetAllOrders();
 
         IQueryable<PaymentType> GetAllPaymenTypes();
+
+        IQueryable<Address> GetAllAddressesFromOrder(int orderId);
+
+        IQueryable<ContactDetail> GetAllContactDetailsFromOrder(int orderId);
     }
 }

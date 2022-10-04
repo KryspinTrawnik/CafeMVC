@@ -77,6 +77,7 @@ namespace CafeMVC.Infrastructure.Repositories
 
         public IQueryable<AddressType> GetAllAddressTypes()=>_context.AddressTypes.AsNoTracking();
 
+
         public void UpdateAddress(Address address)
         {
             _context.Attach(address);
@@ -99,6 +100,8 @@ namespace CafeMVC.Infrastructure.Repositories
                 _context.SaveChanges();
             }
         }
+        public IQueryable<Address> GetAllAddressesFromOrder(int orderId) =>_context.OrderAddresses
+            .Where(x => x.OrderId == orderId).Select(y => y.Address);
 
         //////ContactDetails actions//////
         
@@ -136,5 +139,8 @@ namespace CafeMVC.Infrastructure.Repositories
                 .FirstOrDefault(x => x.Id == contactDetailId);
 
         }
+
+        public IQueryable<ContactDetail> GetAllContactDetailsFromOrder(int orderId) => 
+            _context.OrderContactDetails.Where(x => x.OrderId == orderId).Select(y => y.ContactDetail);
     }
 }

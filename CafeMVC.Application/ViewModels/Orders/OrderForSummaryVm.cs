@@ -30,7 +30,7 @@ namespace CafeMVC.Application.ViewModels.Orders
         public void Mapping(Profile profile)
         {
             profile.CreateMap<CafeMVC.Domain.Model.Order, OrderForSummaryVm>()
-                .ForPath(d => d.CustomerName, opt => opt.MapFrom(s => s.Customer.FirstName + s.Customer.Surname));
+                .ForPath(d => d.CustomerName, opt => opt.MapFrom(s => s.Customer.FirstName +" " + s.Customer.Surname));
 
         }
     }

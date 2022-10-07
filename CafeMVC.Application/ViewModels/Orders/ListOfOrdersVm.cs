@@ -2,17 +2,12 @@
 
 namespace CafeMVC.Application.ViewModels.Orders
 {
-    public class ListOfOrdersVm
+    public class ListsOfOrdersForIndexVm
     {
-        public List<OrderForListVm> ListOfOrders { get; set; }
+        public List<OrderForListVm> ListOfOpenOrders { get; set; }
 
-        public int PageSize { get; set; }
+        public List<OrderForListVm> ListOfClosedOrders { get; set; }
 
-        public int CurrentPage { get; set; }
-
-        public string SearchString { get; set; }
-
-        public int Count { get; set; }
     }
 }
     

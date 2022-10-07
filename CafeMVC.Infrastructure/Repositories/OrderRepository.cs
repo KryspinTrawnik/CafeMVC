@@ -25,12 +25,23 @@ namespace CafeMVC.Infrastructure.Repositories
 
             return order;
         }
-        public IQueryable<Order> GetAllOpenOrders()
+        public IQueryable<Order> GetOpenOrders()
         {
             return _context.Orders.AsNoTracking()
                 .Include(x => x.Customer)
                 .Include(x=> x.OrderedProductsDetails)
-                .Where(x => x.Status.Name == "Open");
+                .Include(x => x.Status)
+                .Where(x => x.Status.Id <= 3);
+
+        }
+
+        public IQueryable<Order> GetClosedOrders()
+        {
+            return _context.Orders.AsNoTracking()
+                .Include(x => x.Customer)
+                .Include(x => x.OrderedProductsDetails)
+                .Include(x => x.Status)
+                .Where(x => x.Status.Id > 3);
 
         }
         public void UpdateOrder(Order order)

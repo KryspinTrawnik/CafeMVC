@@ -10,17 +10,20 @@ namespace CafeMVC.Application.ViewModels.Orders
 
         public DateTime DateOfOrder { get; set; }
 
-        public string CustomerName { get; set; }
+        public DateTime LeadTime { get; set; }
 
-        public double TotalPrice { get; set; }
+        public int NumberOfProduct { get; set; }
+
+        public bool IsCollection { get; set; }
+
+        public string StatusName { get; set; }
+
 
         public void Mapping(Profile profile)
         {
             profile.CreateMap<CafeMVC.Domain.Model.Order, OrderForListVm>()
-                .IncludeMembers(s => s.Customer);
-            profile.CreateMap<CafeMVC.Domain.Model.Customer, OrderForListVm>()
-            .ForMember(d => d.CustomerName, opt => opt.MapFrom(x => x.FirstName + " " + x.Surname));
+                .ForPath(d => d.StatusName, opt => opt.MapFrom(s => s.Status.Name))
+                .ForPath(d => d.NumberOfProduct, opt => opt.MapFrom(s => s.OrderedProductsDetails.Count));
         }
-
     }
 }

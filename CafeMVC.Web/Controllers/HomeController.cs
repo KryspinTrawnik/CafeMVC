@@ -16,7 +16,7 @@ namespace CafeMVC.Web.Controllers
        
         public IActionResult Index()
         {
-            return RedirectToAction("ViewMenu", "Menu", new { menuId = 1 } );
+            return RedirectToAction("index", "Order");
         }
 
         public IActionResult Privacy()

@@ -15,14 +15,12 @@ namespace CafeMVC.Application.Services
 {
     public class CartService : ICartService
     {
-        private readonly IOrderRepository _orderRepository;
         private readonly IMapper _mapper;
         private readonly IProductRepository _productRepository;
         private readonly IProductService _productService;
 
         public CartService(IOrderRepository orderRepository, IMapper mapper, IProductRepository productRepository, IProductService productService)
         {
-            _orderRepository = orderRepository;
             _mapper = mapper;
             _productRepository = productRepository;
             _productService = productService;
@@ -197,5 +195,8 @@ namespace CafeMVC.Application.Services
 
         public List<AddressForCreationVm> GetAddresses(ISession session)
         => SessionHelper.GetObjectFromJson<OrderForCreationVm>(session, "order").Addresses;
+
+        public void ClearSession(ISession session) => session.Clear();
+        
     }
 }

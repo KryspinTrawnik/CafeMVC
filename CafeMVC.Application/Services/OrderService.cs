@@ -19,16 +19,12 @@ namespace CafeMVC.Application.Services
 
         private readonly IOrderRepository _orderRepository;
         private readonly IMapper _mapper;
-        private readonly IProductRepository _productRepository;
-        private readonly ICustomerService _customerService;
         private readonly ICartService _cartService;
 
         public OrderService(IOrderRepository orderRepository, IMapper mapper, IProductRepository productRepository, ICustomerService customerService, ICartService cartService)
         {
             _orderRepository = orderRepository;
             _mapper = mapper;
-            _productRepository = productRepository;
-            _customerService = customerService;
             _cartService = cartService;
         }
         private bool MakePayment(PaymentForCreationVm payment)
@@ -51,7 +47,6 @@ namespace CafeMVC.Application.Services
 
             _orderRepository.UpdateOrder(newOrder);
         }
-
 
         private Order PrepareOrderForSaving(OrderForCreationVm order, ISession session)
         {
@@ -79,7 +74,7 @@ namespace CafeMVC.Application.Services
             List<OrderAddress> orderAddresses = new();
             foreach (var address in addresses)
             {
-                OrderAddress orderAddress = new OrderAddress()
+                OrderAddress orderAddress = new()
                 {
                     Address = _mapper.Map<Address>(address)
                 };
@@ -99,7 +94,6 @@ namespace CafeMVC.Application.Services
                     ContactDetail = _mapper.Map<ContactDetail>(contactInfoForCreation)
                 }
                 );
-
             }
 
             return newOrderContactDetails;
@@ -114,6 +108,7 @@ namespace CafeMVC.Application.Services
 
             return _mapper.Map<AddressForSummaryVm>(deliveryAddress);
         }
+
         public void AddOrChangeNote(int orderId, string note) => _orderRepository.AddOrChangeNote(orderId, note);
 
         public int AddOrder(OrderForCreationVm order, ISession session)
@@ -124,29 +119,15 @@ namespace CafeMVC.Application.Services
 
             AssignOrderConfirmation(newOrder);
 
+            _cartService.ClearSession(session);
+
             return orderId;
         }
-
         public void ChangeLeadTime(int orderId, DateTime newLeadTimeOfOrder)
         {
             Order order = _orderRepository.GetOrderById(orderId);
             order.LeadTime = newLeadTimeOfOrder;
             _orderRepository.UpdateOrder(order);
-        }
-
-        public ListOfOrdersVm GetOrdersToDisplay(int pageSize, int pageNo, string searchString)
-        {
-            List<OrderForListVm> orderForListVm = _orderRepository.GetAllOrders()
-                .ProjectTo<OrderForListVm>(_mapper.ConfigurationProvider).Skip(pageSize * (pageNo - 1)).Take(pageSize).ToList();
-
-            return new()
-            {
-                PageSize = pageSize,
-                CurrentPage = pageNo,
-                SearchString = searchString,
-                ListOfOrders = orderForListVm,
-                Count = orderForListVm.Count
-            };
         }
 
         public ListOfProductsVm GetAllProducts(int orderId)
@@ -160,17 +141,7 @@ namespace CafeMVC.Application.Services
                 Count = productForListVm.Count
             };
         }
-        public ListOfOrdersVm GetAllOpenOrders()
-        {
-            List<OrderForListVm> ordersForListVm = _orderRepository.GetAllOpenOrders()
-                .ProjectTo<OrderForListVm>(_mapper.ConfigurationProvider).ToList();
 
-            return new()
-            {
-                ListOfOrders = ordersForListVm,
-                Count = ordersForListVm.Count
-            };
-        }
         public OrderForCreationVm GetOrderForCreationVmById(int orderId) => _mapper.Map<OrderForCreationVm>(_orderRepository.GetOrderById(orderId));
 
         public OrderForSummaryVm GetOrderSummaryVmById(int orderId)
@@ -180,13 +151,12 @@ namespace CafeMVC.Application.Services
             orderForSummaryVm.Products = _mapper.Map<List<ProductForOrderSummaryVm>>(order.OrderedProductsDetails);
             orderForSummaryVm.ContactDetails = GetContactDetailsFromOrder(orderId);
 
-            if(order.IsCollection == false)
+            if (order.IsCollection == false)
             {
                 orderForSummaryVm.DeliveryAddress = GetDeliveryAddressFromOrder(orderId);
             }
-            
-            
-           return orderForSummaryVm;
+
+            return orderForSummaryVm;
         }
 
         private List<CustomerContactInfoForViewVm> GetContactDetailsFromOrder(int orderId) =>
@@ -233,6 +203,27 @@ namespace CafeMVC.Application.Services
             }
 
             return newOrder;
+        }
+
+        public ListsOfOrdersForIndexVm GetOrdersForIndex()
+        {
+            List<Order> openOrdersForList = new();
+            List<Order> closedOrdersForList = new();
+            ListsOfOrdersForIndexVm listsOfOrdersForIndexVm = new ListsOfOrdersForIndexVm();
+            openOrdersForList = _orderRepository.GetOpenOrders().ToList();
+            closedOrdersForList = _orderRepository.GetClosedOrders().ToList();
+            if (openOrdersForList != null)
+            {
+                List<OrderForListVm> openOrdersForListVm = _mapper.Map<List<OrderForListVm>>(openOrdersForList);
+                listsOfOrdersForIndexVm.ListOfOpenOrders = openOrdersForListVm;
+            }
+            if (closedOrdersForList != null)
+            {
+                List<OrderForListVm> closedOrdersForListVm = _mapper.Map<List<OrderForListVm>>(closedOrdersForList);
+                listsOfOrdersForIndexVm.ListOfClosedOrders = closedOrdersForListVm;
+            }
+
+            return listsOfOrdersForIndexVm;
         }
     }
 

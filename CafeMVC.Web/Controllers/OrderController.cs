@@ -19,23 +19,12 @@ namespace CafeMVC.Web.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            ListOfOrdersVm ordersForView = _orderService.GetOrdersToDisplay(2, 1, "");
-            return View(ordersForView);
-        }
-
-        [HttpPost]
-        public IActionResult Index(int pageSize, int? pageNo, string searchString)
-        {
-            if (!pageNo.HasValue)
-            {
-                pageNo = 1;
-            }
-            searchString ??= string.Empty;
-            ListOfOrdersVm ordersForView = _orderService.GetOrdersToDisplay(pageSize, pageNo.Value, searchString);
+            ListsOfOrdersForIndexVm ordersForView = _orderService.GetOrdersForIndex();
 
             return View(ordersForView);
         }
 
+        
         [HttpGet]
         public IActionResult Cart()
         {
@@ -129,12 +118,6 @@ namespace CafeMVC.Web.Controllers
             return View();
         }
 
-        [HttpGet]
-        public IActionResult ViewOpenOrders()
-        {
-            ListOfOrdersVm openOrders = _orderService.GetAllOpenOrders();
-
-            return View(openOrders);
-        }
+      
     }
 }

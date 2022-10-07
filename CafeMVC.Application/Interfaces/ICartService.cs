@@ -28,5 +28,6 @@ namespace CafeMVC.Application.Interfaces
         List<ContactInfoForCreationVm> GetContactDetails(ISession session);
 
         List<AddressForCreationVm> GetAddresses(ISession session);
+        void ClearSession(ISession session);
     }
 }

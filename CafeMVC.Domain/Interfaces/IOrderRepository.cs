@@ -5,7 +5,7 @@ namespace CafeMVC.Domain.Interfaces
 {
     public interface IOrderRepository 
     {
-        IQueryable<Order> GetAllOpenOrders();
+        IQueryable<Order> GetOpenOrders();
 
         IQueryable<OrderedProductDetails> GetAllProductsFromOrder(int orderId);
         
@@ -28,5 +28,7 @@ namespace CafeMVC.Domain.Interfaces
         IQueryable<Address> GetAllAddressesFromOrder(int orderId);
 
         IQueryable<ContactDetail> GetAllContactDetailsFromOrder(int orderId);
+       
+        IQueryable<Order> GetClosedOrders();
     }
 }

@@ -7,8 +7,6 @@ namespace CafeMVC.Application.Interfaces
 {
     public interface IOrderService
     {
-        ListOfOrdersVm GetOrdersToDisplay(int pageSize, int pageNo, string searchString);
-
         ListOfProductsVm GetAllProducts(int orderId);
 
         void RemoveProduct(int productId, int orderId);
@@ -21,8 +19,6 @@ namespace CafeMVC.Application.Interfaces
 
         void AddOrChangeNote(int orderId, string annotation);
 
-        ListOfOrdersVm GetAllOpenOrders();
-
         OrderForSummaryVm GetOrderSummaryVmById(int orderId);
 
         void ChangeOrderStatus(int orderId, int statusId);
@@ -32,5 +28,6 @@ namespace CafeMVC.Application.Interfaces
         OrderForCreationVm GetOrderForCart(ISession session);
 
         OrderForCreationVm AssignAddressesTypes(OrderForCreationVm newOrder);
+        ListsOfOrdersForIndexVm GetOrdersForIndex();
     }
 }

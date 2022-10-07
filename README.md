@@ -13,12 +13,13 @@ The application is designed to enable customers to make orders online. Also, the
 This application is built in Clean Architecture and the Service-Repository pattern.
 
 ## Technologies
-* .NET Core 5
-* ASP.NET, HTML5, MSSQL
-* WebAPI
+* .NET Core 6
+* ASP.NET, HTML5, CSS, JS and MSSQL
 * Depedency Injection
-* Entity Framework Core 5.0.5
+* Entity Framework Core 6.0.6
 * LINQ
+* Session  2.2.0
+* AutoMapper
 
 
 ## Features
@@ -29,5 +30,5 @@ This application is built in Clean Architecture and the Service-Repository patte
 * Orders managment for admin acceptance/cancel/check 
 * Adding images dietinfo tags to Products
 ## Status
-The application is still in progress. It is contected to MSSQL database. Customer controller and views are fuctioning. Currently, I work on Product controller and views.
+The application is still in progress. It is contected to MSSQL database. Customer, Product, Menu controllers and views are fuctioning. Currently, I work on managing  orders from adimn panel.
 

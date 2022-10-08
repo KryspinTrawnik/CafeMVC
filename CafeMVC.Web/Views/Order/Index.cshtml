@@ -2,15 +2,110 @@
 
 @{
     ViewData["Title"] = "Index";
+    string deliveryText;
 }
+<div id="wrapper">
+    <div id="ordersInProgress">
+        <h3>Open Orders</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Lead Time</th>
+                    <th>Status</th>
+                    <th>Items Count</th>
+                    <th>Delivery</th>
+                    <th>Edit</th>
+                </tr>
+            </thead>
+            @if (@Model.ListOfOpenOrders != null)
+            {
+                @for (int i = 0; i < @Model.ListOfOpenOrders.Count; i++)
+                {
+                    @if (@Model.ListOfOpenOrders[i].IsCollection == true)
+                    {
+                        deliveryText = "False";
+                    }
+                    else
+                    {
+                        deliveryText = "True";
+                    }
+                    <tr>
+                        <td>@Model.ListOfOpenOrders[i].Id</td>
+                        <td>@Model.ListOfOpenOrders[i].LeadTime.ToShortDateString() @Model.ListOfOpenOrders[i].LeadTime.ToShortTimeString()</td>
+                        <td>@Model.ListOfOpenOrders[i].StatusName</td>
+                        <td>@Model.ListOfOpenOrders[i].NumberOfProduct</td>
+                         <td>
+                            @deliveryText
+                        </td>
+                        <td>@Html.ActionLink("Edit", "OrderView", new {orderId = Model.ListOfOpenOrders[i].Id })</td>
+                    </tr>
+                }
+            }
+            else
+            {
+               <tr>There is no open orders</tr>
+            }
+        </table>
+    </div>
+    <div id="ordersFromPast">
+        <h3>Closed Orders</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Lead Time</th>
+                    <th>Status</th>
+                    <th>Items Count</th>
+                    <th>Delivery</th>
+                    <th>Edit</th>
+                </tr>
+            </thead>
+            @if (@Model.ListOfClosedOrders != null)
+            {
+                @for (int i = 0; i < @Model.ListOfClosedOrders.Count; i++)
+                {
+                    @if (@Model.ListOfClosedOrders[i].IsCollection == true)
+                    {
+                        deliveryText = "False";
+                    }
+                    else
+                    {
+                        deliveryText = "True";
+                    }
+                    <tr>
+                        <td>@Model.ListOfClosedOrders[i].Id</td>
+                        <td>@Model.ListOfClosedOrders[i].LeadTime.ToShortDateString() @Model.ListOfOpenOrders[i].LeadTime.ToShortTimeString()</td>
+                        <td>@Model.ListOfClosedOrders[i].StatusName</td>
+                        <td>@Model.ListOfClosedOrders[i].NumberOfProduct</td>
+                        <td>
+                            @deliveryText
+                        </td>
+                        <td>@Html.ActionLink("Edit", "OrderView", new {orderId = Model.ListOfClosedOrders[i].Id })</td>
+                    </tr>
+                }
+            }
+            else if(@Model.ListOfClosedOrders == null)
+            {
+                <tr>
+                    <td colspan="5"> There is no orders to view </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
 
 @section Scripts
-{
-<script type="text/javascript">
-    function PagerClick(index)
     {
-        document.getElementById("pageNo").value = index;
-        document.forms[0].submit();
-    }
-</script>
+    <script type="text/javascript">
+        function PagerClick(index) {
+            document.getElementById("pageNo").value = index;
+            document.forms[0].submit();
+        }
+    </script>
 }

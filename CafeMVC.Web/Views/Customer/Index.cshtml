@@ -3,13 +3,6 @@
 @{
     string title = "All Customers";
 }
-<head>
-    <style>
-        .table {
-    background-color: rgba(41,43,44, 0.8) !important;
-}
-    </style>
-</head>
 <h1>@title</h1>
 
 <p>
@@ -55,7 +48,7 @@
         </table>
     </div>
     <div class="row">
-        <table class="pagerTable">
+        <table class="clean">
             <tr>
                 @for (int i = 1; i <= Math.Ceiling(Model.Count / (double)Model.PageSize); i++)
                 {

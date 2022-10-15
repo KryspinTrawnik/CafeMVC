@@ -6,7 +6,7 @@ using AutoMapper.Configuration.Annotations;
 namespace CafeMVC.Application.ViewModels.Products
 {
     [AutoMap(typeof(CafeMVC.Domain.Model.OrderedProductDetails))]
-    public class ProductForOrderVm : IMapFrom<CafeMVC.Domain.Model.OrderedProductDetails>
+    public class ProductForOrderForCreationVm : IMapFrom<CafeMVC.Domain.Model.OrderedProductDetails>
     {
         public int Id { get; set; }
 
@@ -25,7 +25,7 @@ namespace CafeMVC.Application.ViewModels.Products
 
         public virtual void Mapping(Profile profile)
         {
-            profile.CreateMap<ProductForOrderVm, CafeMVC.Domain.Model.OrderedProductDetails>();
+            profile.CreateMap<ProductForOrderForCreationVm, CafeMVC.Domain.Model.OrderedProductDetails>();
                 
         }
     }

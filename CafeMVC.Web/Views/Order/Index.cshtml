@@ -1,5 +1,8 @@
 ﻿@model CafeMVC.Application.ViewModels.Orders.ListsOfOrdersForIndexVm
 
+<head>
+    <link rel="stylesheet" href="~/css/CSSOrderView.css" />
+</head>
 @{
     ViewData["Title"] = "Index";
     string deliveryText;
@@ -33,7 +36,7 @@
                     <tr>
                         <td>@Model.ListOfOpenOrders[i].Id</td>
                         <td>@Model.ListOfOpenOrders[i].LeadTime.ToShortDateString() @Model.ListOfOpenOrders[i].LeadTime.ToShortTimeString()</td>
-                        <td>@Model.ListOfOpenOrders[i].StatusName</td>
+                        <td class="statusCell">@Model.ListOfOpenOrders[i].StatusName</td>
                         <td>@Model.ListOfOpenOrders[i].NumberOfProduct</td>
                          <td>
                             @deliveryText
@@ -74,9 +77,9 @@
                         deliveryText = "True";
                     }
                     <tr>
-                        <td>@Model.ListOfClosedOrders[i].Id</td>
+                        <td class="blabla">@Model.ListOfClosedOrders[i].Id</td>
                         <td>@Model.ListOfClosedOrders[i].LeadTime.ToShortDateString() @Model.ListOfOpenOrders[i].LeadTime.ToShortTimeString()</td>
-                        <td>@Model.ListOfClosedOrders[i].StatusName</td>
+                        <td class="statusCell"> @Model.ListOfClosedOrders[i].StatusName</td>
                         <td>@Model.ListOfClosedOrders[i].NumberOfProduct</td>
                         <td>
                             @deliveryText
@@ -103,9 +106,27 @@
 @section Scripts
     {
     <script type="text/javascript">
-        function PagerClick(index) {
-            document.getElementById("pageNo").value = index;
-            document.forms[0].submit();
+        var statusCells = document.getElementsByClassName('statusCell');
+        console.log(statusCells);
+        for (var i = 0; i < statusCells.length; i++) {
+            console.log(statusCells[i]);
+
+            if (statusCells[i].innerHTML == "Open") {
+                statusCells[i].style.color = "green";
+            }
+            else if (statusCells[i].innerHTML == "In Progress") {
+                statusCells[i].style.color = "orange";
+            }
+            else if (statusCells[i].innerHTML == "Closed") {
+                statusCells[i].style.color = "grey";
+            }
+            else if (statusCells[i].innerHTML == "Ready") {
+                statusCells[i].style.color = "darkblue";
+            }
+            else if (statusCells[i].innerHTML == "Cancelled") {
+                statusCells[i].style.color = "Red";
+            }
         }
+
     </script>
 }

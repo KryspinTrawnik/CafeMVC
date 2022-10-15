@@ -173,7 +173,20 @@ namespace CafeMVC.Application.Services
 
         public void ChangeOrderStatus(int orderId, int statusId) => _orderRepository.ChangeStatusOfOrder(orderId, statusId);
 
-        public OrderForViewVm GetOrderToView(int orderId) => _mapper.Map<OrderForViewVm>(_orderRepository.GetOrderById(orderId));
+        public OrderForViewVm GetOrderToView(int orderId)
+        {
+            Order order = _orderRepository.GetOrderById(orderId);
+            OrderForViewVm  orderForViewVm = _mapper.Map < OrderForViewVm >(order);
+            orderForViewVm.AllStatuses = _orderRepository.GetAllStatuses().ProjectTo<StatusForCreationVm>(_mapper.ConfigurationProvider).ToList();
+            orderForViewVm.ContactDetails = GetContactDetailsFromOrder(orderId);
+            orderForViewVm.Products = _mapper.Map<List<ProductForOrderViewVm>>(order.OrderedProductsDetails);
+            if (order.IsCollection == false)
+            {
+                orderForViewVm.DeliveryAddress = GetDeliveryAddressFromOrder(orderId);
+            }
+
+            return orderForViewVm;
+        }
 
         public OrderForCreationVm GetOrderForCart(ISession session)
         {
@@ -184,7 +197,7 @@ namespace CafeMVC.Application.Services
                     AllPaymentTypes = GetAllPaymentTypes()
                 },
             };
-            if (SessionHelper.GetObjectFromJson<List<ProductForOrderVm>>(session, "cart") != null)
+            if (SessionHelper.GetObjectFromJson<List<ProductForOrderForCreationVm>>(session, "cart") != null)
             {
                 newOrder.Products = _cartService.GetListOfCartProducts(session);
             };
@@ -207,11 +220,10 @@ namespace CafeMVC.Application.Services
 
         public ListsOfOrdersForIndexVm GetOrdersForIndex()
         {
-            List<Order> openOrdersForList = new();
-            List<Order> closedOrdersForList = new();
+            
             ListsOfOrdersForIndexVm listsOfOrdersForIndexVm = new ListsOfOrdersForIndexVm();
-            openOrdersForList = _orderRepository.GetOpenOrders().ToList();
-            closedOrdersForList = _orderRepository.GetClosedOrders().ToList();
+            List<Order> openOrdersForList = _orderRepository.GetOpenOrders().ToList();
+            List<Order> closedOrdersForList = _orderRepository.GetClosedOrders().ToList();
             if (openOrdersForList != null)
             {
                 List<OrderForListVm> openOrdersForListVm = _mapper.Map<List<OrderForListVm>>(openOrdersForList);

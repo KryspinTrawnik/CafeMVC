@@ -98,24 +98,12 @@ namespace CafeMVC.Web.Controllers
             return RedirectToAction("OrderSummary", new { orderId = id });
         }
 
-        [HttpGet]
-        public IActionResult CanceleOrder()
-        {
-            return View();
-        }
-
-        public IActionResult CanceleOrder(int orderId, int statusId)
+        [HttpPost]
+        public IActionResult ChangeOrderStatus(int orderId, int statusId)
         {
             _orderService.ChangeOrderStatus(orderId, statusId);
 
-            return View();
-        }
-
-        public IActionResult CloseOrder(int orderId, int statusId)
-        {
-            _orderService.ChangeOrderStatus(orderId, statusId);
-
-            return View();
+           return RedirectToAction("OrderView", new { orderId = orderId });
         }
 
       

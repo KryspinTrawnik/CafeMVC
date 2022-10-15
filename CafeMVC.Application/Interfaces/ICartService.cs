@@ -15,7 +15,7 @@ namespace CafeMVC.Application.Interfaces
 
         void RemoveProductFromCart(int productId, ISession session);
 
-        List<ProductForOrderVm> GetListOfCartProducts(ISession session);
+        List<ProductForOrderForCreationVm> GetListOfCartProducts(ISession session);
 
         decimal GetTotalPrice(ISession session);
 

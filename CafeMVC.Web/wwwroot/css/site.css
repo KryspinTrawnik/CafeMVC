@@ -1,6 +1,6 @@
 ﻿
 *{
-    color: white !important;
+    color: white;
     
 }
 
@@ -127,3 +127,6 @@ table tr td, table tr th {
     .clean td {
         width: 30px;
     }
+.otherInput {
+    background-color: #292b2c;
+}

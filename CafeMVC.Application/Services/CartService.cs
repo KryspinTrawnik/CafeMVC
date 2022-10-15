@@ -34,10 +34,10 @@ namespace CafeMVC.Application.Services
         private void UpdateCartQuote(ISession session)
         {
             decimal overallOrderPrice = 0;
-            if (SessionHelper.GetObjectFromJson<List<ProductForOrderVm>>(session, "cart") != null)
+            if (SessionHelper.GetObjectFromJson<List<ProductForOrderForCreationVm>>(session, "cart") != null)
             {
                 overallOrderPrice = Helpers.Helper
-                    .SumUpListOfDecimals(SessionHelper.GetObjectFromJson<List<ProductForOrderVm>>(session, "cart").Select(x => x.OverallPrice).ToList());
+                    .SumUpListOfDecimals(SessionHelper.GetObjectFromJson<List<ProductForOrderForCreationVm>>(session, "cart").Select(x => x.OverallPrice).ToList());
             }
 
             session.SetString("total", overallOrderPrice.ToString());
@@ -46,10 +46,10 @@ namespace CafeMVC.Application.Services
         private void UpdateProductsQuantity(ISession session)
         {
             int qty = 0;
-            if (SessionHelper.GetObjectFromJson<List<ProductForOrderVm>>(session, "cart") != null)
+            if (SessionHelper.GetObjectFromJson<List<ProductForOrderForCreationVm>>(session, "cart") != null)
             {
                 qty = Helpers.Helper
-                    .SumUpListOfInts(SessionHelper.GetObjectFromJson<List<ProductForOrderVm>>(session, "cart").Select(x => x.Quantity).ToList());
+                    .SumUpListOfInts(SessionHelper.GetObjectFromJson<List<ProductForOrderForCreationVm>>(session, "cart").Select(x => x.Quantity).ToList());
 
             }
             session.SetInt32("qty", qty);
@@ -57,7 +57,7 @@ namespace CafeMVC.Application.Services
 
         private int DoesItExist(int id, ISession session)
         {
-            List<ProductForOrderVm> cart = SessionHelper.GetObjectFromJson<List<ProductForOrderVm>>(session, "cart");
+            List<ProductForOrderForCreationVm> cart = SessionHelper.GetObjectFromJson<List<ProductForOrderForCreationVm>>(session, "cart");
             for (int i = 0; i < cart.Count; i++)
             {
                 if (cart[i].ProductVm.Id.Equals(id))
@@ -68,9 +68,9 @@ namespace CafeMVC.Application.Services
 
             return -1;
         }
-        private ProductForOrderVm CreateNewOrderedProduct(int productId, int quantity)
+        private ProductForOrderForCreationVm CreateNewOrderedProduct(int productId, int quantity)
         {
-            ProductForOrderVm newOrderedProduct = new()
+            ProductForOrderForCreationVm newOrderedProduct = new()
             {
                 BasePrice = _productRepository.GetProductById(productId).Price,
                 Quantity = quantity,
@@ -84,9 +84,9 @@ namespace CafeMVC.Application.Services
         }
         public void AddProductToCart(int quantity, int productId, ISession session)
         {
-            if (SessionHelper.GetObjectFromJson<List<ProductForOrderVm>>(session, "cart") == null)
+            if (SessionHelper.GetObjectFromJson<List<ProductForOrderForCreationVm>>(session, "cart") == null)
             {
-                List<ProductForOrderVm> cart = new()
+                List<ProductForOrderForCreationVm> cart = new()
                 {
                     CreateNewOrderedProduct(productId, quantity)
                 };
@@ -94,7 +94,7 @@ namespace CafeMVC.Application.Services
             }
             else
             {
-                List<ProductForOrderVm> cart = SessionHelper.GetObjectFromJson<List<ProductForOrderVm>>(session, "cart");
+                List<ProductForOrderForCreationVm> cart = SessionHelper.GetObjectFromJson<List<ProductForOrderForCreationVm>>(session, "cart");
                 int index = DoesItExist(productId, session);
                 if (index != -1)
                 {
@@ -114,7 +114,7 @@ namespace CafeMVC.Application.Services
 
         public void RemoveProductFromCart(int productId, ISession session)
         {
-            List<ProductForOrderVm> cart = SessionHelper.GetObjectFromJson<List<ProductForOrderVm>>(session, "cart");
+            List<ProductForOrderForCreationVm> cart = SessionHelper.GetObjectFromJson<List<ProductForOrderForCreationVm>>(session, "cart");
             if (cart.FirstOrDefault(x => x.ProductVm.Id == productId) != null)
             {
                 cart.Remove(cart.FirstOrDefault(x => x.ProductVm.Id == productId));
@@ -125,7 +125,7 @@ namespace CafeMVC.Application.Services
 
         public void UpdateCartProduct(int quantity, int productId, ISession session)
         {
-            List<ProductForOrderVm> cart = SessionHelper.GetObjectFromJson<List<ProductForOrderVm>>(session, "cart");
+            List<ProductForOrderForCreationVm> cart = SessionHelper.GetObjectFromJson<List<ProductForOrderForCreationVm>>(session, "cart");
             if (cart.FirstOrDefault(x => x.ProductVm.Id == productId) != null)
             {
                 int index = cart.IndexOf(cart.FirstOrDefault(x => x.ProductVm.Id == productId));
@@ -136,9 +136,9 @@ namespace CafeMVC.Application.Services
             UpdateCartDataOnView(session);
         }
 
-        public List<ProductForOrderVm> GetListOfCartProducts(ISession session)
+        public List<ProductForOrderForCreationVm> GetListOfCartProducts(ISession session)
         {
-            List<ProductForOrderVm> cart = SessionHelper.GetObjectFromJson<List<ProductForOrderVm>>(session, "cart");
+            List<ProductForOrderForCreationVm> cart = SessionHelper.GetObjectFromJson<List<ProductForOrderForCreationVm>>(session, "cart");
             for (int i = 0; i < cart.Count; i++)
             {
                 cart[i].ProductVm = _productService.GetProductForViewById(cart[i].ProductVm.Id);

@@ -1,0 +1,142 @@
+﻿@model CafeMVC.Application.ViewModels.Orders.OrderForViewVm
+<head>
+    <link rel="stylesheet" href="~/css/CSSOrderView.css" />
+
+</head>
+@{
+    string note, paymentStatus;
+    if (Model.Note != null)
+    {
+        note = @Model.Note;
+    }
+    else
+    {
+        note = "Empty";
+    }
+    var listOfStatusesForDropdown = new List<SelectListItem>();
+    for (int i = 0; i < Model.AllStatuses.Count; i++)
+    {
+        listOfStatusesForDropdown.Add(new() { Text = Model.AllStatuses[i].Name, Value = Model.AllStatuses[i].Id.ToString()});
+    }
+    if(Model.Payment.IsCompleted == true)
+    {
+        paymentStatus = "Paid";
+    }
+    else
+    {
+        paymentStatus = "Not Paid";
+    }
+
+}
+<div class="square-container">
+
+    <div class="square">
+        <div class="content" id="squerOne">
+            <h3>Contact Details</h3>
+            <h4>Name: @Model.CustomerName</h4>
+            <h4>Contact Number: @Model.ContactDetails[1].ContactDetailInformation</h4>
+            <h4>E-mail: @Model.ContactDetails[0].ContactDetailInformation</h4>
+            @if (Model.IsCollection == false)
+            {
+                <h4>Delivery to:</h4>
+                <h4>@Model.DeliveryAddress.Address</h4>
+            }
+            else
+            {
+                <h4>Collection</h4>
+            }
+        </div>
+    </div>
+
+    <div class="square">
+        <div class="content spread">
+            <h3>Order Information</h3>
+            <h2>Status : <b id="status">@Model.Status</b></h2>
+            <h4>Date of Order: @Model.DateOfOrder.ToShortDateString() @Model.DateOfOrder.ToShortTimeString()</h4>
+            <h4>Requested Delivery Time: @Model.LeadTime.ToShortDateString() @Model.LeadTime.ToShortTimeString()</h4>
+            <h4>Payment Type: @Model.Payment.PaymentType</h4>
+            <h4>Payment Status: @paymentStatus</h4>
+        </div>
+    </div>
+
+    <div class="square">
+        <div class="content column">
+            <h3>Products</h3>
+            <table id="products" class="table">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Overal Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for(int i = 0; i < Model.Products.Count; i++)
+                    {
+                        
+                            int no = i + 1;
+                        
+                        <tr>
+                            <td>@no.</td>
+                            <td>@Model.Products[i].Product.Name</td>
+                            <td>@Model.Products[i].Product.Price</td>
+                            <td>@Model.Products[i].Quantity</td>
+                            <td>@Model.Products[i].OverallPrice</td>
+                        </tr>
+                    }
+                    <tr id="lastRow">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>Sum up:</td>
+                        <td>@Model.TotalPrice</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="square">
+        <div class="content spread">
+            <h3>Other</h3>
+            <h4>Notes: @note</h4>
+            <br />
+            <br />
+            <h3>Change Order Status</h3>
+            @using (Html.BeginForm("ChangeOrderStatus", "Order", FormMethod.Post))
+            {
+                <input type="hidden" name="orderId" value= @Model.Id />
+                @Html.DropDownList("statusId", listOfStatusesForDropdown, new{@class="otherInput"})
+                <br />
+                <br />
+                <button type="submit" class="btn btn-success"  value="Submit" name="Btn" role="button">Change</button>
+            }
+        </div>
+    </div>
+
+
+</div>
+@section Scripts
+    {
+    <script type="text/javascript">
+        var currentStatus = document.getElementById("status").innerHTML;
+        if (currentStatus == "Open") {
+            document.getElementById("status").style.color = "Green";
+        }
+        else if (currentStatus == "In Progress") {
+            document.getElementById("status").style.color = "Orange";
+        }
+        else if (currentStatus == "Ready") {
+            document.getElementById("status").style.color = "DarkBlue";
+        }
+        else if (currentStatus == "Closed") {
+            document.getElementById("status").style.color = "Grey";
+        }
+        else if (currentStatus == "Cancelled") {
+            document.getElementById("status").style.color = "Red";
+        }
+
+    </script>
+}

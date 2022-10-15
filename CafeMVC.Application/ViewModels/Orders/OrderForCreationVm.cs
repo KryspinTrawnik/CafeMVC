@@ -38,7 +38,7 @@ namespace CafeMVC.Application.ViewModels.Orders
         [Ignore]
         public List<ContactInfoForCreationVm> ContactDetails { get; set; }
 
-        public List<ProductForOrderVm> Products { get; set; }
+        public List<ProductForOrderForCreationVm> Products { get; set; }
 
         public void Mapping(Profile profile)
         {

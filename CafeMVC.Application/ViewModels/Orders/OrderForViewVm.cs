@@ -15,18 +15,34 @@ namespace CafeMVC.Application.ViewModels.Orders
 
         public decimal TotalPrice { get; set; }
 
+        public bool IsCollection { get; set; }
+
         public string OrderConfirmation { get; set; }
 
-        public List<ProductForViewVm> Products { get; set; }
+        public List<ProductForOrderViewVm> Products { get; set; }
 
         public DateTime DateOfOrder { get; set; }
 
-        public AddressForOrderViewVm DeliveryAddress { get; set; }
+        public DateTime LeadTime { get; set; }
+
+        public PaymentForOrderViewVm Payment { get; set; }
+      
+
+        public string Note { get; set; }
+
+        public string Status { get; set; }
+
+        public AddressForSummaryVm DeliveryAddress { get; set; }
+
+        public List<StatusForCreationVm> AllStatuses { get; set; }
+
+        public List<CustomerContactInfoForViewVm> ContactDetails { get; set; }
 
         public void Mapping(Profile profile)
         {
             profile.CreateMap<CafeMVC.Domain.Model.Order, OrderForViewVm>()
-                .ForMember(s => s.CustomerName, opt => opt.MapFrom(d => d.Customer.FirstName + " " + d.Customer.Surname));
+                .ForMember(d => d.CustomerName, opt => opt.MapFrom(s => s.Customer.FirstName + " " + s.Customer.Surname))
+                .ForPath(d => d.Status, opt => opt.MapFrom(s => s.Status.Name));
         }
 
     }

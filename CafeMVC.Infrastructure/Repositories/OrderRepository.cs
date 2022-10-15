@@ -21,6 +21,9 @@ namespace CafeMVC.Infrastructure.Repositories
                 .ThenInclude(x => x.Product)
                 .Include(x => x.Payment)
                 .ThenInclude(x => x.PaymentCard)
+                .Include(x => x.Payment)
+                .ThenInclude(x => x.PaymentType)
+                .Include(x => x.Status)
                 .FirstOrDefault(x => x.Id == orderId);
 
             return order;

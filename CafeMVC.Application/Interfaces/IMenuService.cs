@@ -1,5 +1,6 @@
 ﻿using CafeMVC.Application.ViewModels.Menu;
 using CafeMVC.Application.ViewModels.Products;
+using System.Collections.Generic;
 
 namespace CafeMVC.Application.Interfaces
 {
@@ -26,5 +27,6 @@ namespace CafeMVC.Application.Interfaces
         MenuForViewVm GetMenuForView(int manuId);
 
         MenuForCreationVm GetMenuForEdition(int menuId);
+        List<MenuForListVm> GetPublicMenus();
     }
 }

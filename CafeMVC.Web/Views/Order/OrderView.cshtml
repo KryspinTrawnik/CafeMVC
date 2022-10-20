@@ -28,6 +28,7 @@
     }
 
 }
+
 <div class="square-container">
 
     <div class="square">
@@ -113,6 +114,7 @@
                 <br />
                 <button type="submit" class="btn btn-success"  value="Submit" name="Btn" role="button">Change</button>
             }
+            <h4 id="linkToIndex"><a href='@Url.Action("Index", "Order")' class="btn btn-secondary">Go Back </a></h4>
         </div>
     </div>
 
@@ -129,7 +131,7 @@
             document.getElementById("status").style.color = "Orange";
         }
         else if (currentStatus == "Ready") {
-            document.getElementById("status").style.color = "DarkBlue";
+            document.getElementById("status").style.color = "Blue";
         }
         else if (currentStatus == "Closed") {
             document.getElementById("status").style.color = "Grey";

@@ -9,6 +9,8 @@ namespace CafeMVC.Application.ViewModels.Menu
 
         public string Name { get; set; }
 
+        public bool IsItPublic { get; set; }
+
 
         public void Mapping(Profile profile)
         {

@@ -152,5 +152,12 @@ namespace CafeMVC.Application.Services
 
             return menuForEdition;
         }
+
+        public List<MenuForListVm> GetPublicMenus()
+        {
+            List<Menu> publicMenus = _menuRepository.GetAllPublicMenus().ToList();
+
+            return _mapper.Map<List<MenuForListVm>>(publicMenus);
+        }
     }
 }

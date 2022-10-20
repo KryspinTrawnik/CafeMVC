@@ -8,7 +8,7 @@ namespace CafeMVC.Domain.Model
 
         public virtual ICollection<Product> Products { get; set; }
 
-        public bool HasBeenRemoved { get; set; }
+        public bool IsItPublic { get; set; }
 
     }
 }

@@ -35,3 +35,6 @@
 .lastRow{
     border-bottom: none !important;
 }
+#linkToIndex {
+    text-align: right;
+}

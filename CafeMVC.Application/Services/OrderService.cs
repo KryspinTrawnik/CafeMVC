@@ -20,12 +20,14 @@ namespace CafeMVC.Application.Services
         private readonly IOrderRepository _orderRepository;
         private readonly IMapper _mapper;
         private readonly ICartService _cartService;
+        private readonly IMenuService _menuService;
 
-        public OrderService(IOrderRepository orderRepository, IMapper mapper, IProductRepository productRepository, ICustomerService customerService, ICartService cartService)
+        public OrderService(IOrderRepository orderRepository, IMapper mapper, ICartService cartService, IMenuService menuService)
         {
             _orderRepository = orderRepository;
             _mapper = mapper;
             _cartService = cartService;
+            _menuService = menuService;
         }
         private bool MakePayment(PaymentForCreationVm payment)
         {
@@ -236,6 +238,21 @@ namespace CafeMVC.Application.Services
             }
 
             return listsOfOrdersForIndexVm;
+        }
+
+        public AdminDashboardVm GetDashboardVm()
+        {
+            List<Order> openOrdersForList = _orderRepository.GetOpenOrders().ToList();
+            AdminDashboardVm adminDashboard = new();
+            if (openOrdersForList != null)
+            {
+                List<OrderForListVm> openOrdersForListVm = _mapper.Map<List<OrderForListVm>>(openOrdersForList);
+                adminDashboard.ListOfOpenOrders = openOrdersForListVm;
+            }
+            adminDashboard.ListOfOpenMenus = _menuService.GetPublicMenus();
+
+            return adminDashboard;
+
         }
     }
 

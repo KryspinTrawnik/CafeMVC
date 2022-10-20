@@ -7,6 +7,7 @@
     ViewData["Title"] = "Index";
     string deliveryText;
 }
+<div style="text-align:right;"> <h4 id="linkToIndex"><a href='@Url.Action("Admin", "Home")' class="btn btn-secondary">Go to Admin </a></h4></div>
 <div id="wrapper">
     <div id="ordersInProgress">
         <h3>Open Orders</h3>
@@ -121,7 +122,7 @@
                 statusCells[i].style.color = "grey";
             }
             else if (statusCells[i].innerHTML == "Ready") {
-                statusCells[i].style.color = "darkblue";
+                statusCells[i].style.color = "blue";
             }
             else if (statusCells[i].innerHTML == "Cancelled") {
                 statusCells[i].style.color = "Red";

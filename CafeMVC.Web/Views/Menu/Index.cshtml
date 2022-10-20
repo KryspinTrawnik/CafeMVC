@@ -1,7 +1,7 @@
 ﻿@model CafeMVC.Application.ViewModels.Menu.ListOfMenusVm
 
 @{
-    ViewData["Title"] = "Index";
+    string title = "Menu Index";
 }
 <head>
     <style>
@@ -10,11 +10,12 @@
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 
-<h1>Index</h1>
+<h1>@title</h1>
 
 <p>
     <a asp-action="AddNewMenu">Create New Menu</a>
 </p>
+<div style="text-align:right;"> <h4 id="linkToIndex"><a href='@Url.Action("Admin", "Home")' class="btn btn-secondary">Go to Admin </a></h4></div>
 <form asp-action="Index" asp-controller="menu" method="post">
     <div class="row">
         <input type="text" asp-for="SearchString" name="searchString"  class="searchString" id="searchString"  placeholder="Looking for..." />
@@ -30,7 +31,10 @@
                     <th>
                         Menu
                     </th>
-                    <th></th>
+                    <th>
+                        Public Menu
+                    </th>
+                   <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -41,7 +45,10 @@
                             @Html.DisplayFor(modelItem => item.Id)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Name)
+                            @Html.DisplayFor(modelItem => item.Name)    
+                        </td>
+                         <td>
+                            @Html.DisplayFor(modelItem => item.IsItPublic)
                         </td>
 
                         <td>
@@ -76,6 +83,7 @@
         <input type="hidden" name="pageSize" id="pageSize"/>
     </div>
 </form>
+
 @section Scripts
 {
     <script type="text/javascript">

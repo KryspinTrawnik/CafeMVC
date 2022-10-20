@@ -4,7 +4,6 @@
 }
 <head>
     <link rel="stylesheet" href="~/css/AddProduct.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
 </head>
 
 <body>
@@ -105,10 +104,13 @@
                         </select>
                     </div>
                     <div class="Description">
+                        <br>
                         <h4>Description</h4>
                         @Html.TextAreaFor(m => m.Description, new{@class ="DescriptionTextBox"})
+                       
                     </div>
                     <div>
+                         <br>
                         <button type="submit" class="btn btn-success" value="Submit" name="Btn" role="button" id="select_all">Submit</button>
                         <button type="submit" class="btn btn-danger" name="Btn" value="Cancel">Cancel</button>
                     </div>

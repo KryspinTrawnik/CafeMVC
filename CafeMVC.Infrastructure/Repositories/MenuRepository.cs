@@ -27,7 +27,7 @@ namespace CafeMVC.Infrastructure.Repositories
         {
             _context.Entry(menu).Collection("Products").IsModified = true;
             _context.Entry(menu).Property("Name").IsModified = true;
-            _context.Entry(menu).Property("HasBeenRemoved").IsModified = true;
+            _context.Entry(menu).Property("IsItPublic").IsModified = true;
             _context.SaveChanges();
         }
         public void AddProductToMenu(int menuId, int productId)
@@ -74,11 +74,11 @@ namespace CafeMVC.Infrastructure.Repositories
             }
         }
 
-        public IQueryable<Menu> GetAllMenus()
-        {
-            var activeMenus = _context.Menus.AsNoTracking();
-                
-            return activeMenus;
-        }
+        public IQueryable<Menu> GetAllMenus() => _context.Menus.AsNoTracking();
+        
+
+        public IQueryable<Menu> GetAllPublicMenus()=> _context.Menus.AsNoTracking().Where(x => x.IsItPublic == true);
+
+
     }
 }

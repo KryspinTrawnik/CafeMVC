@@ -6,7 +6,16 @@
 <head>
     <style>
         .table {
-    background-color: rgba(41,43,44, 0.8) !important;
+            margin-left: auto;
+            margin-right: auto;
+            width: auto;
+}
+body{
+    text-align:center !important;
+}
+
+        #searchString {
+            margin-left: 20%;
 }
     </style>
 </head>
@@ -16,6 +25,7 @@
 <p>
     <a asp-action="AddNewIngredient">Create Ingredient</a>
 </p>
+<div style="text-align:right;"> <h4 id="linkToIndex"><a href='@Url.Action("Admin", "Home")' class="btn btn-secondary">Go to Admin </a></h4></div>
 <form asp-action="EditIngredientsList" , asp-controller="product" method="post">
     <div class="row">
         <input type="text" asp-for="SearchString" class="searchString" name="searchString" id="searchString" placeholder="Looking for..." />

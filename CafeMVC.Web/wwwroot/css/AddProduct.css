@@ -8,6 +8,9 @@
     background-repeat: no-repeat;
     text-align: center;
 }
+div{
+    padding: 2px;
+}
 
 #pictureFrame {
     width: 300px;
@@ -45,7 +48,6 @@
     display: grid;
     overflow: auto;
     height: 410px;
-    font-size: 0px;
 }
 
 .productTable {
@@ -58,7 +60,6 @@
 .Ingredients {
     display: grid;
     grid-template-columns: 40% auto 40%;
-    font-size: 16px;
     height: 100%;
 }
 
@@ -70,14 +71,12 @@
 .Allergens {
     display: grid;
     grid-template-columns: 40% auto 40%;
-    font-size: 16px;
     height: 100%;
 }
 
 .DietInfo_Submit {
     display: grid;
     grid-template-rows: 30% 50% 20%;
-    font-size: 16px;
 }
 
 select {

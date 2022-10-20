@@ -1,0 +1,82 @@
+﻿@model  CafeMVC.Application.ViewModels.Orders.AdminDashboardVm
+<head>
+    <link rel="stylesheet" href="~/css/OrderStyleSheet.css" />
+</head>
+
+<div class="square-container">
+
+    <div class="square">
+        <div class="content" id="squerOne">
+            <h2>Menus</h2>
+            <h3>@Html.ActionLink("View All Menus", "index", "Menu")</h3>
+            <br />
+            <h3>@Html.ActionLink("Create New Menu", "AddNewMenu", "Menu")</h3>
+            <h3>Open Menu For Public</h3>
+            <table class="table adminTable">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                @for(int i = 0; i < Model.ListOfOpenMenus.Count; i++){
+
+                <tr>
+                    <td>@Model.ListOfOpenMenus[i].Name</td>
+                            <td>
+                                @Html.ActionLink("Edit", "EditMenu", "Menu", new {  menuId = @Model.ListOfOpenMenus[i].Id }) 
+                            </td>
+                            <td>@Html.ActionLink("Details", "ViewMenu", "Menu", new { menuId =  @Model.ListOfOpenMenus[i].Id }) </td>
+                </tr>
+                }
+                </thead>
+            </table>
+        </div>
+    </div>
+
+    <div class="square">
+        <div class="content spread">
+            <h2>Products</h2>
+            <h3>@Html.ActionLink("View All Products", "index", "Product")</h3>
+            <br />
+            <h3>@Html.ActionLink("Create New Product", "AddNewProduct", "Product")</h3>
+            <br />
+            <h3>@Html.ActionLink("View All Ingredients", "EditIngredientsList", "Product")</h3>
+            <br />
+            <h3>@Html.ActionLink("Create New Ingredient", "AddNewIngredient", "Product")</h3>
+            <br />
+            <h3>@Html.ActionLink("View All Allergens", "EditAllergensList", "Product")</h3>
+            <br />
+            <h3>@Html.ActionLink("Create New Allergen", "AddNewAllergen", "Product")</h3>
+        </div>
+    </div>
+
+    <div class="square">
+        <div class="content column">
+            <h2>Orders</h2>
+            <h3>@Html.ActionLink("View All Orders", "index", "Order")</h3>
+            <br />
+            <h3>Open Orders</h3>
+            <table class="table" id="adminTable">
+                <thead>
+                    <tr>
+                        <th>Status</th>
+                        <th>Lead Time</th>
+                        <th>Link</th>
+                    </tr>
+                    @for (int i = 0; i < Model.ListOfOpenOrders.Count; i++)
+                    {
+
+                        <tr>
+                            <td>@Model.ListOfOpenOrders[i].StatusName</td>
+                            <td>@Model.ListOfOpenOrders[i].LeadTime.ToShortDateString() @Model.ListOfOpenOrders[i].LeadTime.ToShortTimeString()</td>
+                            <td>@Html.ActionLink("Edit", "OrderView","Order", new {orderId = Model.ListOfOpenOrders[i].Id })</td>
+                        </tr>
+                    }
+                </thead>
+            </table>
+
+        </div>
+    </div>
+
+</div>

@@ -22,5 +22,6 @@ namespace CafeMVC.Domain.Interfaces
         void UpdateMenu(Menu menu);
 
         void DeleteMenu(int menuId);
+        IQueryable<Menu> GetAllPublicMenus();
     }
 }

@@ -29,5 +29,6 @@ namespace CafeMVC.Application.Interfaces
 
         OrderForCreationVm AssignAddressesTypes(OrderForCreationVm newOrder);
         ListsOfOrdersForIndexVm GetOrdersForIndex();
+        AdminDashboardVm GetDashboardVm();
     }
 }

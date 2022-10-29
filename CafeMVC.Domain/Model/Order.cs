@@ -15,6 +15,8 @@ namespace CafeMVC.Domain.Model
 
         public string OrderConfirmation { get; set; }
 
+        public decimal DeliveryCharge { get; set; }
+
         public bool IsCollection { get; set; }
 
         public int CustomerId { get; set; }

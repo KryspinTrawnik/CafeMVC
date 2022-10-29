@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Session;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using FluentValidation.AspNetCore;
 
 namespace CafeMVC.Web
 {
@@ -35,7 +36,7 @@ namespace CafeMVC.Web
             services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<Context>();
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddFluentValidation();
             services.AddDistributedMemoryCache();
 
             services.AddSession(options =>

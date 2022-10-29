@@ -1,7 +1,6 @@
 ﻿using CafeMVC.Application.Interfaces;
 using CafeMVC.Application.ViewModels.Menu;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
 
 namespace CafeMVC.Web.Controllers
 {
@@ -17,7 +16,7 @@ namespace CafeMVC.Web.Controllers
         public IActionResult Index()
         {
             var ListOfMenus = _menuService.GetMenusToDisplay(20, 1, "");
-           
+
             return View(ListOfMenus);
         }
         [HttpPost]
@@ -38,17 +37,10 @@ namespace CafeMVC.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult VieWProductsByMenuType(int menuTypeId)
-        {
-            var ListOfProductByMenu = _menuService.GetAllProducstOfMenu(menuTypeId);
-            
-            return View(ListOfProductByMenu);
-        }
-        [HttpGet]
         public IActionResult ViewMenu(int menuId)
         {
             MenuForViewVm menuForView = _menuService.GetMenuForView(menuId);
-            
+
             return View(menuForView);
         }
 
@@ -80,7 +72,7 @@ namespace CafeMVC.Web.Controllers
         public IActionResult EditMenu(int menuId)
         {
             MenuForCreationVm menu = _menuService.GetMenuForEdition(menuId);
-            
+
             return View(menu);
         }
         [HttpPost]

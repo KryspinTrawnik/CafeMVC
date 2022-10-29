@@ -161,9 +161,8 @@ input[type=number] {
 
 #down {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 30% 25%;
     height: fit-content;
-    /*border: solid red;*/
     Background-color: rgba(41,43,44, 0.8);
     padding: 5px;
     margin: 10px;

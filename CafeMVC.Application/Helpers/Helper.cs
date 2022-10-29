@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-
+using System.Linq;
 
 namespace CafeMVC.Application.Services.Helpers
 {
@@ -65,6 +65,20 @@ namespace CafeMVC.Application.Services.Helpers
         public DateTime ConvertStringToDateTime(string dateTimeString)
         => Convert.ToDateTime(dateTimeString);
 
+        public decimal CountDeliveryCharge(string postcode)
+        {
+            int areaIndicator = GetNumberFromPostCode(postcode);
+            if( areaIndicator == 1)
+            {
+                return 3;
+            }
+            else
+            {
+                return 6;
+            }
+        }
 
+        public int GetNumberFromPostCode(string postcode)=> Int32.Parse(new string(postcode.Take(3).ToArray().Skip(2).ToArray()));
+        
     }
 }

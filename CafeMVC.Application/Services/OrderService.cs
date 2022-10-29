@@ -58,6 +58,7 @@ namespace CafeMVC.Application.Services
             order.DateOfOrder = DateTime.Now;
             order.TotalPrice = _cartService.GetTotalPrice(session);
             order.Payment.IsCompleted = MakePayment(order.Payment);
+            order.DeliveryCharge = _cartService.GetDeliveryCharge(session);
             Order orderForSaving = _mapper.Map<Order>(order);
             orderForSaving.OrderContactDetails = GetNewOrderContactDetails(order.ContactDetails);
             order.Addresses = _cartService.GetAddresses(session);
@@ -110,8 +111,11 @@ namespace CafeMVC.Application.Services
 
             return _mapper.Map<AddressForSummaryVm>(deliveryAddress);
         }
+        private List<CustomerContactInfoForViewVm> GetContactDetailsFromOrder(int orderId) =>
+            _orderRepository.GetAllContactDetailsFromOrder(orderId)
+            .ProjectTo<CustomerContactInfoForViewVm>(_mapper.ConfigurationProvider).ToList();
 
-        public void AddOrChangeNote(int orderId, string note) => _orderRepository.AddOrChangeNote(orderId, note);
+
 
         public int AddOrder(OrderForCreationVm order, ISession session)
         {
@@ -144,8 +148,6 @@ namespace CafeMVC.Application.Services
             };
         }
 
-        public OrderForCreationVm GetOrderForCreationVmById(int orderId) => _mapper.Map<OrderForCreationVm>(_orderRepository.GetOrderById(orderId));
-
         public OrderForSummaryVm GetOrderSummaryVmById(int orderId)
         {
             Order order = _orderRepository.GetOrderById(orderId);
@@ -160,10 +162,6 @@ namespace CafeMVC.Application.Services
 
             return orderForSummaryVm;
         }
-
-        private List<CustomerContactInfoForViewVm> GetContactDetailsFromOrder(int orderId) =>
-            _orderRepository.GetAllContactDetailsFromOrder(orderId)
-            .ProjectTo<CustomerContactInfoForViewVm>(_mapper.ConfigurationProvider).ToList();
 
         public void RemoveProduct(int productId, int orderId)
         {
@@ -222,7 +220,6 @@ namespace CafeMVC.Application.Services
 
         public ListsOfOrdersForIndexVm GetOrdersForIndex()
         {
-            
             ListsOfOrdersForIndexVm listsOfOrdersForIndexVm = new ListsOfOrdersForIndexVm();
             List<Order> openOrdersForList = _orderRepository.GetOpenOrders().ToList();
             List<Order> closedOrdersForList = _orderRepository.GetClosedOrders().ToList();

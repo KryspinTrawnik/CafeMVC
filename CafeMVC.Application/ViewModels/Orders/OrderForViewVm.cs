@@ -15,6 +15,8 @@ namespace CafeMVC.Application.ViewModels.Orders
 
         public decimal TotalPrice { get; set; }
 
+        public decimal DeliveryCharge { get; set; }
+
         public bool IsCollection { get; set; }
 
         public string OrderConfirmation { get; set; }

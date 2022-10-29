@@ -37,17 +37,20 @@
     <div class="square">
         <div class="content spread">
             <h2>Products</h2>
-            <h3>@Html.ActionLink("View All Products", "index", "Product")</h3>
+            <h4>@Html.ActionLink("View All Products", "index", "Product")</h4>
             <br />
-            <h3>@Html.ActionLink("Create New Product", "AddNewProduct", "Product")</h3>
+            <h4>@Html.ActionLink("Create New Product", "AddNewProduct", "Product")</h4>
             <br />
-            <h3>@Html.ActionLink("View All Ingredients", "EditIngredientsList", "Product")</h3>
+            <h4>@Html.ActionLink("View All Ingredients", "EditIngredientsList", "Product")</h4>
             <br />
-            <h3>@Html.ActionLink("Create New Ingredient", "AddNewIngredient", "Product")</h3>
+            <h4>@Html.ActionLink("Create New Ingredient", "AddNewIngredient", "Product")</h4>
             <br />
-            <h3>@Html.ActionLink("View All Allergens", "EditAllergensList", "Product")</h3>
+            <h4>@Html.ActionLink("View All Allergens", "EditAllergensList", "Product")</h4>
             <br />
-            <h3>@Html.ActionLink("Create New Allergen", "AddNewAllergen", "Product")</h3>
+            <h4>@Html.ActionLink("Create New Allergen", "AddNewAllergen", "Product")</h4>
+            <br />
+            <h2>Customers</h2>
+            <h4>@Html.ActionLink("View All Customers", "index", "Customer")</h4>
         </div>
     </div>
 
@@ -66,7 +69,6 @@
                     </tr>
                     @for (int i = 0; i < Model.ListOfOpenOrders.Count; i++)
                     {
-
                         <tr>
                             <td>@Model.ListOfOpenOrders[i].StatusName</td>
                             <td>@Model.ListOfOpenOrders[i].LeadTime.ToShortDateString() @Model.ListOfOpenOrders[i].LeadTime.ToShortTimeString()</td>
@@ -78,5 +80,5 @@
 
         </div>
     </div>
-
+  
 </div>

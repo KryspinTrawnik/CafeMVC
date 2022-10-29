@@ -55,6 +55,7 @@ namespace CafeMVC.Infrastructure.Repositories
             _context.Entry(order).Property("TotalPrice");
             _context.Entry(order).Property("StatusId");
             _context.Entry(order).Property("Note");
+            _context.Entry(order).Property("DeliveryCharge");
             _context.Entry(order).Collection("OrderedProductsDetails");
             _context.Entry(order).Collection("OrderAddresses");
             _context.Entry(order).Collection("OrderContactDetails");

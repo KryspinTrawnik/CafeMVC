@@ -1,4 +1,5 @@
-﻿@model CafeMVC.Application.ViewModels.Orders.OrderForSummaryVm
+﻿@using Microsoft.AspNetCore.Http
+@model CafeMVC.Application.ViewModels.Orders.OrderForSummaryVm
 <head>
     <link rel="stylesheet" href="~/css/OrderSummary.css" />
 </head>
@@ -29,6 +30,8 @@
                 string productText = $"{product.Quantity}x {product.Name}  -- {product.OverallPrice}";
                 <h4>@productText</h4>
             }
+            <h4>Delivery Charge: @Model.DeliveryCharge.ToString()</h4>
+            <h4>Total:  &#163; @Model.TotalPrice.ToString()</h4>
         </div>
         <div class="information" id="delivery">
             @if (Model.IsCollection == false)

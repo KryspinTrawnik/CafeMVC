@@ -11,13 +11,9 @@ namespace CafeMVC.Application.Interfaces
 
         void RemoveProduct(int productId, int orderId);
 
-        OrderForCreationVm GetOrderForCreationVmById(int orderId);
-
         int AddOrder(OrderForCreationVm orderForView, ISession session);
 
         void ChangeLeadTime(int orderId, DateTime leadTimeOfOrder);
-
-        void AddOrChangeNote(int orderId, string annotation);
 
         OrderForSummaryVm GetOrderSummaryVmById(int orderId);
 
@@ -28,7 +24,9 @@ namespace CafeMVC.Application.Interfaces
         OrderForCreationVm GetOrderForCart(ISession session);
 
         OrderForCreationVm AssignAddressesTypes(OrderForCreationVm newOrder);
+
         ListsOfOrdersForIndexVm GetOrdersForIndex();
+
         AdminDashboardVm GetDashboardVm();
     }
 }

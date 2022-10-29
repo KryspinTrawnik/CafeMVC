@@ -21,7 +21,7 @@ namespace CafeMVC.Application.Interfaces
 
         OrderForCreationVm GetOrderFromCart(bool isCollection, int paymentTypeId, ISession session);
 
-        OrderForCreationVm UpdateOrdertForCheckout(OrderForCreationVm newOrder, ISession session);
+        OrderForCreationVm UpdateOrderForCheckout(OrderForCreationVm newOrder, ISession session);
 
         CustomerForCreationVm GetCustomerInfo(ISession session);
 
@@ -29,5 +29,6 @@ namespace CafeMVC.Application.Interfaces
 
         List<AddressForCreationVm> GetAddresses(ISession session);
         void ClearSession(ISession session);
+        decimal GetDeliveryCharge(ISession session);
     }
 }

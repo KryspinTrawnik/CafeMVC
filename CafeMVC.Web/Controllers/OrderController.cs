@@ -24,7 +24,7 @@ namespace CafeMVC.Web.Controllers
             return View(ordersForView);
         }
 
-        
+
         [HttpGet]
         public IActionResult Cart()
         {
@@ -34,7 +34,7 @@ namespace CafeMVC.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult CustomerInfo(bool isCollection, int paymentTypeId, string paymentName )
+        public IActionResult CustomerInfo(bool isCollection, int paymentTypeId, string paymentName)
         {
             OrderForCreationVm newOrder = _cartService.GetOrderFromCart(isCollection, paymentTypeId, HttpContext.Session);
             newOrder.Payment.PaymentType.Name = paymentName;
@@ -85,7 +85,7 @@ namespace CafeMVC.Web.Controllers
         [HttpGet]
         public IActionResult Checkout(OrderForCreationVm newOrder)
         {
-            OrderForCreationVm order = _cartService.UpdateOrdertForCheckout(newOrder, HttpContext.Session);
+            OrderForCreationVm order = _cartService.UpdateOrderForCheckout(newOrder, HttpContext.Session);
 
             return View(order);
         }
@@ -103,9 +103,21 @@ namespace CafeMVC.Web.Controllers
         {
             _orderService.ChangeOrderStatus(orderId, statusId);
 
-           return RedirectToAction("OrderView", new { orderId = orderId });
+            return RedirectToAction("OrderView", new { orderId = orderId });
         }
 
-      
+        [HttpGet]
+        public IActionResult ChangeCustomerInfo(int orderId)
+        {
+
+            return View();
+        }
+        [HttpPost]
+        public IActionResult ChangeCustomerInfo()
+        {
+
+            return RedirectToAction("OrderView");
+        }
+
     }
 }

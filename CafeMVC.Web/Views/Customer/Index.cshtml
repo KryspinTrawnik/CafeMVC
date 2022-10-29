@@ -9,6 +9,7 @@
     <a asp-action="AddNewCustomer">Create New Customer</a>
 </p>
 <form asp-action="Index" asp-controller="customer" method="post">
+    <div style="text-align:right;"> <h4 id="linkToIndex"><a href='@Url.Action("Admin", "Home")' class="btn btn-secondary">Go to Admin </a></h4></div>
     <div class="row">
         <input type="text" asp-for="SearchString" class="searchString" name="SerarchString" placeholder="Looking for..." />
 

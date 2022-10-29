@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CafeMVC.Application.Helpers;
 using CafeMVC.Application.Interfaces;
+using CafeMVC.Application.Services.Helpers;
 using CafeMVC.Application.ViewModels.Customer;
 using CafeMVC.Application.ViewModels.Orders;
 using CafeMVC.Application.ViewModels.Products;
@@ -19,7 +20,7 @@ namespace CafeMVC.Application.Services
         private readonly IProductRepository _productRepository;
         private readonly IProductService _productService;
 
-        public CartService(IOrderRepository orderRepository, IMapper mapper, IProductRepository productRepository, IProductService productService)
+        public CartService(IMapper mapper, IProductRepository productRepository, IProductService productService)
         {
             _mapper = mapper;
             _productRepository = productRepository;
@@ -68,6 +69,34 @@ namespace CafeMVC.Application.Services
 
             return -1;
         }
+        private decimal GetDeliveryCharge(bool isCollection, List<AddressForCreationVm> addresses, ISession session)
+        {
+            if(isCollection)
+            {
+                return 0;
+            }
+            else
+            {
+                Helper helper = new Helper();
+                string postcode = addresses.FirstOrDefault(x => x.AddressTypeId == 2).ZipCode;
+                decimal deliveryCharge = helper.CountDeliveryCharge(postcode);
+                UpdateTotalPriceWithDeliveryCahrge(deliveryCharge, session);
+
+                return deliveryCharge;
+            }
+            
+
+        }
+
+        private void UpdateTotalPriceWithDeliveryCahrge(decimal deliveryCharge, ISession session)
+        {
+            string totatlString = session.GetString("total");
+            decimal totalPrice = Decimal.Parse(totatlString);
+            totalPrice += deliveryCharge;
+
+            session.SetString("total", totalPrice.ToString());
+        }
+
         private ProductForOrderForCreationVm CreateNewOrderedProduct(int productId, int quantity)
         {
             ProductForOrderForCreationVm newOrderedProduct = new()
@@ -175,17 +204,20 @@ namespace CafeMVC.Application.Services
             return newOrder;
         }
 
-        public OrderForCreationVm UpdateOrdertForCheckout(OrderForCreationVm newOrder, ISession session)
+        public OrderForCreationVm UpdateOrderForCheckout(OrderForCreationVm newOrder, ISession session)
         {
             OrderForCreationVm order = SessionHelper.GetObjectFromJson<OrderForCreationVm>(session, "order");
+            order.DeliveryCharge = GetDeliveryCharge(newOrder.IsCollection, newOrder.Addresses, session);
             order.ContactDetails = newOrder.ContactDetails;
             order.Customer = newOrder.Customer;
             order.Addresses = newOrder.Addresses;
             order.Payment = newOrder.Payment;
+            newOrder.DeliveryCharge = GetDeliveryCharge(newOrder.IsCollection, newOrder.Addresses, session);
             SessionHelper.SetObjectAsJson(session, "order", newOrder);
 
             return order;
         }
+
 
         public CustomerForCreationVm GetCustomerInfo(ISession session)
             => SessionHelper.GetObjectFromJson<OrderForCreationVm>(session, "order").Customer;
@@ -197,6 +229,10 @@ namespace CafeMVC.Application.Services
         => SessionHelper.GetObjectFromJson<OrderForCreationVm>(session, "order").Addresses;
 
         public void ClearSession(ISession session) => session.Clear();
-        
+
+        public decimal GetDeliveryCharge(ISession session)  
+            => SessionHelper.GetObjectFromJson<OrderForCreationVm>(session, "order").DeliveryCharge;
+
+          
     }
 }

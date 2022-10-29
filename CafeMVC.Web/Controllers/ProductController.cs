@@ -133,6 +133,7 @@ namespace CafeMVC.Web.Controllers
             {
                 _ingredientService.AddNewIngredient(ingredient);
             }
+           
             return RedirectToAction("EditIngredientsList");
         }
 

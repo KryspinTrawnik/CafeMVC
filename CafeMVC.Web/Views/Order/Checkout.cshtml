@@ -79,6 +79,15 @@
                     <h4>Payment Method:   @Model.Payment.PaymentType.Name</h4>
                 }
             </div>
+            <div id="products" class="information">
+                <h3>Ordered Products:</h3>
+                @foreach (var product in Model.Products)
+                {
+                    string productText = $"{product.Quantity}x {product.ProductVm.Name}  -- {product.OverallPrice}";
+                    <h4>@productText</h4>
+                }
+                <h4>Delivery Charge: @Model.DeliveryCharge.ToString()</h4>
+            </div>
             <div id="total">
                 <h4>Your Cart ( @Context.Session.GetInt32("qty") products ):</h4>
                 <h4>Total:  &#163; @Context.Session.GetString("total")</h4>

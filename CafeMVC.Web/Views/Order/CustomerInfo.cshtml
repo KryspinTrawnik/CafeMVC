@@ -150,13 +150,15 @@
                     <div class="textbox">
                         <h5>City</h5>
                         <h6>
-                            @Html.TextBoxFor(m => m.Addresses[deliveryAddressIndex].City, new { @class = "textBox textbox2", @id = "cityD"})
+                            Leicester
+                            @Html.HiddenFor(m => m.Addresses[deliveryAddressIndex].City, new{ @id = "city", @value = "Leicester"})
                         </h6>
                     </div>
                     <div class="textbox">
                         <h5>Country</h5>
                         <h6>
-                            @Html.TextBoxFor(m => m.Addresses[deliveryAddressIndex].Country, new { @class = "textBox textbox2", @id = "countryD"})
+                            United Kingdoms
+                            @Html.HiddenFor(m => m.Addresses[deliveryAddressIndex].Country, new{ @id = "country"})
                         </h6>
                     </div>
                 </div>
@@ -184,23 +186,17 @@
         var zipCodeDel = document.getElementById("zipCodeD");
         var cityBil = document.getElementById("cityB");
         var cityDel = document.getElementById("cityD");
-        var countryBil = document.getElementById("countryB");
-        var countryDel = document.getElementById("countryD");
 
         if (checkBox.checked == true) {
             streetDel.value = streetBil.value;
             buildingNoDel.value = buildingNoBil.value;
             flatNumberDel.value = flatNumberBil.value;
             zipCodeDel.value = zipCodeBil.value;
-            cityDel.value = cityBil.value;
-            countryDel.value = countryBil.value;
         } else {
             streetDel.value = "";
             buildingNoDel.value = "";
             flatNumberDel.value = "";
             zipCodeDel.value = "";
-            cityDel.value = "";
-            countryDel.value = "";
         }
     };
 
@@ -217,5 +213,8 @@
     emailTypeId.value = "1";
     var mobileTypeId = document.getElementById("mobileTypeId");
     mobileTypeId.value = "2";
-
+    var city = document.getElementById("city");
+    city.value = "Leicester";
+    var country = document.getElementById("country");
+    country.value = "United Kingdoms";
 </script>

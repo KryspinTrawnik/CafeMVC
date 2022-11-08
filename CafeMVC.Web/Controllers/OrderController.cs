@@ -83,11 +83,19 @@ namespace CafeMVC.Web.Controllers
 
 
         [HttpGet]
-        public IActionResult Checkout(OrderForCreationVm newOrder)
+        public IActionResult Checkout(OrderForCreationVm newOrder, string Btn)
         {
+            if(Btn == "Submit")
+            {
             OrderForCreationVm order = _cartService.UpdateOrderForCheckout(newOrder, HttpContext.Session);
 
             return View(order);
+
+            }
+            else
+            {
+               return RedirectToAction("Cart");
+            }
         }
 
         [HttpPost]

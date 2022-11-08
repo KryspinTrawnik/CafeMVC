@@ -2,6 +2,9 @@
 using CafeMVC.Application.Interfaces;
 using CafeMVC.Application.Interfaces.Mapping;
 using CafeMVC.Application.Services;
+using CafeMVC.Application.ViewModels.Customer;
+using CafeMVC.Application.ViewModels.Orders;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CafeMVC.Application
@@ -25,5 +28,14 @@ namespace CafeMVC.Application
             
             return services;
         }
+
+
+        public static IServiceCollection AddFluentValidators(this IServiceCollection services)
+        {
+            services.AddTransient<IValidator<AddressForCreationVm>, AddressForCreationValidator>();
+            services.AddTransient<IValidator<OrderForCreationVm>, OrderForCreationValidator>();
+
+            return services;
+        }   
     }
 }

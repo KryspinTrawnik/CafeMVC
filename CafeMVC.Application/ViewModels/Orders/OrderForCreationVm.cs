@@ -3,8 +3,10 @@ using AutoMapper.Configuration.Annotations;
 using CafeMVC.Application.Interfaces.Mapping;
 using CafeMVC.Application.ViewModels.Customer;
 using CafeMVC.Application.ViewModels.Products;
+using FluentValidation;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CafeMVC.Application.ViewModels.Orders
 {
@@ -49,4 +51,15 @@ namespace CafeMVC.Application.ViewModels.Orders
         }
 
     }
+
+    public class OrderForCreationValidator : AbstractValidator<OrderForCreationVm>
+    {
+        public OrderForCreationValidator()
+        {
+            RuleFor(x => x.Id).NotNull();
+            RuleForEach(x => x.Addresses).SetValidator(new AddressForCreationValidator());
+        }
+
+    }
+    
 }

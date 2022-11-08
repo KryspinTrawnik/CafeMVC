@@ -33,6 +33,7 @@ namespace CafeMVC.Web
                     b => b.MigrationsAssembly(typeof(Context).Assembly.FullName)));
             services.AddApplication();
             services.AddInfrastructure();
+            services.AddFluentValidators();
             services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<Context>();
@@ -47,7 +48,7 @@ namespace CafeMVC.Web
                 options.Cookie.Name = ".BlackCoffee.Session";
                 options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Lax;
             });
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddFluentValidation();
             services.AddApplicationInsightsTelemetry();
         }
 

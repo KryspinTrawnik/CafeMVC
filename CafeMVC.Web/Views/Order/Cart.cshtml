@@ -18,7 +18,7 @@
 </head>
 <h1>@title</h1>
 <div class="wrapper">
-    @if (@Context.Session.GetInt32("qty").HasValue == true)
+    @if (Model.Products.Count > 0)
     {
         <div class="productBar">
             @for (int i = 0; i < Model.Products.Count; i++)
@@ -110,14 +110,13 @@
                         {
 
                             <div>
-                                <a asp-action="RemoveProductFromCart" asp-controller="Order" asp-route-id="@Model.Products[i].ProductVm.Id">
+                                <a asp-action="RemoveProductFromCart" asp-controller="Order" asp-route-id="@Model.Products[i].ProductVm.Id" id="deleteButton">
 
                                     <i class="fa-solid fa-trash-can"> </i>
                                 </a>
                             </div>
                         }
                     </div>
-
                 </div>
             }
         </div>
@@ -129,11 +128,9 @@
             {
                 <input type="radio" id="collection" name="isCollection" value="true">
                 <label for="collection">Collection</label>
-
                 <br>
                 <input type="radio" id="delivery" name="isCollection" value="false">
                 <label for="delivery">Delivery</label>
-
                 <br>
                 <br />
                 <h4>Payment Method</h4>
@@ -181,5 +178,4 @@
             paymentName.value = dropdownList.options[dropdownList.selectedIndex].text;
         }
     </script>
-
 }

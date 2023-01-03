@@ -126,12 +126,17 @@
             <br />
             @using (Html.BeginForm("CustomerInfo", "Order", FormMethod.Get))
             {
-                <input type="radio" id="collection" name="isCollection" value="true">
+                <input type="radio" id="collection" name="isCollection" value="true" onclick="ShowHideDiv()"/>
                 <label for="collection">Collection</label>
                 <br>
-                <input type="radio" id="delivery" name="isCollection" value="false">
+                <input type="radio" id="delivery" name="isCollection" value="false" onclick="ShowHideDiv()"/>
                 <label for="delivery">Delivery</label>
                 <br>
+                <div id="dvtext" style="display: none">
+                    Check your postcode if we can deliver.
+                    <input type="text" id="txtBox" />
+                    <button type="button" onclick="CheckPostcode">Check</button>
+                </div>
                 <br />
                 <h4>Payment Method</h4>
                 @Html.DropDownList("paymentTypeId", listOfPaymentTypesForDropdown, new{@class="otherInput", @id="paymentTypeDropdown"})
@@ -168,14 +173,23 @@
         document.getElementById('paymentTypeDropdown').onchange = function (e) {
             var value = parseInt(e.value.target);
             alert(value);
-            
-        };
 
-        function assignPaymentName()
-        {
+        };
+            function CheckPostcode(){
+                var enteredPostcode = document.getElementById("txtBox");
+                console.log(enteredPostcode.value);
+            }
+
+        function assignPaymentName() {
             var paymentName = document.getElementById('paymentTypeName');
             var dropdownList = document.getElementById('paymentTypeDropdown');
             paymentName.value = dropdownList.options[dropdownList.selectedIndex].text;
+        }
+
+        function ShowHideDiv() {
+            var delivery = document.getElementById("delivery");
+            var dvtext = document.getElementById("dvtext");
+            dvtext.style.display = delivery.checked ? "block" : "none";
         }
     </script>
 }

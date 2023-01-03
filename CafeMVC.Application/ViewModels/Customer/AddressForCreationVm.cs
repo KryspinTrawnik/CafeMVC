@@ -1,9 +1,6 @@
 ﻿using AutoMapper;
 using CafeMVC.Application.Interfaces.Mapping;
-using FluentValidation;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace CafeMVC.Application.ViewModels.Customer
 {
@@ -37,20 +34,4 @@ namespace CafeMVC.Application.ViewModels.Customer
 
         }
     }
-
-    public class AddressForCreationValidator : AbstractValidator<AddressForCreationVm>
-    {
-        public AddressForCreationValidator()
-        {
-            string[] availableZipcodes = new string[] { "LE1 ", "LE2", "LE3", "LE4" };
-            RuleFor(x => x.Id).NotNull();
-            RuleFor(x => x.AddressTypeId).NotNull();
-            RuleFor(x => x.BuildingNumber).NotEmpty().MaximumLength(255);
-            RuleFor(x => x.ZipCode).NotEmpty().Must(x => availableZipcodes.Any(prefix => x.StartsWith(prefix))).Length(7).When(x => x.AddressTypeId == 2);
-            RuleFor(x => x.City).Equal("Leicester").When(x => x.AddressTypeId == 2);
-            RuleFor(x => x.Country).MaximumLength(255).NotEmpty();
-        }
-    }
 }
-
-    

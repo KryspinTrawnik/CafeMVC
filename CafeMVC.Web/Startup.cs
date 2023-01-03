@@ -5,11 +5,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.AspNetCore.Session;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using FluentValidation.AspNetCore;
 
 namespace CafeMVC.Web
 {
@@ -33,11 +31,10 @@ namespace CafeMVC.Web
                     b => b.MigrationsAssembly(typeof(Context).Assembly.FullName)));
             services.AddApplication();
             services.AddInfrastructure();
-            services.AddFluentValidators();
             services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<Context>();
-            services.AddControllersWithViews().AddFluentValidation();
+            services.AddControllersWithViews();
             services.AddDistributedMemoryCache();
 
             services.AddSession(options =>
@@ -48,7 +45,7 @@ namespace CafeMVC.Web
                 options.Cookie.Name = ".BlackCoffee.Session";
                 options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Lax;
             });
-            services.AddControllersWithViews().AddFluentValidation();
+            services.AddControllersWithViews();
             services.AddApplicationInsightsTelemetry();
         }
 

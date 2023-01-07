@@ -6,6 +6,7 @@ using CafeMVC.Application.ViewModels.Customer;
 using CafeMVC.Application.ViewModels.Orders;
 using CafeMVC.Application.ViewModels.Products;
 using CafeMVC.Domain.Interfaces;
+using CafeMVC.Domain.Model;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -183,23 +184,36 @@ namespace CafeMVC.Application.Services
 
             return totalDecimalPrice;
         }
-        public OrderForCreationVm GetOrderFromCart(bool isCollection, int paymentTypeId, ISession session)
+        public OrderForCreationVm GetOrderFromCart(CartInformation cartInformation, ISession session)
         {
             OrderForCreationVm newOrder = new()
             {
-                IsCollection = isCollection,
+                IsCollection = cartInformation.IsCollection,
                 Payment = new PaymentForCreationVm()
                 {
-                    PaymentTypeId = paymentTypeId,
+                    PaymentTypeId = cartInformation.PaymentTypeId,
                     PaymentType = new()
                     {
-                        Name=""
+                        Name = ""
                     }
                 },
                 TotalPrice = GetTotalPrice(session),
-                Products = GetListOfCartProducts(session)
+                Products = GetListOfCartProducts(session),
+                
+                
             };
-            SessionHelper.SetObjectAsJson(session, "order", newOrder);
+            if (cartInformation.IsCollection == false)
+            {
+                newOrder.Addresses =  new()
+                {
+                    new AddressForCreationVm(),
+                    new AddressForCreationVm()
+                    {
+                        ZipCode = cartInformation.Postcode
+                    }
+                };
+            }
+                SessionHelper.SetObjectAsJson(session, "order", newOrder);
 
             return newOrder;
         }

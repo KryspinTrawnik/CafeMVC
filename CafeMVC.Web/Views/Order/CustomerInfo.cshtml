@@ -144,7 +144,8 @@
                     <div class="textbox">
                         <h5>Post Code</h5>
                         <h6>
-                            @Html.TextBoxFor(m => m.Addresses[deliveryAddressIndex].ZipCode, new { @class = "textBox textbox2", @id = "zipCodeD"})
+                            @Model.Addresses[1].ZipCode
+                            @Html.HiddenFor(m => m.Addresses[deliveryAddressIndex].ZipCode, new { @class = "textBox textbox2", @value=Model.Addresses[1].ZipCode})
                         </h6>
                     </div>
                     <div class="textbox">

@@ -126,24 +126,24 @@
             <br />
             @using (Html.BeginForm("CustomerInfo", "Order", FormMethod.Get))
             {
-                <input type="radio" id="collection" name="isCollection" value="true" onclick="ShowHideDiv()"/>
+                <input type="radio" id="collection" name="IsCollection" value="true" onclick="ShowHideDiv()"/>
                 <label for="collection">Collection</label>
                 <br>
-                <input type="radio" id="delivery" name="isCollection" value="false" onclick="ShowHideDiv()"/>
+                <input type="radio" id="delivery" name="IsCollection" value="false" onclick="ShowHideDiv()"/>
                 <label for="delivery">Delivery</label>
                 <br>
                 <div id="dvtext" style="display: none">
                     Check your postcode if we can deliver.
-                    <input type="text" id="txtBox" />
-                    <button type="button" onclick="CheckPostcode">Check</button>
+                    <input type="text" id="txtBox" class="textBox" name="Postcode" />
+                    <span id='displayError'></span>
                 </div>
                 <br />
                 <h4>Payment Method</h4>
-                @Html.DropDownList("paymentTypeId", listOfPaymentTypesForDropdown, new{@class="otherInput", @id="paymentTypeDropdown"})
-                <input type="hidden" id="paymentTypeName" name="paymentName" />
+                @Html.DropDownList("PaymentTypeId", listOfPaymentTypesForDropdown, new{@class="otherInput", @id="paymentTypeDropdown"})
+                <input type="hidden" id="paymentTypeName" name="PaymentName" />
                 <br />
                 <br />
-                <button type="submit" class="btn btn-success" onclick="assignPaymentName()" value="Submit" name="Btn" role="button">Proceed</button>
+                <button type="submit" class="btn btn-success" onclick="assignPaymentName()" value="Submit" name="Btn" role="button" id="submit">Proceed</button>
             }
         </div>
     }
@@ -189,7 +189,52 @@
         function ShowHideDiv() {
             var delivery = document.getElementById("delivery");
             var dvtext = document.getElementById("dvtext");
+            var submit = document.getElementById("submit");
             dvtext.style.display = delivery.checked ? "block" : "none";
+            submit.disabled = delivery.checked ? true : false;
         }
+        var textbox = document.getElementById("txtBox");
+        textbox.addEventListener("change", CheckPostcode);
+
+        function CheckRegex(enteredPostcode) {
+            var regEx = /^[a-z]{1,2}\d[a-z\d]?\s*\d[a-z]{2}$/i;
+            var isValid = regEx.test(enteredPostcode);
+
+            return isValid;
+
+        }
+        function CheckIfCanBeDelivered(enteredPostcode) {
+            var upperPostcode = enteredPostcode.toUpperCase();
+            var isLongerThanSixSigns = upperPostcode.length > 6;
+            var firstOutcode = isLongerThanSixSigns ? "LE1 " : "LE1";
+            const listOfOutcodesForDelivery = [firstOutcode, "LE2", "LE3", "LE4"];
+            var outCode = upperPostcode.substring(0, 4);
+            var canWeDeliver = listOfOutcodesForDelivery.some((x) =>
+                outCode.includes(x));
+            return canWeDeliver;
+        }
+
+        function CheckPostcode() {
+            var enteredPostcode = document.getElementById("txtBox").value;
+            var isValid = CheckRegex(enteredPostcode);
+            var textboxMessage = document.getElementById("displayError");
+            if (isValid == true) {
+                var canWeDeliver = CheckIfCanBeDelivered(enteredPostcode);
+                if (canWeDeliver == true) {
+                    textboxMessage.style.color = "green";
+                    textboxMessage.innerHTML = "We can deliver to you";
+                    document.getElementById("submit").disabled = false;
+                } else {
+                    textboxMessage.style.color = "red";
+                    textboxMessage.innerHTML = "Sorry, We cannot delivery to you";
+                    submit.disabled = true;
+                }
+                console.log(canWeDeliver);
+            } else {
+                textboxMessage.innerHTML = "Sorry, Postcode is inccorrect";
+                textboxMessage.style.color = "red";
+            }
+        }
+
     </script>
 }

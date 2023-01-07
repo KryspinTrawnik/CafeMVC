@@ -19,7 +19,7 @@ namespace CafeMVC.Application.Interfaces
 
         decimal GetTotalPrice(ISession session);
 
-        OrderForCreationVm GetOrderFromCart(bool isCollection, int paymentTypeId, ISession session);
+        OrderForCreationVm GetOrderFromCart(CartInformation cartInformation, ISession session);
 
         OrderForCreationVm UpdateOrderForCheckout(OrderForCreationVm newOrder, ISession session);
 

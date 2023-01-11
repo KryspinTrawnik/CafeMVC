@@ -38,3 +38,6 @@
 #linkToIndex {
     text-align: right;
 }
+.error-icon{
+    color: red !important;
+}

@@ -134,8 +134,8 @@
                 <br>
                 <div id="dvtext" style="display: none">
                     Check your postcode if we can deliver.
-                    <input type="text" id="txtBox" class="textBox" name="Postcode" />
-                    <span id='displayError'></span>
+                    <input type="text" id="txtBox" class="textBox" name="Postcode"/>
+                    <span id="displayError"></span>
                 </div>
                 <br />
                 <h4>Payment Method</h4>
@@ -222,17 +222,18 @@
                 var canWeDeliver = CheckIfCanBeDelivered(enteredPostcode);
                 if (canWeDeliver == true) {
                     textboxMessage.style.color = "green";
-                    textboxMessage.innerHTML = "We can deliver to you";
+                    textboxMessage.innerHTML = '<i class="fa-solid fa-circle-check" style="color:green"></i> We can deliver to you';
                     document.getElementById("submit").disabled = false;
                 } else {
                     textboxMessage.style.color = "red";
-                    textboxMessage.innerHTML = "Sorry, We cannot delivery to you";
+                    textboxMessage.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Sorry, we cannot deliver to this postcode';
                     submit.disabled = true;
                 }
                 console.log(canWeDeliver);
             } else {
-                textboxMessage.innerHTML = "Sorry, Postcode is inccorrect";
+                textboxMessage.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Sorry, the postcode is inccorrect';
                 textboxMessage.style.color = "red";
+                submit.disabled = true;
             }
         }
 

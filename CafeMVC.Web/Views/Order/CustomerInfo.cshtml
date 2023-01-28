@@ -22,10 +22,16 @@
 
         <div class="innerGrid">
             <div class="columnOne">
+                <div id="firstName">
                 <h5>@Html.LabelFor(m => m.Customer.FirstName)</h5>
-                <h6>@Html.TextBoxFor(m => m.Customer.FirstName, new {@class = "textBox textbox2", @required = "required", @maxlength =50, })</h6>
+                    <h6>@Html.TextBoxFor(m => m.Customer.FirstName, new {@class = "textBox textbox2", @required = "required", @maxlength =50, @onchange="CheckField('firstName')"})</h6>
+                <span></span>
+                </div>
+                <div id="lastName">
                 <h5>@Html.LabelFor(m => m.Customer.Surname)</h5>
-                <h6>@Html.TextBoxFor(m => m.Customer.Surname, new {@class = "textBox textbox2", @required = "required"})</h6>
+                    <h6>@Html.TextBoxFor(m => m.Customer.Surname, new {@class = "textBox textbox2", @required = "required", @maxlength =50, @onchange="CheckField('lastName')"})</h6>
+                <span></span>
+            </div>
             </div>
 
             <div class="columnTwo">
@@ -33,11 +39,12 @@
                 @Html.HiddenFor(m => m.ContactDetails[0].Id)
                 @Html.HiddenFor(m => m.ContactDetails[0].ContactDetailTypeId, new {@id="emailTypeId"})
                 <h6>@Html.TextBoxFor(m => m.ContactDetails[0].ContactDetailInformation, new {@class = "textBox textbox2", @required = "required", @id="emailBox"})</h6>
-                <span id="displayAlert"></span>
+                <span id="emailAlert"></span>
                 <h5>Contact phone</h5>
                 @Html.HiddenFor(m => m.ContactDetails[1].Id)
                 @Html.HiddenFor(m => m.ContactDetails[1].ContactDetailTypeId, new {@id="mobileTypeId"})
-                <h6>@Html.TextBoxFor(m => m.ContactDetails[1].ContactDetailInformation, new {@id="phoneBox",@class = "textBox textbox2", @required = "required"})</h6>
+                <h6>@Html.TextBoxFor(m => m.ContactDetails[1].ContactDetailInformation, new {@class = "textBox textbox2", @required = "required", @id="phoneBox"})</h6>
+                <span id="phoneAlert"></span>
             </div>
         </div>
     </div>
@@ -56,45 +63,51 @@
 
             <div class="innerGrid">
                 <div class="columnOne">
-                    <div class="textbox">
+                    <div class="textbox" id="streetBil">
                         <h5>@Html.LabelFor(m => m.Addresses[0].Street, new {@value="Street"})</h5>
                         <h6>
-                            @Html.TextBoxFor(m => m.Addresses[0].Street, new { @class = "textBox textbox2", @id = "streetB", @required = "required"})
+                            @Html.TextBoxFor(m => m.Addresses[0].Street, new { @class = "textBox textbox2", @id = "streetB", @required = "required", @onchange="CheckField('streetBil')"})
                         </h6>
+                        <span></span>
                     </div>
-                    <div class="textbox">
+                    <div class="textbox" id="buildingNumberBil">
                         <h5>@Html.LabelFor(m => m.Addresses[0].BuildingNumber, new {@value="Building Number"})</h5>
                         <h6>
-                            @Html.TextBoxFor(m => m.Addresses[0].BuildingNumber, new { @class = "textBox textbox2",  @id = "buildingNumberB", @required = "required"})
+                            @Html.TextBoxFor(m => m.Addresses[0].BuildingNumber, new { @class = "textBox textbox2",  @id = "buildingNumberB", @required = "required", @onchange="CheckNumber('buildingNumberBil')"})
                         </h6>
+                        <span></span>
                     </div>
-                    <div class="textbox">
+                    <div class="textbox" id="flatNumberBil">
                         <h5>@Html.LabelFor(m => m.Addresses[0].FlatNumber, new {@value="Flat Number"})</h5>
                         <h6>
-                            @Html.TextBoxFor(m => m.Addresses[0].FlatNumber, new { @class = "textBox textbox2", @id = "flatNumberB", @required = "required"})
+                            @Html.TextBoxFor(m => m.Addresses[0].FlatNumber, new { @class = "textBox textbox2", @id = "flatNumberB", @onchange="CheckNumber('flatNumberBil')"})
                         </h6>
+                        <span></span>
                     </div>
                 </div>
 
                 <div class="columnTwo">
-                    <div class="textbox">
+                    <div class="textbox" id="postCodeB">
 
                         <h5>@Html.LabelFor(m => m.Addresses[0].ZipCode, new {@value="Post Code"})</h5>
                         <h6>
-                            @Html.TextBoxFor(m => m.Addresses[0].ZipCode, new { @class = "textBox textbox2", @id = "zipCodeB", @required = "required"})
+                            @Html.TextBoxFor(m => m.Addresses[0].ZipCode, new { @class = "textBox textbox2", @id = "zipCodeB", @required = "required", @onchange="CheckField('postCodeB')"})
                         </h6>
+                        <span></span>
                     </div>
-                    <div class="textbox">
+                    <div class="textbox" id="cityBil">
                         <h5>@Html.LabelFor(m => m.Addresses[0].City, new {@value="City"})</h5>
                         <h6>
-                            @Html.TextBoxFor(m => m.Addresses[0].City, new { @class = "textBox textbox2", @id = "cityB", @required = "required"})
+                            @Html.TextBoxFor(m => m.Addresses[0].City, new { @class = "textBox textbox2", @id = "cityB", @required = "required", @onchange="CheckField('cityBil')"})
                         </h6>
+                        <span></span>
                     </div>
-                    <div class="textbox">
+                    <div class="textbox" id="countryBil">
                         <h5>@Html.LabelFor(m => m.Addresses[0].Country, new {@value="Country"})</h5>
                         <h6>
-                            @Html.TextBoxFor(m => m.Addresses[0].Country, new { @class = "textBox textbox2", @id = "countryB", @required = "required"})
+                            @Html.TextBoxFor(m => m.Addresses[0].Country, new { @class = "textBox textbox2", @id = "countryB", @required = "required", @onchange="CheckField('countryBil')"})
                         </h6>
+                        <span></span>
                     </div>
                 </div>
             </div>
@@ -124,44 +137,50 @@
                    name="AddressTypeId"
                    type="hidden"
                    value="2" />
-                    <div class="textbox">
+                    <div class="textbox" id="streetDel">
                         <h5>@Html.LabelFor(m => m.Addresses[deliveryAddressIndex].Street, new {@value="Street"})</h5>
                         <h6>
-                            @Html.TextBoxFor(m => m.Addresses[deliveryAddressIndex].Street, new { @class = "textBox textbox2", @id = "streetD"})
+                            @Html.TextBoxFor(m => m.Addresses[deliveryAddressIndex].Street, new { @class = "textBox textbox2", @id = "streetD", @onchange="CheckField('streetDel')"})
                         </h6>
+                        <span></span>
                     </div>
-                    <div class="textbox">
+                    <div class="textbox" id="buildingNumberDel">
                         <h5>@Html.LabelFor(m => m.Addresses[deliveryAddressIndex].BuildingNumber, new {@value="Buildin Number"})</h5>
                         <h6>
-                            @Html.TextBoxFor(m => m.Addresses[deliveryAddressIndex].BuildingNumber, new { @class = "textBox textbox2",  @id = "buildingNumberD"})
+                            @Html.TextBoxFor(m => m.Addresses[deliveryAddressIndex].BuildingNumber, new { @class = "textBox textbox2",  @id = "buildingNumberD", @onchange="CheckNumber('buildingNumberDel')"})
                         </h6>
+                        <span></span>
                     </div>
-                    <div class="textbox">
+                    <div class="textbox" id="flatNumberDel">
                         <h5>@Html.LabelFor(m => m.Addresses[deliveryAddressIndex].FlatNumber, new {@value="Flat Number"})</h5>
                         <h6>
-                            @Html.TextBoxFor(m => m.Addresses[deliveryAddressIndex].FlatNumber, new { @class = "textBox textbox2", @id = "flatNumberD"})
+                            @Html.TextBoxFor(m => m.Addresses[deliveryAddressIndex].FlatNumber, new { @class = "textBox textbox2", @id = "flatNumberD", @onchange="CheckNumber('flatNumberDel')"})
                         </h6>
+                        <span></span>
                     </div>
                 </div>
 
-                <div class="columnTwo">
+                <div class="columnTwo" id="columnTwoDelivery">
                     <div class="textbox">
                         <h5>@Html.LabelFor(m => m.Addresses[deliveryAddressIndex].ZipCode, new {@value="Post Code"})</h5>
                         <h6>
                             @Html.TextBoxFor(m => m.Addresses[deliveryAddressIndex].ZipCode, new { @id="zipCodeD",@class = "textBox textbox2", @readonly= "readonly", @value=Model.Addresses[deliveryAddressIndex].ZipCode})
                         </h6>
+                        <span><i class="fa-solid fa-circle-check" style="color:green"></i></span>
                     </div>
                     <div class="textbox">
                         <h5>@Html.LabelFor(m => m.Addresses[deliveryAddressIndex].City, new {@value="City"})</h5>
                         <h6>
                             @Html.TextBoxFor(m => m.Addresses[deliveryAddressIndex].City, new {@id= "cityD", @class = "textBox textbox2", @readonly= "readonly", @Value="Leicester"})
                         </h6>
+                        <span><i class="fa-solid fa-circle-check" style="color:green"></i></span>
                     </div>
                     <div class="textbox">
                         <h5>@Html.LabelFor(m => m.Addresses[deliveryAddressIndex].Country, new {@value="Country"})</h5>
                         <h6>
                             @Html.TextBoxFor(m => m.Addresses[deliveryAddressIndex].Country, new {@id="countryD", @class = "textBox textbox2", @readonly= "readonly", @Value="United Kingdoms"})
                         </h6>
+                        <span><i class="fa-solid fa-circle-check" style="color:green"></i></span>
                     </div>
                 </div>
             </div>
@@ -191,8 +210,6 @@
         var countryDel = document.getElementById("countryD");
         var countryBil = document.getElementById("countryB");
         var submit = document.getElementById("submit");
-        var phoneNumber = document.getElementById("phoneBox");
-        phoneNumber.addEventListener("change", CheckPhoneNumber);
 
         if (checkBox.checked == true) {
             streetDel.value = streetBil.value;
@@ -223,32 +240,86 @@
     emailTypeId.value = "1";
     var mobileTypeId = document.getElementById("mobileTypeId");
     mobileTypeId.value = "2";
-   
+
+    
 
     function phoneNumber() {
-
         var mobileNumberRegex = /^(?:(?:00)?44|0)7(?:[45789]\d{2}|624)\d{6}$/;
-        if (phoneNumber.replace(/\D/g, '').test(mobileNumberRegex)) alert('Phone number is valid!');
+        var phoneNumberBox = document.getElementById("phoneBox");
+        var textboxMessage = document.getElementById("phoneAlert");
+         var submit = document.getElementById("submitButton");
+
+        if (phoneNumberBox.value.replace(/\D/g, '').match(mobileNumberRegex)){
+            textboxMessage.style.color = "green";
+            textboxMessage.innerHTML = '<i class="fa-solid fa-circle-check" style="color:green"></i>';
+            submit.disabled = false;
+        }
+        else{
+            textboxMessage.style.color = "red";
+            textboxMessage.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Enter correct phone number';
+            submit.disabled = true;
+        }
     }
 
     var email = document.getElementById("emailBox");
     email.addEventListener("change", ValidateEmail);
+    var email = document.getElementById("phoneBox");
+    email.addEventListener("change", phoneNumber);
 
     function ValidateEmail() {
-        var inputText = document.getElementById("emailBox").value;
-        var textboxMessage = document.getElementById("displayAlert");
-        var submit = document.getElementById("submit");
+        var inputText = document.getElementById("emailBox");
+        var textboxMessage = document.getElementById("emailAlert");
+        var submit = document.getElementById("submitButton");
+        
         var mailformat = /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-        if (inputText.match(mailformat)) {
+        if (inputText.value.match(mailformat)) {
             textboxMessage.style.color = "green";
             textboxMessage.innerHTML = '<i class="fa-solid fa-circle-check" style="color:green"></i>';
-            document.getElementById("submitButton").disabled = false;
+            submit.disabled = false;
 
         } else {
             textboxMessage.style.color = "red";
             textboxMessage.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Enter correct e-mail address';
-            document.getElementById("submitButton").disabled = true;
+            submit.disabled = true;
+           
+        }
 
+    }
+
+    function CheckField(traget) {
+        const div = document.getElementById(traget);
+        var input = div.getElementsByTagName('input');
+        var span = div.getElementsByTagName('span');
+        var submit = document.getElementById("submitButton");
+
+        if (input[0].value.length > 2 && input[0].value.length < 50) {
+            span[0].style.color = "green";
+            span[0].innerHTML = '<i class="fa-solid fa-circle-check" style="color:green"></i>';
+            submit.disabled = false;
+        }
+        else{
+            span[0].style.color = "red";
+            span[0].innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> It needs to between 2 and 50 characters';
+            submit.disabled = true;
         }
     }
+
+    function CheckNumber(traget) {
+        const div = document.getElementById(traget);
+        var input = div.getElementsByTagName('input');
+        var span = div.getElementsByTagName('span');
+        var submit = document.getElementById("submitButton");
+
+        if (input[0].value.length >= 1 && input[0].value.length < 50) {
+            span[0].style.color = "green";
+            span[0].innerHTML = '<i class="fa-solid fa-circle-check" style="color:green"></i>';
+            submit.disabled = false;
+        }
+        else {
+            span[0].style.color = "red";
+            span[0].innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> It needs to between 1 and 50 characters';
+            submit.disabled = true;
+        }
+    }
+
 </script>

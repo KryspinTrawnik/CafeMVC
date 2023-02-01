@@ -1,3 +1,4 @@
+const submitButton = document.getElementById("submitButton");
 
 function TestCreditCard() {
     var inputValue = document.getElementById("cardNumberTxtBox").value;
@@ -220,4 +221,65 @@ const luhnCheck = val => {
   
     //Check if it is divisible by 10 or not.
     return (checksum % 10) == 0;
+}
+
+var selectYear = document.getElementById("expiryYear");
+const currentYear = new Date().getFullYear();
+
+for (let i = 0; i < 10; i++) {
+    const year = (currentYear + i).toString().slice(-2);
+    const option = document.createElement("option");
+    option.value = year;
+    option.textContent = year;
+    selectYear.appendChild(option);
+}
+
+const selectMonth = document.getElementById("expiryMonth");
+for (let i = 1; i <= 12; i++) {
+    const option = document.createElement("option");
+    option.value = i;
+    option.textContent = i;
+    selectMonth.appendChild(option);
+}
+
+function validateExpiryDate(month, year) {
+    // Get current date
+    let currentDate = new Date();
+    let currentMonth = currentDate.getMonth() + 1;
+    let currentYear = currentDate.getFullYear().toString().substr(-2);
+
+    // Convert input values to integers
+    month = parseInt(month);
+    year = parseInt(year);
+    let currentYearInt = parseInt(currentYear);
+    // Check if the input year is greater than the current year
+    if (year > currentYearInt) {
+        return true;
+    } else if (year === currentYearInt) {
+        // Check if the input month is greater than or equal to the current month
+        if (month >= currentMonth) {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
+}
+
+
+function CheckIfCardIsValid() {
+    let month = document.getElementById("expiryMonth").value;
+    let year = document.getElementById("expiryYear").value;
+    var expiryDateDiv = document.getElementById("expiryDate");
+    var alertSpan = expiryDateDiv.getElementsByTagName('span');
+    if (validateExpiryDate(month, year)) {
+        alertSpan[0].style.color = "green";
+        alertSpan[0].innerHTML = '<i class="fa-solid fa-circle-check" style="color:green"></i> Card is valid';
+        submitButton.disabled = false;
+    } else {
+        alertSpan[0].style.color = "red";
+        alertSpan[0].innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Card is expired';
+        submitButton.disabled = true;
+    }
 }

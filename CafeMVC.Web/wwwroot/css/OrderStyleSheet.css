@@ -247,3 +247,16 @@ input[type=number] {
 {
     color: red;
 }
+#month {
+    display: inline-block;
+    width: 40%;
+    margin-right: -10%;
+}
+
+#year {
+    display: inline-block;
+    width: 40%;
+}
+#expiryDate{
+    display: block;   
+}

@@ -147,14 +147,14 @@
                     <div class="textbox" id="buildingNumberDel">
                         <h5>@Html.LabelFor(m => m.Addresses[deliveryAddressIndex].BuildingNumber, new {@value="Buildin Number"})</h5>
                         <h6>
-                            @Html.TextBoxFor(m => m.Addresses[deliveryAddressIndex].BuildingNumber, new { @class = "textBox textbox2",  @id = "buildingNumberD", @onchange="CheckNumber('buildingNumberDel')"})
+                            @Html.TextBoxFor(m => m.Addresses[deliveryAddressIndex].BuildingNumber, new { @class = "textBox textbox2", @required = "required", @id = "buildingNumberD", @onchange="CheckNumber('buildingNumberDel')"})
                         </h6>
                         <span></span>
                     </div>
                     <div class="textbox" id="flatNumberDel">
                         <h5>@Html.LabelFor(m => m.Addresses[deliveryAddressIndex].FlatNumber, new {@value="Flat Number"})</h5>
                         <h6>
-                            @Html.TextBoxFor(m => m.Addresses[deliveryAddressIndex].FlatNumber, new { @class = "textBox textbox2", @id = "flatNumberD", @onchange="CheckNumber('flatNumberDel')"})
+                            @Html.TextBoxFor(m => m.Addresses[deliveryAddressIndex].FlatNumber, new { @class = "textBox textbox2", @id = "flatNumberD", @required = "required", @onchange="CheckNumber('flatNumberDel')"})
                         </h6>
                         <span></span>
                     </div>
@@ -164,7 +164,7 @@
                     <div class="textbox">
                         <h5>@Html.LabelFor(m => m.Addresses[deliveryAddressIndex].ZipCode, new {@value="Post Code"})</h5>
                         <h6>
-                            @Html.TextBoxFor(m => m.Addresses[deliveryAddressIndex].ZipCode, new { @id="zipCodeD",@class = "textBox textbox2", @readonly= "readonly", @value=Model.Addresses[deliveryAddressIndex].ZipCode})
+                            @Html.TextBoxFor(m => m.Addresses[deliveryAddressIndex].ZipCode, new { @id="zipCodeD",@class = "textBox textbox2",@required = "required", @readonly= "readonly", @value=Model.Addresses[deliveryAddressIndex].ZipCode})
                         </h6>
                         <span><i class="fa-solid fa-circle-check" style="color:green"></i></span>
                     </div>
@@ -218,6 +218,8 @@
             zipCodeBil.value = zipCodeDel.value;
             cityBil.value = cityDel.value;
             countryBil.value = countryDel.value;
+            PutTicksIntoSpanUnderFilledTextboxes();
+
         } else {
             streetDel.value = "";
             buildingNoDel.value = "";
@@ -225,6 +227,7 @@
             zipCodeBil.value = "";
             cityBil.value = "";
             countryBil.value = "";
+            RemoveTicksFromSpansUnderTextboxes();
         }
     };
 
@@ -319,6 +322,25 @@
             span[0].style.color = "red";
             span[0].innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> It needs to between 1 and 50 characters';
             submit.disabled = true;
+        }
+    }
+
+    function PutTicksIntoSpanUnderFilledTextboxes(){
+        const billingSpans = document.querySelectorAll("div#billingAddress div.columnTwo span");
+        const deliverySpans = document.querySelectorAll("div#deliveryAddress div.columnOne span");
+        for (let i = 0; i < billingSpans.length; i++) {
+            billingSpans[i].innerHTML = '<i class="fa-solid fa-circle-check" style="color:green"></i>';
+            deliverySpans[i].innerHTML = '<i class="fa-solid fa-circle-check" style="color:green"></i>';
+        }
+
+    }
+
+    function RemoveTicksFromSpansUnderTextboxes(){
+        const billingSpans = document.querySelectorAll("div#billingAddress div.columnTwo span");
+        const deliverySpans = document.querySelectorAll("div#deliveryAddress div.columnOne span");
+        for (let i = 0; i < billingSpans.length; i++) {
+            billingSpans[i].innerHTML = "";
+            deliverySpans[i].innerHTML = "";
         }
     }
 

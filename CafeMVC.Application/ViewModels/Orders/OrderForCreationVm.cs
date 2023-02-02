@@ -29,6 +29,8 @@ namespace CafeMVC.Application.ViewModels.Orders
 
         public int CustomerId { get; set; }
 
+        public bool DeliveryChargeApplied { get; set; } = false;
+
         public CustomerForCreationVm Customer { get; set; }
         
         public PaymentForCreationVm Payment { get; set; }

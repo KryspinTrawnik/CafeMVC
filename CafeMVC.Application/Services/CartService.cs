@@ -221,13 +221,17 @@ namespace CafeMVC.Application.Services
         public OrderForCreationVm UpdateOrderForCheckout(OrderForCreationVm newOrder, ISession session)
         {
             OrderForCreationVm order = SessionHelper.GetObjectFromJson<OrderForCreationVm>(session, "order");
-            order.DeliveryCharge = GetDeliveryCharge(newOrder.IsCollection, newOrder.Addresses, session);
             order.ContactDetails = newOrder.ContactDetails;
             order.Customer = newOrder.Customer;
             order.Addresses = newOrder.Addresses;
             order.Payment = newOrder.Payment;
-            newOrder.DeliveryCharge = GetDeliveryCharge(newOrder.IsCollection, newOrder.Addresses, session);
-            SessionHelper.SetObjectAsJson(session, "order", newOrder);
+            if (order.DeliveryChargeApplied == false)
+            {
+                order.DeliveryCharge = GetDeliveryCharge(newOrder.IsCollection, newOrder.Addresses, session);
+                order.DeliveryChargeApplied = true;
+
+            }
+            SessionHelper.SetObjectAsJson(session, "order", order);
 
             return order;
         }

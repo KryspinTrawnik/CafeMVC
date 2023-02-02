@@ -225,6 +225,7 @@ const luhnCheck = val => {
 
 var selectYear = document.getElementById("expiryYear");
 const currentYear = new Date().getFullYear();
+const expiryDate = document.getElementById("ExpiryDateBox");
 
 for (let i = 0; i < 10; i++) {
     const year = (currentYear + i).toString().slice(-2);
@@ -282,4 +283,11 @@ function CheckIfCardIsValid() {
         alertSpan[0].innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Card is expired';
         submitButton.disabled = true;
     }
+}
+function AssignValueToCrediCardExpiryDate() {
+    let month = document.getElementById("expiryMonth").value;
+    let year = document.getElementById("expiryYear").value;
+    
+
+    expiryDate.value = month + "/" + year;
 }

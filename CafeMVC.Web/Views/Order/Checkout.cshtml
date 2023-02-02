@@ -129,7 +129,7 @@
                 {
                     <h5>x Collection</h5>
                 }
-                <button type="submit" class="btn btn-success" value="Submit" name="Btn" role="button" onclick="AssignValueToLeadTime()" id="submitButton" disabled>Proceed and Pay</button>
+                <button type="submit" class="btn btn-success" value="Submit" name="Btn" role="button" onclick="AssignValues()" id="submitButton" disabled>Proceed and Pay</button>
             </div>
         </div>
     </div>
@@ -228,6 +228,11 @@
             var value = parseInt(e.value.target);
             alert(value);
         };
+
+        function AssignValues(){
+            AssignValueToLeadTime();
+            AssignValueToCrediCardExpiryDate();
+        }
 
 
 

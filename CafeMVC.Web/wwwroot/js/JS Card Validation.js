@@ -3,22 +3,21 @@ const submitButton = document.getElementById("submitButton");
 function TestCreditCard() {
     var inputValue = document.getElementById("cardNumberTxtBox").value;
     var information = checkCreditCard(inputValue);
-    if(information.success != true)
-    {
+    if (information.success != true) {
         const cardAlertSpan = document.getElementById("CardAlert");
         cardAlertSpan.style.color = "red";
-        cardAlertSpan.innerHTML= information.message;
+        cardAlertSpan.innerHTML = information.message;
     }
-    else{
+    else {
         const cardAlertSpan = document.getElementById("CardAlert");
         cardAlertSpan.style.color = "green";
-        cardAlertSpan.innerHTML= information.type;
+        cardAlertSpan.innerHTML = '<i class="fa-solid fa-circle-check" style="color:green"></i>'+ information.type;
     }
 
 }
 const checkCreditCard = cardnumber => {
 
-        
+
     const ccErrors = [];
     ccErrors[0] = "Unknown card type";
     ccErrors[1] = "No card number provided";
@@ -185,10 +184,10 @@ const validateCardNumber = number => {
     //Check if the number contains only numeric value  
     //and is of between 13 to 19 digits
     const regex = new RegExp("^[0-9]{13,19}$");
-    if (!regex.test(number)){
+    if (!regex.test(number)) {
         return false;
     }
-  
+
     return luhnCheck(number);
 }
 
@@ -198,27 +197,27 @@ const luhnCheck = val => {
 
     // Process each digit one by one starting from the last
     for (let i = val.length - 1; i >= 0; i--) {
-      let calc = 0;
-      // Extract the next digit and multiply by 1 or 2 on alternative digits.
-      calc = Number(val.charAt(i)) * j;
+        let calc = 0;
+        // Extract the next digit and multiply by 1 or 2 on alternative digits.
+        calc = Number(val.charAt(i)) * j;
 
-      // If the result is in two digits add 1 to the checksum total
-      if (calc > 9) {
-        checksum = checksum + 1;
-        calc = calc - 10;
-      }
+        // If the result is in two digits add 1 to the checksum total
+        if (calc > 9) {
+            checksum = checksum + 1;
+            calc = calc - 10;
+        }
 
-      // Add the units element to the checksum total
-      checksum = checksum + calc;
+        // Add the units element to the checksum total
+        checksum = checksum + calc;
 
-      // Switch the value of j
-      if (j == 1) {
-        j = 2;
-      } else {
-        j = 1;
-      }
+        // Switch the value of j
+        if (j == 1) {
+            j = 2;
+        } else {
+            j = 1;
+        }
     }
-  
+
     //Check if it is divisible by 10 or not.
     return (checksum % 10) == 0;
 }
@@ -287,7 +286,33 @@ function CheckIfCardIsValid() {
 function AssignValueToCrediCardExpiryDate() {
     let month = document.getElementById("expiryMonth").value;
     let year = document.getElementById("expiryYear").value;
-    
+
 
     expiryDate.value = month + "/" + year;
+}
+
+function addSpaces(event) {
+    var target = event.target;
+    var cardNumber = target.value.replace(/\s/g, '');
+    var split = 4;
+    var spacedNumber = cardNumber.match(new RegExp('.{1,' + split + '}', 'g')).join(' ');
+    target.value = spacedNumber;
+}
+
+function CheckField(traget) {
+    const div = document.getElementById(traget);
+    var input = div.getElementsByTagName('input');
+    var span = div.getElementsByTagName('span');
+    var submit = document.getElementById("submitButton");
+
+    if (input[0].value.length > 2 && input[0].value.length < 50) {
+        span[0].style.color = "green";
+        span[0].innerHTML = '<i class="fa-solid fa-circle-check" style="color:green"></i>';
+        submit.disabled = false;
+    }
+    else {
+        span[0].style.color = "red";
+        span[0].innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> It needs to between 2 and 50 characters';
+        submit.disabled = true;
+    }
 }

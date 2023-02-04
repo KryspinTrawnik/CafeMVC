@@ -1,0 +1,63 @@
+﻿@model CafeMVC.Application.ViewModels.Customer.CustomerForCreationVm
+
+
+
+<div class="innerGrid">
+    <div class="columnOne">
+        @Html.HiddenFor(m => m.Addresses[1].AddressTypeId, new{ @id="deliveryTypeId" })
+        @Html.HiddenFor(m => m.Addresses[1].AddressTypeId)
+        <div class="textbox" id="streetDel">
+            <h5>@Html.LabelFor(m => m.Addresses[1].Street, new {@value="Street"})</h5>
+            <h6>
+                @Html.TextBoxFor(m => m.Addresses[1].Street, new { @class = "textBox textbox2", @id = "streetD", @onchange="CheckField('streetDel')"})
+            </h6>
+            <span></span>
+        </div>
+        <div class="textbox" id="buildingNumberDel">
+            <h5>@Html.LabelFor(m => m.Addresses[1].BuildingNumber, new {@value="Buildin Number"})</h5>
+            <h6>
+                @Html.TextBoxFor(m => m.Addresses[1].BuildingNumber, new { @class = "textBox textbox2", @required = "required", @id = "buildingNumberD", @onchange="CheckNumber('buildingNumberDel')"})
+            </h6>
+            <span></span>
+        </div>
+        <div class="textbox" id="flatNumberDel">
+            <h5>@Html.LabelFor(m => m.Addresses[1].FlatNumber, new {@value="Flat Number"})</h5>
+            <h6>
+                @Html.TextBoxFor(m => m.Addresses[1].FlatNumber, new { @class = "textBox textbox2", @id = "flatNumberD", @required = "required", @onchange="CheckNumber('flatNumberDel')"})
+            </h6>
+            <span></span>
+        </div>
+    </div>
+
+    <div class="columnTwo" id="columnTwoDelivery">
+        <div class="textbox">
+            <h5>@Html.LabelFor(m => m.Addresses[1].ZipCode, new {@value="Post Code"})</h5>
+            <h6>
+                @Html.TextBoxFor(m => m.Addresses[1].ZipCode, new { @id="zipCodeD",@class = "textBox textbox2",@required = "required", @oninput="CheckPostcode()"})
+            </h6>
+            <span id="displayError"></span>
+        </div>
+        <div class="textbox">
+            <h5>@Html.LabelFor(m => m.Addresses[1].City, new {@value="City"})</h5>
+            <h6>
+                @Html.TextBoxFor(m => m.Addresses[1].City, new {@id= "cityD", @class = "textBox textbox2", @value="Leicester", @readonly= "readonly"})
+            </h6>
+            <span><i class="fa-solid fa-circle-check" style="color:green"></i></span>
+        </div>
+        <div class="textbox">
+            <h5>@Html.LabelFor(m => m.Addresses[1].Country, new {@value="Country"})</h5>
+            <h6>
+                @Html.TextBoxFor(m => m.Addresses[1].Country, new {@id="countryD", @class = "textBox textbox2", @value="United Kingdoms", @readonly= "readonly"})
+            </h6>
+            <span><i class="fa-solid fa-circle-check" style="color:green"></i></span>
+        </div>
+    </div>
+</div>
+
+
+        <script type="text/javascript">
+            document.getElementById("countryD").value = "United Kingdoms";
+            document.getElementById("cityD").value = "Leicester";
+        var deliveryTypeId = document.getElementById("deliveryTypeId");
+        deliveryTypeId.value = "2";
+        </script>

@@ -23,15 +23,15 @@
         <div class="innerGrid">
             <div class="columnOne">
                 <div id="firstName">
-                <h5>@Html.LabelFor(m => m.Customer.FirstName)</h5>
+                    <h5>@Html.LabelFor(m => m.Customer.FirstName)</h5>
                     <h6>@Html.TextBoxFor(m => m.Customer.FirstName, new {@class = "textBox textbox2", @required = "required", @maxlength =50, @onchange="CheckField('firstName')"})</h6>
-                <span></span>
+                    <span></span>
                 </div>
                 <div id="lastName">
-                <h5>@Html.LabelFor(m => m.Customer.Surname)</h5>
+                    <h5>@Html.LabelFor(m => m.Customer.Surname)</h5>
                     <h6>@Html.TextBoxFor(m => m.Customer.Surname, new {@class = "textBox textbox2", @required = "required", @maxlength =50, @onchange="CheckField('lastName')"})</h6>
-                <span></span>
-            </div>
+                    <span></span>
+                </div>
             </div>
 
             <div class="columnTwo">
@@ -122,15 +122,15 @@
     }
     @if (Model.IsCollection == false)
     {
+        <div class="header">
+            <h2>Delivery Address</h2>
+            <hr class="overline">
+            @Html.HiddenFor(m => m.Addresses[deliveryAddressIndex].AddressTypeId, new{ @id="deliveryTypeId" })
+
+        </div>
 
         <div id="deliveryAddress">
 
-            <div class="header">
-                <h2>Delivery Address</h2>
-                <hr class="overline">
-                @Html.HiddenFor(m => m.Addresses[deliveryAddressIndex].AddressTypeId, new{ @id="deliveryTypeId" })
-
-            </div>
             <div class="innerGrid">
                 <div class="columnOne">
                     <input id="AddressTypeId"
@@ -193,155 +193,31 @@
     </div>
 
 }
+@section Scripts{
+    <script src="~/js/CustomerInfo.js"></script>
+    <script type="text/javascript">
+       
+        var email = document.getElementById("emailBox");
+        email.addEventListener("change", ValidateEmail);
 
-<script type="text/javascript">
-    function FillShippingAddress() {
-        var checkBox = document.getElementById("check-address");
-        var streetBil = document.getElementById("streetB");
-        var streetDel = document.getElementById("streetD");
-        var buildingNoBil = document.getElementById("buildingNumberB");
-        var buildingNoDel = document.getElementById("buildingNumberD");
-        var flatNumberBil = document.getElementById("flatNumberB");
-        var flatNumberDel = document.getElementById("flatNumberD");
-        var zipCodeBil = document.getElementById("zipCodeB");
-        var zipCodeDel = document.getElementById("zipCodeD");
-        var cityBil = document.getElementById("cityB");
-        var cityDel = document.getElementById("cityD");
-        var countryDel = document.getElementById("countryD");
-        var countryBil = document.getElementById("countryB");
-        var submit = document.getElementById("submit");
+        function ValidateEmail() {
+            var inputText = document.getElementById("emailBox");
+            var textboxMessage = document.getElementById("emailAlert");
+            var submit = document.getElementById("submitButton");
 
-        if (checkBox.checked == true) {
-            streetDel.value = streetBil.value;
-            buildingNoDel.value = buildingNoBil.value;
-            flatNumberDel.value = flatNumberBil.value;
-            zipCodeBil.value = zipCodeDel.value;
-            cityBil.value = cityDel.value;
-            countryBil.value = countryDel.value;
-            PutTicksIntoSpanUnderFilledTextboxes();
+            var mailformat = /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            if (inputText.value.match(mailformat)) {
+                textboxMessage.style.color = "green";
+                textboxMessage.innerHTML = '<i class="fa-solid fa-circle-check" style="color:green"></i>';
+                submit.disabled = false;
 
-        } else {
-            streetDel.value = "";
-            buildingNoDel.value = "";
-            flatNumberDel.value = "";
-            zipCodeBil.value = "";
-            cityBil.value = "";
-            countryBil.value = "";
-            RemoveTicksFromSpansUnderTextboxes();
+            } else {
+                textboxMessage.style.color = "red";
+                textboxMessage.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Enter correct e-mail address';
+                submit.disabled = true;
+
+            }
+
         }
-    };
-
-
-    var billingTypeId = document.getElementById("billingTypeId");
-    if (billingTypeId != null) {
-        billingTypeId.value = "1";
-
-    }
-    var deliveryTypeId = document.getElementById("deliveryTypeId");
-    deliveryTypeId.value = "2";
-    var emailTypeId = document.getElementById("emailTypeId");
-    emailTypeId.value = "1";
-    var mobileTypeId = document.getElementById("mobileTypeId");
-    mobileTypeId.value = "2";
-
-    
-
-    function phoneNumber() {
-        var mobileNumberRegex = /^(?:(?:00)?44|0)7(?:[45789]\d{2}|624)\d{6}$/;
-        var phoneNumberBox = document.getElementById("phoneBox");
-        var textboxMessage = document.getElementById("phoneAlert");
-         var submit = document.getElementById("submitButton");
-
-        if (phoneNumberBox.value.replace(/\D/g, '').match(mobileNumberRegex)){
-            textboxMessage.style.color = "green";
-            textboxMessage.innerHTML = '<i class="fa-solid fa-circle-check" style="color:green"></i>';
-            submit.disabled = false;
-        }
-        else{
-            textboxMessage.style.color = "red";
-            textboxMessage.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Enter correct phone number';
-            submit.disabled = true;
-        }
-    }
-
-    var email = document.getElementById("emailBox");
-    email.addEventListener("change", ValidateEmail);
-    var email = document.getElementById("phoneBox");
-    email.addEventListener("change", phoneNumber);
-
-    function ValidateEmail() {
-        var inputText = document.getElementById("emailBox");
-        var textboxMessage = document.getElementById("emailAlert");
-        var submit = document.getElementById("submitButton");
-        
-        var mailformat = /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-        if (inputText.value.match(mailformat)) {
-            textboxMessage.style.color = "green";
-            textboxMessage.innerHTML = '<i class="fa-solid fa-circle-check" style="color:green"></i>';
-            submit.disabled = false;
-
-        } else {
-            textboxMessage.style.color = "red";
-            textboxMessage.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Enter correct e-mail address';
-            submit.disabled = true;
-           
-        }
-
-    }
-
-    function CheckField(traget) {
-        const div = document.getElementById(traget);
-        var input = div.getElementsByTagName('input');
-        var span = div.getElementsByTagName('span');
-        var submit = document.getElementById("submitButton");
-
-        if (input[0].value.length > 2 && input[0].value.length < 50) {
-            span[0].style.color = "green";
-            span[0].innerHTML = '<i class="fa-solid fa-circle-check" style="color:green"></i>';
-            submit.disabled = false;
-        }
-        else{
-            span[0].style.color = "red";
-            span[0].innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> It needs to between 2 and 50 characters';
-            submit.disabled = true;
-        }
-    }
-
-    function CheckNumber(traget) {
-        const div = document.getElementById(traget);
-        var input = div.getElementsByTagName('input');
-        var span = div.getElementsByTagName('span');
-        var submit = document.getElementById("submitButton");
-
-        if (input[0].value.length >= 1 && input[0].value.length < 50) {
-            span[0].style.color = "green";
-            span[0].innerHTML = '<i class="fa-solid fa-circle-check" style="color:green"></i>';
-            submit.disabled = false;
-        }
-        else {
-            span[0].style.color = "red";
-            span[0].innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> It needs to between 1 and 50 characters';
-            submit.disabled = true;
-        }
-    }
-
-    function PutTicksIntoSpanUnderFilledTextboxes(){
-        const billingSpans = document.querySelectorAll("div#billingAddress div.columnTwo span");
-        const deliverySpans = document.querySelectorAll("div#deliveryAddress div.columnOne span");
-        for (let i = 0; i < billingSpans.length; i++) {
-            billingSpans[i].innerHTML = '<i class="fa-solid fa-circle-check" style="color:green"></i>';
-            deliverySpans[i].innerHTML = '<i class="fa-solid fa-circle-check" style="color:green"></i>';
-        }
-
-    }
-
-    function RemoveTicksFromSpansUnderTextboxes(){
-        const billingSpans = document.querySelectorAll("div#billingAddress div.columnTwo span");
-        const deliverySpans = document.querySelectorAll("div#deliveryAddress div.columnOne span");
-        for (let i = 0; i < billingSpans.length; i++) {
-            billingSpans[i].innerHTML = "";
-            deliverySpans[i].innerHTML = "";
-        }
-    }
-
-</script>
+    </script>
+}

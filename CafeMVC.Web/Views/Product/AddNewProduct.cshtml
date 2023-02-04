@@ -24,10 +24,10 @@
                 <input type="file" id="imageUpload" name="file" multiple required style="display: none" />
                 <br>
                 <h4>Name</h4>
-                @Html.TextBoxFor(m => m.Name, new { @class = "textBox" })
+                @Html.TextBoxFor(m => m.Name, new { @class = "textBox", @required = "required" })
                 <br>
                 <h4>Price</h4>
-                @Html.TextBoxFor(m => m.PriceString, new {@class = "textBox"})
+                @Html.TextBoxFor(m => m.PriceString, new {@class = "textBox", @required = "required"})
                 <hr />
             </div>
         </div>
@@ -92,7 +92,7 @@
                 <div class="DietInfo_Submit">
                     <div>
                         <br>
-                        <select multiple="multiple" id="DietInfoForViewVms" name="DietInfoIds">
+                        <select multiple="multiple" id="DietInfoForViewVms" name="DietInfoIds" required>
                             <optgroup label="Choose diet Information">
                                 @foreach (var item in Model.DietInfoForViewVms)
                                 {

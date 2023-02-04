@@ -177,5 +177,15 @@ namespace CafeMVC.Web.Controllers
             return View(address);
         }
 
+        public ActionResult GetDeliveryAddressPartialView()
+        {
+            return PartialView("DeliveryAddress");
+        }
+
+        public ActionResult GetBillingAddressPartialView()
+        {
+            return PartialView("BillingAddress");
+        }
+
     }
 }

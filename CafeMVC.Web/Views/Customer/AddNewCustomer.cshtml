@@ -1,192 +1,249 @@
-﻿
-@model CafeMVC.Application.ViewModels.Customer.CustomerForCreationVm
-@{
-    string title = "New Customer";
+﻿@model CafeMVC.Application.ViewModels.Customer.CustomerForCreationVm
 
-}
 <head>
-    <style>
-
-        .billingAddress, .baseInformation, .shippingAddress, .submit {
-            text-align: center;
-        }
-
-        .billingAddress, .shippingAddress {
-            vertical-align: top;
-            display: table-cell;
-            padding: 1%;
-            width: 30% !important;
-        }
-
-        .billingAddress {
-            border-style: outset none outset outset;
-        }
-
-        .shippingAddress {
-            border-style: outset outset outset outset;
-        }
-
-        .container {
-            display: table;
-        }
-
-        .baseInformation {
-            width: 50% !important;
-            padding: 2%;
-            margin: auto;
-            align-self: center;
-            border-style: outset outset none outset;
-        }
-    </style>
-
-
-
+    <link rel="stylesheet" href="~/css/OrderStyleSheet.css" />
 </head>
 
 
 @using (Html.BeginForm("AddNewCustomerSummary", "Customer", FormMethod.Post))
 {
-    <div>
-        <div class="baseInformation">
-            <h1>@title</h1>
-            <br />
-            @Html.Hidden("Id")
-            <h5>@Html.LabelFor(m => m.FirstName)</h5>
-            <h6>@Html.TextBoxFor(m => m.FirstName, new {@class = "textBox"})</h6>
-            <br>
-            <h5>@Html.LabelFor(m => m.Surname)</h5>
-            <h6>@Html.TextBoxFor(m => m.Surname, new { @class = "textBox"})</h6>
-            <br>
-            <h5>E-mail</h5>
-            @Html.HiddenFor(m => m.ContactDetails[0].Id)
-            @Html.HiddenFor(m => m.ContactDetails[0].ContactDetailTypeId)
-            <h6>@Html.TextBoxFor(m => m.ContactDetails[0].ContactDetailInformation, new { @class = "textBox"})</h6>
-            <br />
-            <h5>Mobile Phone</h5>
-            @Html.HiddenFor(m => m.ContactDetails[1].Id)
-            @Html.HiddenFor(m => m.ContactDetails[1].ContactDetailTypeId)
-            <h6>@Html.TextBoxFor(m => m.ContactDetails[1].ContactDetailInformation, new { @class = "textBox"})</h6>
-            <br />
+    <div id="customerContactInfo">
+
+        <div class="header">
+            <h2>Personal Details</h2>
+            <hr class="overLine">
         </div>
-        <div class="container">
-            <div class="billingAddress">
-                <br />
-                <br />
-                <h5>Billing Address</h5>
-                @Html.HiddenFor(m => m.Addresses[0].AddressTypeId)
-                <br />
-                <h5>Street</h5>
-                <h6>
-                    @Html.TextBoxFor(m => m.Addresses[0].Street, new { @class = "textBox", @id = "streetB"})
-                </h6>
-                <br />
-                <h5>Building Number</h5>
-                <h6>
-                    @Html.TextBoxFor(m => m.Addresses[0].BuildingNumber, new { @class = "textBox",  @id = "buildingNumberB"})
-                </h6>
-                <br />
-                <h5>Flat Number</h5>
-                <h6>
-                    @Html.TextBoxFor(m => m.Addresses[0].FlatNumber, new { @class = "textBox", @id = "flatNumberB"})
-                </h6>
-                <br />
-                <h5>Post Code</h5>
-                <h6>
-                    @Html.TextBoxFor(m => m.Addresses[0].ZipCode, new { @class = "textBox", @id = "zipCodeB"})
-                </h6>
-                <br />
-                <h5>City</h5>
-                <h6>
-                    @Html.TextBoxFor(m => m.Addresses[0].City, new { @class = "textBox", @id = "cityB"})
-                </h6>
-                <br />
-                <h5>Country</h5>
-                <h6>
-                    @Html.TextBoxFor(m => m.Addresses[0].Country, new { @class = "textBox", @id = "countryB"})
-                </h6>
-                <br />
+
+        <div class="innerGrid">
+            <div class="columnOne">
+                <div id="firstName">
+                    <h5>@Html.LabelFor(m => m.FirstName)</h5>
+                    <h6>@Html.TextBoxFor(m => m.FirstName, new {@class = "textBox textbox2", @required = "required", @maxlength =50, @onchange="CheckField('firstName')"})</h6>
+                    <span></span>
+                </div>
+                <div id="lastName">
+                    <h5>@Html.LabelFor(m => m.Surname)</h5>
+                    <h6>@Html.TextBoxFor(m => m.Surname, new {@class = "textBox textbox2", @required = "required", @maxlength =50, @onchange="CheckField('lastName')"})</h6>
+                    <span></span>
+                </div>
             </div>
-            <div class="shippingAddress">
-                <p><b>Delivery Information <label><input type="checkbox" value="" id="check-address" onclick="FillShippingAddress()">Same as billing?</label></b></p>
-                <h5>Delivery Address</h5>
-                @Html.HiddenFor(m => m.Addresses[1].AddressTypeId, new { @class = "textBox"})
-                <br />
-                <h5>Street</h5>
-                <h6>
-                    @Html.TextBoxFor(m => m.Addresses[1].Street, new { @class = "textBox", @id = "streetD"})
-                </h6>
-                <br />
-                <h5>Building Number</h5>
-                <h6>
-                    @Html.TextBoxFor(m => m.Addresses[1].BuildingNumber, new { @class = "textBox", @id = "buildingNumberD"})
-                </h6>
-                <br />
-                <h5>Flat Number</h5>
-                <h6>
-                    @Html.TextBoxFor(m => m.Addresses[1].FlatNumber, new { @class = "textBox", @id = "flatNumberD"})
-                </h6>
-                <br />
-                <h5>Post Code</h5>
-                <h6>
-                    @Html.TextBoxFor(m => m.Addresses[1].ZipCode, new { @class = "textBox", @id = "zipCodeD"})
-                </h6>
-                <br />
-                <h5>City</h5>
-                <h6>
-                    @Html.TextBoxFor(m => m.Addresses[1].City, new { @class = "textBox", @id = "cityD"})
-                </h6>
-                <br />
-                <h5>Country</h5>
-                <h6>
-                    @Html.TextBoxFor(m => m.Addresses[1].Country, new { @class = "textBox", @id = "countryD"})
-                </h6>
-                <br />
-                <br>
+
+            <div class="columnTwo">
+                <h5>E-mail</h5>
+                @Html.HiddenFor(m => m.ContactDetails[0].Id)
+                @Html.HiddenFor(m => m.ContactDetails[0].ContactDetailTypeId, new {@id="emailTypeId"})
+                <h6>@Html.TextBoxFor(m => m.ContactDetails[0].ContactDetailInformation, new {@class = "textBox textbox2", @required = "required", @id="emailBox", @oninput="ValidateEmail()"})</h6>
+                <span id="emailAlert"></span>
+                <h5>Contact phone</h5>
+                @Html.HiddenFor(m => m.ContactDetails[1].Id)
+                @Html.HiddenFor(m => m.ContactDetails[1].ContactDetailTypeId, new {@id="mobileTypeId"})
+                <h6>@Html.TextBoxFor(m => m.ContactDetails[1].ContactDetailInformation, new {@class = "textBox textbox2", @required = "required", @id="phoneBox"})</h6>
+                <span id="phoneAlert"></span>
             </div>
-        </div>
-        <div class="submit">
-            <button type="submit" class="btn btn-success" value="Submit" name= "Btn" role="button">Submit</button>
-            <button type="submit" class="btn btn-danger" name="Btn" value="Cancel">Cancel</button>
         </div>
     </div>
-    @section Scripts{
+    <div class="header">
+        <h2>Billing Address <input type="checkbox" value="" id="GetBillingAdress"></h2>
+        <hr class="overLine">
+    </div>
+    <div id="billingAddress">
+    </div>
+    <div id="deliveryCheckBox" style="display:none;">
+        <p><b>Delivery Address <label><input type="checkbox" value="" id="check-address" onclick="FillDeliveryAddress()">Same as billing?</label></b></p>
+    </div>
+    <div class="header">
+        <h2>Delivery Address <input type="checkbox" value="" id="GetDeliveryAdress"></h2>
+        <hr class="overline">
+    </div>
+    <div id="deliveryAddress">
+    </div>
 
-<script type="text/javascript">
-    function FillShippingAddress(){
-         var checkBox = document.getElementById("check-address");
-        var streetBil = document.getElementById("streetB");
-        var streetDel = document.getElementById("streetD");
-        var buildingNoBil = document.getElementById("buildingNumberB");
-        var buildingNoDel = document.getElementById("buildingNumberD");
-        var flatNumberBil = document.getElementById("flatNumberB");
-        var flatNumberDel = document.getElementById("flatNumberD");
-        var zipCodeBil = document.getElementById("zipCodeB");
-        var zipCodeDel = document.getElementById("zipCodeD");
-         var cityBil = document.getElementById("cityB");
-        var cityDel = document.getElementById("cityD");
-        var countryBil = document.getElementById("countryB");
-        var countryDel = document.getElementById("countryD");
+    <div id="submit">
+        <button type="submit" class="btn btn-success" value="Submit" name="Btn" role="button" id="submitButton">Submit</button>
+        <button type="submit" class="btn btn-danger" name="Btn" value="Cancel">Cancel</button>
+    </div>
 
-    if (checkBox.checked == true){
-          streetDel.value= streetBil.value;
-          buildingNoDel.value=buildingNoBil.value;
-          flatNumberDel.value=flatNumberBil.value;
-          zipCodeDel.value=zipCodeBil.value;
-          cityDel.value=cityBil.value;
-          countryDel.value=countryBil.value;
-    } else {
-          streetDel.value="";
-          buildingNoDel.value="";
-          flatNumberDel.value="";
-          zipCodeDel.value="";
-          cityDel.value="";
-          countryDel.value="";
-    }
-     };
-
-
-</script>
-
-    }
 }
 
+@section Scripts{
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+
+        $("#GetDeliveryAdress").click(function () {
+            if ($(this).is(":checked")) {
+                loadDeliveryPartialView();
+                
+            } else {
+                $("#deliveryAddress").html("");
+                $("#deliveryCheckBox").css("display", "none");
+            }
+        });
+
+        function loadDeliveryPartialView() {
+            $.ajax({
+                url: "/Customer/GetDeliveryAddressPartialView",
+                type: "GET",
+                success: function (result) {
+                    $("#deliveryAddress").html(result);
+                   if (!$("#GetBillingAdress").is(":checked")) {
+                    replaceInputNames("deliveryAddress");
+                } else{
+                        $("#deliveryCheckBox").css("display", "block");
+                }
+                }
+            });
+        }
+
+
+        $("#GetBillingAdress").click(function () {
+            if ($(this).is(":checked")) {
+                loadBillingPartialView();
+                if ($("#GetDeliveryAdress").is(":checked")){
+                    replaceInputNamesZeroWithOne();
+                     $("#deliveryCheckBox").css("display", "block");
+                }
+            } else {
+                $("#billingAddress").html("");
+                $("#deliveryCheckBox").css("display", "none");
+                if ($("#GetDeliveryAdress").is(":checked")){
+                    replaceInputNames();
+                }
+            }
+        });
+
+        function loadBillingPartialView() {
+            $.ajax({
+                url: "/Customer/GetBillingAddressPartialView",
+                type: "GET",
+                success: function (result) {
+                    $("#billingAddress").html(result);
+                    
+                }
+            });
+        }
+        function replaceInputNames() {
+
+            var div = document.getElementById("deliveryAddress");
+            var inputs = div.getElementsByTagName("input");
+            for (let i = 0; i < inputs.length; i++) {
+                let input = inputs[i];
+                let name = input.getAttribute("name");
+                if (name.includes("1")) {
+                    name = name.replace("1", "0");
+                    input.setAttribute("name", name);
+                }
+            }
+        }
+
+          function replaceInputNamesZeroWithOne() {
+
+            var div = document.getElementById("deliveryAddress");
+            var inputs = div.getElementsByTagName("input");
+            for (let i = 0; i < inputs.length; i++) {
+                let input = inputs[i];
+                let name = input.getAttribute("name");
+                if (name.includes("0")) {
+                    name = name.replace("0", "1");
+                    input.setAttribute("name", name);
+                }
+            }
+        }
+
+        const deliveryCheckBox = document.getElementById("GetDeliveryAdress");
+        if (deliveryCheckBox.checked) {
+            document.getElementById("countryD").value = "United Kingdoms";
+            document.getElementById("cityD").value = "Leicester";
+        }
+
+        function CheckRegex(enteredPostcode) {
+            var regEx = /^[a-z]{1,2}\d[a-z\d]?\s*\d[a-z]{2}$/i;
+            var isValid = regEx.test(enteredPostcode);
+
+            return isValid;
+
+        }
+        function CheckIfCanBeDelivered(enteredPostcode) {
+            var upperPostcode = enteredPostcode.toUpperCase();
+            var isLongerThanSixSigns = upperPostcode.length > 6;
+            var firstOutcode = isLongerThanSixSigns ? "LE1 " : "LE1";
+            const listOfOutcodesForDelivery = [firstOutcode, "LE2", "LE3", "LE4"];
+            var outCode = upperPostcode.substring(0, 4);
+            var canWeDeliver = listOfOutcodesForDelivery.some((x) =>
+                outCode.includes(x));
+            return canWeDeliver;
+        }
+        const submit = document.getElementById("submitButton");
+        function CheckPostcode() {
+            var enteredPostcode = document.getElementById("zipCodeD").value;
+            var isValid = CheckRegex(enteredPostcode);
+            var textboxMessage = document.getElementById("displayError");
+            if (isValid == true) {
+                var canWeDeliver = CheckIfCanBeDelivered(enteredPostcode);
+                if (canWeDeliver == true) {
+                    textboxMessage.style.color = "green";
+                    textboxMessage.innerHTML = '<i class="fa-solid fa-circle-check" style="color:green"></i> We can deliver to you';
+                    document.getElementById("submit").disabled = false;
+                } else {
+                    textboxMessage.style.color = "red";
+                    textboxMessage.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Sorry, we cannot deliver to this postcode';
+                    submit.disabled = true;
+                }
+                console.log(canWeDeliver);
+            } else {
+                textboxMessage.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Sorry, the postcode is inccorrect';
+                textboxMessage.style.color = "red";
+                submit.disabled = true;
+            }
+        }
+
+        function FillDeliveryAddress() {
+            var checkBox = document.getElementById("check-address");
+            var streetBil = document.getElementById("streetB");
+            var streetDel = document.getElementById("streetD");
+            var buildingNoBil = document.getElementById("buildingNumberB");
+            var buildingNoDel = document.getElementById("buildingNumberD");
+            var flatNumberBil = document.getElementById("flatNumberB");
+            var flatNumberDel = document.getElementById("flatNumberD");
+            var zipCodeBil = document.getElementById("zipCodeB");
+            var zipCodeDel = document.getElementById("zipCodeD");
+           
+            if (checkBox.checked == true) {
+                streetDel.value = streetBil.value;
+                buildingNoDel.value = buildingNoBil.value;
+                flatNumberDel.value = flatNumberBil.value;
+                zipCodeDel.value = zipCodeBil.value;
+               
+            } else {
+                streetDel.value = "";
+                buildingNoDel.value = "";
+                flatNumberDel.value = "";
+                zipCodeDel.value = "";
+                
+            }
+            CheckPostcode()
+        };
+
+        function ValidateEmail() {
+            var inputText = document.getElementById("emailBox");
+            var textboxMessage = document.getElementById("emailAlert");
+            var submit = document.getElementById("submitButton");
+
+            var mailformat = /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            if (inputText.value.match(mailformat)) {
+                textboxMessage.style.color = "green";
+                textboxMessage.innerHTML = '<i class="fa-solid fa-circle-check" style="color:green"></i>';
+                submit.disabled = false;
+
+            } else {
+                textboxMessage.style.color = "red";
+                textboxMessage.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Enter correct e-mail address';
+                submit.disabled = true;
+
+            }
+
+        }
+
+
+    </script>
+    <script src="~/js/CustomerInfo.js"></script>
+    }

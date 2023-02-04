@@ -73,29 +73,31 @@
                     <br>
                     <div id="cardHolder">
                         <h5>Card Holder Name</h5>
-                        @Html.TextBoxFor(m => m.Payment.PaymentCard.CardHolderName)
+                        @Html.TextBoxFor(m => m.Payment.PaymentCard.CardHolderName, new{@required = "required", @oninput="CheckField('cardHolder')"})
+                        <span></span>
                     </div>
                     <div id="cardNumber">
                         <h5>Card Number</h5>
-                        @Html.TextBoxFor(m => m.Payment.PaymentCard.CardNumber, new{@id="cardNumberTxtBox", @onchange="TestCreditCard()", @pattern="[0-9]{4} [0-9]{4} [0-9]{4} [0-9]{4}", @placeholder="0000 0000 0000 0000", @maxlength="19" })
+                        @Html.TextBoxFor(m => m.Payment.PaymentCard.CardNumber, new{@id="cardNumberTxtBox", @oninput="addSpaces(event)" ,@onchange="TestCreditCard()", @pattern="[0-9]{4} [0-9]{4} [0-9]{4} [0-9]{4}", @placeholder="0000 0000 0000 0000", @maxlength="19", @required = "required" })
                         <span id="CardAlert"></span>
                     </div>
                     <div id="expiryDate">
                         <h5>Expiry Date</h5>
                         <div id="month">
                             <label for="month">MM</label>
-                            <select name="month" id="expiryMonth" class="otherInput" onchange="CheckIfCardIsValid()"></select>
+                            <select name="month" id="expiryMonth" class="otherInput" onchange="CheckIfCardIsValid()" placeholder="MM"></select>
                         </div>
                         <div id="year">
                             <label for="Year">YY</label>
-                            <select name="Year" id="expiryYear" class="otherInput" onchange="CheckIfCardIsValid()"></select>
+                            <select name="Year" id="expiryYear" class="otherInput" onchange="CheckIfCardIsValid()" placeholder="YY"></select>
                            </div>
                         @Html.HiddenFor(m => m.Payment.PaymentCard.ExpirationDate, new{@id="ExpiryDateBox"})
                         <span style="display:block;"></span>
                     </div>
                     <div id="cvc">
                         <h5>CVC</h5>
-                        @Html.TextBoxFor(m => m.Payment.PaymentCard.SecureityCode)
+                        @Html.TextBoxFor(m => m.Payment.PaymentCard.SecureityCode, new{ @required = "required", @oninput="CheckField('cvc')"})
+                        <span></span>
                     </div>
                 }
                 else

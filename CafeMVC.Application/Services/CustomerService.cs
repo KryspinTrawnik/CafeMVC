@@ -59,7 +59,7 @@ namespace CafeMVC.Application.Services
         public CustomerDetailViewsVm GetCustomerDetail(int customerId)
         {
             Customer customer = _customerRepository.GetCustomerById(customerId);
-
+           
             return _mapper.Map<CustomerDetailViewsVm>(customer);
         }
 

@@ -76,6 +76,7 @@
 
         const submit = document.getElementById("submitButton");
         const postcode = document.getElementById("postCodeTextBox");
+
         function changeValidationUpToType() {
             var city = document.getElementById("cityTextBox");
             var chosenType = parseInt(document.getElementById("typeId").value);
@@ -93,6 +94,7 @@
                 ChangeValidationToBilling();
             }
         }
+
         function ChangeValidationToBilling() {
             var textboxMessage = document.getElementById("displayError");
             textboxMessage.innerHTML = "";

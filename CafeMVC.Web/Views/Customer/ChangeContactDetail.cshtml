@@ -1,8 +1,7 @@
 ﻿@model CafeMVC.Application.ViewModels.Customer.ContactInfoForCreationVm
-@{ string title = "Add New Contact";
+@{ string title = "Change Contact Detail";
 
 }
-
 <h5>@title</h5>
 <br />
 <br />
@@ -11,14 +10,76 @@
     @Html.Hidden("Id")
     <h5>Contact type</h5>
     <h6>
-        @Html.DisplayFor(m => m.ContactDetailType)
+        @Html.DropDownList("ContactDetailTypeId", new List<SelectListItem>
+    {
+    new SelectListItem { Text = Model.AllContactDetailsTypes[0].Name,
+    Value=Model.AllContactDetailsTypes[0].Id.ToString() },
+    new SelectListItem { Text = Model.AllContactDetailsTypes[1].Name,
+    Value=Model.AllContactDetailsTypes[1].Id.ToString() }
+
+    }, new { @class = "textBox", @id= "typeId", @onchange="ValidateInput()"})
     </h6>
     <br />
     <h5>Contact Detail</h5>
-    @Html.TextBoxFor(m => m.ContactDetailInformation)
-    <br />
+    @Html.TextBoxFor(m => m.ContactDetailInformation, new { @class = "textBox", @id="input", @oninput="ValidateInput()"})
+    <span id="alert"></span>
     <br />
     @Html.HiddenFor(m => m.CustomerId)
-    <button type="submit"class="btn btn-success" value="Submit" role="button" name ="Btn">Submit</button>
-   <button type="submit" class="btn btn-danger" name="Btn" value="Cancel">Cancel</button>
+    <button type="submit" class="btn btn-success" name="Btn" value="Submit" id="submitButton">Submit</button>
+    <button type="submit" class="btn btn-danger" name="Btn" value="Cancel">Cancel</button>
+}
+
+
+@section Scripts{
+    <script type="text/javascript">
+
+        function ValidateInput() {
+            var chosenType = parseInt(document.getElementById("typeId").value);
+            if (chosenType == 1) {
+                ValidateEmail();
+            } else {
+                phoneNumber();
+            }
+
+
+        }
+
+        function ValidateEmail() {
+            var inputText = document.getElementById("input").value.trimStart();
+            var textboxMessage = document.getElementById("alert");
+            var submit = document.getElementById("submitButton");
+
+            var mailformat = /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            if (inputText.match(mailformat)) {
+                textboxMessage.style.color = "green";
+                textboxMessage.innerHTML = '<i class="fa-solid fa-circle-check" style="color:green"></i>';
+                submit.disabled = false;
+
+            } else {
+                textboxMessage.style.color = "red";
+                textboxMessage.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Enter correct e-mail address';
+                submit.disabled = true;
+
+            }
+
+        }
+        function phoneNumber() {
+            var mobileNumberRegex = /^(?:(?:00)?44|0)7(?:[45789]\d{2}|624)\d{6}$/;
+            var phoneNumberBox = document.getElementById("input");
+            var textboxMessage = document.getElementById("alert");
+            var submit = document.getElementById("submitButton");
+
+            if (phoneNumberBox.value.replace(/\D/g, '').match(mobileNumberRegex)) {
+                textboxMessage.style.color = "green";
+                textboxMessage.innerHTML = '<i class="fa-solid fa-circle-check" style="color:green"></i>';
+                submit.disabled = false;
+            }
+            else {
+                textboxMessage.style.color = "red";
+                textboxMessage.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Enter correct phone number';
+                submit.disabled = true;
+            }
+        }
+
+    </script>
 }

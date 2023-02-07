@@ -96,6 +96,7 @@ namespace CafeMVC.Web.Controllers
             if (contactDetail.Btn == "Submit")
             {
                 _contactDetailService.AddNewContactDetail(contactDetail);
+
             }
             return RedirectToAction("CustomerView", "Customer", new { customerId = contactDetail.CustomerId });
         }
@@ -104,6 +105,7 @@ namespace CafeMVC.Web.Controllers
         public IActionResult ChangeContactDetail(int contactDetailId)
         {
             var contactDetailForEdition = _contactDetailService.GetContactDetailForEdition(contactDetailId);
+            contactDetailForEdition.AllContactDetailsTypes = _contactDetailService.GetAllContactDetailTypes();
             return View(contactDetailForEdition);
         }
 

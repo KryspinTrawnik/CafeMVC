@@ -224,12 +224,12 @@
         };
 
         function ValidateEmail() {
-            var inputText = document.getElementById("emailBox");
+            var inputText = document.getElementById("emailBox").value.trimStart();
             var textboxMessage = document.getElementById("emailAlert");
             var submit = document.getElementById("submitButton");
 
             var mailformat = /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-            if (inputText.value.match(mailformat)) {
+            if (inputText.match(mailformat)) {
                 textboxMessage.style.color = "green";
                 textboxMessage.innerHTML = '<i class="fa-solid fa-circle-check" style="color:green"></i>';
                 submit.disabled = false;

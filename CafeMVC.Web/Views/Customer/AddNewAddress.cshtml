@@ -1,9 +1,10 @@
 ﻿@model CafeMVC.Application.ViewModels.Customer.AddressForCreationVm
-@{ string title = "New Address";
-   }
-  
-   <h5>@title</h5>
-@using (Html.BeginForm("AddNewAddress", "Customer", FormMethod.Post, new { @class = "coffee-Form"}))
+@{
+    string title = "New Address";
+}
+
+<h5>@title</h5>
+@using (Html.BeginForm("AddNewAddress", "Customer", FormMethod.Post, new { @class = "coffee-Form" }))
 {
     <h5>Address type</h5>
     @Html.DropDownList("AddressTypeId", new List<SelectListItem>
@@ -12,40 +13,136 @@
             Value=Model.AllAddressTypes[0].Id.ToString() },
        new SelectListItem { Text = Model.AllAddressTypes[1].Name,
            Value=Model.AllAddressTypes[1].Id.ToString() }
-    }, new { @class = "textBox"})
-    <h5>Street</h5>
-    <h6>
-        @Html.TextBoxFor(m => m.Street, new { @class = "textBox"})
-    </h6>
+    }, new { @class = "textBox", @onchange="changeValidationUpToType()", @id= "typeId"})
+    <div id="street">
+        <h5>Street</h5>
+        <h6>
+            @Html.TextBoxFor(m => m.Street, new { @class = "textBox", @onchange="CheckField('street')", @required = "required"})
+        </h6>
+        <span></span>
+    </div>
     <br />
-    <h5>Building Number</h5>
-    <h6>
-        @Html.TextBoxFor(m => m.BuildingNumber, new { @class = "textBox"})
-    </h6>
-    <br />
-    <h5>Flat Number</h5>
-    <h6>
-        @Html.TextBoxFor(m => m.FlatNumber, new { @class = "textBox"})
-    </h6>
-    <br />
-    <h5>PostCode</h5>
-    <h6>
-        @Html.TextBoxFor(m => m.ZipCode, new { @class = "textBox"})
-    </h6>
-    <br />
-    <h5>City</h5>
-    <h6>
-        @Html.TextBoxFor(m => m.City, new { @class = "textBox"})
-    </h6>
-    <br />
-    <h5>Country</h5>
-    <h6>
-        @Html.TextBoxFor(m => m.Country, new { @class = "textBox"})
-    </h6>
-    @Html.HiddenFor(m => m.CustomerId, new { @class = "textBox"})
+    <div id="buildingNumber">
+        <h5>Building Number</h5>
+        <h6>
+            @Html.TextBoxFor(m => m.BuildingNumber, new { @class = "textBox", @onchange="CheckNumber('buildingNumber')", @required = "required"})
+        </h6>
+        <span></span>
+        <br />
+    </div>
+    <div id="flatNumber">
+        <h5>Flat Number</h5>
+        <h6>
+            @Html.TextBoxFor(m => m.FlatNumber, new { @class = "textBox", @onchange="CheckNumber('flatNumber')", @required = "required"})
+        </h6>
+        <span></span>
+        <br />
+    </div>
+    <div id="postcode">
+        <h5>PostCode</h5>
+        <h6>
+            @Html.TextBoxFor(m => m.ZipCode, new { @class = "textBox", @id="postCodeTextBox", @oninput="CheckPostcode()", @required = "required"})
+        </h6>
+        <span id="displayError"></span>
+        <br />
 
-    <button type="submit" class="btn btn-success" name="Btn" value="Submit" >Submit</button> 
+    </div>
+    <div id="city">
+        <h5>City</h5>
+        <h6>
+            @Html.TextBoxFor(m => m.City, new { @class = "textBox", @id ="cityTextBox", @onchange="CheckField('street')", @required = "required"})
+        </h6>
+        <span></span>
+        <br />
+
+    </div>
+    <div id="country">
+
+        <h5>Country</h5>
+        <h6>
+            @Html.TextBoxFor(m => m.Country, new { @class = "textBox", @id ="countryTextBox", @onchange="CheckField('country')", @required = "required"})
+        </h6>
+        <span></span>
+        @Html.HiddenFor(m => m.CustomerId, new { @class = "textBox"})
+    </div>
+
+    <button type="submit" class="btn btn-success" name="Btn" value="Submit" id="submitButton">Submit</button>
     <button type="submit" class="btn btn-danger" name="Btn" value="Cancel">Cancel</button>
-    }
-    
+}
 
+@section Scripts{
+    <script src="~/js/CustomerInfo.js"></script>
+    <script type="text/javascript">
+
+        const submit = document.getElementById("submitButton");
+        const postcode = document.getElementById("postCodeTextBox");
+        function changeValidationUpToType() {
+            var city = document.getElementById("cityTextBox");
+            var chosenType = parseInt(document.getElementById("typeId").value);
+            var country = document.getElementById("countryTextBox");
+            if (chosenType == 2) {
+                country.value = "United Kingdoms"
+                city.value = "Leicester"
+                city.readOnly = true;
+
+            } else {
+                country.value = "";
+                city.value = "";
+                city.readOnly = false;
+                postcode.oninput = null;
+                ChangeValidationToBilling();
+            }
+        }
+        function ChangeValidationToBilling() {
+            var textboxMessage = document.getElementById("displayError");
+            textboxMessage.innerHTML = "";
+        }
+
+        function CheckRegex(enteredPostcode) {
+            var regEx = /^[a-z]{1,2}\d[a-z\d]?\s*\d[a-z]{2}$/i;
+            var isValid = regEx.test(enteredPostcode);
+
+            return isValid;
+
+        }
+        function CheckIfCanBeDelivered(enteredPostcode) {
+            var upperPostcode = enteredPostcode.toUpperCase();
+            var isLongerThanSixSigns = upperPostcode.length > 6;
+            var firstOutcode = isLongerThanSixSigns ? "LE1 " : "LE1";
+            const listOfOutcodesForDelivery = [firstOutcode, "LE2", "LE3", "LE4"];
+            var outCode = upperPostcode.substring(0, 4);
+            var canWeDeliver = listOfOutcodesForDelivery.some((x) =>
+                outCode.includes(x));
+            return canWeDeliver;
+        }
+
+        function CheckPostcode() {
+            var chosenType = parseInt(document.getElementById("typeId").value);
+            if (chosenType == 2) {
+                var enteredPostcode = document.getElementById("postCodeTextBox").value;
+                var isValid = CheckRegex(enteredPostcode);
+                var textboxMessage = document.getElementById("displayError");
+                if (isValid == true) {
+                    var canWeDeliver = CheckIfCanBeDelivered(enteredPostcode);
+                    if (canWeDeliver == true) {
+                        textboxMessage.style.color = "green";
+                        textboxMessage.innerHTML = '<i class="fa-solid fa-circle-check" style="color:green"></i> We can deliver to you';
+                        submit.disabled = false;
+                    } else {
+                        textboxMessage.style.color = "red";
+                        textboxMessage.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Sorry, we cannot deliver to this postcode';
+                        submit.disabled = true;
+                    }
+                } else {
+                    textboxMessage.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Sorry, the postcode is inccorrect';
+                    textboxMessage.style.color = "red";
+                    submit.disabled = true;
+                }
+            } else {
+                CheckField('postcode')
+            }
+        }
+
+
+    </script>
+}

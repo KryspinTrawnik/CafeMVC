@@ -125,7 +125,7 @@
 <br />
 <h5>Orders</h5>
 <br />
-@if (Model.Orders.Count == 0)
+@if (Model.Orders == null)
 {
     <h6>No Orders to Show</h6>
 }
@@ -139,14 +139,15 @@ else
             <th>Total Price</th>
             <th></th>
         </tr>
-        @for (int i = 0; i < Model.Addresses.Count; i++)
+        @for (int i = 0; i < Model.Orders.Count; i++)
         {
             <tr>
-                <td>@i</td>
+                @{int y = i+ 1; }
+                <td>@y</td>
                 <td>@Html.DisplayFor(m => m.Orders[i].DateOfOrder)</td>
                 <td>@Html.DisplayFor(m => m.Orders[i].ProductsCount)</td>
                 <td>@Html.DisplayFor(m => m.Orders[i].TotalPrice)</td>
-                <td>@Html.ActionLink("Details", "OrderView", "OrderController", new { orderId = Model.Orders[i].Id })</td>
+                <td>@Html.ActionLink("Details", "OrderView", "Order", new { orderId = Model.Orders[i].Id })</td>
             </tr>
         }
     </table>

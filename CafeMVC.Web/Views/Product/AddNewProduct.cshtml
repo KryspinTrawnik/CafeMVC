@@ -23,11 +23,17 @@
                 </div>
                 <input type="file" id="imageUpload" name="file" multiple required style="display: none" />
                 <br>
-                <h4>Name</h4>
-                @Html.TextBoxFor(m => m.Name, new { @class = "textBox", @required = "required" })
-                <br>
-                <h4>Price</h4>
-                @Html.TextBoxFor(m => m.PriceString, new {@class = "textBox", @required = "required"})
+                <div id="name">
+                    <h4>Name</h4>
+                    @Html.TextBoxFor(m => m.Name, new { @class = "textBox", @required = "required", @onchange="CheckField('name')" })
+                    <span></span>
+                </div>
+                <div id="price">
+                    <br>
+                    <h4>Price</h4>
+                    @Html.TextBoxFor(m => m.PriceString, new {@id="priceInput", @class = "textBox", @required = "required"})
+                    <span id="priceAlert"></span>
+                </div>
                 <hr />
             </div>
         </div>
@@ -36,7 +42,7 @@
                 <div class="Ingredients">
                     <div class="allIngredients">
                         <a asp-action="EditIngredientsList">Edit All Ingredient </a>
-                        <select multiple="multiple" id="AllIngredients" name="AllIngredients">
+                        <select multiple="multiple" id="AllIngredients" name="AllIngredients" >
                             <optgroup label="All Ingredients">
                                 @if (Model.Ingredients != null)
                                 {
@@ -56,14 +62,15 @@
                     </div>
                     <div class="productIngredients panel">
                         <br>
-                        <select multiple="multiple" id="IngredientsSelectList" name="IngredientsIds">
+                        <span id="ingredientsList"></span>
+                        <select multiple="multiple" id="IngredientsSelectList" name="IngredientsIds" required>
                             <optgroup label="Product Ingredients"></optgroup>
                         </select>
                     </div>
                 </div>
                 <div class="Allergens">
                     <div>
-                         <a asp-action="EditAllergensList">Edit All Allergens </a>
+                        <a asp-action="EditAllergensList">Edit All Allergens </a>
                         <select multiple="multiple" id="AllAllergens" name="AllAllergens">
                             <optgroup label="All Allergens">
                                 @if (Model.Allergens != null)
@@ -92,7 +99,7 @@
                 <div class="DietInfo_Submit">
                     <div>
                         <br>
-                        <select multiple="multiple" id="DietInfoForViewVms" name="DietInfoIds" required>
+                        <select multiple="multiple" id="DietInfoForViewVms" name="DietInfoIds">
                             <optgroup label="Choose diet Information">
                                 @foreach (var item in Model.DietInfoForViewVms)
                                 {
@@ -106,12 +113,12 @@
                     <div class="Description">
                         <br>
                         <h4>Description</h4>
-                        @Html.TextAreaFor(m => m.Description, new{@class ="DescriptionTextBox"})
-                       
+                        @Html.TextAreaFor(m => m.Description, new{@class ="DescriptionTextBox", @required = "required"})
+
                     </div>
                     <div>
-                         <br>
-                        <button type="submit" class="btn btn-success" value="Submit" name="Btn" role="button" id="select_all">Submit</button>
+                        <br>
+                        <button type="submit" class="btn btn-success" value="Submit" name="Btn" role="button" id="submitButton">Submit</button>
                         <button type="submit" class="btn btn-danger" name="Btn" value="Cancel">Cancel</button>
                     </div>
                 </div>
@@ -120,39 +127,76 @@
     }
 </body>
 @section Scripts{
-<script type="text/javascript">
-            const image_input = document.querySelector("#imageUpload");
-            image_input.addEventListener("change", function () {
-                const reader = new FileReader();
-                reader.addEventListener("load", () => {
-                    const uploaded_image = reader.result;
-                    document.querySelector("#displayPicture").style.backgroundImage = `url(${uploaded_image})`;
-                });
-                reader.readAsDataURL(this.files[0]);
+    <script src="~/js/CustomerInfo.js"></script>
+    <script type="text/javascript">
+        const submit = document.getElementById("submitButton");
+        const image_input = document.querySelector("#imageUpload");
+        image_input.addEventListener("change", function () {
+            const reader = new FileReader();
+            reader.addEventListener("load", () => {
+                const uploaded_image = reader.result;
+                document.querySelector("#displayPicture").style.backgroundImage = `url(${uploaded_image})`;
             });
-            $('#move').click(function () {
-          $('#AllIngredients option:selected').appendTo('#IngredientsSelectList');
-          console.log(document.body.firstElementChild);
-          return false;
+            reader.readAsDataURL(this.files[0]);
+        });
+        $('#move').click(function () {
+            $('#AllIngredients option:selected').appendTo('#IngredientsSelectList');
+            console.log(document.body.firstElementChild);
+            IsThereAnyIngredient();
+            return false;
         });
         $('#remove').click(function () {
-          $('#IngredientsSelectList option:selected').appendTo('#AllIngredients');
-          return false;
+            $('#IngredientsSelectList option:selected').appendTo('#AllIngredients');
+            IsThereAnyIngredient();
+            return false;
         });
-         $('#moveAllergens').click(function () {
-          $('#AllAllergens option:selected').appendTo('#Allergens');
-          console.log(document.body.firstElementChild);
-          return false;
+        $('#moveAllergens').click(function () {
+            $('#AllAllergens option:selected').appendTo('#Allergens');
+            console.log(document.body.firstElementChild);
+            return false;
         });
         $('#removeAllergens').click(function () {
-          $('#Allergens option:selected').appendTo('#AllAllergens');
-          return false;
+            $('#Allergens option:selected').appendTo('#AllAllergens');
+            return false;
         });
-        $('#select_all').click(function() {
-        $('#IngredientsSelectList option').prop('selected', true);
-         $('#Allergens option').prop('selected', true);
-    });
-</script>
+        $('#submitButton').click(function () {
+            $('#IngredientsSelectList option').prop('selected', true);
+            $('#Allergens option').prop('selected', true);
+
+
+        });
+
+        let input = document.getElementById("priceInput");
+
+        input.addEventListener("input", function () {
+            let value = input.value;
+            let isValid = /^\d+(?:\.\d{0,2})?$/.test(value);
+            let span = document.getElementById("priceAlert");
+            if (!isValid) {
+                span.innerHTML = '<br> <i class="fa-solid fa-circle-exclamation" style="color:red"> Please enter a valid price (e.g. 9.99)';
+                input.setCustomValidity("Please enter a valid price (e.g. 9.99)");
+                submit.disabled = true;
+            } else {
+                span.innerHTML = '<i class="fa-solid fa-circle-check" style="color:green"></i>';
+                input.setCustomValidity("");
+                  submit.disabled = false;
+            }
+        });
+
+        function IsThereAnyIngredient(){
+            let listOfIngredients = document.getElementById("IngredientsSelectList");
+            let span = document.getElementById("ingredientsList");
+            if (listOfIngredients.length < 1){
+                span.innerHTML = '<i class="fa-solid fa-circle-exclamation" style="color:red"> Please enter at least one ingredient'
+                submit.disabled = true;
+            }
+            else{
+                span.innerHTML = '';
+                submit.disabled = false;
+            }
+
+        }
+    </script>
 
 }
 

@@ -1,0 +1,25 @@
+﻿@model CafeMVC.Application.ViewModels.Products.IngredientForViewVm
+@{
+    string title = "Edit Ingredient";
+
+}
+
+<h5>@title</h5>
+<br />
+<br />
+@using (Html.BeginForm("EditIngredient", "Product", FormMethod.Post))
+{
+    @Html.Hidden("Id")
+        <h5>Name of new ingredient</h5>
+        <div id="ingredient">
+        @Html.TextBoxFor(m => m.Name, new { @class = "textBox", @oninput="CheckField('ingredient')"})
+            <span></span>
+            <br />
+        </div>
+        <button type="submit" id="submitButton" class="btn btn-success" name="Btn" value="Submit">Submit</button>
+        <button type="submit" class="btn btn-danger" name="Btn" value="Cancel">Cancel</button>
+}
+
+@section Scripts{
+        <script src="~/js/CustomerInfo.js"></script>
+}

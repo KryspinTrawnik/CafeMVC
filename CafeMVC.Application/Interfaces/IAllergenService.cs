@@ -17,5 +17,10 @@ namespace CafeMVC.Application.Interfaces
         void UpdateProductAllergenTable(int productId, List<ProductAllergen> productAllergens);
 
         ListOfAllergensVm GetAllergensForEdition(int pageSize, int pageNo, string searchString);
+
+        AllergenForViewVm GetAllergenVm(int allergenId);
+        
+        void ChangeAllergen(AllergenForViewVm editedAllergen);
+
     }
 }

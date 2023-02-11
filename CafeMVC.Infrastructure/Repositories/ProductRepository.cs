@@ -32,23 +32,10 @@ namespace CafeMVC.Infrastructure.Repositories
         }
 
         public IQueryable<Product> GetAllProducts() => _context.Products.AsNoTrackingWithIdentityResolution();
-            //.Include(x => x.Menu).AsNoTracking()
-            //.Include(x => x.ProductIngredients)
-            //    .ThenInclude(x => x.Ingredient).AsNoTracking()
-            // .Include(x => x.ProductAllergens)
-            //     .ThenInclude(x => x.Allergen).AsNoTracking()
-            // .Include(x => x.ProductDietInfoTags)
-            //     .ThenInclude(x => x.DietInfoTag).AsNoTracking();
+
         public Product GetProductById(int productId)
         {
             Product product = _context.Products
-                //.Include(x => x.Menu).AsNoTracking()
-                //.Include(x => x.ProductIngredients)
-                //    .ThenInclude(x => x.Ingredient).AsNoTracking()
-                //.Include(x => x.ProductAllergens)
-                //    .ThenInclude(x => x.Allergen).AsNoTracking()
-                //.Include(x => x.ProductDietInfoTags)
-                //    .ThenInclude(x => x.DietInfoTag).AsNoTracking()
                 .FirstOrDefault(x => x.Id == productId);
             
             return product;
@@ -56,7 +43,6 @@ namespace CafeMVC.Infrastructure.Repositories
 
         public void UpdateProduct(Product product)
         {
-            // _context.Attach(product);
             _context.Entry(product).Property("Name").IsModified = true;
             _context.Entry(product).Property("Price").IsModified = true;
             _context.Entry(product).Property("Description").IsModified = true;
@@ -99,6 +85,11 @@ namespace CafeMVC.Infrastructure.Repositories
             _context.SaveChanges();
 
         }
+        public void UpdateIngredient(Ingredient ingredient)
+        {
+            _context.Entry(ingredient).Property("Name").IsModified= true;
+            _context.SaveChanges();
+        }
 
         ///***Allergens Actions***///
         public void AddAllergenToProduct(ProductAllergen productAllergen)
@@ -130,6 +121,12 @@ namespace CafeMVC.Infrastructure.Repositories
             _context.Allergens.Remove(GetAllergenById(allergenId));
             _context.SaveChanges();
         }
+        public void UpdateAllergen(Allergen allergen)
+        {
+            _context.Attach(allergen).Property("Name").IsModified= true;
+            _context.SaveChanges();
+        }
+        
         ///***Diet info Actions***///
 
         public void AddDietInfoToProduct(ProductDietInfoTag productDietInfoTag)

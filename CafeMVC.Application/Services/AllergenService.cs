@@ -80,5 +80,18 @@ namespace CafeMVC.Application.Services
 
             return listOfAllAllergens;
         }
+
+        public AllergenForViewVm GetAllergenVm(int allergenId)
+        {
+            Allergen allergen = _productRepository.GetAllergenById(allergenId);
+            
+            return _mapper.Map<AllergenForViewVm>(allergen);
+        }
+
+        public void ChangeAllergen(AllergenForViewVm editedAllergen)
+        {
+            Allergen allergen = _mapper.Map<Allergen>(editedAllergen);
+            _productRepository.UpdateAllergen(allergen);
+        }
     }
 }

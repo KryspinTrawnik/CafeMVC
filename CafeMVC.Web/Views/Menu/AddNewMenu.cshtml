@@ -13,8 +13,12 @@
 {
     <div>
         @Html.HiddenFor(m => m.Id)
+        <div id="menuName">
         <h4>Menu Name</h4>
-        @Html.TextBoxFor(m => m.Name, new { @class = "textBox" })
+        @Html.TextBoxFor(m => m.Name, new { @class = "textBox", @oninput="CheckField('menuName')" })
+        <span></span>
+
+        </div>
         <br>
         <br>
         <h4>Menu Public</h4>
@@ -69,6 +73,7 @@
                     </table>
                 </div>
                 <div class="menuProducts">
+                    <span id="menuTableAlert"></span>
                     <table id="menuProductsTable" class="productTables">
                         
                        <tr class="headerTable">
@@ -92,12 +97,13 @@
             
         </div>
         <div class="submitButtons">
-                        <button type="submit" class="btn btn-success" value="Submit" name="Btn" role="button" >Submit</button>
+                        <button type="submit" id="submitButton" class="btn btn-success" value="Submit" name="Btn" role="button" >Submit</button>
                         <button type="submit" class="btn btn-danger" name="Btn" value="Cancel">Cancel</button>
             </div>
     </div>
 }
 @section Scripts{
+   
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script type="text/javascript">
 
@@ -105,16 +111,33 @@
     if( $(this).attr('checked')){
     var row = $(this).closest('tr');
     var value =$(this).value;
-    $
+    
      $('#menuProductsTable tbody').append(row);
          $(this).closest('tr').remove();
     }
-     
+     CheckIfTableHasAtLeastOneRow();
 });
 $('body').on('click','#menuProductsTable tbody tr td input.checkbox', function(){
     var row = $(this).closest('tr');
      $('#allProductsTable tbody').append(row);
          $(this).closest('tr').remove();
+        CheckIfTableHasAtLeastOneRow();
 });
+    const submit = document.getElementById("submitButton");
+
+            function CheckIfTableHasAtLeastOneRow(){
+    var table = document.getElementById("menuProductsTable");
+    var rowCount = table.rows.length;
+    var span = document.getElementById("menuTableAlert");
+    if(rowCount < 3){
+       span.innerHTML = '<i class="fa-solid fa-circle-exclamation" style="color:red"> Please assign at least one product';
+       submit.disabled = true;
+    }
+    else{
+         submit.disabled = false;
+         span.innerHTML = "";
+    }
+}
+    
     </Script>
 }

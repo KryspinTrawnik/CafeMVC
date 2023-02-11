@@ -1,5 +1,5 @@
 ﻿@model CafeMVC.Application.ViewModels.Products.IngredientForViewVm
-@{ 
+@{
     string title = "Add New Ingredient";
 
 }
@@ -11,8 +11,15 @@
 {
     @Html.Hidden("Id")
     <h5>Name of new ingredient</h5>
-        @Html.TextBoxFor(m => m.Name, new { @class = "textBox"})
-    <br />
-    <button type="submit" class="btn btn-success" name="Btn" value="Submit">Submit</button>   
+    <div id="ingredient">
+        @Html.TextBoxFor(m => m.Name, new { @class = "textBox", @oninput="CheckField('ingredient')"})
+        <span></span>
+        <br />
+    </div>
+    <button type="submit" id="submitButton" class="btn btn-success" name="Btn" value="Submit">Submit</button>
     <button type="submit" class="btn btn-danger" name="Btn" value="Cancel">Cancel</button>
+}
+
+@section Scripts{
+    <script src="~/js/CustomerInfo.js"></script>
 }

@@ -1,4 +1,6 @@
 ﻿using CafeMVC.Application.Interfaces;
+using CafeMVC.Application.Services;
+using CafeMVC.Application.ViewModels.Customer;
 using CafeMVC.Application.ViewModels.Products;
 using Microsoft.AspNetCore.Mvc;
 
@@ -137,6 +139,23 @@ namespace CafeMVC.Web.Controllers
             return RedirectToAction("EditIngredientsList");
         }
 
+        [HttpGet]
+        public IActionResult EditIngredient(int ingredientId)
+        {
+            IngredientForViewVm ingredientToBeEdited = _ingredientService.GetIngredientById(ingredientId);
+
+            return View(ingredientToBeEdited);
+        }
+        [HttpPost]
+        public IActionResult EditIngredient(IngredientForViewVm editedIngredient)
+        {
+            if (editedIngredient.Btn == "Submit")
+            {
+                _ingredientService.ChangeIngredient(editedIngredient);
+            }
+            return RedirectToAction("EditIngredientsList", "Product");
+        }
+
         ///***Allergen Actions***///
         [HttpGet]
         public IActionResult AddNewAllergen()
@@ -182,6 +201,22 @@ namespace CafeMVC.Web.Controllers
 
             return View(allergensForList);
         }
+        [HttpGet]
+        public IActionResult EditAllergen(int AllergenId)
+        {
+            AllergenForViewVm ingredientToBeEdited = _allergenService.GetAllergenVm(AllergenId);
 
+            return View(ingredientToBeEdited);
+        }
+        
+        [HttpPost]
+        public IActionResult EditAllergen(AllergenForViewVm editedAllergen)
+        {
+            if (editedAllergen.Btn == "Submit")
+            {
+                _allergenService.ChangeAllergen(editedAllergen);
+            }
+            return RedirectToAction("EditAllergensList", "Product");
+        }
     }
 }

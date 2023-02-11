@@ -82,5 +82,19 @@ namespace CafeMVC.Application.Services
 
             return listOfAllIngredients;
         }
+
+        public IngredientForViewVm GetIngredientById(int ingredientId)
+        {
+            Ingredient ingredient = _productRepository.GetIngredientById(ingredientId);
+            IngredientForViewVm ingredientForViewVm = _mapper.Map<IngredientForViewVm>(ingredient);
+            
+            return ingredientForViewVm;
+        }
+
+        public void ChangeIngredient(IngredientForViewVm editedIngredient)
+        {
+            Ingredient ingredient = _mapper.Map<Ingredient>(editedIngredient);
+            _productRepository.UpdateIngredient(ingredient);
+        }
     }
 }

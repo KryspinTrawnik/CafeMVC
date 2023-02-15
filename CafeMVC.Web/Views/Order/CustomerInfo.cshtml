@@ -9,6 +9,7 @@
     {
         Model.Addresses[deliveryAddressIndex].City = "Leicester";
         Model.Addresses[deliveryAddressIndex].Country = "United Kingdoms";
+        Model.Addresses[deliveryAddressIndex].AddressTypeId = 2;
     }
 }
 @using (Html.BeginForm("Checkout", "Order", FormMethod.Get, new { @id = "CustomerInfoForm" }))
@@ -133,10 +134,7 @@
 
             <div class="innerGrid">
                 <div class="columnOne">
-                    <input id="AddressTypeId"
-                   name="AddressTypeId"
-                   type="hidden"
-                   value="2" />
+                  
                     <div class="textbox" id="streetDel">
                         <h5>@Html.LabelFor(m => m.Addresses[deliveryAddressIndex].Street, new {@value="Street"})</h5>
                         <h6>

@@ -1,6 +1,7 @@
 ﻿using CafeMVC.Application.Interfaces;
 using CafeMVC.Application.ViewModels.Menu;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace CafeMVC.Web.Controllers
 {
@@ -84,6 +85,14 @@ namespace CafeMVC.Web.Controllers
             }
 
             return RedirectToAction("index");
+        }
+
+        public ActionResult DropDownMenus()
+        {
+
+            List<MenuForListVm> openMenus = _menuService.GetPublicMenus();
+
+            return PartialView("DropDownMenus", openMenus);
         }
     }
 }

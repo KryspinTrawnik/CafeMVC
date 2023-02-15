@@ -53,6 +53,7 @@ namespace CafeMVC.Application.Services
         private Order PrepareOrderForSaving(OrderForCreationVm order, ISession session)
         {
             order.Customer = _cartService.GetCustomerInfo(session);
+
             order.ContactDetails = _cartService.GetContactDetails(session);
             order.Products = _cartService.GetListOfCartProducts(session);
             order.DateOfOrder = DateTime.Now;
@@ -66,6 +67,13 @@ namespace CafeMVC.Application.Services
             {
                 orderForSaving.OrderAddresses = GetNewOrderAdresses(order.Addresses);
 
+            }
+            if(orderForSaving.Payment.PaymentTypeId ==1 )
+            {
+                orderForSaving.Customer.PaymentCards = new List<PaymentCard>
+                {
+                    orderForSaving.Payment.PaymentCard
+                };
             }
             orderForSaving.StatusId = 1; // status open
 

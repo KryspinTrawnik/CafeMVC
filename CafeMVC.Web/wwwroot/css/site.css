@@ -1,63 +1,64 @@
 ﻿
-*{
+* {
     color: white;
-    
 }
 
 a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
 }
 
 a {
-  color: white;
+    color: white;
 }
 
 .btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
 }
 
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
+
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .border-top {
-  border-top: 1px solid #e5e5e5;
+    border-top: 1px solid #e5e5e5;
 }
+
 .border-bottom {
-  border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
 }
 
 .box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
 
 button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
+    font-size: 1rem;
+    line-height: inherit;
 }
 
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
@@ -70,6 +71,7 @@ body {
     font-family: 'Source Sans Pro', sans-serif;
     margin-bottom: 60px;
 }
+
 .footer {
     position: fixed;
     bottom: 0;
@@ -77,14 +79,16 @@ body {
     white-space: nowrap;
     line-height: 60px; /* Vertically center the text there */
 }
+
 #addressViewTable {
     margin-left: auto;
     margin-right: auto;
     width: 30%;
     background-color: rgba(41,43,44, 0.8) !important;
 }
+
 td.number {
-        text-align: center;
+    text-align: center;
 }
 
 .textBox {
@@ -93,10 +97,11 @@ td.number {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 1.00em;
 }
+
 .form-control {
     background-color: #292b2c;
-   
 }
+
 table tr td, table tr th {
     background-color: rgba(41,43,44, 0.8) !important;
 }
@@ -115,18 +120,65 @@ table tr td, table tr th {
     width: auto;
     background-color: none !important;
 }
+
     .pagerTable td {
         width: 30px;
         background-color: none !important;
     }
-.clean
-{
+
+.clean {
     background-color: none !important;
     width: auto;
 }
+
     .clean td {
         width: 30px;
     }
+
 .otherInput {
     background-color: #292b2c;
+}
+
+#MenusDropDown {
+    border: none;
+    background: inherit;
+}
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-toggle {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 0.5rem 0.75rem; 
+    background-image: none;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    z-index: 1;
+    background-color: rgba(41, 43, 44, 0.8);
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+.dropdown-toggle::after {
+    display: none;
+    
+}
+.dropdown-menu li {
+    display: block;
+}
+
+    .dropdown-menu li a {
+        display: block;
+        padding: 0.5rem;
+        text-decoration: none;
+        color: inherit !important;
+    }
+
+.dropdown:hover .dropdown-menu {
+    display: block;
 }

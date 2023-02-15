@@ -9,6 +9,7 @@ using CafeMVC.Domain.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web.Mvc;
 
 namespace CafeMVC.Application.Services
 {
@@ -67,35 +68,35 @@ namespace CafeMVC.Application.Services
 
         private void UpdateMenuProducts(int menuid, List<int> productsIds)
         {
-            if(productsIds != null)
-            { 
-            List<int> allProductsIdsFromMenu = _menuRepository.GetAllProduct(menuid).Select(x => x.Id).ToList();
-            List<int> toBeRemoved = allProductsIdsFromMenu.Except(productsIds, new Helper()).ToList();
-            if (toBeRemoved != null)
+            if (productsIds != null)
             {
-                for (int i = 0; i < toBeRemoved.Count; i++)
+                List<int> allProductsIdsFromMenu = _menuRepository.GetAllProduct(menuid).Select(x => x.Id).ToList();
+                List<int> toBeRemoved = allProductsIdsFromMenu.Except(productsIds, new Helper()).ToList();
+                if (toBeRemoved != null)
                 {
-                    _menuRepository.DeleteProductFromMenu(menuid, toBeRemoved[i]);
+                    for (int i = 0; i < toBeRemoved.Count; i++)
+                    {
+                        _menuRepository.DeleteProductFromMenu(menuid, toBeRemoved[i]);
+                    }
                 }
-            }
-            List<int> toBeAdded = productsIds.Except(_menuRepository.GetAllProduct(menuid).Select(x => x.Id).ToList(), new Helper()).ToList();
-            if (toBeAdded != null)
-            {
-                for (int i = 0; i < toBeAdded.Count; i++)
+                List<int> toBeAdded = productsIds.Except(_menuRepository.GetAllProduct(menuid).Select(x => x.Id).ToList(), new Helper()).ToList();
+                if (toBeAdded != null)
                 {
-                    _menuRepository.AddProductToMenu(menuid, toBeAdded[i]);
+                    for (int i = 0; i < toBeAdded.Count; i++)
+                    {
+                        _menuRepository.AddProductToMenu(menuid, toBeAdded[i]);
+                    }
                 }
-            }
             }
         }
 
         public void DeleteMenu(int menuId) => _menuRepository.DeleteMenu(menuId);
-        
+
         public void DeleteProductFromMenu(int productId, int menuId)
         {
             Product prodtuctToRemove = _productRepository.GetProductById(productId);
             _menuRepository.GetMenuById(menuId).Products.Remove(prodtuctToRemove);
-           
+
         }
 
         public ListOfMenusVm GetMenusToDisplay(int pageSize, int pageNo, string searchString)
@@ -134,7 +135,7 @@ namespace CafeMVC.Application.Services
         {
             Menu menu = _menuRepository.GetMenuById(manuId);
             MenuForViewVm menuForView = _mapper.Map<MenuForViewVm>(menu);
-            for (int i = 0; i < menuForView.Products.Count; i++ )
+            for (int i = 0; i < menuForView.Products.Count; i++)
             {
                 var productForView = _productService.GetProductForViewById(menuForView.Products[i].Id);
                 menuForView.Products[i] = productForView;
@@ -159,5 +160,8 @@ namespace CafeMVC.Application.Services
 
             return _mapper.Map<List<MenuForListVm>>(publicMenus);
         }
+
+       
+
     }
 }

@@ -204,6 +204,9 @@ namespace CafeMVC.Application.Services
             };
             if (cartInformation.IsCollection == false)
             {
+                if(cartInformation.PaymentTypeId == 1)
+                {
+
                 newOrder.Addresses =  new()
                 {
                     new AddressForCreationVm(),
@@ -212,6 +215,17 @@ namespace CafeMVC.Application.Services
                         ZipCode = cartInformation.Postcode
                     }
                 };
+                }
+                else
+                {
+                    newOrder.Addresses = new()
+                    {
+                        new AddressForCreationVm()
+                        {
+                            ZipCode= cartInformation.Postcode   
+                        }
+                    };
+                }
             }
                 SessionHelper.SetObjectAsJson(session, "order", newOrder);
 

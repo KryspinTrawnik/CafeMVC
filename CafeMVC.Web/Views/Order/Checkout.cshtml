@@ -42,7 +42,7 @@
 }
 @using (Html.BeginForm("PlaceOrder", "Order", FormMethod.Post))
 {
-    @Html.HiddenFor(m => m.Payment.PaymentTypeId, new{@value= Model.Payment.PaymentTypeId})
+    @Html.HiddenFor(m => m.Payment.PaymentTypeId, new{@value= Model.Payment.PaymentTypeId, @id="paymentTypeId"})
     @Html.HiddenFor(m => m.IsCollection, new{@value= Model.IsCollection})
     <div id="container">
         <div id="top">
@@ -139,6 +139,13 @@
 @section Scripts{
     <script src="~/js/JS Card Validation.js"></script>
     <script type="text/javascript">
+
+        const paymentType = document.getElementById("paymentTypeId").value;
+        if(paymentType !== 1){
+            let submit = document.getElementById("submitButton").disabled = false
+
+        }
+
         CombineDateAndTime = function (day, time) {
             var newDate = day + " " + time + ":00";
 
@@ -159,13 +166,7 @@
         var date = document.getElementById("dateBox");
         var nextDate = new Date();
         nextDate.setDate(nextDate.getDate() + 1);
-        console.log(openingTime);
-        console.log(closingTime);
-        console.log(today);
-        console.log(nextDate);
-
-        console.log(Boolean(today < openingTime));
-        console.log(Boolean(today > closingTime));
+       
 
         if (today < openingTime) {
             time.setAttribute("min", minimumTime);

@@ -9,7 +9,7 @@
 
 
 ## General info
-The application is designed to enable customers to make orders online. Also, the Aim of the project is to make an easy change of all Menu. The program will allow making an order for delivery or collection, then store it in the history of customer order. Also, the admin will be able to create a diverse menu and dishes from the ingredients list, creating an ingredient.
+The application is designed to enable customers to make orders online. The Aim of the project is to make an easy change of all Menu. The program allow making an order for delivery or collection, then store it in the history of customer order. Also, the admin is able to create a diverse menu and dishes from the ingredients list, creating an ingredient.
 This application is built in Clean Architecture and the Service-Repository pattern.
 
 ## Technologies
@@ -30,5 +30,4 @@ This application is built in Clean Architecture and the Service-Repository patte
 * Orders managment for admin acceptance/cancel/check 
 * Adding images dietinfo tags to Products
 ## Status
-The application is still in progress. It is contected to MSSQL database. Customer, Product, Menu controllers and views are fuctioning. Currently, I work on managing  orders from adimn panel.
-
+The application is still in progress. All features and views are ready. The next goal is to setup authorization process.

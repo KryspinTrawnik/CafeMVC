@@ -18,9 +18,9 @@ namespace CafeMVC.Application.Services
 
         public CustomerService(ICustomerRepository customerRepository, IMapper mapper, IAddressService addressService)
         {
-            _customerRepository = customerRepository ?? throw new ArgumentNullException();
-            _mapper = mapper ?? throw new ArgumentNullException();
-            _addressService = addressService ?? throw new ArgumentNullException();
+            _customerRepository = customerRepository;
+            _mapper = mapper;
+            _addressService = addressService;
         }
 
         public CustomerForSummaryVm AddNewCustomer(CustomerForCreationVm customerVm)

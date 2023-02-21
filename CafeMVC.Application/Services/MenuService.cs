@@ -22,10 +22,10 @@ namespace CafeMVC.Application.Services
 
         public MenuService(IMenuRepository menuRepository, IMapper mapper, IProductRepository productRepository, IProductService productService)
         {
-            _productRepository = productRepository ?? throw new ArgumentNullException();
-            _menuRepository = menuRepository ?? throw new ArgumentNullException();
-            _productService = productService ?? throw new ArgumentNullException();
-            _mapper = mapper ?? throw new ArgumentNullException();
+            _productRepository = productRepository;
+            _menuRepository = menuRepository;
+            _productService = productService;
+            _mapper = mapper;
         }
 
         private List<Product> AddListOfProducts(List<int> productsIds)

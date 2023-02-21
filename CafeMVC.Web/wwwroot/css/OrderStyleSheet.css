@@ -260,3 +260,6 @@ input[type=number] {
 #expiryDate{
     display: block;   
 }
+.descriptionText{
+    overflow-y: scroll;
+}

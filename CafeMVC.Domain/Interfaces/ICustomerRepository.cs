@@ -41,5 +41,7 @@ namespace CafeMVC.Domain.Interfaces
         ContactDetail GetContactDetailById(int contactDetailId);
 
         IQueryable<ContactDetail> GetAllContactDetailsFromOrder(int orderId);
+        
+        int GetUserCustomerDetailId(string id);
     }
 }

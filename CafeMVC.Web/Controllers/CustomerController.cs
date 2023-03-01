@@ -1,5 +1,6 @@
 ﻿using CafeMVC.Application.Interfaces;
 using CafeMVC.Application.ViewModels.Customer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
@@ -22,6 +23,7 @@ namespace CafeMVC.Web.Controllers
         }
 
         [HttpGet]
+        //[Authorize(Roles ="Admin")]
         public IActionResult Index()
         {
             var listOfCustomers = _customerService.GetCustomersForPages(20, 1, "");

@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using CafeMVC.Domain.Model;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -8,13 +9,13 @@ namespace CafeMVC.Web.Areas.Identity.Pages.Account.Manage
 {
     public class ResetAuthenticatorModel : PageModel
     {
-        UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        UserManager<UserCustomerDetails> _userManager;
+        private readonly SignInManager<UserCustomerDetails> _signInManager;
         ILogger<ResetAuthenticatorModel> _logger;
 
         public ResetAuthenticatorModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
+            UserManager<UserCustomerDetails> userManager,
+            SignInManager<UserCustomerDetails> signInManager,
             ILogger<ResetAuthenticatorModel> logger)
         {
             _userManager = userManager;

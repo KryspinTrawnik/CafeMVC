@@ -50,6 +50,9 @@ namespace CafeMVC.Infrastructure
 
         public DbSet<OrderedProductDetails> OrderedProductDetails { get; set; }
 
+        public DbSet<UserCustomerDetails> UserCustomerDetails { get; set; }
+
+
         public Context(DbContextOptions options) : base(options)
         {
 
@@ -132,7 +135,12 @@ namespace CafeMVC.Infrastructure
                 .WithMany(a => a.OrderAddresses)
                 .HasForeignKey(oa => oa.AddressId)
                 .OnDelete(DeleteBehavior.Restrict);
-            
+
+            builder.Entity<UserCustomerDetails>()
+              .HasOne(u => u.Customer)
+              .WithOne(c => c.UserCustomerDetails)
+              .HasForeignKey<Customer>(u => u.UserCustomerDetailsId);
+
             builder.Entity<ContactDetailType>()
                 .HasData(new ContactDetailType { Id = 1, Name = "E-mail" },
                 new ContactDetailType { Id = 2, Name = "Mobile Number" },

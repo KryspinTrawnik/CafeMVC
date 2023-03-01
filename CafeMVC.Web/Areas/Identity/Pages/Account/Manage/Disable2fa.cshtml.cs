@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using CafeMVC.Domain.Model;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -9,11 +10,11 @@ namespace CafeMVC.Web.Areas.Identity.Pages.Account.Manage
 {
     public class Disable2faModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<UserCustomerDetails> _userManager;
         private readonly ILogger<Disable2faModel> _logger;
 
         public Disable2faModel(
-            UserManager<IdentityUser> userManager,
+            UserManager<UserCustomerDetails> userManager,
             ILogger<Disable2faModel> logger)
         {
             _userManager = userManager;

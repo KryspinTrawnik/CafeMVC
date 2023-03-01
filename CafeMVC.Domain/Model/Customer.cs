@@ -15,5 +15,9 @@ namespace CafeMVC.Domain.Model
         public virtual ICollection<ContactDetail> ContactDetails {get; set;}
 
         public virtual ICollection<Order> Orders { get; set; }
+
+        public string UserCustomerDetailsId { get; set; }
+
+        public UserCustomerDetails UserCustomerDetails { get; set; }
     }
 }

@@ -9,8 +9,13 @@
 
 
 ## General info
-The application is designed to enable customers to make orders online. The Aim of the project is to make an easy change of all Menu. The program allow making an order for delivery or collection, then store it in the history of customer order. Also, the admin is able to create a diverse menu and dishes from the ingredients list, creating an ingredient.
-This application is built in Clean Architecture and the Service-Repository pattern.
+This is a sample project that demonstrates the use of the Model-View-Controller (MVC) design pattern in a cafe management application. The application is built using ASP.NET Core, and it allows users to view and manage various aspects of the cafe, such as menu items, orders, and customers.
+
+The project is structured into three main layers: the model layer, which defines the data structures used in the application; the view layer, which handles the user interface of the application; and the controller layer, which acts as an intermediary between the model and view layers and handles user input.
+
+The project also utilizes Entity Framework to handle database operations, and it includes a suite of unit tests to ensure that the code is working as expected.
+
+This project is intended as a sample application for learning purposes, and it can be used as a starting point for building more complex MVC applications. Contributions and feedback are welcome!
 
 ## Technologies
 * .NET Core 6

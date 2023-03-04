@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using CafeMVC.Application.Interfaces;
+using CafeMVC.Domain.Model;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -8,15 +10,18 @@ namespace CafeMVC.Web.Areas.Identity.Pages.Account.Manage
 {
     public partial class IndexModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<UserCustomerDetails> _userManager;
+        private readonly SignInManager<UserCustomerDetails> _signInManager;
+        private readonly ICustomerService _customerService;
 
         public IndexModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager)
+            UserManager<UserCustomerDetails> userManager,
+            SignInManager<UserCustomerDetails> signInManager,
+            ICustomerService customerService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _customerService = customerService;
         }
 
         public string Username { get; set; }
@@ -32,18 +37,21 @@ namespace CafeMVC.Web.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+
+            public int  CustomerId { get; set; }
         }
 
-        private async Task LoadAsync(IdentityUser user)
+        private async Task LoadAsync(UserCustomerDetails user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-
+            int id = _customerService.GeUsertCustomerId(user.Id);
             Username = userName;
-
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                CustomerId = id
+                
             };
         }
 
@@ -62,6 +70,7 @@ namespace CafeMVC.Web.Areas.Identity.Pages.Account.Manage
         public async Task<IActionResult> OnPostAsync()
         {
             var user = await _userManager.GetUserAsync(User);
+            user.Customer = new Customer { Id = Input.CustomerId };
             if (user == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");

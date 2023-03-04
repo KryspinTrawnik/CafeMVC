@@ -63,5 +63,7 @@ namespace CafeMVC.Application.Services
             return _mapper.Map<CustomerDetailViewsVm>(customer);
         }
 
+        public int GeUsertCustomerId(string id) => _customerRepository.GetUserCustomerDetailId(id);
+        
     }
 }

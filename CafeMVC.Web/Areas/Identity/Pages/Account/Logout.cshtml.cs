@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using CafeMVC.Domain.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -10,10 +11,10 @@ namespace CafeMVC.Web.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class LogoutModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly SignInManager<UserCustomerDetails> _signInManager;
         private readonly ILogger<LogoutModel> _logger;
 
-        public LogoutModel(SignInManager<IdentityUser> signInManager, ILogger<LogoutModel> logger)
+        public LogoutModel(SignInManager<UserCustomerDetails> signInManager, ILogger<LogoutModel> logger)
         {
             _signInManager = signInManager;
             _logger = logger;

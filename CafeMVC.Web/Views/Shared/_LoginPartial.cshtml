@@ -1,6 +1,7 @@
-﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+﻿@using CafeMVC.Domain.Model;
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<UserCustomerDetails> SignInManager
+@inject UserManager<UserCustomerDetails> UserManager
 
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))

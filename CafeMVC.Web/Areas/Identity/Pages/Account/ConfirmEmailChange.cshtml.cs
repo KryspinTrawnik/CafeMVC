@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using System.Threading.Tasks;
+using CafeMVC.Domain.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -11,10 +12,10 @@ namespace CafeMVC.Web.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class ConfirmEmailChangeModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<UserCustomerDetails> _userManager;
+        private readonly SignInManager<UserCustomerDetails> _signInManager;
 
-        public ConfirmEmailChangeModel(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        public ConfirmEmailChangeModel(UserManager<UserCustomerDetails> userManager, SignInManager<UserCustomerDetails> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;

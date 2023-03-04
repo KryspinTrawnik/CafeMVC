@@ -1,4 +1,5 @@
 using CafeMVC.Application;
+using CafeMVC.Domain.Model;
 using CafeMVC.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -32,7 +33,7 @@ namespace CafeMVC.Web
             services.AddApplication();
             services.AddInfrastructure();
             services.AddDatabaseDeveloperPageExceptionFilter();
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<UserCustomerDetails>(options => options.SignIn.RequireConfirmedAccount = true).AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<Context>();
             services.AddControllersWithViews();
             services.AddDistributedMemoryCache();

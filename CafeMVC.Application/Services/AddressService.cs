@@ -40,7 +40,10 @@ namespace CafeMVC.Application.Services
             List<ContactDetailType> allContactDetails = _customerRepository.GetAllContactDetailTypes().ToList();
             for (int i = 0; i < 2; i++)
             {
+                if(createdCustomer.Addresses != null && createdCustomer.Addresses.Count > i)
+                {
                 createdCustomer.Addresses[i].AddressTypeId = allAddressTypes[i].Id;
+                }
                 createdCustomer.ContactDetails[i].ContactDetailTypeId = allContactDetails[i].Id;
             }
             

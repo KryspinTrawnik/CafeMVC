@@ -27,20 +27,30 @@
     </tr>
 </table>
 <br>
+@if(Model.Addresses.Count >0)
+{
+    
 <h5>Addresses</h5>
 <table class="table table-dark" style="width:100%">
     <thead>
         <tr>
             <th>@Html.DisplayTextFor(m => m.Addresses[0].Type)</th>
-            <th>@Html.DisplayTextFor(m => m.Addresses[1].Type)</th>
+                @if(Model.Addresses.Count > 1)
+                {
+                <th>@Html.DisplayTextFor(m => m.Addresses[1].Type)</th>
+                }
         </tr>
     </thead>
     <tr>
         <td>@Html.DisplayTextFor(m => m.Addresses[0].Address)</td>
-        <td>@Html.DisplayTextFor(m => m.Addresses[1].Address)</td>
+      @if(Model.Addresses.Count > 1)
+            {
+            <td>@Html.DisplayTextFor(m => m.Addresses[1].Address)</td>
+            }
     </tr>
 </table>
 <br />
+}
 <a class="btn btn-success" href="@Url.Action("Index", "Customer", new { customerId = Model.Id})">Accept </a>
 <a class="btn btn-warning" href="@Url.Action("CustomerView", "Customer", new { customerId = Model.Id})">
     Edit

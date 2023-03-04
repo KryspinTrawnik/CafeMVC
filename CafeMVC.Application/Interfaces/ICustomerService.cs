@@ -14,6 +14,5 @@ namespace CafeMVC.Application.Interfaces
 
         CustomerForSummaryVm GetLastAddedCustomer(int id);
         
-        int GeUsertCustomerId(string id);
     }
 }

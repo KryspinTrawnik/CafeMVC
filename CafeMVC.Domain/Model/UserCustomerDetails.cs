@@ -6,5 +6,7 @@ namespace CafeMVC.Domain.Model
     {
         public Customer Customer { get; set; }
 
+        public int? CustomerId { get; set; }
+
     }
 }

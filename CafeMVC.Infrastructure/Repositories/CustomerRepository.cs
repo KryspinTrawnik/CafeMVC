@@ -143,7 +143,5 @@ namespace CafeMVC.Infrastructure.Repositories
         public IQueryable<ContactDetail> GetAllContactDetailsFromOrder(int orderId) => 
             _context.OrderContactDetails.Where(x => x.OrderId == orderId).Select(y => y.ContactDetail);
 
-        public int GetUserCustomerDetailId(string id) => _context.Customers.FirstOrDefault(x => x.UserCustomerDetailsId == id).Id;
-        
     }
 }

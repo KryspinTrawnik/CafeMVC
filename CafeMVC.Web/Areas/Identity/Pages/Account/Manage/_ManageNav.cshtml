@@ -12,7 +12,7 @@
     <li class="nav-item"><a class="nav-link @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password" asp-page="./ChangePassword">Password</a></li>
     <li class="nav-item"><a class="nav-link"  asp-page="./ChangePassword">Password</a></li>
     <li class="nav-item">
-        <a class="nav-link" asp-controller="Customer" asp-action="CustomerView" asp-route-customerId=@user.Customer.Id>Customer View</a>
+        <a class="nav-link" asp-controller="Customer" asp-action="CustomerView" asp-route-customerId=@user.CustomerId>Customer View</a>
     </li>
     
     @if (hasExternalLogins)

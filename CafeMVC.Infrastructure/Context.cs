@@ -1,6 +1,7 @@
 ﻿using CafeMVC.Domain.Model;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 
 namespace CafeMVC.Infrastructure
 {
@@ -140,6 +141,12 @@ namespace CafeMVC.Infrastructure
               .HasOne(u => u.Customer)
               .WithOne(c => c.UserCustomerDetails)
               .HasForeignKey<Customer>(u => u.UserCustomerDetailsId);
+
+            builder.Entity<Customer>()
+           .HasOne(c => c.UserCustomerDetails)
+           .WithOne(u => u.Customer)
+           .HasForeignKey<UserCustomerDetails>(u => u.CustomerId);
+
 
             builder.Entity<ContactDetailType>()
                 .HasData(new ContactDetailType { Id = 1, Name = "E-mail" },

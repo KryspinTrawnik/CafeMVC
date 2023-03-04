@@ -4,6 +4,7 @@ using CafeMVC.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CafeMVC.Infrastructure.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20230301063709_addedCustomerId")]
+    partial class addedCustomerId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -209,9 +211,13 @@ namespace CafeMVC.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserCustomerDetailsId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserCustomerDetailsId")
+                        .IsUnique()
+                        .HasFilter("[UserCustomerDetailsId] IS NOT NULL");
 
                     b.ToTable("Customers");
                 });
@@ -814,10 +820,6 @@ namespace CafeMVC.Infrastructure.Migrations
                     b.Property<int?>("CustomerId")
                         .HasColumnType("int");
 
-                    b.HasIndex("CustomerId")
-                        .IsUnique()
-                        .HasFilter("[CustomerId] IS NOT NULL");
-
                     b.HasDiscriminator().HasValue("UserCustomerDetails");
                 });
 
@@ -853,6 +855,15 @@ namespace CafeMVC.Infrastructure.Migrations
                     b.Navigation("ContactDetailType");
 
                     b.Navigation("Customer");
+                });
+
+            modelBuilder.Entity("CafeMVC.Domain.Model.Customer", b =>
+                {
+                    b.HasOne("CafeMVC.Domain.Model.UserCustomerDetails", "UserCustomerDetails")
+                        .WithOne("Customer")
+                        .HasForeignKey("CafeMVC.Domain.Model.Customer", "UserCustomerDetailsId");
+
+                    b.Navigation("UserCustomerDetails");
                 });
 
             modelBuilder.Entity("CafeMVC.Domain.Model.Order", b =>
@@ -1091,15 +1102,6 @@ namespace CafeMVC.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("CafeMVC.Domain.Model.UserCustomerDetails", b =>
-                {
-                    b.HasOne("CafeMVC.Domain.Model.Customer", "Customer")
-                        .WithOne("UserCustomerDetails")
-                        .HasForeignKey("CafeMVC.Domain.Model.UserCustomerDetails", "CustomerId");
-
-                    b.Navigation("Customer");
-                });
-
             modelBuilder.Entity("CafeMVC.Domain.Model.Address", b =>
                 {
                     b.Navigation("OrderAddresses");
@@ -1139,8 +1141,6 @@ namespace CafeMVC.Infrastructure.Migrations
                     b.Navigation("Orders");
 
                     b.Navigation("PaymentCards");
-
-                    b.Navigation("UserCustomerDetails");
                 });
 
             modelBuilder.Entity("CafeMVC.Domain.Model.DietInfoTag", b =>
@@ -1186,6 +1186,11 @@ namespace CafeMVC.Infrastructure.Migrations
                     b.Navigation("ProductDietInfoTags");
 
                     b.Navigation("ProductIngredients");
+                });
+
+            modelBuilder.Entity("CafeMVC.Domain.Model.UserCustomerDetails", b =>
+                {
+                    b.Navigation("Customer");
                 });
 #pragma warning restore 612, 618
         }

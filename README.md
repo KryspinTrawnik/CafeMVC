@@ -30,7 +30,7 @@ This project is intended as a sample application for learning purposes, and it c
 * Session Managment
 * AutoMapper
 * Visual Studio
-* Nunit
+* XUnit
 
 
 ## Features

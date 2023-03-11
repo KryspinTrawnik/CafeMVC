@@ -21,7 +21,13 @@ namespace CafeMVC.Web.Areas.Identity.Pages.Account.Manage
 
         public static string TwoFactorAuthentication => "TwoFactorAuthentication";
 
+        public static string CustomerView => "CustomerView";
+
+        public static string Addresses=> "Addresses";
+
         public static string IndexNavClass(ViewContext viewContext) => PageNavClass(viewContext, Index);
+
+        public static string AddressesClass(ViewContext viewContext) => PageNavClass(viewContext, Addresses);
 
         public static string EmailNavClass(ViewContext viewContext) => PageNavClass(viewContext, Email);
 
@@ -37,7 +43,9 @@ namespace CafeMVC.Web.Areas.Identity.Pages.Account.Manage
 
         public static string TwoFactorAuthenticationNavClass(ViewContext viewContext) => PageNavClass(viewContext, TwoFactorAuthentication);
 
-      
+        public static string CustomerViewNavClass(ViewContext viewContext) => PageNavClass(viewContext, CustomerView);
+
+
 
         private static string PageNavClass(ViewContext viewContext, string page)
         {

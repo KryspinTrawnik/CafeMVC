@@ -51,8 +51,18 @@ namespace CafeMVC.Web.Controllers
         public IActionResult CustomerView(int customerId)
         {
             CustomerDetailViewsVm customerForView = _customerService.GetCustomerDetail(customerId);
-            return View(customerForView);
+            
+            return PartialView("CustomerViewPartial", customerForView);
         }
+        [HttpGet]
+        public IActionResult CustomerViewPartial(int customerId)
+        {
+            CustomerDetailViewsVm customerForView = _customerService.GetCustomerDetail(customerId);
+
+            return PartialView("CustomerViewPartial", customerForView);
+        }
+
+
 
         [HttpGet]
         public IActionResult AddNewCustomer()
@@ -131,15 +141,15 @@ namespace CafeMVC.Web.Controllers
 
 
         [HttpGet]
-        public IActionResult AddNewAddress(int customerId)
+        public IActionResult AddNewAddress(int id)
         {
             AddressForCreationVm addressForCreation = new()
             {
-                CustomerId = customerId,
+                CustomerId = id,
                 AllAddressTypes = _addressService.GetAllAddressTypes()
 
             };
-            return View(addressForCreation);
+            return PartialView("AddNewAddress", addressForCreation);
         }
 
         [HttpPost]
@@ -149,14 +159,14 @@ namespace CafeMVC.Web.Controllers
             {
                 _addressService.AddNewAddress(address);
             }
-            return RedirectToAction("CustomerView", "Customer", new { customerId = address.CustomerId });
+            return Redirect("/Identity/Account/Manage/Addresses");
 
         }
         [HttpGet]
-        public IActionResult ChangeAddress(int addressId)
+        public IActionResult ChangeAddress(int id)
         {
-            AddressForCreationVm addressToBeEdited = _addressService.GetAddressToEdit(addressId);
-            return View(addressToBeEdited);
+            AddressForCreationVm addressToBeEdited = _addressService.GetAddressToEdit(id);
+            return PartialView("ChangeAddress", addressToBeEdited);
         }
         [HttpPost]
         public IActionResult ChangeAddress(AddressForCreationVm editedAddress)
@@ -165,13 +175,13 @@ namespace CafeMVC.Web.Controllers
             {
                 _addressService.ChangeCustomerAddress(editedAddress);
             }
-            return RedirectToAction("CustomerView", "Customer", new { customerId = editedAddress.CustomerId });
+            return Redirect("/Identity/Account/Manage/Addresses");
         }
 
-        public IActionResult DeleteAddress(int addressId)
+        public IActionResult DeleteAddress(int id)
         {
-            int customerId = _addressService.GetAddressToEdit(addressId).CustomerId;
-            _addressService.DeleteAddress(addressId);
+            int customerId = _addressService.GetAddressToEdit(id).CustomerId;
+            _addressService.DeleteAddress(id);
             return RedirectToAction("CustomerView", "Customer", new { customerId = customerId });
         }
         [HttpGet]

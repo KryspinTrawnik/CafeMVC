@@ -1,5 +1,6 @@
 ﻿using CafeMVC.Application.ViewModels.Customer;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CafeMVC.Application.Interfaces
 {
@@ -17,5 +18,6 @@ namespace CafeMVC.Application.Interfaces
 
         void DeleteAddress(int addressId);
 
+        Task<List<AddressForSummaryVm>> GetAllAddressesByCustomerId(int customerId);
     }
 }

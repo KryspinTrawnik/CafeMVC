@@ -30,5 +30,7 @@ namespace CafeMVC.Domain.Interfaces
         IQueryable<ContactDetail> GetAllContactDetailsFromOrder(int orderId);
        
         IQueryable<Order> GetClosedOrders();
+
+
     }
 }

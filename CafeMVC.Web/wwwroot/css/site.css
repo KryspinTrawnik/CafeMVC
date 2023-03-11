@@ -19,10 +19,18 @@ a {
     border-color: #1861ac;
 }
 
+.col-md-3 {
+    background-color: rgba(41, 43, 44, 0.8);
+}
+
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
     color: #fff;
-    background-color: #1b6ec2;
+    background-color: gray;
     border-color: #1861ac;
+}
+
+.nav-link {
+    color: white;
 }
 
 /* Sticky footer styles
@@ -100,6 +108,7 @@ td.number {
 
 .form-control {
     background-color: #292b2c;
+    color: white;
 }
 
 table tr td, table tr th {
@@ -143,9 +152,14 @@ table tr td, table tr th {
     border: none;
     background: inherit;
 }
+
 .dropdown {
     position: relative;
     display: inline-block;
+}
+
+.form-control:disabled, .form-control[readonly] {
+    color: black !important;
 }
 
 .dropdown-toggle {
@@ -153,7 +167,7 @@ table tr td, table tr th {
     background: none;
     cursor: pointer;
     font-size: 16px;
-    padding: 0.5rem 0.75rem; 
+    padding: 0.5rem 0.75rem;
     background-image: none;
 }
 
@@ -164,10 +178,11 @@ table tr td, table tr th {
     background-color: rgba(41, 43, 44, 0.8);
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 }
+
 .dropdown-toggle::after {
     display: none;
-    
 }
+
 .dropdown-menu li {
     display: block;
 }
@@ -181,4 +196,61 @@ table tr td, table tr th {
 
 .dropdown:hover .dropdown-menu {
     display: block;
+}
+
+#address-table {
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+    width: 55%;
+    float: left;
+}
+
+    #address-table th {
+        background-color: #f2f2f2;
+        border: 1px solid #ccc;
+        padding: 8px;
+        text-align: left;
+    }
+
+    #address-table td {
+        border: 1px solid #ccc;
+        padding: 8px;
+    }
+
+    #address-table a {
+        color: blue;
+        text-decoration: underline;
+    }
+
+    #address-table tbody tr:hover {
+        background-color: #f5f5f5;
+    }
+
+    #new-address-form {
+        display: none;
+    }
+    
+    #edit-address-form {
+        display: none;
+    }
+
+#address-form-container {
+    width:40%;
+    margin-left: 5%;
+    float: left;
+}
+
+    #address-form-container.show {
+        display: block;
+    }
+
+#address-table {
+    position: relative;
+}
+
+.coffee-Form{
+    text-align:center;
+}
+.coffee-Form input{
+    width: 50%;
 }

@@ -1,7 +1,10 @@
 ﻿using CafeMVC.Domain.Interfaces;
 using CafeMVC.Domain.Model;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CafeMVC.Infrastructure.Repositories
 {
@@ -80,7 +83,7 @@ namespace CafeMVC.Infrastructure.Repositories
 
         public void UpdateAddress(Address address)
         {
-            _context.Attach(address);
+            //_context.Attach(address);
             _context.Entry(address).Property("BuildingNumber").IsModified = true;
             _context.Entry(address).Property("FlatNumber").IsModified = true;
             _context.Entry(address).Property("Street").IsModified = true;
@@ -143,5 +146,7 @@ namespace CafeMVC.Infrastructure.Repositories
         public IQueryable<ContactDetail> GetAllContactDetailsFromOrder(int orderId) => 
             _context.OrderContactDetails.Where(x => x.OrderId == orderId).Select(y => y.ContactDetail);
 
+        public async Task<List<Address>> GetAllCustomersAddresses(int customerId) => await _context.Adresses.Where(x => x.CustomerId == customerId)
+            .Include(a => a.AddressType).ToListAsync();
     }
 }

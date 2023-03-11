@@ -19,6 +19,8 @@ namespace CafeMVC.Application.ViewModels.Customer
                 {
                     opt.MapFrom(new LongAddressResolver().Resolve);
                 });
+
+            
         }
     }
 }

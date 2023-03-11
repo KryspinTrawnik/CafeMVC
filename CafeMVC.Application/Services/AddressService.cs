@@ -4,8 +4,10 @@ using CafeMVC.Application.Interfaces;
 using CafeMVC.Application.ViewModels.Customer;
 using CafeMVC.Domain.Interfaces;
 using CafeMVC.Domain.Model;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CafeMVC.Application.Services
 {
@@ -19,18 +21,18 @@ namespace CafeMVC.Application.Services
             _customerRepository = customerRepository;
             _mapper = mapper;
         }
-        
+
         public void AddNewAddress(AddressForCreationVm address) => _customerRepository.AddNewAddress(_mapper.Map<Address>(address));
 
         public void DeleteAddress(int addressId) => _customerRepository.DeleteAddress(addressId);
-        
+
 
         public AddressForCreationVm GetAddressToEdit(int addressId)
         {
             Address address = _customerRepository.GetAddressById(addressId);
             AddressForCreationVm addressForEdition = _mapper.Map<AddressForCreationVm>(address);
             addressForEdition.AllAddressTypes = GetAllAddressTypes();
-            
+
             return addressForEdition;
         }
 
@@ -40,13 +42,13 @@ namespace CafeMVC.Application.Services
             List<ContactDetailType> allContactDetails = _customerRepository.GetAllContactDetailTypes().ToList();
             for (int i = 0; i < 2; i++)
             {
-                if(createdCustomer.Addresses != null && createdCustomer.Addresses.Count > i)
+                if (createdCustomer.Addresses != null && createdCustomer.Addresses.Count > i)
                 {
-                createdCustomer.Addresses[i].AddressTypeId = allAddressTypes[i].Id;
+                    createdCustomer.Addresses[i].AddressTypeId = allAddressTypes[i].Id;
                 }
                 createdCustomer.ContactDetails[i].ContactDetailTypeId = allContactDetails[i].Id;
             }
-            
+
             return createdCustomer;
         }
 
@@ -59,8 +61,16 @@ namespace CafeMVC.Application.Services
         {
             List<AddressTypeVm> allAddressType = _customerRepository.GetAllAddressTypes()
                 .ProjectTo<AddressTypeVm>(_mapper.ConfigurationProvider).ToList();
-            
+
             return allAddressType;
+        }
+
+        public async Task<List<AddressForSummaryVm>> GetAllAddressesByCustomerId(int customerId)
+        {
+            var customersAddresses = await _customerRepository.GetAllCustomersAddresses(customerId);
+            var addressesToSend = _mapper.Map<List<AddressForSummaryVm>>(customersAddresses);
+
+            return addressesToSend;
         }
     }
 }

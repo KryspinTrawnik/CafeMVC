@@ -1,0 +1,42 @@
+﻿@page
+@using CafeMVC.Domain.Model;
+@model CafeMVC.Web.Areas.Identity.Pages.Account.Manage.CustomerViewModel
+@inject SignInManager<UserCustomerDetails> SignInManager
+@inject UserManager<UserCustomerDetails> UserManager
+@{
+    ViewData["Title"] = "Customer View";
+    ViewData["ActivePage"] = ManageNavPages.CustomerView;
+    var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
+    var user = await UserManager.GetUserAsync(User);
+}
+
+
+<div id="customerView">
+
+</div>
+
+
+
+
+@section Scripts{
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+
+        
+
+        function callControllerAction(customerId) {
+            fetch(`/Customer/CustomerViewPartial?customerId=${customerId}`)
+                .then(response => response.text())
+                .then(html => {
+                    // Update the content of a DOM element with the HTML from the partial view
+                    document.getElementById("customerView").innerHTML = html;
+                })
+                .catch(error => {
+                    // Handle any errors that occurred during the request
+                });
+        }
+        window.onload = function () {
+            callControllerAction(@user.CustomerId);
+        };
+    </script>
+}

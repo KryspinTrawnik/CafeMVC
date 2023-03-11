@@ -1,0 +1,148 @@
+﻿@model CafeMVC.Application.ViewModels.Customer.CustomerDetailViewsVm
+@{
+    string title = "Customer View";
+
+}
+<div>
+    <h1>@title</h1>
+    <br>
+    <h5>Id:  @Html.DisplayFor(m => m.Id)</h5>
+    <h5>Full Name</h5>
+    <h6>@Html.DisplayFor(m => m.FullName)</h6>
+    <br>
+    <h5>Contact Details</h5>
+</div>
+<div style="float:left;width:50%;">
+    <table class="table table-bordered" style="width:100%;padding-right:10px;">
+        <thead>
+            <tr>
+                <th><h5>E-mail</h5></th>
+                <th>
+                    <a class="btn btn-secondary" href="@Url.Action("AddNewContactDetail", "Customer", new { customerId = Model.Id})">
+                        Add New Contact Detail
+                    </a>
+                </th>
+            </tr>
+        </thead>
+        @for (int i = 0; i < Model.ContactDetails.Count; i++)
+        {
+            if (Model.ContactDetails[i].ContactDetailType == "E-mail")
+            {
+                <tr>
+                    <td> @Html.DisplayFor(m => m.ContactDetails[i].ContactDetailInformation)</td>
+                    <td>
+                        <a class="btn btn-info btn-sm" href="@Url.Action("ChangeContactDetail", "Customer", new { contactDetailId = Model.ContactDetails[i].Id})">
+                            Edit
+                        </a>
+                        <a class="btn btn-danger btn-sm" href="@Url.Action("RemoveContactDetail", "Customer", new { contactDetailId = Model.ContactDetails[i].Id})">
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+</div>
+<div style="float:left;width:50%;">
+    <table class="table table-bordered" style="width:100%;">
+        <thead>
+            <tr>
+                <th><h5>Telephone Number</h5></th>
+                <th>
+                    <a class="btn btn-secondary" href="@Url.Action("AddNewContactDetail", "Customer", new { customerId = Model.Id})">
+                        Add New Contact Detail
+                    </a>
+                </th>
+            </tr>
+        </thead>
+        @for (int i = 0; i < Model.ContactDetails.Count; i++)
+        {
+            if (Model.ContactDetails[i].ContactDetailType != "E-mail")
+            {
+                <tr>
+                    <td> @Html.DisplayFor(m => m.ContactDetails[i].ContactDetailInformation)  </td>
+                    <td>
+                        <a class="btn btn-info btn-sm" href="@Url.Action("ChangeContactDetail", "Customer", new { contactDetailId = Model.ContactDetails[i].Id})">
+                            Edit
+                        </a>
+                        <a class="btn btn-danger btn-sm" href="@Url.Action("RemoveContactDetail", "Customer", new { contactDetailId = Model.ContactDetails[i].Id})">
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+</div>
+<div style="clear:both;width:100%;">
+    <h5>Addresses</h5>
+    <table class="table table-bordered" style="width:100%;">
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Type</th>
+                <th>Building No.</th>
+                <th>Street</th>
+                <th>
+                    <a class="btn btn-secondary" href="@Url.Action("AddNewAddress", "Customer", new { customerId = Model.Id})">
+                        Add New Address
+                    </a>
+                </th>
+            </tr>
+        </thead>
+        @for (int i = 0; i < Model.Addresses.Count; i++)
+        {
+            <tr>
+                <td>@i</td>
+                <td>@Html.DisplayFor(m => m.Addresses[i].Type)</td>
+                <td class="number">@Html.DisplayFor(m => m.Addresses[i].BuildingNumber)</td>
+                <td>@Html.DisplayFor(m => m.Addresses[i].Street)</td>
+                <td>
+                    <a class="btn btn-primary btn-sm" href="@Url.Action("ViewAddress", "Customer", new { addressId = Model.Addresses[i].Id})" target="_blank">
+                        View
+                    </a>
+                    <a class="btn btn-info btn-sm" href="@Url.Action("ChangeAddress", "Customer", new { addressId = Model.Addresses[i].Id})">
+                        Edit
+                    </a>
+                    <a class="btn btn-danger btn-sm" href="@Url.Action("DeleteAddress", "Customer", new { addressId = Model.Addresses[i].Id})">
+                        Delete
+                    </a>
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+<br />
+<br />
+<h5>Orders</h5>
+<br />
+@if (Model.Orders == null)
+{
+    <h6>No Orders to Show</h6>
+}
+else
+{
+    <table class="table" style="width:50%;">
+        <tr>
+            <th>No.</th>
+            <th>Date</th>
+            <th>Products Number</th>
+            <th>Total Price</th>
+            <th></th>
+        </tr>
+        @for (int i = 0; i < Model.Orders.Count; i++)
+        {
+            <tr>
+                @{
+                    int y = i + 1;
+                }
+                <td>@y</td>
+                <td>@Html.DisplayFor(m => m.Orders[i].DateOfOrder)</td>
+                <td>@Html.DisplayFor(m => m.Orders[i].ProductsCount)</td>
+                <td>@Html.DisplayFor(m => m.Orders[i].TotalPrice)</td>
+                <td>@Html.ActionLink("Details", "OrderView", "Order", new { orderId = Model.Orders[i].Id })</td>
+            </tr>
+        }
+    </table>
+}

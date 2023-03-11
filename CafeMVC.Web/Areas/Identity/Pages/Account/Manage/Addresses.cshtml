@@ -1,0 +1,71 @@
+﻿@page
+@model CafeMVC.Web.Areas.Identity.Pages.Account.Manage.OrdersModel
+@{
+}
+<div class="address-container">
+    <div class="add-address-container">
+        <button type="button" class="btn btn-primary" id="add-address-button" data-id="@Model.CustomerId">Add New Address</button>
+    </div>
+    <div class="table-container">
+        <table id="address-table">
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Address Type</th>
+                    <th>Full Address</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Addresses.Count; i++)
+                {
+                    int y = i + 1;
+                    <tr>
+                        <td>@y</td>
+                        <td>@Model.Addresses[i].Type</td>
+                        <td>@Model.Addresses[i].Address</td>
+                        <td>
+                            <button type="button" class="btn btn-secondary edit-address-button" data-id="@Model.Addresses[i].Id">Edit</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<div id="address-form-container"></div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            // Add New Address Button
+            $('#add-address-button').click(function () {
+                var url = '@Url.Action("AddNewAddress", "Customer", new {id = Model.CustomerId})';
+                $.get(url, function (data) {
+                    $('#address-form-container').html(data);
+                    $('#address-form-container').show();
+                });
+                $('.edit-address-form').hide();
+                $('#customer-Id').val('@Model.CustomerId');
+            });
+
+            // Edit Address Button
+            $('.edit-address-button').click(function () {
+                var addressId = $(this).data('id');
+                var url = '@Url.Action("ChangeAddress", "Customer", new {id = "addressId"})'.replace('addressId', addressId);
+                $.get(url, function (data) {
+                    $('#address-form-container').html(data);
+                    $('#address-form-container').show();
+                });
+                $('.add-address-form').hide();
+            });
+
+            // Close Form Button
+            $(document).on('click', '#close-form-button', function () {
+                $('#address-form-container').hide();
+            });
+
+        });
+    </script>
+}

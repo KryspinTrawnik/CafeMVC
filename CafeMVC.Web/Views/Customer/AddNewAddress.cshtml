@@ -63,11 +63,11 @@
             @Html.TextBoxFor(m => m.Country, new { @class = "textBox", @id ="countryTextBox", @onchange="CheckField('country')", @required = "required"})
         </h6>
         <span></span>
-        @Html.HiddenFor(m => m.CustomerId, new { @class = "textBox"})
+        @Html.HiddenFor(m => m.CustomerId, new { @class = "textBox", @id="customer-Id"})
     </div>
 
     <button type="submit" class="btn btn-success" name="Btn" value="Submit" id="submitButton">Submit</button>
-    <button type="submit" class="btn btn-danger" name="Btn" value="Cancel">Cancel</button>
+    <button type="submit" class="btn btn-danger" name="Btn" value="Cancel" id="close-form-button">Cancel</button>
 }
 
 @section Scripts{

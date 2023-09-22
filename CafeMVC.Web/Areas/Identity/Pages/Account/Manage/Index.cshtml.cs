@@ -30,14 +30,14 @@ namespace CafeMVC.Web.Areas.Identity.Pages.Account.Manage
         [BindProperty]
         public InputModel Input { get; set; }
 
-        public class InputModel
-        {
-            [Phone]
-            [Display(Name = "Phone number")]
-            public string PhoneNumber { get; set; }
+            public class InputModel
+            {
+                [Phone]
+                [Display(Name = "Phone number")]
+                public string PhoneNumber { get; set; }
 
           
-        }
+            }
 
         private async Task LoadAsync(UserCustomerDetails user)
         {

@@ -1,18 +1,22 @@
-﻿@model CafeMVC.Application.ViewModels.Customer.AddressForCreationVm
+﻿@using CafeMVC.Domain.Model;
+@using CafeMVC.Web.Areas.Identity.Pages.Account.Manage;
+@using Microsoft.AspNetCore.Identity;
+@model CafeMVC.Application.ViewModels.Customer.AddressForCreationVm
+
+
 @{
     string title = "New Address";
 }
-
 <h5>@title</h5>
 @using (Html.BeginForm("AddNewAddress", "Customer", FormMethod.Post, new { @class = "coffee-Form" }))
 {
     <h5>Address type</h5>
     @Html.DropDownList("AddressTypeId", new List<SelectListItem>
     {
-        new SelectListItem { Text = Model.AllAddressTypes[0].Name,
-            Value=Model.AllAddressTypes[0].Id.ToString() },
-       new SelectListItem { Text = Model.AllAddressTypes[1].Name,
-           Value=Model.AllAddressTypes[1].Id.ToString() }
+    new SelectListItem { Text = "Billing Address",
+    Value="1" },
+    new SelectListItem { Text = "Delivery Address",
+    Value="2" }
     }, new { @class = "textBox", @onchange="changeValidationUpToType()", @id= "typeId"})
     <div id="street">
         <h5>Street</h5>

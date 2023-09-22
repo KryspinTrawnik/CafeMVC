@@ -1,4 +1,6 @@
-﻿using CafeMVC.Application.ViewModels.Customer;
+﻿using CafeMVC.Application.Services;
+using CafeMVC.Application.ViewModels.Customer;
+using CafeMVC.Domain.Model;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -14,10 +16,12 @@ namespace CafeMVC.Application.Interfaces
 
         CustomerForCreationVm SetInitialContactsAndAddressesTypes(CustomerForCreationVm newCreatedCustomer);
 
-        List<AddressTypeVm> GetAllAddressTypes();
+        Task <List<AddressTypeVm>> GetAllAddressTypes();
 
         void DeleteAddress(int addressId);
 
         Task<List<AddressForSummaryVm>> GetAllAddressesByCustomerId(int customerId);
+
+        Address PrepareAddressToSave(AddressForCreationVm address);
     }
 }

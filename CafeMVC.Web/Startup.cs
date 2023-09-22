@@ -33,8 +33,12 @@ namespace CafeMVC.Web
             services.AddApplication();
             services.AddInfrastructure();
             services.AddDatabaseDeveloperPageExceptionFilter();
-            services.AddDefaultIdentity<UserCustomerDetails>(options => options.SignIn.RequireConfirmedAccount = true).AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<Context>();
+            services.AddDefaultIdentity<UserCustomerDetails>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<Context>()
+                .AddDefaultUI()
+                .AddDefaultTokenProviders();
+
             services.AddControllersWithViews();
             services.AddDistributedMemoryCache();
 

@@ -1,10 +1,12 @@
 ﻿@page
-@model CafeMVC.Web.Areas.Identity.Pages.Account.Manage.OrdersModel
+@model CafeMVC.Web.Areas.Identity.Pages.Account.Manage.AddressModel
 @{
 }
 <div class="address-container">
     <div class="add-address-container">
-        <button type="button" class="btn btn-primary" id="add-address-button" data-id="@Model.CustomerId">Add New Address</button>
+        <button class="btn btn-primary add-address-button" data-id="@Model.CustomerId" id="add-address-button">
+            Add New Address
+        </button>
     </div>
     <div class="table-container">
         <table id="address-table">
@@ -38,19 +40,7 @@
 @section Scripts{
     <script type="text/javascript">
         $(document).ready(function () {
-
-            // Add New Address Button
-            $('#add-address-button').click(function () {
-                var url = '@Url.Action("AddNewAddress", "Customer", new {id = Model.CustomerId})';
-                $.get(url, function (data) {
-                    $('#address-form-container').html(data);
-                    $('#address-form-container').show();
-                });
-                $('.edit-address-form').hide();
-                $('#customer-Id').val('@Model.CustomerId');
-            });
-
-            // Edit Address Button
+            
             $('.edit-address-button').click(function () {
                 var addressId = $(this).data('id');
                 var url = '@Url.Action("ChangeAddress", "Customer", new {id = "addressId"})'.replace('addressId', addressId);
@@ -60,8 +50,18 @@
                 });
                 $('.add-address-form').hide();
             });
+            $('.add-address-button').click(function () {
+                var customerId = $(this).data('id'); // Get the customer ID from the data attribute
+                var url = '@Url.Action("AddNewAddress", "Customer")' + '?customerId=' + customerId;
 
-            // Close Form Button
+                $.get(url, function (data) {
+                    $('#address-form-container').html(data);
+                    $('#address-form-container').show();
+                });
+
+                $('.add-address-form').hide();
+            });
+            
             $(document).on('click', '#close-form-button', function () {
                 $('#address-form-container').hide();
             });

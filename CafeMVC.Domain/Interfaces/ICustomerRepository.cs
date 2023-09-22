@@ -25,7 +25,9 @@ namespace CafeMVC.Domain.Interfaces
 
         Address GetAddressById(int addressId);
 
-        IQueryable<AddressType> GetAllAddressTypes();
+        Task<List<AddressType>> GetAllAddressTypes();
+
+        IQueryable<AddressType> GetAllAddressTypesSync();
 
         void UpdateAddress(Address address);
 

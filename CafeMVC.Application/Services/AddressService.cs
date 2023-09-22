@@ -31,14 +31,14 @@ namespace CafeMVC.Application.Services
         {
             Address address = _customerRepository.GetAddressById(addressId);
             AddressForCreationVm addressForEdition = _mapper.Map<AddressForCreationVm>(address);
-            addressForEdition.AllAddressTypes = GetAllAddressTypes();
+            addressForEdition.AllAddressTypes =  GetAllAddressTypesSync();
 
             return addressForEdition;
         }
 
         public CustomerForCreationVm SetInitialContactsAndAddressesTypes(CustomerForCreationVm createdCustomer)
         {
-            List<AddressType> allAddressTypes = _customerRepository.GetAllAddressTypes().ToList();
+            List<AddressType> allAddressTypes = _customerRepository.GetAllAddressTypesSync().ToList();
             List<ContactDetailType> allContactDetails = _customerRepository.GetAllContactDetailTypes().ToList();
             for (int i = 0; i < 2; i++)
             {
@@ -57,13 +57,15 @@ namespace CafeMVC.Application.Services
             Address updatedAddress = _mapper.Map<Address>(address);
             _customerRepository.UpdateAddress(updatedAddress);
         }
-        public List<AddressTypeVm> GetAllAddressTypes()
+        public async Task<List<AddressTypeVm>> GetAllAddressTypes()
         {
-            List<AddressTypeVm> allAddressType = _customerRepository.GetAllAddressTypes()
-                .ProjectTo<AddressTypeVm>(_mapper.ConfigurationProvider).ToList();
+            var allTypes =  await _customerRepository.GetAllAddressTypes();
+            var allTypesVm  =  _mapper.Map<List<AddressTypeVm>>(allTypes);
 
-            return allAddressType;
+            return allTypesVm;
+
         }
+        
 
         public async Task<List<AddressForSummaryVm>> GetAllAddressesByCustomerId(int customerId)
         {
@@ -71,6 +73,20 @@ namespace CafeMVC.Application.Services
             var addressesToSend = _mapper.Map<List<AddressForSummaryVm>>(customersAddresses);
 
             return addressesToSend;
+        }
+
+        public Address PrepareAddressToSave(AddressForCreationVm address)
+        {
+            Address addressToSave =  _mapper.Map<Address>(address);
+
+            return addressToSave;
+        }
+
+        public List<AddressTypeVm> GetAllAddressTypesSync()
+        {
+            return _customerRepository.GetAllAddressTypesSync()
+                .ProjectTo<AddressTypeVm>(_mapper.ConfigurationProvider).ToList();
+
         }
     }
 }

@@ -1,8 +1,10 @@
 ﻿using CafeMVC.Application.Interfaces;
 using CafeMVC.Application.ViewModels.Customer;
+using CafeMVC.Web.Areas.Identity.Pages.Account.Manage;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Security.Cryptography.Xml;
 
 namespace CafeMVC.Web.Controllers
 {
@@ -51,7 +53,7 @@ namespace CafeMVC.Web.Controllers
         public IActionResult CustomerView(int customerId)
         {
             CustomerDetailViewsVm customerForView = _customerService.GetCustomerDetail(customerId);
-            
+
             return PartialView("CustomerViewPartial", customerForView);
         }
         [HttpGet]
@@ -141,15 +143,11 @@ namespace CafeMVC.Web.Controllers
 
 
         [HttpGet]
-        public IActionResult AddNewAddress(int id)
+        public IActionResult AddNewAddress(int customerId)
         {
-            AddressForCreationVm addressForCreation = new()
-            {
-                CustomerId = id,
-                AllAddressTypes = _addressService.GetAllAddressTypes()
+            AddressForCreationVm newAddress = new() { CustomerId = customerId };
 
-            };
-            return PartialView("AddNewAddress", addressForCreation);
+            return PartialView("AddNewAddress", newAddress);
         }
 
         [HttpPost]
@@ -159,13 +157,15 @@ namespace CafeMVC.Web.Controllers
             {
                 _addressService.AddNewAddress(address);
             }
-            return Redirect("/Identity/Account/Manage/Addresses");
 
+            return Redirect("/Identity/Account/Manage/Addresses");
         }
+
         [HttpGet]
         public IActionResult ChangeAddress(int id)
         {
             AddressForCreationVm addressToBeEdited = _addressService.GetAddressToEdit(id);
+
             return PartialView("ChangeAddress", addressToBeEdited);
         }
         [HttpPost]
@@ -188,6 +188,7 @@ namespace CafeMVC.Web.Controllers
         public IActionResult ViewAddress(int addressId)
         {
             AddressForCreationVm address = _addressService.GetAddressToEdit(addressId);
+            
             return View(address);
         }
 

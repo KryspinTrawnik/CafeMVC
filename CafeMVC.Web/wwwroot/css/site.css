@@ -254,3 +254,8 @@ table tr td, table tr th {
 .coffee-Form input{
     width: 50%;
 }
+
+#addresses-add{
+    display:none;
+    text-align:center right;
+}

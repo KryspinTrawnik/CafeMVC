@@ -16,9 +16,9 @@ namespace CafeMVC.Infrastructure.Repositories
         {
             _context = context;
         }
-        
+
         //////Costumer actions//////
-        
+
         public Customer GetCustomerById(int id)
         {
             Customer customer = _context.Customers.AsNoTracking()
@@ -31,7 +31,6 @@ namespace CafeMVC.Infrastructure.Repositories
 
         public void UpdateCustomer(Customer customer)
         {
-            _context.Attach(customer);
             _context.Entry(customer).Property("FirstName").IsModified = true;
             _context.Entry(customer).Property("Surname").IsModified = true;
             _context.Entry(customer).Collection("Addresses").IsModified = true;
@@ -40,8 +39,8 @@ namespace CafeMVC.Infrastructure.Repositories
             _context.SaveChanges();
         }
 
-        public IQueryable<Order> GetOrdersByCustomer(int customerId)=> GetCustomerById(customerId).Orders.AsQueryable();
-    
+        public IQueryable<Order> GetOrdersByCustomer(int customerId) => GetCustomerById(customerId).Orders.AsQueryable();
+
         public int AddNewCustomer(Customer customer)
         {
             _context.Customers.Add(customer);
@@ -59,14 +58,15 @@ namespace CafeMVC.Infrastructure.Repositories
             }
         }
 
-        public IQueryable<Customer> GetAllCustomers()=>_context.Customers.AsNoTracking();
-       
+        public IQueryable<Customer> GetAllCustomers() => _context.Customers.AsNoTracking();
+
         //////Address Actions/////////
 
         public int AddNewAddress(Address address)
         {
             _context.Adresses.Add(address);
             _context.SaveChanges();
+
             return address.Id;
         }
 
@@ -75,15 +75,15 @@ namespace CafeMVC.Infrastructure.Repositories
             Address address = _context.Adresses.AsNoTracking()
                 .Include(e => e.AddressType)
                 .FirstOrDefault(x => x.Id == addressId);
+           
             return address;
         }
 
-        public IQueryable<AddressType> GetAllAddressTypes()=>_context.AddressTypes.AsNoTracking();
+        public async Task<List<AddressType>> GetAllAddressTypes() => await _context.AddressTypes.AsNoTracking().ToListAsync();
 
 
         public void UpdateAddress(Address address)
         {
-            //_context.Attach(address);
             _context.Entry(address).Property("BuildingNumber").IsModified = true;
             _context.Entry(address).Property("FlatNumber").IsModified = true;
             _context.Entry(address).Property("Street").IsModified = true;
@@ -103,11 +103,11 @@ namespace CafeMVC.Infrastructure.Repositories
                 _context.SaveChanges();
             }
         }
-        public IQueryable<Address> GetAllAddressesFromOrder(int orderId) =>_context.OrderAddresses
+        public IQueryable<Address> GetAllAddressesFromOrder(int orderId) => _context.OrderAddresses
             .Where(x => x.OrderId == orderId).Select(y => y.Address);
 
         //////ContactDetails actions//////
-        
+
         public int AddNewContactDetail(ContactDetail contactDetail)
         {
             _context.ContactDetails.Add(contactDetail);
@@ -116,7 +116,7 @@ namespace CafeMVC.Infrastructure.Repositories
         }
 
 
-        public IQueryable<ContactDetailType> GetAllContactDetailTypes()=> _context.ContactDetailTypes.AsNoTracking();
+        public IQueryable<ContactDetailType> GetAllContactDetailTypes() => _context.ContactDetailTypes.AsNoTracking();
 
         public void UpdateContactDetail(ContactDetail contactDetail)
         {
@@ -138,15 +138,17 @@ namespace CafeMVC.Infrastructure.Repositories
 
         public ContactDetail GetContactDetailById(int contactDetailId)
         {
-            return _context.ContactDetails.AsNoTracking().Include(x =>x.ContactDetailType)
+            return _context.ContactDetails.AsNoTracking().Include(x => x.ContactDetailType)
                 .FirstOrDefault(x => x.Id == contactDetailId);
 
         }
 
-        public IQueryable<ContactDetail> GetAllContactDetailsFromOrder(int orderId) => 
+        public IQueryable<ContactDetail> GetAllContactDetailsFromOrder(int orderId) =>
             _context.OrderContactDetails.Where(x => x.OrderId == orderId).Select(y => y.ContactDetail);
 
         public async Task<List<Address>> GetAllCustomersAddresses(int customerId) => await _context.Adresses.Where(x => x.CustomerId == customerId)
             .Include(a => a.AddressType).ToListAsync();
+
+        IQueryable<AddressType> ICustomerRepository.GetAllAddressTypesSync() => _context.AddressTypes.AsNoTracking();
     }
 }

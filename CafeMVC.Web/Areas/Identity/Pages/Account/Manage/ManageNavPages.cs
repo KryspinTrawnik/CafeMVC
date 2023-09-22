@@ -23,9 +23,14 @@ namespace CafeMVC.Web.Areas.Identity.Pages.Account.Manage
 
         public static string CustomerView => "CustomerView";
 
-        public static string Addresses=> "Addresses";
+        public static string Addresses => "Addresses";
+
+        public static string AddNewAddress => "AddAddress";
 
         public static string IndexNavClass(ViewContext viewContext) => PageNavClass(viewContext, Index);
+
+        public static string AddAddressClass(ViewContext viewContext) => PageNavClass(viewContext, AddNewAddress);
+
 
         public static string AddressesClass(ViewContext viewContext) => PageNavClass(viewContext, Addresses);
 

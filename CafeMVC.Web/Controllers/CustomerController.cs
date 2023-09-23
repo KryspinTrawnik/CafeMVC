@@ -177,13 +177,24 @@ namespace CafeMVC.Web.Controllers
             }
             return Redirect("/Identity/Account/Manage/Addresses");
         }
-
+        [HttpGet]
         public IActionResult DeleteAddress(int id)
         {
-            int customerId = _addressService.GetAddressToEdit(id).CustomerId;
-            _addressService.DeleteAddress(id);
-            return RedirectToAction("CustomerView", "Customer", new { customerId = customerId });
+            AddressForOrderViewVm address = _addressService.GetAddressToview(id);
+            
+            return PartialView("ConfirmDeleteAddress", address);
         }
+
+        [HttpPost]
+         public IActionResult DeleteAddress(bool isConfirmed, int id)
+        {
+            if (isConfirmed) 
+            { 
+            _addressService.DeleteAddress(id);
+            }
+            return Redirect("/Identity/Account/Manage/Addresses");
+        }
+
         [HttpGet]
         public IActionResult ViewAddress(int addressId)
         {

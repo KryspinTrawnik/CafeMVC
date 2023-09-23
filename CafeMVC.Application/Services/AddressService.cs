@@ -88,5 +88,10 @@ namespace CafeMVC.Application.Services
                 .ProjectTo<AddressTypeVm>(_mapper.ConfigurationProvider).ToList();
 
         }
+
+        public AddressForOrderViewVm GetAddressToview(int id)
+        {
+            return _mapper.Map<AddressForOrderViewVm>(_customerRepository.GetAddressById(id));
+        }
     }
 }

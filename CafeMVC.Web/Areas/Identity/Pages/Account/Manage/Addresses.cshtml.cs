@@ -54,31 +54,6 @@ namespace CafeMVC.Web.Areas.Identity.Pages.Account.Manage
             Input = new InputModel { Address = new() { AllAddressTypes = await _addressService.GetAllAddressTypes(), CustomerId = user.CustomerId.Value } };
 
         }
-        //public async Task<IActionResult> OnPostAddressListAsync()
-        //{
-        //    var user = await _userManager.GetUserAsync(User);
-        //    if (user == null)
-        //    {
-        //        return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-        //    }
-
-        //    if (!ModelState.IsValid)
-        //    {
-        //        await LoadAsync(user);
-        //        return Page();
-        //    }
-        //    Address address = _addressService.PrepareAddressToSave(Input.Address);
-        //    if (address == null)
-        //    {
-        //        await LoadAsync(user);
-        //        return Page();
-        //    }
-        //    user.Customer.Addresses.Add(address);
-        //    await _userManager.UpdateAsync(user);
-
-        //    return Page();
-
-
-        //}
+        
     }
 }

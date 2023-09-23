@@ -259,3 +259,15 @@ table tr td, table tr th {
     display:none;
     text-align:center right;
 }
+#address-table .btn-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#address-table .btn {
+    margin-right: 10px; /* Adjust the margin as needed */
+}
+#address-table th:last-child {
+    text-align: center;
+}

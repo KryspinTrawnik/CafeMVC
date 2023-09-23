@@ -1,0 +1,21 @@
+﻿@using CafeMVC.Domain.Model;
+@using CafeMVC.Web.Areas.Identity.Pages.Account.Manage;
+@using Microsoft.AspNetCore.Identity;
+@model CafeMVC.Application.ViewModels.Customer.AddressForOrderViewVm
+
+<div>
+    <h3>Confirm Deletion</h3>
+    <p>Are you sure you want to delete the following address?</p>
+    <p><strong>Address:</strong> @Model.Address</p>
+
+    <form method="post" asp-action="DeleteAddress">
+        <input type="hidden" name="id" value="@Model.Id" /> <!-- Pass the ID as a hidden field -->
+
+        <div class="form-group">
+            <div class="text-center">
+                <button type="submit" name="isConfirmed" value="true" class="btn btn-danger">Delete</button>
+                <a href="/Identity/Account/Manage/Addresses" class="btn btn-secondary">Cancel</a>
+            </div>
+        </div>
+    </form>
+</div>

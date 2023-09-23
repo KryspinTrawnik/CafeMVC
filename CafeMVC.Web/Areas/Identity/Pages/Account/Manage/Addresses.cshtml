@@ -26,8 +26,11 @@
                         <td>@y</td>
                         <td>@Model.Addresses[i].Type</td>
                         <td>@Model.Addresses[i].Address</td>
-                        <td>
-                            <button type="button" class="btn btn-secondary edit-address-button" data-id="@Model.Addresses[i].Id">Edit</button>
+                        <td class="button-row">
+                            <div class="btn-container">
+                                <button type="button" class="btn btn-secondary edit-address-button" data-id="@Model.Addresses[i].Id">Edit</button>
+                                <button type="button" class="btn btn-danger delete-address-button" data-id="@Model.Addresses[i].Id">Delete</button>
+                            </div>
                         </td>
                     </tr>
                 }
@@ -59,9 +62,18 @@
                     $('#address-form-container').show();
                 });
 
-                $('.add-address-form').hide();
+                // $('.add-address-form').hide();
             });
-            
+            $('.delete-address-button').click(function () {
+                var addressId = $(this).data('id');
+                var url = '@Url.Action("DeleteAddress", "Customer",new {id = "addressId"})'.replace('addressId', addressId);
+
+                $.get(url, function (data) {
+                    $('#address-form-container').html(data);
+                    $('#address-form-container').show();
+                });
+            });
+
             $(document).on('click', '#close-form-button', function () {
                 $('#address-form-container').hide();
             });

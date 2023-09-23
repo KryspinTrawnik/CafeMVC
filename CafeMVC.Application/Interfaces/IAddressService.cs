@@ -23,5 +23,6 @@ namespace CafeMVC.Application.Interfaces
         Task<List<AddressForSummaryVm>> GetAllAddressesByCustomerId(int customerId);
 
         Address PrepareAddressToSave(AddressForCreationVm address);
+        AddressForOrderViewVm GetAddressToview(int id);
     }
 }

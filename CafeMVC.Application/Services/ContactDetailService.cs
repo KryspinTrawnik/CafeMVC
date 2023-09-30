@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace CafeMVC.Application.Services
 {
-    public class ContactDetailService :IContactDetailService
+    public class ContactDetailService : IContactDetailService
     {
         private readonly ICustomerRepository _customerRepository;
         private readonly IMapper _mapper;
@@ -21,7 +21,7 @@ namespace CafeMVC.Application.Services
         }
         public void AddNewContactDetail(ContactInfoForCreationVm contactDetail)
         {
-            ContactDetail customerContactInformation =_mapper.Map<ContactDetail>(contactDetail);
+            ContactDetail customerContactInformation = _mapper.Map<ContactDetail>(contactDetail);
             _customerRepository.AddNewContactDetail(customerContactInformation);
         }
 
@@ -49,9 +49,29 @@ namespace CafeMVC.Application.Services
         {
             ContactDetail contactDetail = _customerRepository.GetContactDetailById(contactDetailId);
             ContactInfoForCreationVm contactDetailForEdition = _mapper.Map<ContactInfoForCreationVm>(contactDetail);
-            
+
             return contactDetailForEdition;
         }
 
+        public CustomerContactDetails GetCustomerContactDetails(int customerId)
+        {
+            List<CustomerContactInfoForViewVm> allCustomerContactDetails = _customerRepository.GetAllCustomerContactDetails(customerId)
+                .ProjectTo<CustomerContactInfoForViewVm>(_mapper.ConfigurationProvider).ToList();
+            CustomerContactDetails customerContactDetails = new CustomerContactDetails();
+
+            if (allCustomerContactDetails.Where(x => x.ContactDetailTypeId == 1).ToList() != null)
+            {
+                customerContactDetails.Emails = allCustomerContactDetails.Where(x => x.ContactDetailTypeId == 1).ToList();
+            }
+            if (allCustomerContactDetails.Where(x => x.ContactDetailTypeId == 1).ToList() != null)
+            {
+                customerContactDetails.PhoneNumbers = allCustomerContactDetails.Where(x => x.ContactDetailTypeId == 2).ToList();
+            }
+
+            customerContactDetails.CustomerId = customerId;
+
+            return customerContactDetails;
+        }
     }
 }
+

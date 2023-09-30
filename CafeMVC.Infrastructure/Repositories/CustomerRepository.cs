@@ -150,5 +150,10 @@ namespace CafeMVC.Infrastructure.Repositories
             .Include(a => a.AddressType).ToListAsync();
 
         IQueryable<AddressType> ICustomerRepository.GetAllAddressTypesSync() => _context.AddressTypes.AsNoTracking();
+
+        public IQueryable<ContactDetail> GetAllCustomerContactDetails(int customerId)
+        {
+            return _context.ContactDetails.Where(x => x.CustomerId == customerId);
+        }
     }
 }

@@ -1,10 +1,7 @@
 ﻿using CafeMVC.Application.Interfaces;
 using CafeMVC.Application.ViewModels.Customer;
-using CafeMVC.Web.Areas.Identity.Pages.Account.Manage;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Security.Cryptography.Xml;
 
 namespace CafeMVC.Web.Controllers
 {
@@ -57,11 +54,11 @@ namespace CafeMVC.Web.Controllers
             return PartialView("CustomerViewPartial", customerForView);
         }
         [HttpGet]
-        public IActionResult CustomerViewPartial(int customerId)
+        public IActionResult ContactDetailsPartial(int customerId)
         {
-            CustomerDetailViewsVm customerForView = _customerService.GetCustomerDetail(customerId);
+            CustomerContactDetails customerForView = _contactDetailService.GetCustomerContactDetails(customerId);
 
-            return PartialView("CustomerViewPartial", customerForView);
+            return PartialView("ContactDetailsPartial", customerForView);
         }
 
 
@@ -112,7 +109,7 @@ namespace CafeMVC.Web.Controllers
                 _contactDetailService.AddNewContactDetail(contactDetail);
 
             }
-            return RedirectToAction("CustomerView", "Customer", new { customerId = contactDetail.CustomerId });
+            return Redirect("/Identity/Account/Manage/ContactDetails");
         }
 
         [HttpGet]
@@ -130,14 +127,15 @@ namespace CafeMVC.Web.Controllers
             {
                 _contactDetailService.ChangeContactDetails(contactDetail);
             }
-            return RedirectToAction("CustomerView", "Customer", new { customerId = contactDetail.CustomerId });
+            return Redirect("/Identity/Account/Manage/ContactDetails");
         }
 
         public IActionResult RemoveContactDetail(int contactDetailId)
         {
             int customerId = _contactDetailService.GetContactDetailForEdition(contactDetailId).CustomerId.Value;
             _contactDetailService.RemoveContactDetail(contactDetailId);
-            return RedirectToAction("CustomerView", "Customer", new { customerId = customerId });
+           
+            return Redirect("/Identity/Account/Manage/ContactDetails");
         }
         ////**** Address ****\\\\
 
@@ -181,16 +179,16 @@ namespace CafeMVC.Web.Controllers
         public IActionResult DeleteAddress(int id)
         {
             AddressForOrderViewVm address = _addressService.GetAddressToview(id);
-            
+
             return PartialView("ConfirmDeleteAddress", address);
         }
 
         [HttpPost]
-         public IActionResult DeleteAddress(bool isConfirmed, int id)
+        public IActionResult DeleteAddress(bool isConfirmed, int id)
         {
-            if (isConfirmed) 
-            { 
-            _addressService.DeleteAddress(id);
+            if (isConfirmed)
+            {
+                _addressService.DeleteAddress(id);
             }
             return Redirect("/Identity/Account/Manage/Addresses");
         }
@@ -199,7 +197,7 @@ namespace CafeMVC.Web.Controllers
         public IActionResult ViewAddress(int addressId)
         {
             AddressForCreationVm address = _addressService.GetAddressToEdit(addressId);
-            
+
             return View(address);
         }
 

@@ -83,7 +83,11 @@ namespace CafeMVC.Web.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new UserCustomerDetails { UserName = Input.Email, Email = Input.Email, Customer = new Customer() { FirstName = Input.FirstName, Surname = Input.Surname } };
+                var user = new UserCustomerDetails { UserName = Input.Email, Email = Input.Email, Customer = new Customer() { FirstName = Input.FirstName, Surname = Input.Surname} };
+                user.Customer.ContactDetails = new List<ContactDetail>
+                {
+                    new() { ContactDetailInformation = Input.Email, ContactDetailTypeId = 1 }
+                };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

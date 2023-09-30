@@ -16,5 +16,6 @@ namespace CafeMVC.Application.Interfaces
 
         ContactInfoForCreationVm GetContactDetailForEdition(int contactDetailId);
 
+        CustomerContactDetails GetCustomerContactDetails(int customerId);
     }
 }

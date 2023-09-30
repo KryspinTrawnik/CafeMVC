@@ -41,6 +41,7 @@
 <div id="address-form-container"></div>
 
 @section Scripts{
+    <script src="~/js/CustomerInfo.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             
@@ -79,5 +80,78 @@
             });
 
         });
+
+
+        const submit = document.getElementById("submitButton");
+        const postcode = document.getElementById("postCodeTextBox");
+
+        function changeValidationUpToType() {
+            var city = document.getElementById("cityTextBox");
+            var chosenType = parseInt(document.getElementById("typeId").value);
+            var country = document.getElementById("countryTextBox");
+            if (chosenType == 2) {
+                country.value = "United Kingdoms"
+                city.value = "Leicester"
+                city.readOnly = true;
+
+            } else {
+                country.value = "";
+                city.value = "";
+                city.readOnly = false;
+                postcode.oninput = null;
+                ChangeValidationToBilling();
+            }
+        }
+
+        function ChangeValidationToBilling() {
+            var textboxMessage = document.getElementById("displayError");
+            textboxMessage.innerHTML = "";
+        }
+
+        function CheckRegex(enteredPostcode) {
+            var regEx = /^[a-z]{1,2}\d[a-z\d]?\s*\d[a-z]{2}$/i;
+            var isValid = regEx.test(enteredPostcode);
+
+            return isValid;
+
+        }
+        function CheckIfCanBeDelivered(enteredPostcode) {
+            var upperPostcode = enteredPostcode.toUpperCase();
+            var isLongerThanSixSigns = upperPostcode.length > 6;
+            var firstOutcode = isLongerThanSixSigns ? "LE1 " : "LE1";
+            const listOfOutcodesForDelivery = [firstOutcode, "LE2", "LE3", "LE4"];
+            var outCode = upperPostcode.substring(0, 4);
+            var canWeDeliver = listOfOutcodesForDelivery.some((x) =>
+                outCode.includes(x));
+            return canWeDeliver;
+        }
+
+        function CheckPostcode() {
+            var chosenType = parseInt(document.getElementById("typeId").value);
+            if (chosenType == 2) {
+                var enteredPostcode = document.getElementById("postCodeTextBox").value;
+                var isValid = CheckRegex(enteredPostcode);
+                var textboxMessage = document.getElementById("displayError");
+                if (isValid == true) {
+                    var canWeDeliver = CheckIfCanBeDelivered(enteredPostcode);
+                    if (canWeDeliver == true) {
+                        textboxMessage.style.color = "green";
+                        textboxMessage.innerHTML = '<i class="fa-solid fa-circle-check" style="color:green"></i> We can deliver to you';
+                        submit.disabled = false;
+                    } else {
+                        textboxMessage.style.color = "red";
+                        textboxMessage.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Sorry, we cannot deliver to this postcode';
+                        submit.disabled = true;
+                    }
+                } else {
+                    textboxMessage.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Sorry, the postcode is inccorrect';
+                    textboxMessage.style.color = "red";
+                    submit.disabled = true;
+                }
+            } else {
+                CheckField('postcode')
+            }
+        }
+
     </script>
 }

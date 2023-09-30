@@ -42,10 +42,13 @@ if (billingTypeId != null) {
 }
 
 var emailTypeId = document.getElementById("emailTypeId");
-emailTypeId.value = "1";
+if (emailTypeId != null) {
+    emailTypeId.value = "1";
+}
 var mobileTypeId = document.getElementById("mobileTypeId");
-mobileTypeId.value = "2";
-
+if (mobileTypeId != null) {
+    mobileTypeId.value = "2";
+}
 
 
 function phoneNumber() {
@@ -68,7 +71,9 @@ function phoneNumber() {
 
 
 var phone = document.getElementById("phoneBox");
+if (phone != null) {
 phone.addEventListener("change", phoneNumber);
+}
 
 function CheckField(traget) {
     const div = document.getElementById(traget);

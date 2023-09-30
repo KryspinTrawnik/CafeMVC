@@ -13,12 +13,4 @@ $(document).ready(function () {
 });
 const dropdown = document.querySelector('.dropdown');
 
-dropdown.addEventListener('mouseenter', () => {
-    dropdown.classList.add('active');
-});
-
-dropdown.addEventListener('mouseleave', () => {
-    dropdown.classList.remove('active');
-});
-
 

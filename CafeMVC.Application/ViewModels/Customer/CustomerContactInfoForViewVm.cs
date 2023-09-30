@@ -9,7 +9,11 @@ namespace CafeMVC.Application.ViewModels.Customer
 
         public string ContactDetailType { get; set; }
 
+        public int ContactDetailTypeId { get; set; }
+
         public string ContactDetailInformation { get; set; }
+
+        
 
         public void Mapping(Profile profile)
         {

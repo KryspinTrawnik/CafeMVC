@@ -4,8 +4,8 @@
 @inject SignInManager<UserCustomerDetails> SignInManager
 @inject UserManager<UserCustomerDetails> UserManager
 @{
-    ViewData["Title"] = "Customer View";
-    ViewData["ActivePage"] = ManageNavPages.CustomerView;
+    ViewData["Title"] = "Contact Details";
+    ViewData["ActivePage"] = ManageNavPages.ContactDetails;
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
     var user = await UserManager.GetUserAsync(User);
 }
@@ -25,7 +25,7 @@
         
 
         function callControllerAction(customerId) {
-            fetch(`/Customer/CustomerViewPartial?customerId=${customerId}`)
+            fetch(`/Customer/ContactDetailsPartial?customerId=${customerId}`)
                 .then(response => response.text())
                 .then(html => {
                     // Update the content of a DOM element with the HTML from the partial view

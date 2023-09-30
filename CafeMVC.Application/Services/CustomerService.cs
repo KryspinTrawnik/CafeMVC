@@ -45,7 +45,7 @@ namespace CafeMVC.Application.Services
             }
             if (customerToDelete.Addresses != null)
             {
-                foreach(Address address in customerToDelete.Addresses)
+                foreach (Address address in customerToDelete.Addresses)
                 {
                     _addressService.DeleteAddress(address.Id);
                 }
@@ -82,5 +82,6 @@ namespace CafeMVC.Application.Services
 
             return _mapper.Map<CustomerDetailViewsVm>(customer);
         }
+
     }
 }

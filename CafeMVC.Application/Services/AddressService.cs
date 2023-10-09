@@ -60,7 +60,7 @@ namespace CafeMVC.Application.Services
         public async Task<List<AddressTypeVm>> GetAllAddressTypes()
         {
             var allTypes =  await _customerRepository.GetAllAddressTypes();
-            var allTypesVm  =  _mapper.Map<List<AddressTypeVm>>(allTypes);
+            var allTypesVm    =  _mapper.Map<List<AddressTypeVm>>(allTypes);
 
             return allTypesVm;
 
@@ -69,8 +69,8 @@ namespace CafeMVC.Application.Services
 
         public async Task<List<AddressForSummaryVm>> GetAllAddressesByCustomerId(int customerId)
         {
-            var customersAddresses = await _customerRepository.GetAllCustomersAddresses(customerId);
-            var addressesToSend = _mapper.Map<List<AddressForSummaryVm>>(customersAddresses);
+            List<Address> customersAddresses = await _customerRepository.GetAllCustomersAddresses(customerId);
+            List<AddressForSummaryVm> addressesToSend = _mapper.Map<List<AddressForSummaryVm>>(customersAddresses);
 
             return addressesToSend;
         }

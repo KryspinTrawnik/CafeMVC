@@ -1,7 +1,9 @@
 ﻿using CafeMVC.Domain.Interfaces;
 using CafeMVC.Domain.Model;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CafeMVC.Infrastructure.Repositories
 {
@@ -111,6 +113,9 @@ namespace CafeMVC.Infrastructure.Repositories
        
         public IQueryable<ContactDetail> GetAllContactDetailsFromOrder(int orderId)
             => _context.OrderContactDetails.Where(x => x.OrderId == orderId).Select(y => y.ContactDetail);
-        
+
+        public async Task<List<Order>> GetCustomerOrders(int customerId) => await _context.Orders.Where(x => x.CustomerId == customerId)
+            .Include(x => x.OrderedProductsDetails)
+            .Include(x => x.Status).ToListAsync();
     }
 }

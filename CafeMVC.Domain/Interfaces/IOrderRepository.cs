@@ -1,5 +1,7 @@
 ﻿using CafeMVC.Domain.Model;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CafeMVC.Domain.Interfaces
 {
@@ -30,7 +32,6 @@ namespace CafeMVC.Domain.Interfaces
         IQueryable<ContactDetail> GetAllContactDetailsFromOrder(int orderId);
        
         IQueryable<Order> GetClosedOrders();
-
-
+        Task<List<Order>> GetCustomerOrders(int customerId);
     }
 }

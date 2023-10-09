@@ -1,0 +1,84 @@
+﻿@page
+@model CafeMVC.Web.Areas.Identity.Pages.Account.Manage.OrderModel
+@{
+}
+<head>
+    <style>
+        /* Add your CSS styles here */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid white;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<table id="orderTable">
+    <thead>
+        <tr>
+            <th>No.</th>
+            <th>Date Of Order</th>
+            <th>Products Count</th>
+            <th>Total Price</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.CustomerOrders != null)
+        {
+            @for (int i =0; i< Model.CustomerOrders.OrdersForUser.Count; i++)
+            {
+                <tr>
+                    <td>@(i+1)</td> 
+                    <td>@Model.CustomerOrders.OrdersForUser[i].DateOfOrder</td>
+                    <td>@Model.CustomerOrders.OrdersForUser[i].ProductsCount</td>
+                    <td>@Model.CustomerOrders.OrdersForUser[i].TotalPrice.ToString("C")</td>
+                    <td>@Model.CustomerOrders.OrdersForUser[i].StatusName</td>
+                    <td>
+                        <button class="view-button">View</button>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<div class="partial-view-container" id="partialViewContainer">
+</div>
+
+@section Scripts{
+    <script src="~/js/CustomerInfo.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const viewButtons = document.querySelectorAll('.view-button');
+            const partialViewContainer = document.getElementById('partialViewContainer');
+
+            viewButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const orderId = this.getAttribute('data-order-id');
+
+                    fetch(`/Order/OrderViewPartial?orderId=${orderId}`)
+                        .then(response => response.text())
+                        .then(partialView => {
+                            partialViewContainer.innerHTML = partialView;
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+                });
+            });
+        });
+    </script>
+}

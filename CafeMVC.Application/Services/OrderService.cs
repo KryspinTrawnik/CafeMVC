@@ -8,9 +8,11 @@ using CafeMVC.Application.ViewModels.Products;
 using CafeMVC.Domain.Interfaces;
 using CafeMVC.Domain.Model;
 using Microsoft.AspNetCore.Http;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CafeMVC.Application.Services
 {
@@ -259,6 +261,14 @@ namespace CafeMVC.Application.Services
 
             return adminDashboard;
 
+        }
+
+        public async Task <List<OrderForUserListVm>> GetCustomerOrders(int customerId)
+        {
+            List<Order> allCustomerOrders = await _orderRepository.GetCustomerOrders(customerId);
+            List<OrderForUserListVm> orders = _mapper.Map<List<OrderForUserListVm>>(allCustomerOrders);
+            
+            return orders;
         }
     }
 

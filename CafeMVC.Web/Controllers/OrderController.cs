@@ -1,5 +1,8 @@
 ﻿using CafeMVC.Application.Interfaces;
+using CafeMVC.Application.Services;
+using CafeMVC.Application.ViewModels.Customer;
 using CafeMVC.Application.ViewModels.Orders;
+using CafeMVC.Domain.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -48,6 +51,15 @@ namespace CafeMVC.Web.Controllers
             OrderForViewVm order = _orderService.GetOrderToView(orderId);
 
             return View(order);
+        }
+
+
+        [HttpGet]
+        public IActionResult OrderViewPartial(int orderId)
+        {
+            OrderForViewVm order = _orderService.GetOrderToView(orderId);
+
+            return PartialView("OrderViewPartial", order);
         }
 
         [HttpPost]
@@ -120,6 +132,7 @@ namespace CafeMVC.Web.Controllers
 
             return View();
         }
+        
         [HttpPost]
         public IActionResult ChangeCustomerInfo()
         {

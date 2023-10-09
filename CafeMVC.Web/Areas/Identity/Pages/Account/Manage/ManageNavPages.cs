@@ -25,12 +25,9 @@ namespace CafeMVC.Web.Areas.Identity.Pages.Account.Manage
 
         public static string Addresses => "Addresses";
 
-        public static string AddNewAddress => "AddAddress";
+        public static string Orders=> "Orders";
 
         public static string IndexNavClass(ViewContext viewContext) => PageNavClass(viewContext, Index);
-
-        public static string AddAddressClass(ViewContext viewContext) => PageNavClass(viewContext, AddNewAddress);
-
 
         public static string AddressesClass(ViewContext viewContext) => PageNavClass(viewContext, Addresses);
 
@@ -50,7 +47,7 @@ namespace CafeMVC.Web.Areas.Identity.Pages.Account.Manage
 
         public static string ContactDetailsNavClass(ViewContext viewContext) => PageNavClass(viewContext, ContactDetails);
 
-
+        public static string OrderHistoryNavClass(ViewContext viewContext) => PageNavClass(viewContext, Orders);
 
         private static string PageNavClass(ViewContext viewContext, string page)
         {

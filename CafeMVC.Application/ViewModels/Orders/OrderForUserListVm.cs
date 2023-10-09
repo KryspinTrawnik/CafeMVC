@@ -13,10 +13,14 @@ namespace CafeMVC.Application.ViewModels.Orders
         public int ProductsCount { get; set; }
 
         public decimal TotalPrice { get; set; }
-    
+
+        public string StatusName { get; set; }
+
+
         public void Mapping(Profile profile)
         {
             profile.CreateMap<CafeMVC.Domain.Model.Order, OrderForUserListVm>()
+                .ForPath(d => d.StatusName, opt => opt.MapFrom(s => s.Status.Name))
                 .ForMember(d => d.ProductsCount, opt => opt.MapFrom(new ProductsCountResolver().Resolve));
         }
 

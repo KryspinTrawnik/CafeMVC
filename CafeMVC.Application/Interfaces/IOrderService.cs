@@ -2,6 +2,8 @@
 using CafeMVC.Application.ViewModels.Products;
 using Microsoft.AspNetCore.Http;
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CafeMVC.Application.Interfaces
 {
@@ -28,5 +30,6 @@ namespace CafeMVC.Application.Interfaces
         ListsOfOrdersForIndexVm GetOrdersForIndex();
 
         AdminDashboardVm GetDashboardVm();
+        Task<List<OrderForUserListVm>> GetCustomerOrders(int customerId);
     }
 }

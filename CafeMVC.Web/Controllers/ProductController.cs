@@ -1,11 +1,11 @@
 ﻿using CafeMVC.Application.Interfaces;
-using CafeMVC.Application.Services;
-using CafeMVC.Application.ViewModels.Customer;
 using CafeMVC.Application.ViewModels.Products;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CafeMVC.Web.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ProductController : Controller
     {
         private readonly IProductService _productService;
@@ -20,6 +20,7 @@ namespace CafeMVC.Web.Controllers
         }
         ///*** Product Actions ***\\\
         [HttpGet]
+       
         public IActionResult Index()
         {
             ListOfProductsVm allProductsList = _productService.GetAllProducts(20, 1, "");
@@ -27,6 +28,7 @@ namespace CafeMVC.Web.Controllers
             return View(allProductsList);
         }
         [HttpPost]
+        
         public IActionResult Index(int pageSize, int? pageNo, string searchString)
         {
             if (!pageNo.HasValue)
@@ -115,8 +117,8 @@ namespace CafeMVC.Web.Controllers
             if (searchString is null)
             {
                 searchString = string.Empty;
-                pageSize = 20;
             }
+                pageSize = 20;
             ListOfIngredientsVm ingredientsForEditionList = _ingredientService.GetListIngredientsForEdition(pageSize, pageNo.Value, searchString);
 
             return View(ingredientsForEditionList);
@@ -135,7 +137,7 @@ namespace CafeMVC.Web.Controllers
             {
                 _ingredientService.AddNewIngredient(ingredient);
             }
-           
+
             return RedirectToAction("EditIngredientsList");
         }
 
@@ -208,7 +210,7 @@ namespace CafeMVC.Web.Controllers
 
             return View(ingredientToBeEdited);
         }
-        
+
         [HttpPost]
         public IActionResult EditAllergen(AllergenForViewVm editedAllergen)
         {

@@ -4,7 +4,6 @@
 }
 <head>
     <style>
-        /* Add your CSS styles here */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -22,63 +21,97 @@
         th {
             background-color: #f2f2f2;
         }
+
+        .order-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            max-height: 300px;
+            padding-right: 15px;
+            border: 2px solid #ccc;
+            scrollbar-width: thin;
+            scrollbar-color: #888 #f2f2f2;
+            padding: 20px;
+            &::-webkit-scrollbar
+
+        {
+            width: 10px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background-color: #888;
+        }
+        }
+
+        #orderTable {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .partial-view-container {
+            width: 100%;
+            margin-top: 20px;
+        }
     </style>
 </head>
-<table id="orderTable">
-    <thead>
-        <tr>
-            <th>No.</th>
-            <th>Date Of Order</th>
-            <th>Products Count</th>
-            <th>Total Price</th>
-            <th>Status</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (Model.CustomerOrders != null)
-        {
-            @for (int i =0; i< Model.CustomerOrders.OrdersForUser.Count; i++)
-            {
+<div class="order-container">
+    <div class="table-container">
+        <table id="orderTable">
+            <thead>
                 <tr>
-                    <td>@(i+1)</td> 
-                    <td>@Model.CustomerOrders.OrdersForUser[i].DateOfOrder</td>
-                    <td>@Model.CustomerOrders.OrdersForUser[i].ProductsCount</td>
-                    <td>@Model.CustomerOrders.OrdersForUser[i].TotalPrice.ToString("C")</td>
-                    <td>@Model.CustomerOrders.OrdersForUser[i].StatusName</td>
-                    <td>
-                        <button class="view-button">View</button>
-                    </td>
+                    <th>No.</th>
+                    <th>Date Of Order</th>
+                    <th>Products Count</th>
+                    <th>Total Price</th>
+                    <th>Status</th>
+                    <th>Action</th>
                 </tr>
-            }
-        }
-    </tbody>
-</table>
-
-<div class="partial-view-container" id="partialViewContainer">
+            </thead>
+            <tbody>
+                @if (Model.CustomerOrders != null)
+                {
+                    @for (int i = 0; i < Model.CustomerOrders.OrdersForUser.Count; i++)
+                    {
+                        <tr>
+                            <td>@(i + 1)</td>
+                            <td>@Model.CustomerOrders.OrdersForUser[i].DateOfOrder.ToString("yyyy-MM-dd HH:mm")</td>
+                            <td>@Model.CustomerOrders.OrdersForUser[i].ProductsCount</td>
+                            <td>@Model.CustomerOrders.OrdersForUser[i].TotalPrice.ToString("C")</td>
+                            <td>@Model.CustomerOrders.OrdersForUser[i].StatusName</td>
+                            <td>
+                                <button class="btn btn-secondary view-order-button" data-id="@Model.CustomerOrders.OrdersForUser[i].Id">View</button>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="partial-view-container" id="partialViewContainer">
+    </div>
 </div>
 
 @section Scripts{
     <script src="~/js/CustomerInfo.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const viewButtons = document.querySelectorAll('.view-button');
-            const partialViewContainer = document.getElementById('partialViewContainer');
 
-            viewButtons.forEach(button => {
-                button.addEventListener('click', function () {
-                    const orderId = this.getAttribute('data-order-id');
+        $('.view-order-button').click(function () {
+            var orderId = $(this).data('id'); // Get the customer ID from the data attribute
+            var url = '@Url.Action("OrderViewPartial", "Order")' + '?orderId=' + orderId;
 
-                    fetch(`/Order/OrderViewPartial?orderId=${orderId}`)
-                        .then(response => response.text())
-                        .then(partialView => {
-                            partialViewContainer.innerHTML = partialView;
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                        });
-                });
+            $.get(url, function (data) {
+                $('#partialViewContainer').html(data);
+                $('#partialViewContainer').show();
             });
+
         });
+
+
     </script>
-}
+    }

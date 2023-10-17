@@ -1,8 +1,6 @@
 ﻿using CafeMVC.Application.Interfaces;
-using CafeMVC.Application.Services;
-using CafeMVC.Application.ViewModels.Customer;
 using CafeMVC.Application.ViewModels.Orders;
-using CafeMVC.Domain.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,6 +18,7 @@ namespace CafeMVC.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
             ListsOfOrdersForIndexVm ordersForView = _orderService.GetOrdersForIndex();
@@ -97,16 +96,16 @@ namespace CafeMVC.Web.Controllers
         [HttpGet]
         public IActionResult Checkout(OrderForCreationVm newOrder, string Btn)
         {
-            if(Btn == "Submit")
+            if (Btn == "Submit")
             {
-            OrderForCreationVm order = _cartService.UpdateOrderForCheckout(newOrder, HttpContext.Session);
+                OrderForCreationVm order = _cartService.UpdateOrderForCheckout(newOrder, HttpContext.Session);
 
-            return View(order);
+                return View(order);
 
             }
             else
             {
-               return RedirectToAction("Cart");
+                return RedirectToAction("Cart");
             }
         }
 
@@ -119,6 +118,7 @@ namespace CafeMVC.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult ChangeOrderStatus(int orderId, int statusId)
         {
             _orderService.ChangeOrderStatus(orderId, statusId);
@@ -132,7 +132,7 @@ namespace CafeMVC.Web.Controllers
 
             return View();
         }
-        
+
         [HttpPost]
         public IActionResult ChangeCustomerInfo()
         {

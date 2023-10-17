@@ -1,5 +1,6 @@
 ﻿using CafeMVC.Application.Interfaces;
 using CafeMVC.Application.ViewModels.Customer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
@@ -22,7 +23,7 @@ namespace CafeMVC.Web.Controllers
         }
 
         [HttpGet]
-        //[Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
             var listOfCustomers = _customerService.GetCustomersForPages(20, 1, "");
@@ -30,6 +31,7 @@ namespace CafeMVC.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult Index(int pageSize, int? pageNo, string searchString)
         {
             if (!pageNo.HasValue)
@@ -64,12 +66,14 @@ namespace CafeMVC.Web.Controllers
 
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult AddNewCustomer()
         {
             return View(new CustomerForCreationVm());
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult AddNewCustomerSummary(CustomerForCreationVm customer)
         {
             if (customer.Btn == "Submit")
@@ -83,6 +87,7 @@ namespace CafeMVC.Web.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult DeleteCustomer(int customerId)
         {
             _customerService.DeleteCustomer(customerId);

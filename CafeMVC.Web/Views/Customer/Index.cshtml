@@ -11,7 +11,7 @@
 <form asp-action="Index" asp-controller="customer" method="post">
     <div style="text-align:right;"> <h4 id="linkToIndex"><a href='@Url.Action("Admin", "Home")' class="btn btn-secondary">Go to Admin </a></h4></div>
     <div class="row">
-        <input type="text" asp-for="SearchString" class="searchString" name="SerarchString" placeholder="Looking for..." />
+        <input type="text" asp-for="SearchString" class="searchString" name="searchString" placeholder="Looking for..." />
 
         <input type="submit" value="Search" class="searchButton" />
     </div>
@@ -51,7 +51,7 @@
     <div class="row">
         <table class="clean">
             <tr>
-                @for (int i = 1; i <= Math.Ceiling(Model.Count / (double)Model.PageSize); i++)
+                @for (int i = 1; i <= (Math.Ceiling(Model.Count / (double)Model.PageSize)); i++)
                 {
                     <td>
                         @if (i != Model.CurrentPage)
@@ -60,7 +60,7 @@
                         }
                         else
                         {
-                            <span>@i</span>
+                            @i
                         }
                     </td>
                 }
@@ -76,7 +76,7 @@
     function PagerClick(index)
     {
         document.getElementById("pageNo").value = index;
-        document.forms[0].submit();
+        document.forms[1].submit();
 
     }
 </script>

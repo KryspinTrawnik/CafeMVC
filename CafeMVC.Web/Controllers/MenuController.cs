@@ -1,5 +1,6 @@
 ﻿using CafeMVC.Application.Interfaces;
 using CafeMVC.Application.ViewModels.Menu;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
@@ -14,6 +15,7 @@ namespace CafeMVC.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
             var ListOfMenus = _menuService.GetMenusToDisplay(20, 1, "");
@@ -46,6 +48,7 @@ namespace CafeMVC.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult AddNewMenu()
         {
             return View(_menuService.GetMenuForCreation());
@@ -70,6 +73,7 @@ namespace CafeMVC.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult EditMenu(int menuId)
         {
             MenuForCreationVm menu = _menuService.GetMenuForEdition(menuId);
@@ -77,6 +81,7 @@ namespace CafeMVC.Web.Controllers
             return View(menu);
         }
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult EditMenu(MenuForCreationVm menuModel)
         {
             if (menuModel.Btn == "Submit")

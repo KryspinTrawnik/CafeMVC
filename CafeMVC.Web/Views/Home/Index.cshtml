@@ -1,8 +1,33 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewBag.Title = "Welcome to Black Coffee";
 }
 
-<div class="text-center">
-    <h1 class="display-4">BlackCoffee</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container">
+    <div class="image-container">
+        <img class="small-image" src="~/Imgs/black_coffee.jpg" alt="Black Coffee">
+    </div>
+    <div class="text">
+        <p class="intro intro-large">Welcome to Black Coffee</p>
+        <p class="description description-large">
+            Black Coffee is your destination for the most exquisite coffee experience. We take pride in offering a wide range of coffee blends, from rich and bold to light and aromatic.
+        </p>
+        <p class="description description-large">
+            Whether you're a coffee connoisseur or just looking for a cozy place to unwind, CaféMVC has something to delight every palate. Join us today for a coffee journey like no other.
+        </p>
+    </div>
 </div>
+
+<style>
+    .small-image {
+        width: 600px;
+        height: auto;
+    }
+
+    .intro-large {
+        font-size: 28px; 
+    }
+
+    .description-large {
+        font-size: 18px; 
+    }
+</style>

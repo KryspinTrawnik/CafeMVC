@@ -1,5 +1,6 @@
 ﻿using CafeMVC.Application.Interfaces;
 using CafeMVC.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
@@ -16,10 +17,10 @@ namespace CafeMVC.Web.Controllers
             _logger = logger;
             _orderService = orderService;
         }
-       
+
         public IActionResult Index()
         {
-            return RedirectToAction("Admin", "Home");
+            return View();
         }
 
         public IActionResult Privacy()
@@ -33,6 +34,8 @@ namespace CafeMVC.Web.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult Admin()
         {
 

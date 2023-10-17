@@ -1,0 +1,140 @@
+﻿@model CafeMVC.Application.ViewModels.Orders.OrderForViewVm
+
+@{
+    string note, paymentStatus;
+    if (Model.Note != null)
+    {
+        note = @Model.Note;
+    }
+    else
+    {
+        note = "Empty";
+    }
+    var listOfStatusesForDropdown = new List<SelectListItem>();
+    for (int i = 0; i < Model.AllStatuses.Count; i++)
+    {
+        listOfStatusesForDropdown.Add(new() { Text = Model.AllStatuses[i].Name, Value = Model.AllStatuses[i].Id.ToString() });
+    }
+    if (Model.Payment.IsCompleted == true)
+    {
+        paymentStatus = "Paid";
+    }
+    else
+    {
+        paymentStatus = "Not Paid";
+    }
+
+}
+
+
+
+<div class="square-container">
+
+    <!-- Contact Details -->
+    <div class="square" id="contact-details">
+        <div class="content">
+            <h3>Contact Details</h3>
+            <h4>Name: @Model.CustomerName</h4>
+            <h4>Contact Number: @Model.ContactDetails[1].ContactDetailInformation</h4>
+            <h4>E-mail: @Model.ContactDetails[0].ContactDetailInformation</h4>
+            @if (Model.IsCollection == false)
+            {
+                <h4>Delivery to:</h4>
+                <h4>@Model.DeliveryAddress.Address</h4>
+            }
+            else
+            {
+                <h4>Collection</h4>
+            }
+        </div>
+    </div>
+
+    <!-- Order Information -->
+    <div class="square" id="order-info">
+        <div class="content">
+            <h3>Order Information</h3>
+            <h4>Status: <b id="status">@Model.Status</b></h4>
+            <h4>Date of Order: @Model.DateOfOrder.ToShortDateString() @Model.DateOfOrder.ToShortTimeString()</h4>
+            <h4>Requested Delivery Time: @Model.LeadTime.ToShortDateString() @Model.LeadTime.ToShortTimeString()</h4>
+            <h4>Payment Type: @Model.Payment.PaymentType</h4>
+            <h4>Payment Status: @paymentStatus</h4>
+            <h4>Order Confirmation Number: @Model.OrderConfirmation</h4> <!-- Add Order Confirmation here -->
+        </div>
+    </div>
+</div>
+<!-- Products -->
+<div class="square-container">
+    <div class="square" id="products">
+        <div class="content column">
+            <h3>Products</h3>
+            <table id="products" class="table">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Overall Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Products.Count; i++)
+                    {
+                        int no = i + 1;
+                        <tr>
+                            <td>@no.</td>
+                            <td>@Model.Products[i].Product.Name</td>
+                            <td>@Model.Products[i].Product.Price</td>
+                            <td>@Model.Products[i].Quantity</td>
+                            <td>@Model.Products[i].OverallPrice</td>
+                        </tr>
+                    }
+                    <tr id="lastRow">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>Delivery Charge</td>
+                        <td>@Model.DeliveryCharge</td>
+                    </tr>
+                    <tr id="lastRow">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>Sum up:</td>
+                        <td>@Model.TotalPrice</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Other -->
+    <div class="square" id="other">
+        <div class="content spread">
+            <h3>Other</h3>
+            <h4>Notes: @note</h4>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .square-container {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .square {
+        width: 48%;
+        padding: 10px;
+        box-sizing: border-box;
+        background-color: rgba(41, 43, 44, 0.8);
+        color: white;
+    }
+
+        /* Additional styles for the content inside the sections */
+        .square h3, .square h2, .square h4, .square b {
+            color: white;
+        }
+</style>

@@ -31,7 +31,7 @@ namespace CafeMVC.Application.Services
         {
             Address address = _customerRepository.GetAddressById(addressId);
             AddressForCreationVm addressForEdition = _mapper.Map<AddressForCreationVm>(address);
-            addressForEdition.AllAddressTypes =  GetAllAddressTypesSync();
+            addressForEdition.AllAddressTypes = GetAllAddressTypesSync();
 
             return addressForEdition;
         }
@@ -59,13 +59,13 @@ namespace CafeMVC.Application.Services
         }
         public async Task<List<AddressTypeVm>> GetAllAddressTypes()
         {
-            var allTypes =  await _customerRepository.GetAllAddressTypes();
-            var allTypesVm    =  _mapper.Map<List<AddressTypeVm>>(allTypes);
+            var allTypes = await _customerRepository.GetAllAddressTypes();
+            var allTypesVm = _mapper.Map<List<AddressTypeVm>>(allTypes);
 
             return allTypesVm;
 
         }
-        
+
 
         public async Task<List<AddressForSummaryVm>> GetAllAddressesByCustomerId(int customerId)
         {
@@ -77,7 +77,7 @@ namespace CafeMVC.Application.Services
 
         public Address PrepareAddressToSave(AddressForCreationVm address)
         {
-            Address addressToSave =  _mapper.Map<Address>(address);
+            Address addressToSave = _mapper.Map<Address>(address);
 
             return addressToSave;
         }
@@ -93,5 +93,15 @@ namespace CafeMVC.Application.Services
         {
             return _mapper.Map<AddressForOrderViewVm>(_customerRepository.GetAddressById(id));
         }
+
+        public List<AddressForOrderViewVm> GetCustmersDeliveryAddresses(int id)
+        {
+             List <Address> addreses = _customerRepository.GetAllCustomersAddresses(id)
+            .Result.Where(x => x.AddressTypeId == 2).ToList();
+            List<AddressForOrderViewVm> addressesToSend = _mapper.Map<List<AddressForOrderViewVm>>(addreses);
+
+            return addressesToSend;
+        }
     }
 }
+

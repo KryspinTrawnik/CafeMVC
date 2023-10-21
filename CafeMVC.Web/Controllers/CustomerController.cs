@@ -1,8 +1,12 @@
 ﻿using CafeMVC.Application.Interfaces;
 using CafeMVC.Application.ViewModels.Customer;
+using CafeMVC.Domain.Model;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
+using System.Security.Claims;
 
 namespace CafeMVC.Web.Controllers
 {
@@ -14,12 +18,15 @@ namespace CafeMVC.Web.Controllers
 
         private readonly IContactDetailService _contactDetailService;
 
+        private readonly Microsoft.AspNetCore.Identity.UserManager<UserCustomerDetails> _userManager;
 
-        public CustomerController(ICustomerService customerService, IAddressService addressService, IContactDetailService contactDetailService)
+
+        public CustomerController(ICustomerService customerService, IAddressService addressService, IContactDetailService contactDetailService, Microsoft.AspNetCore.Identity.UserManager<UserCustomerDetails> userManager)
         {
             _customerService = customerService;
             _addressService = addressService;
             _contactDetailService = contactDetailService;
+            _userManager = userManager;
         }
 
         [HttpGet]
@@ -122,6 +129,7 @@ namespace CafeMVC.Web.Controllers
         {
             var contactDetailForEdition = _contactDetailService.GetContactDetailForEdition(contactDetailId);
             contactDetailForEdition.AllContactDetailsTypes = _contactDetailService.GetAllContactDetailTypes();
+
             return View(contactDetailForEdition);
         }
 
@@ -139,7 +147,7 @@ namespace CafeMVC.Web.Controllers
         {
             int customerId = _contactDetailService.GetContactDetailForEdition(contactDetailId).CustomerId.Value;
             _contactDetailService.RemoveContactDetail(contactDetailId);
-           
+
             return Redirect("/Identity/Account/Manage/ContactDetails");
         }
         ////**** Address ****\\\\
@@ -216,5 +224,20 @@ namespace CafeMVC.Web.Controllers
             return PartialView("BillingAddress");
         }
 
+        public IActionResult CartDropdownAddresses()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId != null)
+            {
+                UserCustomerDetails currentUser = _userManager.FindByIdAsync(userId).Result;
+                if (currentUser != null)
+                {
+                    List<AddressForOrderViewVm> list = _addressService.GetCustmersDeliveryAddresses(currentUser.CustomerId.Value);
+                    return PartialView("CartDropdownAddresses", list);
+                }
+            }
+
+            return View("UserNotFound");
+        }
     }
 }

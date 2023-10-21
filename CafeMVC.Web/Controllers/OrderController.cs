@@ -1,8 +1,10 @@
 ﻿using CafeMVC.Application.Interfaces;
+using CafeMVC.Application.ViewModels.Customer;
 using CafeMVC.Application.ViewModels.Orders;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace CafeMVC.Web.Controllers
 {
@@ -136,9 +138,9 @@ namespace CafeMVC.Web.Controllers
         [HttpPost]
         public IActionResult ChangeCustomerInfo()
         {
-
             return RedirectToAction("OrderView");
         }
 
+        
     }
 }

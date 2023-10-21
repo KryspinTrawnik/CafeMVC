@@ -263,3 +263,6 @@ input[type=number] {
 .descriptionText{
     overflow-y: scroll;
 }
+select {
+    background-color: #292b2c;
+}

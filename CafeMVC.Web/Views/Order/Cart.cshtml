@@ -1,6 +1,8 @@
 ﻿@model CafeMVC.Application.ViewModels.Orders.OrderForCreationVm
 @using Microsoft.AspNetCore.Http;
 @using CafeMVC.Application.Helpers;
+@using Microsoft.AspNetCore.Mvc.Rendering
+
 @{
     string title = "Your Cart";
     string ingredientToDisplay, dietInfoToDisplay;
@@ -136,6 +138,15 @@
                     Check your postcode if we can deliver.
                     <input type="text" id="txtBox" class="textBox" name="Postcode"/>
                     <span id="displayError"></span>
+                    <br/>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+
+                        <div id="cartDropdownAddresses">
+                           
+                        </div>
+                    }
+
                 </div>
                 <br />
                 <h4>Payment Method</h4>
@@ -155,6 +166,7 @@
 </div>
 
 @section Scripts{
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
         function functionUp(id) {
             var value = parseInt(document.getElementById(id).value, 10);
@@ -232,6 +244,52 @@
                 textboxMessage.style.color = "red";
                 submit.disabled = true;
             }
+        }
+        $('input[name="IsCollection"]').on('change', function () {
+            if (this.value === "false") {
+                loadPartialView();
+            }
+        });
+        function loadPartialView() {
+            var url = '@Url.Action("CartDropdownAddresses", "Customer")';
+
+            $.get(url, function (data) {
+                $('#cartDropdownAddresses').html(data);
+            });
+        }
+
+        function handleAddressSelection() {
+            var addressDropdown = document.getElementById('AddressId');
+            var postcodeTextbox = document.getElementById('txtBox');
+            var postcodeMessage = document.getElementById('displayError');
+            var submitButton = document.getElementById('submit');
+
+            addressDropdown.addEventListener('change', function () {
+                if (addressDropdown.value !== 'neutral') {
+                    postcodeTextbox.disabled = true;
+                    postcodeTextbox.value = '';
+                    postcodeMessage.textContent = '';
+                    submitButton.disabled = false;
+                } else {
+                    postcodeTextbox.disabled = false;
+                }
+            });
+        }
+
+        handleAddressSelection();
+
+        $('input[name="IsCollection"]').on('change', function () {
+            if (this.value === "false") {
+                loadPartialView();
+            }
+        });
+
+        function loadPartialView() {
+            var url = '@Url.Action("CartDropdownAddresses", "Customer")';
+
+            $.get(url, function (data) {
+                $('#cartDropdownAddresses').html(data);
+            });
         }
 
     </script>

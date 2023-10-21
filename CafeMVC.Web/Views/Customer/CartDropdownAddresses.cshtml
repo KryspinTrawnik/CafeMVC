@@ -1,0 +1,13 @@
+﻿@using CafeMVC.Application.ViewModels.Customer;
+@model List<AddressForOrderViewVm>
+
+@if (Model != null && Model.Any())
+{
+    <h6>Or choose your saved delivery address</h6>
+    @Html.DropDownListFor(
+        model => model[0].Id,
+        new SelectList(Model, "Id", "Address"),
+        "Select an address",
+        new { @class = "form-control" }
+    )
+}

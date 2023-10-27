@@ -128,34 +128,31 @@
             <br />
             @using (Html.BeginForm("CustomerInfo", "Order", FormMethod.Get))
             {
-                <input type="radio" id="collection" name="IsCollection" value="true" onclick="ShowHideDiv()"/>
+                <input type="radio" id="collection" name="IsCollection" value="true" onclick="ShowHideDiv()" />
                 <label for="collection">Collection</label>
                 <br>
-                <input type="radio" id="delivery" name="IsCollection" value="false" onclick="ShowHideDiv()"/>
+                <input type="radio" id="delivery" name="IsCollection" value="false" onclick="ShowHideDiv()" />
                 <label for="delivery">Delivery</label>
                 <br>
                 <div id="dvtext" style="display: none">
                     Check your postcode if we can deliver.
-                    <input type="text" id="txtBox" class="textBox" name="Postcode"/>
+                    <input type="text" id="txtBox" class="textBox" name="Postcode" />
                     <span id="displayError"></span>
-                    <br/>
+                    <br />
                     @if (User.Identity.IsAuthenticated)
                     {
-
                         <div id="cartDropdownAddresses">
-                           
                         </div>
                     }
-
                 </div>
                 <br />
                 <h4>Payment Method</h4>
-                @Html.DropDownList("PaymentTypeId", listOfPaymentTypesForDropdown, new{@class="otherInput", @id="paymentTypeDropdown"})
+                @Html.DropDownList("PaymentTypeId", listOfPaymentTypesForDropdown, new { @class = "otherInput", @id = "paymentTypeDropdown" })
                 <input type="hidden" id="paymentTypeName" name="PaymentName" />
                 <br />
                 <br />
-                <button type="submit" class="btn btn-success" onclick="assignPaymentName()" value="Submit" name="Btn" role="button" id="submit">Proceed</button>
-                           
+                <button type="submit" class="btn btn-success" value="Submit" name="Btn" role="button" id="submit" disabled>Proceed</button>
+
             }
         </div>
     }
@@ -183,11 +180,11 @@
                 document.getElementById(id).value = value;
             }
         }
-     
-            function CheckPostcode(){
-                var enteredPostcode = document.getElementById("txtBox");
-                console.log(enteredPostcode.value);
-            }
+
+        function CheckPostcode() {
+            var enteredPostcode = document.getElementById("txtBox");
+            console.log(enteredPostcode.value);
+        }
 
         function assignPaymentName() {
             var paymentName = document.getElementById('paymentTypeName');
@@ -195,12 +192,32 @@
             paymentName.value = dropdownList.options[dropdownList.selectedIndex].text;
         }
 
+        function handleAddressSelection() {
+            var addressDropdown = document.getElementById('AddressDropdown');
+            var submitButton = document.getElementById('submit');
+            var postcodeTextbox = document.getElementById('txtBox');
+            var textboxMessage = document.getElementById("displayError");
+
+            addressDropdown.addEventListener('change', function () {
+                var selectedAddress = addressDropdown.value;
+
+                if (selectedAddress !== '') {
+                    submitButton.disabled = false;
+                    postcodeTextbox.value = '';
+                    textboxMessage.innerHTML = '';
+
+                } else {
+                    submitButton.disabled = true;
+                }
+            });
+        }
         function ShowHideDiv() {
             var delivery = document.getElementById("delivery");
             var dvtext = document.getElementById("dvtext");
             var submit = document.getElementById("submit");
             dvtext.style.display = delivery.checked ? "block" : "none";
             submit.disabled = delivery.checked ? true : false;
+
         }
         var textbox = document.getElementById("txtBox");
         textbox.addEventListener("change", CheckPostcode);
@@ -227,6 +244,7 @@
             var enteredPostcode = document.getElementById("txtBox").value;
             var isValid = CheckRegex(enteredPostcode);
             var textboxMessage = document.getElementById("displayError");
+            var addressDropdown = document.getElementById('AddressDropdown');
             if (isValid == true) {
                 var canWeDeliver = CheckIfCanBeDelivered(enteredPostcode);
                 if (canWeDeliver == true) {
@@ -244,6 +262,8 @@
                 textboxMessage.style.color = "red";
                 submit.disabled = true;
             }
+            if (addressDropdown != null) {  addressDropdown.value ='';
+            }
         }
         $('input[name="IsCollection"]').on('change', function () {
             if (this.value === "false") {
@@ -255,42 +275,12 @@
 
             $.get(url, function (data) {
                 $('#cartDropdownAddresses').html(data);
+            }).done(function () {
+                handleAddressSelection();
             });
+
         }
 
-        function handleAddressSelection() {
-            var addressDropdown = document.getElementById('AddressId');
-            var postcodeTextbox = document.getElementById('txtBox');
-            var postcodeMessage = document.getElementById('displayError');
-            var submitButton = document.getElementById('submit');
-
-            addressDropdown.addEventListener('change', function () {
-                if (addressDropdown.value !== 'neutral') {
-                    postcodeTextbox.disabled = true;
-                    postcodeTextbox.value = '';
-                    postcodeMessage.textContent = '';
-                    submitButton.disabled = false;
-                } else {
-                    postcodeTextbox.disabled = false;
-                }
-            });
-        }
-
-        handleAddressSelection();
-
-        $('input[name="IsCollection"]').on('change', function () {
-            if (this.value === "false") {
-                loadPartialView();
-            }
-        });
-
-        function loadPartialView() {
-            var url = '@Url.Action("CartDropdownAddresses", "Customer")';
-
-            $.get(url, function (data) {
-                $('#cartDropdownAddresses').html(data);
-            });
-        }
 
     </script>
 }

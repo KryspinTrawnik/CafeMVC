@@ -9,6 +9,8 @@ namespace CafeMVC.Application.ViewModels.Customer
 
         public string Address { get; set; }
 
+        public int CustomerId { get; set; }
+
         public void Mapping(Profile profile)
         {
             profile.CreateMap<CafeMVC.Domain.Model.Address, AddressForOrderViewVm>()

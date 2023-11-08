@@ -102,6 +102,9 @@ namespace CafeMVC.Application.Services
 
             return addressesToSend;
         }
+
+        public List<AddressForCreationVm> GetAllAddressesForCreationByCustomerId(int customerId) => _customerRepository.GetAllCustomersAddresses(customerId)
+            .Result.AsQueryable().ProjectTo<AddressForCreationVm>(_mapper.ConfigurationProvider).ToList();
     }
 }
 

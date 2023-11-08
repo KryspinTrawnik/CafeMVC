@@ -6,7 +6,6 @@ using CafeMVC.Application.ViewModels.Customer;
 using CafeMVC.Application.ViewModels.Orders;
 using CafeMVC.Application.ViewModels.Products;
 using CafeMVC.Domain.Interfaces;
-using CafeMVC.Domain.Model;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -20,12 +19,16 @@ namespace CafeMVC.Application.Services
         private readonly IMapper _mapper;
         private readonly IProductRepository _productRepository;
         private readonly IProductService _productService;
+        private readonly IAddressService _addressService;
+        private readonly IContactDetailService _contactDetailService;
 
-        public CartService(IMapper mapper, IProductRepository productRepository, IProductService productService)
+        public CartService(IMapper mapper, IProductRepository productRepository, IProductService productService, IAddressService addressService, IContactDetailService contactDetailService)
         {
             _mapper = mapper;
             _productRepository = productRepository;
             _productService = productService;
+            _addressService = addressService;
+            _contactDetailService = contactDetailService;
         }
         private void UpdateCartDataOnView(ISession session)
         {
@@ -72,7 +75,7 @@ namespace CafeMVC.Application.Services
         }
         private decimal GetDeliveryCharge(bool isCollection, List<AddressForCreationVm> addresses, ISession session)
         {
-            if(isCollection)
+            if (isCollection)
             {
                 return 0;
             }
@@ -85,7 +88,7 @@ namespace CafeMVC.Application.Services
 
                 return deliveryCharge;
             }
-            
+
 
         }
 
@@ -107,7 +110,7 @@ namespace CafeMVC.Application.Services
                 OverallPrice = (decimal)quantity * _productRepository.GetProductById(productId).Price,
                 ProductVm = _mapper.Map<ProductForViewVm>(_productRepository.GetProductById(productId)),
                 ProductId = productId
-                
+
             };
 
             return newOrderedProduct;
@@ -199,37 +202,57 @@ namespace CafeMVC.Application.Services
                 },
                 TotalPrice = GetTotalPrice(session),
                 Products = GetListOfCartProducts(session),
-                
-                
-            };
-            if (cartInformation.IsCollection == false)
-            {
-                if(cartInformation.PaymentTypeId == 1)
-                {
 
-                newOrder.Addresses =  new()
+
+            };
+            newOrder.Addresses = PrepareAddressesForCustomerInformation(cartInformation);
+
+            if (cartInformation.CustomerId != 0)
+            {
+
+                newOrder.UserAddresses = _addressService.GetAllAddressesForCreationByCustomerId(cartInformation.CustomerId);
+                newOrder.CustomerId = cartInformation.CustomerId;
+                newOrder.UserContactDetails = _contactDetailService.GetAllContactDetailsForCreation(cartInformation.CustomerId);
+
+            }
+            SessionHelper.SetObjectAsJson(session, "order", newOrder);
+
+            return newOrder;
+        }
+
+        private List<AddressForCreationVm> PrepareAddressesForCustomerInformation(CartInformation cartInformation)
+        {
+            List<AddressForCreationVm> addresses;
+            addresses = new()
                 {
                     new AddressForCreationVm(),
-                    new AddressForCreationVm()
-                    {
-                        ZipCode = cartInformation.Postcode
-                    }
                 };
+
+            if (cartInformation.IsCollection == false)
+            {
+                if (cartInformation.PaymentTypeId == 1)
+                {
+                    if (cartInformation.Postcode == string.Empty)
+                        addresses.Add(new AddressForCreationVm() { ZipCode = cartInformation.Postcode });
+                    else
+                    {
+                        var deliveryAddress = _addressService.GetAddressToEdit(cartInformation.AddressId);
+                        addresses.Add(deliveryAddress);
+                    }
+
                 }
                 else
                 {
-                    newOrder.Addresses = new()
+                    if (cartInformation.Postcode == string.Empty)
+                        addresses[0].ZipCode = cartInformation.Postcode;
+                    else
                     {
-                        new AddressForCreationVm()
-                        {
-                            ZipCode= cartInformation.Postcode   
-                        }
-                    };
+                        addresses[0] = _addressService.GetAddressToEdit(cartInformation.AddressId);
+                    }
                 }
             }
-                SessionHelper.SetObjectAsJson(session, "order", newOrder);
 
-            return newOrder;
+            return addresses;
         }
 
         public OrderForCreationVm UpdateOrderForCheckout(OrderForCreationVm newOrder, ISession session)
@@ -262,9 +285,9 @@ namespace CafeMVC.Application.Services
 
         public void ClearSession(ISession session) => session.Clear();
 
-        public decimal GetDeliveryCharge(ISession session)  
+        public decimal GetDeliveryCharge(ISession session)
             => SessionHelper.GetObjectFromJson<OrderForCreationVm>(session, "order").DeliveryCharge;
 
-          
+
     }
 }

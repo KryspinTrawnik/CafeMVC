@@ -41,7 +41,6 @@ namespace CafeMVC.Web.Controllers
         public IActionResult CustomerInfo(CartInformation cartInformation)
         {
             OrderForCreationVm newOrder = _cartService.GetOrderFromCart(cartInformation, HttpContext.Session);
-            newOrder.Payment.PaymentType.Name = cartInformation.PaymentName;
 
             return View(newOrder);
         }

@@ -25,5 +25,7 @@ namespace CafeMVC.Application.Interfaces
         Address PrepareAddressToSave(AddressForCreationVm address);
         AddressForOrderViewVm GetAddressToview(int id);
         List<AddressForOrderViewVm> GetCustmersDeliveryAddresses(int id);
+
+        List<AddressForCreationVm> GetAllAddressesForCreationByCustomerId(int customerId);
     }
 }

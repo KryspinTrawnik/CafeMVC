@@ -155,9 +155,9 @@ input[type=number] {
     display: grid;
 }
 
-#container input {
+    #container input {
         background-color: #292b2c;
-}
+    }
 
 #down {
     display: grid;
@@ -173,18 +173,21 @@ input[type=number] {
     text-align: center;
     word-spacing: 5px;
 }
+
 #card {
     grid-column: 1 / 1;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    
 }
-#total{
+
+#total {
     text-align: right;
 }
-#cardType{
+
+#cardType {
     grid-column: 1 / 2;
 }
+
 #note {
 }
 
@@ -224,7 +227,7 @@ input[type=number] {
         width: 100%;
         padding: 3%;
         text-align: center;
-       overflow-y:auto;
+        overflow-y: auto;
     }
 
 .lastRow {
@@ -236,17 +239,17 @@ input[type=number] {
 }
 
 .adminTable {
-    
 }
 
 .error-icon {
     color: red;
     display: none;
 }
-.fa-circle-exclamation
-{
+
+.fa-circle-exclamation {
     color: red;
 }
+
 #month {
     display: inline-block;
     width: 40%;
@@ -257,12 +260,15 @@ input[type=number] {
     display: inline-block;
     width: 40%;
 }
-#expiryDate{
-    display: block;   
+
+#expiryDate {
+    display: block;
 }
-.descriptionText{
+
+.descriptionText {
     overflow-y: scroll;
 }
-select {
-    background-color: #292b2c;
+.columnTwo select.form-control {
+  width: 80%;
+  display:initial;
 }

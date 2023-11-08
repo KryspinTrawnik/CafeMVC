@@ -4,6 +4,7 @@
 </head>
 @{
     bool condition = Model.Payment.PaymentTypeId != 1; // paymentTypes: id 1 == card id 2 == cash id 3 == paypal
+    bool isAuthenticated = User.Identity.IsAuthenticated;
     int deliveryAddressIndex = condition ? 0 : 1;
     @if (Model.IsCollection == false)
     {
@@ -11,6 +12,9 @@
         Model.Addresses[deliveryAddressIndex].Country = "United Kingdoms";
         Model.Addresses[deliveryAddressIndex].AddressTypeId = 2;
     }
+
+}
+
 }
 @using (Html.BeginForm("Checkout", "Order", FormMethod.Get, new { @id = "CustomerInfoForm" }))
 {
@@ -37,11 +41,37 @@
 
             <div class="columnTwo">
                 <h5>E-mail</h5>
+                @if (isAuthenticated)
+                {
+                    <select id="emailSelect" class="form-control select-email">
+                        <option value="">Select an email</option>
+                        @foreach (var contact in Model.UserContactDetails)
+                        {
+                            if (contact.ContactDetailTypeId == 1)
+                            {
+                                <option value="@contact.ContactDetailInformation">@contact.ContactDetailInformation</option>
+                            }
+                        }
+                    </select>
+                }
                 @Html.HiddenFor(m => m.ContactDetails[0].Id)
                 @Html.HiddenFor(m => m.ContactDetails[0].ContactDetailTypeId, new {@id="emailTypeId"})
                 <h6>@Html.TextBoxFor(m => m.ContactDetails[0].ContactDetailInformation, new {@class = "textBox textbox2", @required = "required", @id="emailBox"})</h6>
                 <span id="emailAlert"></span>
                 <h5>Contact phone</h5>
+                @if (isAuthenticated)
+                {
+                    <select id="phoneSelect" class="form-control select-phone">
+                        <option value="">Select a phone number</option>
+                        @foreach (var contact in Model.UserContactDetails)
+                        {
+                            if (contact.ContactDetailTypeId == 2)
+                            {
+                                <option value="@contact.ContactDetailInformation">@contact.ContactDetailInformation</option>
+                            }
+                        }
+                    </select>
+                }
                 @Html.HiddenFor(m => m.ContactDetails[1].Id)
                 @Html.HiddenFor(m => m.ContactDetails[1].ContactDetailTypeId, new {@id="mobileTypeId"})
                 <h6>@Html.TextBoxFor(m => m.ContactDetails[1].ContactDetailInformation, new {@class = "textBox textbox2", @required = "required", @id="phoneBox"})</h6>
@@ -61,6 +91,24 @@
                 <hr class="overLine">
                 @Html.HiddenFor(m => m.Addresses[0].AddressTypeId, new{@id= "billingTypeId"})
             </div>
+            @if (isAuthenticated)
+            {
+                <select id="billingAddressSelect" class="form-control">
+                    <option value="">Select a billing address</option>
+                    @foreach (var address in Model.UserAddresses)
+                    {
+                        if (address.AddressTypeId == 1)
+                        {
+                            <option value="@address.Id">
+                                @address.Street @address.BuildingNumber @if (address.FlatNumber != 0)
+                                {
+                                    @address.FlatNumber
+                                } @address.ZipCode, @address.City, @address.Country
+                            </option>
+                        }
+                    }
+                </select>
+            }
 
             <div class="innerGrid">
                 <div class="columnOne">
@@ -129,12 +177,29 @@
             @Html.HiddenFor(m => m.Addresses[deliveryAddressIndex].AddressTypeId, new{ @id="deliveryTypeId" })
 
         </div>
-
+        @if (isAuthenticated)
+        {
+            <select id="deliveryAddressSelect" class="form-control">
+                <option value="">Select a delivery address</option>
+                @foreach (var address in Model.UserAddresses)
+                {
+                    if (address.AddressTypeId == 2)
+                    {
+                        <option value="@address.Street">
+                            @address.Street @address.BuildingNumber @if (address.FlatNumber != 0)
+                            {
+                                @address.FlatNumber
+                            } @address.ZipCode @address.City, @address.Country
+                        </option>
+                    }
+                }
+            </select>
+        }
         <div id="deliveryAddress">
 
             <div class="innerGrid">
                 <div class="columnOne">
-                  
+
                     <div class="textbox" id="streetDel">
                         <h5>@Html.LabelFor(m => m.Addresses[deliveryAddressIndex].Street, new {@value="Street"})</h5>
                         <h6>
@@ -194,7 +259,7 @@
 @section Scripts{
     <script src="~/js/CustomerInfo.js"></script>
     <script type="text/javascript">
-       
+
         var email = document.getElementById("emailBox");
         email.addEventListener("change", ValidateEmail);
 
@@ -216,6 +281,97 @@
 
             }
 
+        }
+        var isAuthenticated = @Html.Raw(isAuthenticated.ToString().ToLower());
+
+
+        if (isAuthenticated) {
+            document.getElementById("emailSelect").addEventListener("change", function () {
+                document.getElementById("emailBox").value = this.value;
+                ValidateEmail();
+            });
+
+            document.getElementById("phoneSelect").addEventListener("change", function () {
+                document.getElementById("phoneBox").value = this.value;
+            });
+        }
+
+        var email = document.getElementById("emailBox");
+        email.addEventListener("change", ValidateEmail);
+
+        function ValidateEmail() {
+            var inputText = document.getElementById("emailBox");
+            var textboxMessage = document.getElementById("emailAlert");
+            var submit = document.getElementById("submitButton");
+
+            var mailformat = /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            if (inputText.value.match(mailformat)) {
+                textboxMessage.style.color = "green";
+                textboxMessage.innerHTML = '<i class="fa-solid fa-circle-check" style="color:green"></i>';
+                submit.disabled = false;
+            } else {
+                textboxMessage.style.color = "red";
+                textboxMessage.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Enter correct e-mail address';
+                submit.disabled = true;
+            }
+        }
+        if (isAuthenticated) {
+
+            document.getElementById("billingAddressSelect").addEventListener("change", function () {
+                console.log("Event listener activated");
+                var selectedBillingAddressId = this.value;
+                var billingStreetTextbox = document.getElementById("streetB");
+                var billingBuildingNumberTextbox = document.getElementById("buildingNumberB");
+                var billingFlatNumberTextbox = document.getElementById("flatNumberB");
+                var billingZipCodeTextbox = document.getElementById("zipCodeB");
+                var billingCityTextbox = document.getElementById("cityB");
+                var billingCountryTextbox = document.getElementById("countryB");
+
+                if (selectedBillingAddressId) {
+                    var userAddresses = @Html.Raw(Json.Serialize(Model.UserAddresses));
+                    var selectedBillingAddress = findAddressById(selectedBillingAddressId, userAddresses);
+
+                    if (selectedBillingAddress) {
+                        billingStreetTextbox.value = selectedBillingAddress.street;
+                        billingBuildingNumberTextbox.value = selectedBillingAddress.buildingNumber;
+                        billingFlatNumberTextbox.value = selectedBillingAddress.flatNumber;
+                        billingZipCodeTextbox.value = selectedBillingAddress.zipCode;
+                        billingCityTextbox.value = selectedBillingAddress.city;
+                        billingCountryTextbox.value = selectedBillingAddress.country;
+                    }
+                }
+            });
+
+
+            document.getElementById("deliveryAddressSelect").addEventListener("change", function () {
+                var selectedDeliveryAddressId = this.value;
+                var deliveryStreetTextbox = document.getElementById("streetD");
+                var deliveryBuildingNumberTextbox = document.getElementById("buildingNumberD");
+                var deliveryFlatNumberTextbox = document.getElementById("flatNumberD");
+                var deliveryZipCodeTextbox = document.getElementById("zipCodeD");
+                var deliveryCityTextbox = document.getElementById("cityD");
+                var deliveryCountryTextbox = document.getElementById("countryD");
+
+                if (selectedDeliveryAddressId) {
+                    var userAddresses = @Html.Raw(Json.Serialize(Model.UserAddresses));
+                    var selectedDeliveryAddress = findAddressById(selectedDeliveryAddressId, userAddresses);
+
+                    if (selectedDeliveryAddress) {
+                        deliveryStreetTextbox.value = selectedDeliveryAddress.street;
+                        deliveryBuildingNumberTextbox.value = selectedDeliveryAddress.suildingNumber;
+                        deliveryFlatNumberTextbox.value = selectedDeliveryAddress.flatNumber;
+                        deliveryZipCodeTextbox.value = selectedDeliveryAddress.zipCode;
+                        deliveryCityTextbox.value = selectedDeliveryAddress.city;
+                        deliveryCountryTextbox.value = selectedDeliveryAddress.country;
+                    }
+                }
+            });
+
+            function findAddressById(addressId, addresses) {
+                return addresses.find(function (address) {
+                    return address.id == addressId;
+                });
+            }
         }
     </script>
 }

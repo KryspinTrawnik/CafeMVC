@@ -72,6 +72,9 @@ namespace CafeMVC.Application.Services
 
             return customerContactDetails;
         }
+
+        public List<ContactInfoForCreationVm> GetAllContactDetailsForCreation(int customerId) => _customerRepository.GetAllCustomerContactDetails(customerId)
+                .ProjectTo<ContactInfoForCreationVm>(_mapper.ConfigurationProvider).ToList();
     }
 }
 

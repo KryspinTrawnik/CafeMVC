@@ -1,4 +1,6 @@
 ﻿using CafeMVC.Application.ViewModels.Customer;
+using CafeMVC.Application.ViewModels.Orders;
+using System.Collections.Generic;
 
 namespace CafeMVC.Application.Interfaces
 {
@@ -13,5 +15,7 @@ namespace CafeMVC.Application.Interfaces
         CustomerDetailViewsVm GetCustomerDetail(int customerId);
 
         CustomerForSummaryVm GetLastAddedCustomer(int id);
+
+        List<CreditCardForUserListVm> GetAllCustomersCard(int customerId);
     }
 }

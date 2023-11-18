@@ -21,14 +21,15 @@ namespace CafeMVC.Application.Services
         private readonly IProductService _productService;
         private readonly IAddressService _addressService;
         private readonly IContactDetailService _contactDetailService;
-
-        public CartService(IMapper mapper, IProductRepository productRepository, IProductService productService, IAddressService addressService, IContactDetailService contactDetailService)
+        private ICustomerService _customerService;
+        public CartService(IMapper mapper, IProductRepository productRepository, IProductService productService, IAddressService addressService, IContactDetailService contactDetailService, ICustomerService customerService)
         {
             _mapper = mapper;
             _productRepository = productRepository;
             _productService = productService;
             _addressService = addressService;
             _contactDetailService = contactDetailService;
+            _customerService = customerService;
         }
         private void UpdateCartDataOnView(ISession session)
         {
@@ -213,7 +214,7 @@ namespace CafeMVC.Application.Services
                 newOrder.UserAddresses = _addressService.GetAllAddressesForCreationByCustomerId(cartInformation.CustomerId);
                 newOrder.CustomerId = cartInformation.CustomerId;
                 newOrder.UserContactDetails = _contactDetailService.GetAllContactDetailsForCreation(cartInformation.CustomerId);
-
+             
             }
             SessionHelper.SetObjectAsJson(session, "order", newOrder);
 
@@ -267,6 +268,10 @@ namespace CafeMVC.Application.Services
                 order.DeliveryCharge = GetDeliveryCharge(newOrder.IsCollection, newOrder.Addresses, session);
                 order.DeliveryChargeApplied = true;
 
+            }
+            if(order.CustomerId !=0)
+            {
+                order.cardForUserLists = _customerService.GetAllCustomersCard(order.CustomerId);
             }
             SessionHelper.SetObjectAsJson(session, "order", order);
 

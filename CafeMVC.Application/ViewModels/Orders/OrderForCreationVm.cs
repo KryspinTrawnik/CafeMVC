@@ -48,6 +48,8 @@ namespace CafeMVC.Application.ViewModels.Orders
 
         public List<ContactInfoForCreationVm> UserContactDetails { get; internal set; }
 
+        public List<CreditCardForUserListVm> cardForUserLists {  get; internal set; }
+
         public void Mapping(Profile profile)
         {
             profile.CreateMap<CafeMVC.Domain.Model.Order, OrderForCreationVm>().ReverseMap()

@@ -2,6 +2,7 @@
 using AutoMapper.QueryableExtensions;
 using CafeMVC.Application.Interfaces;
 using CafeMVC.Application.ViewModels.Customer;
+using CafeMVC.Application.ViewModels.Orders;
 using CafeMVC.Domain.Interfaces;
 using CafeMVC.Domain.Model;
 using System.Collections.Generic;
@@ -83,5 +84,13 @@ namespace CafeMVC.Application.Services
             return _mapper.Map<CustomerDetailViewsVm>(customer);
         }
 
+        public List<CreditCardForUserListVm> GetAllCustomersCard(int customerId)
+        {
+            List<PaymentCard> listOfCreditCards = _customerRepository.GetAllCustomersPaymentCards(customerId).ToList();
+            List<CreditCardForUserListVm> listOfCreditCardsVm = _mapper.Map<List<CreditCardForUserListVm>>(listOfCreditCards);
+
+            return listOfCreditCardsVm;
+        }
+        
     }
 }

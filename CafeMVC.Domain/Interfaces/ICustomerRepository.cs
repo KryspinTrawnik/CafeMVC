@@ -49,5 +49,7 @@ namespace CafeMVC.Domain.Interfaces
         Task<List<Address>> GetAllCustomersAddresses(int customerId);
 
         IQueryable<ContactDetail> GetAllCustomerContactDetails(int customerId);
+
+        IQueryable<PaymentCard> GetAllCustomersPaymentCards( int customerId);
     }
 }

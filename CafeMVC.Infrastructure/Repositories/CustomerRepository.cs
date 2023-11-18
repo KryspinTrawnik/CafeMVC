@@ -155,5 +155,8 @@ namespace CafeMVC.Infrastructure.Repositories
         {
             return _context.ContactDetails.Where(x => x.CustomerId == customerId);
         }
+
+        public IQueryable<PaymentCard> GetAllCustomersPaymentCards(int customerId) => _context.PaymentCards.Where(x => x.CustomerId == customerId);
+        
     }
 }

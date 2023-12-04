@@ -48,7 +48,7 @@ namespace CafeMVC.Application.ViewModels.Orders
 
         public List<ContactInfoForCreationVm> UserContactDetails { get; internal set; }
 
-        public List<CreditCardForUserListVm> cardForUserLists {  get; internal set; }
+        public List<CreditCardForUserListVm> CardForUserLists {  get; internal set; }
 
         public void Mapping(Profile profile)
         {

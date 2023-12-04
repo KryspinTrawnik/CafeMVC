@@ -24,6 +24,7 @@
 @{
     int indexOfDeliverAddress = 0;
     string addressnubmer = "";
+    bool isAuthenticated = User.Identity.IsAuthenticated;
     if (@Model.IsCollection == false)
     {
         indexOfDeliverAddress = @Model.Addresses.FindIndex(x => x.AddressTypeId == 2);
@@ -42,8 +43,8 @@
 }
 @using (Html.BeginForm("PlaceOrder", "Order", FormMethod.Post))
 {
-    @Html.HiddenFor(m => m.Payment.PaymentTypeId, new{@value= Model.Payment.PaymentTypeId, @id="paymentTypeId"})
-    @Html.HiddenFor(m => m.IsCollection, new{@value= Model.IsCollection})
+    @Html.HiddenFor(m => m.Payment.PaymentTypeId, new { @value = Model.Payment.PaymentTypeId, @id = "paymentTypeId" })
+    @Html.HiddenFor(m => m.IsCollection, new { @value = Model.IsCollection })
     <div id="container">
         <div id="top">
             <div id="leadTime">
@@ -64,21 +65,35 @@
                 @if (Model.Payment.PaymentTypeId == 1)
                 {
                     <h4>Payment Card</h4>
+                    @if (isAuthenticated)
+                    {
+                        <div id="userSelect">
+                            <select id="cardSelect" class="form-control select-card" name="Payment.PaymentCard.Id" data-card-list="@Html.Raw(Json.Serialize(Model.CardForUserLists))">
+                                <option value="">Select an card</option>
+                                @foreach (var card in Model.CardForUserLists)
+                                {
+                                    <option value="@card.Id">@card.CreditCardNumber Expiry date: @card.ExpirationDate</option>
+
+                                }
+                            </select>
+                        </div>
+
+                    }
                     <div id="cardType">
                         @Html.DropDownListFor(m => m.Payment.PaymentCard.CardTypeId, new List<SelectListItem>{
                 new SelectListItem { Text = "Debit", Value="1"},
                 new SelectListItem { Text = "Credit", Value="2"}
-                }, new{@class="otherInput", @id="cardType"})
+                }, new { @class = "otherInput", @id = "cardType" })
                     </div>
                     <br>
                     <div id="cardHolder">
                         <h5>Card Holder Name</h5>
-                        @Html.TextBoxFor(m => m.Payment.PaymentCard.CardHolderName, new{@required = "required", @oninput="CheckField('cardHolder')"})
+                        @Html.TextBoxFor(m => m.Payment.PaymentCard.CardHolderName, new { @required = "required", @oninput = "CheckField('cardHolder')" })
                         <span></span>
                     </div>
                     <div id="cardNumber">
                         <h5>Card Number</h5>
-                        @Html.TextBoxFor(m => m.Payment.PaymentCard.CardNumber, new{@id="cardNumberTxtBox", @oninput="addSpaces(event)" ,@onchange="TestCreditCard()", @pattern="[0-9]{4} [0-9]{4} [0-9]{4} [0-9]{4}", @placeholder="0000 0000 0000 0000", @maxlength="19", @required = "required" })
+                        @Html.TextBoxFor(m => m.Payment.PaymentCard.CardNumber, new { @id = "cardNumberTxtBox", @oninput = "addSpaces(event)", @onchange = "TestCreditCard()", @pattern = "[0-9]{4} [0-9]{4} [0-9]{4} [0-9]{4}", @placeholder = "0000 0000 0000 0000", @maxlength = "19", @required = "required" })
                         <span id="CardAlert"></span>
                     </div>
                     <div id="expiryDate">
@@ -90,13 +105,13 @@
                         <div id="year">
                             <label for="Year">YY</label>
                             <select name="Year" id="expiryYear" class="otherInput" onchange="CheckIfCardIsValid()" placeholder="YY"></select>
-                           </div>
-                        @Html.HiddenFor(m => m.Payment.PaymentCard.ExpirationDate, new{@id="ExpiryDateBox"})
+                        </div>
+                        @Html.HiddenFor(m => m.Payment.PaymentCard.ExpirationDate, new { @id = "ExpiryDateBox" })
                         <span style="display:block;"></span>
                     </div>
                     <div id="cvc">
                         <h5>CVC</h5>
-                        @Html.TextBoxFor(m => m.Payment.PaymentCard.SecureityCode, new{ @required = "required", @oninput="CheckField('cvc')"})
+                        @Html.TextBoxFor(m => m.Payment.PaymentCard.SecureityCode, new { @required = "required", @oninput = "CheckField('cvc')" })
                         <span></span>
                     </div>
                 }
@@ -136,12 +151,12 @@
         </div>
     </div>
 }
-@section Scripts{
+@section Scripts {
     <script src="~/js/JS Card Validation.js"></script>
     <script type="text/javascript">
 
         const paymentType = document.getElementById("paymentTypeId").value;
-        if(paymentType !== 1){
+        if (paymentType !== 1) {
             let submit = document.getElementById("submitButton").disabled = false
 
         }
@@ -166,7 +181,7 @@
         var date = document.getElementById("dateBox");
         var nextDate = new Date();
         nextDate.setDate(nextDate.getDate() + 1);
-       
+
 
         if (today < openingTime) {
             time.setAttribute("min", minimumTime);
@@ -218,6 +233,7 @@
             }
 
         }
+        console.log('@Html.Raw(Json.Serialize(Model.CardForUserLists))');
         // assigning value to radio button
         function AssignValueToLeadTime() {
             var leadTimeHidden = document.getElementById("delivery");
@@ -232,9 +248,88 @@
             alert(value);
         };
 
-        function AssignValues(){
+        function AssignValues() {
             AssignValueToLeadTime();
             AssignValueToCrediCardExpiryDate();
+        }
+
+        var isAuthenticatedJS = document.getElementById('cardSelect');
+        if (isAuthenticatedJS) {
+            document.addEventListener('DOMContentLoaded', function () {
+                var cardSelect = document.getElementById('cardSelect');
+                var cardType = document.getElementById('cardType');
+                var cardHolder = document.getElementById('cardHolder').getElementsByTagName('input')[0];
+                var cardNumber = document.getElementById('cardNumberTxtBox');
+                var expiryMonth = document.getElementById('expiryMonth');
+                var expiryYear = document.getElementById('expiryYear');
+                var cvc = document.getElementById('cvc').getElementsByTagName('input')[0];
+
+                var cardForUserLists = @Html.Raw(Json.Serialize(Model.CardForUserLists));
+
+                
+                var initialCardType = cardType.value;
+                var initialCardHolder = cardHolder.value;
+                var initialCardNumber = cardNumber.value;
+                var initialExpiryMonth = expiryMonth.value;
+                var initialExpiryYear = expiryYear.value;
+                var initialCvc = cvc.value;
+
+                
+                function updateFields(selectedCardId) {
+                    
+                    var selectedCard = cardForUserLists.find(function (card) {
+                        return card.id == selectedCardId;
+                    });
+
+                    
+                    cardType.value = selectedCard.cardTypeId;
+                    cardHolder.value = selectedCard.cardHolderName;
+                    cardNumber.value = selectedCard.creditCardNumber;
+                    expiryMonth.value = selectedCard.expirationDate.split('/')[0];
+                    expiryYear.value = selectedCard.expirationDate.split('/')[1];
+                    cvc.value = ''; 
+
+                    
+                    cardType.disabled = true;
+                    cardHolder.readOnly = true;
+                    cardNumber.readOnly = true;
+                    expiryMonth.disabled = true;
+                    expiryYear.disabled = true;
+                    cvc.readOnly = true;
+                }
+
+               
+                cardSelect.addEventListener('change', function () {
+                    var selectedCardId = cardSelect.value;
+
+                    if (selectedCardId === '') {
+                        
+                        cardType.value = initialCardType;
+                        cardHolder.value = initialCardHolder;
+                        cardNumber.value = initialCardNumber;
+                        expiryMonth.value = initialExpiryMonth;
+                        expiryYear.value = initialExpiryYear;
+                        cvc.value = initialCvc;
+
+                        
+                        cardType.disabled = false;
+                        cardHolder.readOnly = false;
+                        cardNumber.readOnly = false;
+                        expiryMonth.disabled = false;
+                        expiryYear.disabled = false;
+                        cvc.readOnly = false;
+                    } else {
+                        
+                        updateFields(selectedCardId);
+                    }
+                });
+
+              
+                var initialSelectedCardId = cardSelect.value;
+                if (initialSelectedCardId !== '') {
+                    updateFields(initialSelectedCardId);
+                }
+            });
         }
 
 

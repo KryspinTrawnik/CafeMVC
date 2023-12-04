@@ -9,6 +9,13 @@ namespace CafeMVC.Application.ViewModels.Orders
 
         public string CreditCardNumber { get; set; }
 
+        public string ExpirationDate { get; set; }
+
+        public string CardHolderName { get; set; }
+
+        public int CardTypeId { get; set; }
+
+
         public void Mapping(Profile profile)
         {
             profile.CreateMap<CafeMVC.Domain.Model.PaymentCard, CreditCardForUserListVm>()

@@ -1,20 +1,30 @@
+function isEmpty(obj) {
+    return Object.keys(obj).length === 0;
+}
+
 const submitButton = document.getElementById("submitButton");
 
 function TestCreditCard() {
     var inputValue = document.getElementById("cardNumberTxtBox").value;
-    var information = checkCreditCard(inputValue);
-    if (information.success != true) {
-        const cardAlertSpan = document.getElementById("CardAlert");
-        cardAlertSpan.style.color = "red";
-        cardAlertSpan.innerHTML = information.message;
+    var information = checkCreditCard(inputValue); //cardSelect
+    var selected = document.getElementById("cardSelect").value;
+    if (selected == null || isEmpty(selected)) {
+        if (information.success != true) {
+            const cardAlertSpan = document.getElementById("CardAlert");
+            cardAlertSpan.style.color = "red";
+            cardAlertSpan.innerHTML = information.message;
+        }
+        else {
+            const cardAlertSpan = document.getElementById("CardAlert");
+            cardAlertSpan.style.color = "green";
+            cardAlertSpan.innerHTML = '<i class="fa-solid fa-circle-check" style="color:green"></i>' + information.type;
+        }
+
     }
-    else {
-        const cardAlertSpan = document.getElementById("CardAlert");
-        cardAlertSpan.style.color = "green";
-        cardAlertSpan.innerHTML = '<i class="fa-solid fa-circle-check" style="color:green"></i>'+ information.type;
-    }
+    
 
 }
+
 const checkCreditCard = cardnumber => {
 
 

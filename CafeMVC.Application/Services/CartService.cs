@@ -271,7 +271,7 @@ namespace CafeMVC.Application.Services
             }
             if(order.CustomerId !=0)
             {
-                order.cardForUserLists = _customerService.GetAllCustomersCard(order.CustomerId);
+                order.CardForUserLists = _customerService.GetAllCustomersCard(order.CustomerId);
             }
             SessionHelper.SetObjectAsJson(session, "order", order);
 

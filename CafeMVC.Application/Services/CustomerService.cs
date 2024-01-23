@@ -5,6 +5,7 @@ using CafeMVC.Application.ViewModels.Customer;
 using CafeMVC.Application.ViewModels.Orders;
 using CafeMVC.Domain.Interfaces;
 using CafeMVC.Domain.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -23,6 +24,25 @@ namespace CafeMVC.Application.Services
             _mapper = mapper;
             _addressService = addressService;
             _contactDetailService = contactDetailService;
+        }
+        private List<PaymentCard> GetValidCards(List<PaymentCard> listOfCreditCards)
+        {
+            int thisYear = DateTime.Now.Year;
+            int thisMonth = DateTime.Now.Month;
+
+            for (int i = 0; i < listOfCreditCards.Count; i++)
+            {
+                string expiryDate = listOfCreditCards[i].ExpirationDate;
+                int year = int.Parse("20"+expiryDate.Substring(3));
+                int month = int.Parse(expiryDate.Substring(0, 2));
+                if(year < thisYear || year == thisYear && thisMonth > month)
+                {
+                    listOfCreditCards.Remove(listOfCreditCards[i]);
+                }
+
+            }
+
+            return listOfCreditCards;
         }
 
         public CustomerForSummaryVm AddNewCustomer(CustomerForCreationVm customerVm)
@@ -87,10 +107,16 @@ namespace CafeMVC.Application.Services
         public List<CreditCardForUserListVm> GetAllCustomersCard(int customerId)
         {
             List<PaymentCard> listOfCreditCards = _customerRepository.GetAllCustomersPaymentCards(customerId).ToList();
-            List<CreditCardForUserListVm> listOfCreditCardsVm = _mapper.Map<List<CreditCardForUserListVm>>(listOfCreditCards);
+            if (listOfCreditCards.Count > 0)
+            {
+            List<CreditCardForUserListVm> listOfCreditCardsVm = _mapper.Map<List<CreditCardForUserListVm>>(GetValidCards(listOfCreditCards));
 
             return listOfCreditCardsVm;
+            
+            }
+
+            return null;
         }
-        
+
     }
 }

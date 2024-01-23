@@ -70,7 +70,7 @@ namespace CafeMVC.Application.Services
                 orderForSaving.OrderAddresses = GetNewOrderAdresses(order.Addresses);
 
             }
-            if(orderForSaving.Payment.PaymentTypeId ==1 )
+            if(orderForSaving.Payment.PaymentTypeId ==1 && order.Customer.Id == 0)
             {
                 orderForSaving.Customer.PaymentCards = new List<PaymentCard>
                 {

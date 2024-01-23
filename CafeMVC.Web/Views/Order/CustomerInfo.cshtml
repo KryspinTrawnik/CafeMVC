@@ -29,12 +29,12 @@
             <div class="columnOne">
                 <div id="firstName">
                     <h5>@Html.LabelFor(m => m.Customer.FirstName)</h5>
-                    <h6>@Html.TextBoxFor(m => m.Customer.FirstName, new {@class = "textBox textbox2", @required = "required", @maxlength =50, @onchange="CheckField('firstName')"})</h6>
+                    <h6>@Html.TextBoxFor(m => m.Customer.FirstName, new { @class = "textBox textbox2", @required = "required", @maxlength = 50, @onchange = "CheckField('firstName')" })</h6>
                     <span></span>
                 </div>
                 <div id="lastName">
                     <h5>@Html.LabelFor(m => m.Customer.Surname)</h5>
-                    <h6>@Html.TextBoxFor(m => m.Customer.Surname, new {@class = "textBox textbox2", @required = "required", @maxlength =50, @onchange="CheckField('lastName')"})</h6>
+                    <h6>@Html.TextBoxFor(m => m.Customer.Surname, new { @class = "textBox textbox2", @required = "required", @maxlength = 50, @onchange = "CheckField('lastName')" })</h6>
                     <span></span>
                 </div>
             </div>
@@ -43,45 +43,51 @@
                 <h5>E-mail</h5>
                 @if (isAuthenticated)
                 {
-                    <select id="emailSelect" class="form-control select-email">
+                    <select id="emailSelect" name="ContactDetails[0].Id" class="form-control select-email">
                         <option value="">Select an email</option>
                         @foreach (var contact in Model.UserContactDetails)
                         {
                             if (contact.ContactDetailTypeId == 1)
                             {
-                                <option value="@contact.ContactDetailInformation">@contact.ContactDetailInformation</option>
+                                <option value="@contact.Id">@contact.ContactDetailInformation</option>
                             }
                         }
                     </select>
                 }
-                @Html.HiddenFor(m => m.ContactDetails[0].Id)
-                @Html.HiddenFor(m => m.ContactDetails[0].ContactDetailTypeId, new {@id="emailTypeId"})
-                <h6>@Html.TextBoxFor(m => m.ContactDetails[0].ContactDetailInformation, new {@class = "textBox textbox2", @required = "required", @id="emailBox"})</h6>
+                else
+                {
+                    @Html.HiddenFor(m => m.ContactDetails[0].Id)
+                }
+                @Html.HiddenFor(m => m.ContactDetails[0].ContactDetailTypeId, new { @id = "emailTypeId" })
+                <h6>@Html.TextBoxFor(m => m.ContactDetails[0].ContactDetailInformation, new { @class = "textBox textbox2", @required = "required", @id = "emailBox" })</h6>
                 <span id="emailAlert"></span>
                 <h5>Contact phone</h5>
                 @if (isAuthenticated)
                 {
-                    <select id="phoneSelect" class="form-control select-phone">
+                    <select id="phoneSelect" name="ContactDetails[1].Id" class="form-control select-phone">
                         <option value="">Select a phone number</option>
                         @foreach (var contact in Model.UserContactDetails)
                         {
                             if (contact.ContactDetailTypeId == 2)
                             {
-                                <option value="@contact.ContactDetailInformation">@contact.ContactDetailInformation</option>
+                                <option value="@contact.Id">@contact.ContactDetailInformation</option>
                             }
                         }
                     </select>
                 }
-                @Html.HiddenFor(m => m.ContactDetails[1].Id)
-                @Html.HiddenFor(m => m.ContactDetails[1].ContactDetailTypeId, new {@id="mobileTypeId"})
-                <h6>@Html.TextBoxFor(m => m.ContactDetails[1].ContactDetailInformation, new {@class = "textBox textbox2", @required = "required", @id="phoneBox"})</h6>
+                else
+                {
+                    @Html.HiddenFor(m => m.ContactDetails[1].Id)
+                }
+                @Html.HiddenFor(m => m.ContactDetails[1].ContactDetailTypeId, new { @id = "mobileTypeId" })
+                <h6>@Html.TextBoxFor(m => m.ContactDetails[1].ContactDetailInformation, new { @class = "textBox textbox2", @required = "required", @id = "phoneBox" })</h6>
                 <span id="phoneAlert"></span>
             </div>
         </div>
     </div>
-    @Html.HiddenFor(m => m.Payment.PaymentTypeId, new{@value= Model.Payment.PaymentTypeId})
-    @Html.HiddenFor(m => m.Payment.PaymentType.Name, new{@value= Model.Payment.PaymentType.Name})
-    @Html.HiddenFor(m => m.IsCollection, new{@value= Model.IsCollection})
+    @Html.HiddenFor(m => m.Payment.PaymentTypeId, new { @value = Model.Payment.PaymentTypeId })
+    @Html.HiddenFor(m => m.Payment.PaymentType.Name, new { @value = Model.Payment.PaymentType.Name })
+    @Html.HiddenFor(m => m.IsCollection, new { @value = Model.IsCollection })
     @if (Model.Payment.PaymentTypeId == 1)
     {
 
@@ -89,7 +95,7 @@
             <div class="header">
                 <h2>Billing Address</h2>
                 <hr class="overLine">
-                @Html.HiddenFor(m => m.Addresses[0].AddressTypeId, new{@id= "billingTypeId"})
+                @Html.HiddenFor(m => m.Addresses[0].AddressTypeId, new { @id = "billingTypeId" })
             </div>
             @if (isAuthenticated)
             {
@@ -113,23 +119,23 @@
             <div class="innerGrid">
                 <div class="columnOne">
                     <div class="textbox" id="streetBil">
-                        <h5>@Html.LabelFor(m => m.Addresses[0].Street, new {@value="Street"})</h5>
+                        <h5>@Html.LabelFor(m => m.Addresses[0].Street, new { @value = "Street" })</h5>
                         <h6>
-                            @Html.TextBoxFor(m => m.Addresses[0].Street, new { @class = "textBox textbox2", @id = "streetB", @required = "required", @onchange="CheckField('streetBil')"})
+                            @Html.TextBoxFor(m => m.Addresses[0].Street, new { @class = "textBox textbox2", @id = "streetB", @required = "required", @onchange = "CheckField('streetBil')" })
                         </h6>
                         <span></span>
                     </div>
                     <div class="textbox" id="buildingNumberBil">
-                        <h5>@Html.LabelFor(m => m.Addresses[0].BuildingNumber, new {@value="Building Number"})</h5>
+                        <h5>@Html.LabelFor(m => m.Addresses[0].BuildingNumber, new { @value = "Building Number" })</h5>
                         <h6>
-                            @Html.TextBoxFor(m => m.Addresses[0].BuildingNumber, new { @class = "textBox textbox2",  @id = "buildingNumberB", @required = "required", @onchange="CheckNumber('buildingNumberBil')"})
+                            @Html.TextBoxFor(m => m.Addresses[0].BuildingNumber, new { @class = "textBox textbox2", @id = "buildingNumberB", @required = "required", @onchange = "CheckNumber('buildingNumberBil')" })
                         </h6>
                         <span></span>
                     </div>
                     <div class="textbox" id="flatNumberBil">
-                        <h5>@Html.LabelFor(m => m.Addresses[0].FlatNumber, new {@value="Flat Number"})</h5>
+                        <h5>@Html.LabelFor(m => m.Addresses[0].FlatNumber, new { @value = "Flat Number" })</h5>
                         <h6>
-                            @Html.TextBoxFor(m => m.Addresses[0].FlatNumber, new { @class = "textBox textbox2", @id = "flatNumberB", @onchange="CheckNumber('flatNumberBil')"})
+                            @Html.TextBoxFor(m => m.Addresses[0].FlatNumber, new { @class = "textBox textbox2", @id = "flatNumberB", @onchange = "CheckNumber('flatNumberBil')" })
                         </h6>
                         <span></span>
                     </div>
@@ -138,23 +144,23 @@
                 <div class="columnTwo">
                     <div class="textbox" id="postCodeB">
 
-                        <h5>@Html.LabelFor(m => m.Addresses[0].ZipCode, new {@value="Post Code"})</h5>
+                        <h5>@Html.LabelFor(m => m.Addresses[0].ZipCode, new { @value = "Post Code" })</h5>
                         <h6>
-                            @Html.TextBoxFor(m => m.Addresses[0].ZipCode, new { @class = "textBox textbox2", @id = "zipCodeB", @required = "required", @onchange="CheckField('postCodeB')"})
+                            @Html.TextBoxFor(m => m.Addresses[0].ZipCode, new { @class = "textBox textbox2", @id = "zipCodeB", @required = "required", @onchange = "CheckField('postCodeB')" })
                         </h6>
                         <span></span>
                     </div>
                     <div class="textbox" id="cityBil">
-                        <h5>@Html.LabelFor(m => m.Addresses[0].City, new {@value="City"})</h5>
+                        <h5>@Html.LabelFor(m => m.Addresses[0].City, new { @value = "City" })</h5>
                         <h6>
-                            @Html.TextBoxFor(m => m.Addresses[0].City, new { @class = "textBox textbox2", @id = "cityB", @required = "required", @onchange="CheckField('cityBil')"})
+                            @Html.TextBoxFor(m => m.Addresses[0].City, new { @class = "textBox textbox2", @id = "cityB", @required = "required", @onchange = "CheckField('cityBil')" })
                         </h6>
                         <span></span>
                     </div>
                     <div class="textbox" id="countryBil">
-                        <h5>@Html.LabelFor(m => m.Addresses[0].Country, new {@value="Country"})</h5>
+                        <h5>@Html.LabelFor(m => m.Addresses[0].Country, new { @value = "Country" })</h5>
                         <h6>
-                            @Html.TextBoxFor(m => m.Addresses[0].Country, new { @class = "textBox textbox2", @id = "countryB", @required = "required", @onchange="CheckField('countryBil')"})
+                            @Html.TextBoxFor(m => m.Addresses[0].Country, new { @class = "textBox textbox2", @id = "countryB", @required = "required", @onchange = "CheckField('countryBil')" })
                         </h6>
                         <span></span>
                     </div>
@@ -174,7 +180,7 @@
         <div class="header">
             <h2>Delivery Address</h2>
             <hr class="overline">
-            @Html.HiddenFor(m => m.Addresses[deliveryAddressIndex].AddressTypeId, new{ @id="deliveryTypeId" })
+            @Html.HiddenFor(m => m.Addresses[deliveryAddressIndex].AddressTypeId, new { @id = "deliveryTypeId" })
 
         </div>
         @if (isAuthenticated)
@@ -201,23 +207,23 @@
                 <div class="columnOne">
 
                     <div class="textbox" id="streetDel">
-                        <h5>@Html.LabelFor(m => m.Addresses[deliveryAddressIndex].Street, new {@value="Street"})</h5>
+                        <h5>@Html.LabelFor(m => m.Addresses[deliveryAddressIndex].Street, new { @value = "Street" })</h5>
                         <h6>
-                            @Html.TextBoxFor(m => m.Addresses[deliveryAddressIndex].Street, new { @class = "textBox textbox2", @id = "streetD", @onchange="CheckField('streetDel')"})
+                            @Html.TextBoxFor(m => m.Addresses[deliveryAddressIndex].Street, new { @class = "textBox textbox2", @id = "streetD", @onchange = "CheckField('streetDel')" })
                         </h6>
                         <span></span>
                     </div>
                     <div class="textbox" id="buildingNumberDel">
-                        <h5>@Html.LabelFor(m => m.Addresses[deliveryAddressIndex].BuildingNumber, new {@value="Buildin Number"})</h5>
+                        <h5>@Html.LabelFor(m => m.Addresses[deliveryAddressIndex].BuildingNumber, new { @value = "Buildin Number" })</h5>
                         <h6>
-                            @Html.TextBoxFor(m => m.Addresses[deliveryAddressIndex].BuildingNumber, new { @class = "textBox textbox2", @required = "required", @id = "buildingNumberD", @onchange="CheckNumber('buildingNumberDel')"})
+                            @Html.TextBoxFor(m => m.Addresses[deliveryAddressIndex].BuildingNumber, new { @class = "textBox textbox2", @required = "required", @id = "buildingNumberD", @onchange = "CheckNumber('buildingNumberDel')" })
                         </h6>
                         <span></span>
                     </div>
                     <div class="textbox" id="flatNumberDel">
-                        <h5>@Html.LabelFor(m => m.Addresses[deliveryAddressIndex].FlatNumber, new {@value="Flat Number"})</h5>
+                        <h5>@Html.LabelFor(m => m.Addresses[deliveryAddressIndex].FlatNumber, new { @value = "Flat Number" })</h5>
                         <h6>
-                            @Html.TextBoxFor(m => m.Addresses[deliveryAddressIndex].FlatNumber, new { @class = "textBox textbox2", @id = "flatNumberD", @required = "required", @onchange="CheckNumber('flatNumberDel')"})
+                            @Html.TextBoxFor(m => m.Addresses[deliveryAddressIndex].FlatNumber, new { @class = "textBox textbox2", @id = "flatNumberD", @required = "required", @onchange = "CheckNumber('flatNumberDel')" })
                         </h6>
                         <span></span>
                     </div>
@@ -225,23 +231,23 @@
 
                 <div class="columnTwo" id="columnTwoDelivery">
                     <div class="textbox">
-                        <h5>@Html.LabelFor(m => m.Addresses[deliveryAddressIndex].ZipCode, new {@value="Post Code"})</h5>
+                        <h5>@Html.LabelFor(m => m.Addresses[deliveryAddressIndex].ZipCode, new { @value = "Post Code" })</h5>
                         <h6>
-                            @Html.TextBoxFor(m => m.Addresses[deliveryAddressIndex].ZipCode, new { @id="zipCodeD",@class = "textBox textbox2",@required = "required", @readonly= "readonly", @value=Model.Addresses[deliveryAddressIndex].ZipCode})
+                            @Html.TextBoxFor(m => m.Addresses[deliveryAddressIndex].ZipCode, new { @id = "zipCodeD", @class = "textBox textbox2", @required = "required", @readonly = "readonly", @value = Model.Addresses[deliveryAddressIndex].ZipCode })
                         </h6>
                         <span><i class="fa-solid fa-circle-check" style="color:green"></i></span>
                     </div>
                     <div class="textbox">
-                        <h5>@Html.LabelFor(m => m.Addresses[deliveryAddressIndex].City, new {@value="City"})</h5>
+                        <h5>@Html.LabelFor(m => m.Addresses[deliveryAddressIndex].City, new { @value = "City" })</h5>
                         <h6>
-                            @Html.TextBoxFor(m => m.Addresses[deliveryAddressIndex].City, new {@id= "cityD", @class = "textBox textbox2", @readonly= "readonly", @Value="Leicester"})
+                            @Html.TextBoxFor(m => m.Addresses[deliveryAddressIndex].City, new { @id = "cityD", @class = "textBox textbox2", @readonly = "readonly", @Value = "Leicester" })
                         </h6>
                         <span><i class="fa-solid fa-circle-check" style="color:green"></i></span>
                     </div>
                     <div class="textbox">
-                        <h5>@Html.LabelFor(m => m.Addresses[deliveryAddressIndex].Country, new {@value="Country"})</h5>
+                        <h5>@Html.LabelFor(m => m.Addresses[deliveryAddressIndex].Country, new { @value = "Country" })</h5>
                         <h6>
-                            @Html.TextBoxFor(m => m.Addresses[deliveryAddressIndex].Country, new {@id="countryD", @class = "textBox textbox2", @readonly= "readonly", @Value="United Kingdoms"})
+                            @Html.TextBoxFor(m => m.Addresses[deliveryAddressIndex].Country, new { @id = "countryD", @class = "textBox textbox2", @readonly = "readonly", @Value = "United Kingdoms" })
                         </h6>
                         <span><i class="fa-solid fa-circle-check" style="color:green"></i></span>
                     </div>
@@ -256,7 +262,7 @@
     </div>
 
 }
-@section Scripts{
+@section Scripts {
     <script src="~/js/CustomerInfo.js"></script>
     <script type="text/javascript">
 
@@ -274,7 +280,11 @@
                 textboxMessage.innerHTML = '<i class="fa-solid fa-circle-check" style="color:green"></i>';
                 submit.disabled = false;
 
-            } else {
+            }
+            else if (inputText.value == "") {
+                textboxMessage.innerHTML = '';
+            }
+            else {
                 textboxMessage.style.color = "red";
                 textboxMessage.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Enter correct e-mail address';
                 submit.disabled = true;
@@ -286,35 +296,41 @@
 
 
         if (isAuthenticated) {
+
             document.getElementById("emailSelect").addEventListener("change", function () {
-                document.getElementById("emailBox").value = this.value;
-                ValidateEmail();
+                var emailBox = document.getElementById("emailBox");
+                var selectedOption = this.options[this.selectedIndex];
+
+                if (selectedOption.value != "") {
+                    emailBox.value = selectedOption.text;
+                    ValidateEmail();
+                    emailBox.readOnly = true;
+                } else {
+
+                    emailBox.value = "";
+                    emailBox.readOnly = false;
+                    ValidateEmail();
+                }
             });
+
 
             document.getElementById("phoneSelect").addEventListener("change", function () {
-                document.getElementById("phoneBox").value = this.value;
+                var phoneBox = document.getElementById("phoneBox");
+                var selectedOption = this.options[this.selectedIndex];
+                if (selectedOption.value != "") {
+
+                    phoneBox.value = selectedOption.text;
+                    phoneBox.readOnly = true;
+                }
+
+                else {
+                    phoneBox.value = "";
+                    phoneBox.readOnly = false;
+                }
             });
         }
 
-        var email = document.getElementById("emailBox");
-        email.addEventListener("change", ValidateEmail);
 
-        function ValidateEmail() {
-            var inputText = document.getElementById("emailBox");
-            var textboxMessage = document.getElementById("emailAlert");
-            var submit = document.getElementById("submitButton");
-
-            var mailformat = /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-            if (inputText.value.match(mailformat)) {
-                textboxMessage.style.color = "green";
-                textboxMessage.innerHTML = '<i class="fa-solid fa-circle-check" style="color:green"></i>';
-                submit.disabled = false;
-            } else {
-                textboxMessage.style.color = "red";
-                textboxMessage.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Enter correct e-mail address';
-                submit.disabled = true;
-            }
-        }
         if (isAuthenticated) {
 
             document.getElementById("billingAddressSelect").addEventListener("change", function () {

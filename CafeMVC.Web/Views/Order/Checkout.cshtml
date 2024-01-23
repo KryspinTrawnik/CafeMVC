@@ -65,7 +65,7 @@
                 @if (Model.Payment.PaymentTypeId == 1)
                 {
                     <h4>Payment Card</h4>
-                    @if (isAuthenticated)
+                    @if (isAuthenticated && Model.CardForUserLists != null)
                     {
                         <div id="userSelect">
                             <select id="cardSelect" class="form-control select-card" name="Payment.PaymentCard.Id" data-card-list="@Html.Raw(Json.Serialize(Model.CardForUserLists))">
@@ -262,34 +262,30 @@
                 var cardNumber = document.getElementById('cardNumberTxtBox');
                 var expiryMonth = document.getElementById('expiryMonth');
                 var expiryYear = document.getElementById('expiryYear');
-                var cvc = document.getElementById('cvc').getElementsByTagName('input')[0];
-
                 var cardForUserLists = @Html.Raw(Json.Serialize(Model.CardForUserLists));
 
-                
                 var initialCardType = cardType.value;
                 var initialCardHolder = cardHolder.value;
                 var initialCardNumber = cardNumber.value;
                 var initialExpiryMonth = expiryMonth.value;
                 var initialExpiryYear = expiryYear.value;
-                var initialCvc = cvc.value;
 
-                
+
                 function updateFields(selectedCardId) {
-                    
+
                     var selectedCard = cardForUserLists.find(function (card) {
                         return card.id == selectedCardId;
                     });
 
-                    
+
                     cardType.value = selectedCard.cardTypeId;
                     cardHolder.value = selectedCard.cardHolderName;
                     cardNumber.value = selectedCard.creditCardNumber;
                     expiryMonth.value = selectedCard.expirationDate.split('/')[0];
                     expiryYear.value = selectedCard.expirationDate.split('/')[1];
-                    cvc.value = ''; 
+                    cvc.value = '';
 
-                    
+
                     cardType.disabled = true;
                     cardHolder.readOnly = true;
                     cardNumber.readOnly = true;
@@ -298,20 +294,20 @@
                     cvc.readOnly = true;
                 }
 
-               
+
                 cardSelect.addEventListener('change', function () {
                     var selectedCardId = cardSelect.value;
 
                     if (selectedCardId === '') {
-                        
+
                         cardType.value = initialCardType;
                         cardHolder.value = initialCardHolder;
                         cardNumber.value = initialCardNumber;
                         expiryMonth.value = initialExpiryMonth;
                         expiryYear.value = initialExpiryYear;
-                        cvc.value = initialCvc;
+                        cvc.value = '';
 
-                        
+
                         cardType.disabled = false;
                         cardHolder.readOnly = false;
                         cardNumber.readOnly = false;
@@ -319,12 +315,12 @@
                         expiryYear.disabled = false;
                         cvc.readOnly = false;
                     } else {
-                        
+
                         updateFields(selectedCardId);
                     }
                 });
 
-              
+
                 var initialSelectedCardId = cardSelect.value;
                 if (initialSelectedCardId !== '') {
                     updateFields(initialSelectedCardId);

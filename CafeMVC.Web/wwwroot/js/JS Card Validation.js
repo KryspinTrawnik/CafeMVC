@@ -247,8 +247,14 @@ for (let i = 0; i < 10; i++) {
 const selectMonth = document.getElementById("expiryMonth");
 for (let i = 1; i <= 12; i++) {
     const option = document.createElement("option");
-    option.value = i;
-    option.textContent = i;
+    if (i < 10) {
+        option.value = "0"+i;
+        option.textContent = "0" + i;
+    }
+    else {
+        option.value = i;
+        option.textContent = i;
+    }
     selectMonth.appendChild(option);
 }
 

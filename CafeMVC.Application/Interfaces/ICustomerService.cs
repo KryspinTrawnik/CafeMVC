@@ -17,5 +17,7 @@ namespace CafeMVC.Application.Interfaces
         CustomerForSummaryVm GetLastAddedCustomer(int id);
 
         List<CreditCardForUserListVm> GetAllCustomersCard(int customerId);
+        string GetCustomerSurnameName(int customerId);
+        string GetCustomerFirstName(int customerId);
     }
 }

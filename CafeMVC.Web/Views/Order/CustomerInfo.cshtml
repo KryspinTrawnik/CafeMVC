@@ -24,9 +24,25 @@
             <h2>Personal Details</h2>
             <hr class="overLine">
         </div>
-
         <div class="innerGrid">
             <div class="columnOne">
+                @if (isAuthenticated)
+                {
+        @Html.HiddenFor(m => m.CustomerId, new{@value = Model.CustomerId })
+                    <div id="firstName">
+                        <h5>@Html.LabelFor(m => m.Customer.FirstName)</h5>
+                        <h6>@Html.TextBoxFor(m => m.Customer.FirstName, new { @class = "textBox textbox2", @required = "required", @readonly = "readonly", @value = Model.Customer.FirstName })</h6>
+                        <span></span>
+                    </div>
+                    <div id="lastName">
+                        <h5>@Html.LabelFor(m => m.Customer.Surname)</h5>
+                        <h6>@Html.TextBoxFor(m => m.Customer.Surname, new { @class = "textBox textbox2", @required = "required", @readonly = "readonly", @value = Model.Customer.Surname })</h6>
+                        <span></span>
+                    </div>
+
+                }
+                else
+                {
                 <div id="firstName">
                     <h5>@Html.LabelFor(m => m.Customer.FirstName)</h5>
                     <h6>@Html.TextBoxFor(m => m.Customer.FirstName, new { @class = "textBox textbox2", @required = "required", @maxlength = 50, @onchange = "CheckField('firstName')" })</h6>
@@ -37,6 +53,8 @@
                     <h6>@Html.TextBoxFor(m => m.Customer.Surname, new { @class = "textBox textbox2", @required = "required", @maxlength = 50, @onchange = "CheckField('lastName')" })</h6>
                     <span></span>
                 </div>
+                    
+                }
             </div>
 
             <div class="columnTwo">
@@ -99,7 +117,7 @@
             </div>
             @if (isAuthenticated)
             {
-                <select id="billingAddressSelect" class="form-control">
+                <select id="billingAddressSelect" name="Addresses[0].Id" class="form-control">
                     <option value="">Select a billing address</option>
                     @foreach (var address in Model.UserAddresses)
                     {
@@ -185,13 +203,15 @@
         </div>
         @if (isAuthenticated)
         {
-            <select id="deliveryAddressSelect" class="form-control">
+            int initialValue = Model.Addresses[1].Id != 0 ? Model.Addresses[1].Id : 0;
+
+            <select id="deliveryAddressSelect" name="Addresses[1].Id" class="form-control" value= @initialValue >
                 <option value="">Select a delivery address</option>
                 @foreach (var address in Model.UserAddresses)
                 {
                     if (address.AddressTypeId == 2)
                     {
-                        <option value="@address.Street">
+                        <option value="@address.Id">
                             @address.Street @address.BuildingNumber @if (address.FlatNumber != 0)
                             {
                                 @address.FlatNumber
@@ -235,7 +255,7 @@
                         <h6>
                             @Html.TextBoxFor(m => m.Addresses[deliveryAddressIndex].ZipCode, new { @id = "zipCodeD", @class = "textBox textbox2", @required = "required", @readonly = "readonly", @value = Model.Addresses[deliveryAddressIndex].ZipCode })
                         </h6>
-                        <span><i class="fa-solid fa-circle-check" style="color:green"></i></span>
+                        <span id="postCodeInfo"><i class="fa-solid fa-circle-check" style="color:green"></i></span>
                     </div>
                     <div class="textbox">
                         <h5>@Html.LabelFor(m => m.Addresses[deliveryAddressIndex].City, new { @value = "City" })</h5>
@@ -321,15 +341,21 @@
 
                     phoneBox.value = selectedOption.text;
                     phoneBox.readOnly = true;
+                    phoneNumber();
                 }
 
                 else {
                     phoneBox.value = "";
                     phoneBox.readOnly = false;
+                    phoneNumber();
                 }
             });
         }
+        var deliveryPostcode = document.getElementById("zipCodeD");
+        if (deliveryPostcode) {
 
+        deliveryPostcode.addEventListener("change", CheckPostcode);
+        }
 
         if (isAuthenticated) {
 
@@ -354,7 +380,31 @@
                         billingZipCodeTextbox.value = selectedBillingAddress.zipCode;
                         billingCityTextbox.value = selectedBillingAddress.city;
                         billingCountryTextbox.value = selectedBillingAddress.country;
+
+                        billingStreetTextbox.readOnly = true;
+                        billingBuildingNumberTextbox.readOnly = true;
+                        billingFlatNumberTextbox.readOnly = true;
+                        billingZipCodeTextbox.readOnly = true;
+                        billingCityTextbox.readOnly = true;
+                        billingCountryTextbox.readOnly = true;
+
                     }
+                }
+                else 
+                {
+                    billingStreetTextbox.value = "";
+                    billingBuildingNumberTextbox.value = "";
+                    billingFlatNumberTextbox.value = "";
+                    billingZipCodeTextbox.value = "";
+                    billingCityTextbox.value = "";
+                    billingCountryTextbox.value = "";
+                    billingStreetTextbox.readOnly = false;
+                    billingBuildingNumberTextbox.readOnly = false;
+                    billingFlatNumberTextbox.readOnly = false;
+                    billingZipCodeTextbox.readOnly = false;
+                    billingCityTextbox.readOnly = false;
+                    billingCountryTextbox.readOnly = false;
+
                 }
             });
 
@@ -374,14 +424,35 @@
 
                     if (selectedDeliveryAddress) {
                         deliveryStreetTextbox.value = selectedDeliveryAddress.street;
-                        deliveryBuildingNumberTextbox.value = selectedDeliveryAddress.suildingNumber;
+                        deliveryBuildingNumberTextbox.value = selectedDeliveryAddress.buildingNumber;
                         deliveryFlatNumberTextbox.value = selectedDeliveryAddress.flatNumber;
                         deliveryZipCodeTextbox.value = selectedDeliveryAddress.zipCode;
                         deliveryCityTextbox.value = selectedDeliveryAddress.city;
                         deliveryCountryTextbox.value = selectedDeliveryAddress.country;
+
+                        deliveryStreetTextbox.readOnly = true;
+                        deliveryBuildingNumberTextbox.readOnly = true;
+                        deliveryFlatNumberTextbox.readOnly = true;
+                        deliveryZipCodeTextbox.readOnly = true;
+                        deliveryCityTextbox.readOnly = true;
+                        deliveryCountryTextbox.readOnly = true;
+                        CheckPostcode()
                     }
+                } else {
+                    deliveryStreetTextbox.value = "";
+                    deliveryBuildingNumberTextbox.value = "";
+                    deliveryFlatNumberTextbox.value = "";
+                    deliveryZipCodeTextbox.value = "";
+                    deliveryCityTextbox.value = "Leicester";
+                    deliveryCountryTextbox.value = "Uited Kingdoms";
+
+                    deliveryStreetTextbox.readOnly = false;
+                    deliveryBuildingNumberTextbox.readOnly = false;
+                    deliveryFlatNumberTextbox.readOnly = false;
+                    deliveryZipCodeTextbox.readOnly = false;
                 }
             });
+
 
             function findAddressById(addressId, addresses) {
                 return addresses.find(function (address) {
@@ -389,5 +460,7 @@
                 });
             }
         }
+
+
     </script>
 }

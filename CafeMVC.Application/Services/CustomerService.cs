@@ -118,5 +118,8 @@ namespace CafeMVC.Application.Services
             return null;
         }
 
+        public string GetCustomerSurnameName(int customerId) => _customerRepository.GetCustomerById(customerId).Surname;
+
+        public string GetCustomerFirstName(int customerId) => _customerRepository.GetCustomerById(customerId).FirstName;
     }
 }

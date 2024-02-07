@@ -67,6 +67,7 @@
                     <h4>Payment Card</h4>
                     @if (isAuthenticated && Model.CardForUserLists != null)
                     {
+                        @Html.HiddenFor(m => m.CustomerId, new { @value = Model.CustomerId })
                         <div id="userSelect">
                             <select id="cardSelect" class="form-control select-card" name="Payment.PaymentCard.Id" data-card-list="@Html.Raw(Json.Serialize(Model.CardForUserLists))">
                                 <option value="">Select an card</option>

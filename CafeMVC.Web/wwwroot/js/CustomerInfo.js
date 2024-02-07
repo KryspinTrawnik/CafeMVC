@@ -62,6 +62,11 @@ function phoneNumber() {
         textboxMessage.innerHTML = '<i class="fa-solid fa-circle-check" style="color:green"></i>';
         submit.disabled = false;
     }
+    else if (phoneNumberBox.value == "")
+    {
+        textboxMessage.innerHTML = '';
+        submit.disabled = true;
+    }
     else {
         textboxMessage.style.color = "red";
         textboxMessage.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Enter correct phone number';
@@ -130,3 +135,45 @@ function RemoveTicksFromSpansUnderTextboxes() {
     }
 }
 
+function CheckIfCanBeDelivered(enteredPostcode) {
+    var upperPostcode = enteredPostcode.toUpperCase();
+    var isLongerThanSixSigns = upperPostcode.length > 6;
+    var firstOutcode = isLongerThanSixSigns ? "LE1 " : "LE1";
+    const listOfOutcodesForDelivery = [firstOutcode, "LE2", "LE3", "LE4"];
+    var outCode = upperPostcode.substring(0, 4);
+    var canWeDeliver = listOfOutcodesForDelivery.some((x) =>
+        outCode.includes(x));
+    return canWeDeliver;
+}
+
+function CheckPostcode() {
+    var enteredPostcode = document.getElementById("zipCodeD").value;
+    var isValid = CheckRegex(enteredPostcode);
+    var textboxMessage = document.getElementById("postCodeInfo");
+    var submit = document.getElementById("submitButton");
+    if (isValid == true) {
+        var canWeDeliver = CheckIfCanBeDelivered(enteredPostcode);
+        if (canWeDeliver == true) {
+            textboxMessage.style.color = "green";
+            textboxMessage.innerHTML = '<i class="fa-solid fa-circle-check" style="color:green"></i> We can deliver to you';
+            document.getElementById("submit").disabled = false;
+        } else {
+            textboxMessage.style.color = "red";
+            textboxMessage.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Sorry, we cannot deliver to this postcode';
+            submit.disabled = true;
+        }
+        console.log(canWeDeliver);
+    } else {
+        textboxMessage.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Sorry, the postcode is inccorrect';
+        textboxMessage.style.color = "red";
+        submit.disabled = true;
+    }
+}
+
+function CheckRegex(enteredPostcode) {
+    var regEx = /^[a-z]{1,2}\d[a-z\d]?\s*\d[a-z]{2}$/i;
+    var isValid = regEx.test(enteredPostcode);
+
+    return isValid;
+
+}

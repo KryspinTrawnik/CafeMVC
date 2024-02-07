@@ -31,7 +31,7 @@ namespace CafeMVC.Application.Services
             _cartService = cartService;
             _menuService = menuService;
         }
-        private bool MakePayment(PaymentForCreationVm payment)
+        private bool MakePayment(PaymentForCreationVm payment, decimal TotalPrice)
         {
             //Left for connection with bank or paypal system
             return true;
@@ -60,26 +60,51 @@ namespace CafeMVC.Application.Services
             order.Products = _cartService.GetListOfCartProducts(session);
             order.DateOfOrder = DateTime.Now;
             order.TotalPrice = _cartService.GetTotalPrice(session);
-            order.Payment.IsCompleted = MakePayment(order.Payment);
             order.DeliveryCharge = _cartService.GetDeliveryCharge(session);
             Order orderForSaving = _mapper.Map<Order>(order);
+            orderForSaving.Payment = MenagePayment(order);
             orderForSaving.OrderContactDetails = GetNewOrderContactDetails(order.ContactDetails);
             order.Addresses = _cartService.GetAddresses(session);
             if (order.Addresses != null)
             {
                 orderForSaving.OrderAddresses = GetNewOrderAdresses(order.Addresses);
-
             }
-            if(orderForSaving.Payment.PaymentTypeId ==1 && order.Customer.Id == 0)
+
+
+            if (orderForSaving.Payment.PaymentTypeId == 1 && order.CustomerId == 0)
             {
                 orderForSaving.Customer.PaymentCards = new List<PaymentCard>
                 {
                     orderForSaving.Payment.PaymentCard
                 };
             }
+            if(orderForSaving.CustomerId != 0) 
+            {
+                orderForSaving.Customer = null;
+            }
             orderForSaving.StatusId = 1; // status open
 
             return orderForSaving;
+        }
+
+        private Payment MenagePayment(OrderForCreationVm order)
+        {
+            Payment payment = new();
+            if (order.Payment.PaymentTypeId == 1)
+            {
+                if (order.Payment.PaymentCard.Id != 0)
+                {
+                    payment.PaymentCardId = order.Payment.PaymentCard.Id;
+                }
+                else
+                {
+                    payment.PaymentCard = _mapper.Map<PaymentCard>(order.Payment.PaymentCard);
+                }
+            }
+            payment.PaymentTypeId = order.Payment.PaymentTypeId;
+            payment.IsCompleted = MakePayment(order.Payment, order.TotalPrice);
+
+            return payment;
         }
 
         private ICollection<OrderAddress> GetNewOrderAdresses(List<AddressForCreationVm> addresses)
@@ -87,10 +112,16 @@ namespace CafeMVC.Application.Services
             List<OrderAddress> orderAddresses = new();
             foreach (var address in addresses)
             {
-                OrderAddress orderAddress = new()
+                OrderAddress orderAddress = new();
+                if (address.Id == 0)
                 {
-                    Address = _mapper.Map<Address>(address)
-                };
+                    orderAddress.Address = _mapper.Map<Address>(address);
+                }
+                else
+                {
+                    orderAddress.AddressId = address.Id;
+                }
+
                 orderAddresses.Add(orderAddress);
             }
 
@@ -102,11 +133,17 @@ namespace CafeMVC.Application.Services
             List<OrderContactDetail> newOrderContactDetails = new();
             foreach (var contactInfoForCreation in contactDetails)
             {
-                newOrderContactDetails.Add(new OrderContactDetail()
+                OrderContactDetail orderContactDetail = new();
+                if (contactInfoForCreation.Id == 0)
                 {
-                    ContactDetail = _mapper.Map<ContactDetail>(contactInfoForCreation)
+                    orderContactDetail.ContactDetail = _mapper.Map<ContactDetail>(contactInfoForCreation);
                 }
-                );
+                else
+                {
+                    orderContactDetail.ContactDetailId = contactInfoForCreation.Id;
+                }
+
+                newOrderContactDetails.Add(orderContactDetail);
             }
 
             return newOrderContactDetails;
@@ -139,7 +176,7 @@ namespace CafeMVC.Application.Services
 
             return orderId;
         }
-     
+
         public void ChangeLeadTime(int orderId, DateTime newLeadTimeOfOrder)
         {
             Order order = _orderRepository.GetOrderById(orderId);
@@ -187,7 +224,7 @@ namespace CafeMVC.Application.Services
         public OrderForViewVm GetOrderToView(int orderId)
         {
             Order order = _orderRepository.GetOrderById(orderId);
-            OrderForViewVm  orderForViewVm = _mapper.Map < OrderForViewVm >(order);
+            OrderForViewVm orderForViewVm = _mapper.Map<OrderForViewVm>(order);
             orderForViewVm.AllStatuses = _orderRepository.GetAllStatuses().ProjectTo<StatusForCreationVm>(_mapper.ConfigurationProvider).ToList();
             orderForViewVm.ContactDetails = GetContactDetailsFromOrder(orderId);
             orderForViewVm.Products = _mapper.Map<List<ProductForOrderViewVm>>(order.OrderedProductsDetails);
@@ -263,11 +300,11 @@ namespace CafeMVC.Application.Services
 
         }
 
-        public async Task <List<OrderForUserListVm>> GetCustomerOrders(int customerId)
+        public async Task<List<OrderForUserListVm>> GetCustomerOrders(int customerId)
         {
             List<Order> allCustomerOrders = await _orderRepository.GetCustomerOrders(customerId);
             List<OrderForUserListVm> orders = _mapper.Map<List<OrderForUserListVm>>(allCustomerOrders);
-            
+
             return orders;
         }
     }

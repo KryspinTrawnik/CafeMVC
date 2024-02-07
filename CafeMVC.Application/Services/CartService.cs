@@ -6,6 +6,7 @@ using CafeMVC.Application.ViewModels.Customer;
 using CafeMVC.Application.ViewModels.Orders;
 using CafeMVC.Application.ViewModels.Products;
 using CafeMVC.Domain.Interfaces;
+using CafeMVC.Domain.Model;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -116,6 +117,40 @@ namespace CafeMVC.Application.Services
 
             return newOrderedProduct;
         }
+        private List<AddressForCreationVm> PrepareAddressesForCustomerInformation(CartInformation cartInformation)
+        {
+            List<AddressForCreationVm> addresses;
+            addresses = new()
+                {
+                    new AddressForCreationVm(),
+                };
+
+            if (cartInformation.IsCollection == false)
+            {
+                if (cartInformation.PaymentTypeId == 1)
+                {
+                    if (cartInformation.Postcode == string.Empty)
+                        addresses.Add(new AddressForCreationVm() { ZipCode = cartInformation.Postcode });
+                    else
+                    {
+                        var deliveryAddress = _addressService.GetAddressToEdit(cartInformation.AddressId);
+                        addresses.Add(deliveryAddress);
+                    }
+
+                }
+                else
+                {
+                    if (cartInformation.Postcode == string.Empty)
+                        addresses[0].ZipCode = cartInformation.Postcode;
+                    else
+                    {
+                        addresses[0] = _addressService.GetAddressToEdit(cartInformation.AddressId);
+                    }
+                }
+            }
+
+            return addresses;
+        }
         public void AddProductToCart(int quantity, int productId, ISession session)
         {
             if (SessionHelper.GetObjectFromJson<List<ProductForOrderForCreationVm>>(session, "cart") == null)
@@ -214,47 +249,17 @@ namespace CafeMVC.Application.Services
                 newOrder.UserAddresses = _addressService.GetAllAddressesForCreationByCustomerId(cartInformation.CustomerId);
                 newOrder.CustomerId = cartInformation.CustomerId;
                 newOrder.UserContactDetails = _contactDetailService.GetAllContactDetailsForCreation(cartInformation.CustomerId);
-             
+                newOrder.Customer = new() { FirstName = _customerService.GetCustomerFirstName(cartInformation.CustomerId), 
+                    Surname = _customerService.GetCustomerSurnameName(cartInformation.CustomerId) };
+
+
+
             }
             SessionHelper.SetObjectAsJson(session, "order", newOrder);
 
             return newOrder;
         }
 
-        private List<AddressForCreationVm> PrepareAddressesForCustomerInformation(CartInformation cartInformation)
-        {
-            List<AddressForCreationVm> addresses;
-            addresses = new()
-                {
-                    new AddressForCreationVm(),
-                };
-
-            if (cartInformation.IsCollection == false)
-            {
-                if (cartInformation.PaymentTypeId == 1)
-                {
-                    if (cartInformation.Postcode == string.Empty)
-                        addresses.Add(new AddressForCreationVm() { ZipCode = cartInformation.Postcode });
-                    else
-                    {
-                        var deliveryAddress = _addressService.GetAddressToEdit(cartInformation.AddressId);
-                        addresses.Add(deliveryAddress);
-                    }
-
-                }
-                else
-                {
-                    if (cartInformation.Postcode == string.Empty)
-                        addresses[0].ZipCode = cartInformation.Postcode;
-                    else
-                    {
-                        addresses[0] = _addressService.GetAddressToEdit(cartInformation.AddressId);
-                    }
-                }
-            }
-
-            return addresses;
-        }
 
         public OrderForCreationVm UpdateOrderForCheckout(OrderForCreationVm newOrder, ISession session)
         {

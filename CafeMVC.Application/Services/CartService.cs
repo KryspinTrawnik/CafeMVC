@@ -129,7 +129,7 @@ namespace CafeMVC.Application.Services
             {
                 if (cartInformation.PaymentTypeId == 1)
                 {
-                    if (cartInformation.Postcode == string.Empty)
+                    if (cartInformation.Postcode != null)
                         addresses.Add(new AddressForCreationVm() { ZipCode = cartInformation.Postcode });
                     else
                     {
@@ -140,7 +140,7 @@ namespace CafeMVC.Application.Services
                 }
                 else
                 {
-                    if (cartInformation.Postcode == string.Empty)
+                    if (cartInformation.Postcode != null)
                         addresses[0].ZipCode = cartInformation.Postcode;
                     else
                     {
@@ -245,8 +245,11 @@ namespace CafeMVC.Application.Services
 
             if (cartInformation.CustomerId != 0)
             {
-
+                if(_addressService.GetAllAddressesForCreationByCustomerId(cartInformation.CustomerId) != null)
+                {
                 newOrder.UserAddresses = _addressService.GetAllAddressesForCreationByCustomerId(cartInformation.CustomerId);
+
+                }
                 newOrder.CustomerId = cartInformation.CustomerId;
                 newOrder.UserContactDetails = _contactDetailService.GetAllContactDetailsForCreation(cartInformation.CustomerId);
                 newOrder.Customer = new() { FirstName = _customerService.GetCustomerFirstName(cartInformation.CustomerId), 

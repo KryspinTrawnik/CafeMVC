@@ -13,6 +13,8 @@
             new SelectListItem { Value = Model.Payment.AllPaymentTypes[i].Id.ToString(), Text = Model.Payment.AllPaymentTypes[i].Name }
         );
     }
+
+    // int count = Model.Products.Count;
 }
 <head>
     <link rel="stylesheet" href="~/css/OrderStyleSheet.css" />
@@ -20,7 +22,7 @@
 </head>
 <h1>@title</h1>
 <div class="wrapper">
-    @if (Model.Products.Count > 0)
+    @if (Model.Products  != null)
     {
         <div class="productBar">
             @for (int i = 0; i < Model.Products.Count; i++)
@@ -143,6 +145,7 @@
                     {
                         <div id="cartDropdownAddresses">
                         </div>
+                        <div id="customerIdInput"></div>
                     }
                 </div>
                 <br />
@@ -271,14 +274,20 @@
             }
         });
         function loadPartialView() {
-            var url = '@Url.Action("CartDropdownAddresses", "Customer")';
+            var urlAddresses = '@Url.Action("CartDropdownAddresses", "Customer")';
+            var urlCustomerId = '@Url.Action("GetCustomerId", "Customer")';
 
-            $.get(url, function (data) {
-                $('#cartDropdownAddresses').html(data);
+      
+            $.get(urlAddresses, function (dataAddresses) {
+                $('#cartDropdownAddresses').html(dataAddresses);
             }).done(function () {
                 handleAddressSelection();
             });
 
+            
+            $.get(urlCustomerId, function (dataCustomerId) {
+                $('#customerIdInput').html(dataCustomerId);
+            });
         }
 
 

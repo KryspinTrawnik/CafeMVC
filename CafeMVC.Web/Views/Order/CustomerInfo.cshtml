@@ -15,7 +15,7 @@
 
 }
 
-}
+
 @using (Html.BeginForm("Checkout", "Order", FormMethod.Get, new { @id = "CustomerInfoForm" }))
 {
     <div id="customerContactInfo">
@@ -115,7 +115,7 @@
                 <hr class="overLine">
                 @Html.HiddenFor(m => m.Addresses[0].AddressTypeId, new { @id = "billingTypeId" })
             </div>
-            @if (isAuthenticated)
+            @if (isAuthenticated && Model.UserAddresses.Select(x => x.AddressTypeId == 1) != null)
             {
                 <select id="billingAddressSelect" name="Addresses[0].Id" class="form-control">
                     <option value="">Select a billing address</option>
@@ -203,7 +203,7 @@
         </div>
         @if (isAuthenticated)
         {
-            int initialValue = Model.Addresses[1].Id != 0 ? Model.Addresses[1].Id : 0;
+            int initialValue = Model.Addresses[deliveryAddressIndex].Id != 0 ? Model.Addresses[deliveryAddressIndex].Id : 0;
 
             <select id="deliveryAddressSelect" name="Addresses[1].Id" class="form-control" value= @initialValue >
                 <option value="">Select a delivery address</option>

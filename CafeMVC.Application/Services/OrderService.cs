@@ -8,7 +8,6 @@ using CafeMVC.Application.ViewModels.Products;
 using CafeMVC.Domain.Interfaces;
 using CafeMVC.Domain.Model;
 using Microsoft.AspNetCore.Http;
-using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -78,7 +77,7 @@ namespace CafeMVC.Application.Services
                     orderForSaving.Payment.PaymentCard
                 };
             }
-            if(orderForSaving.CustomerId != 0) 
+            if (orderForSaving.CustomerId != 0)
             {
                 orderForSaving.Customer = null;
             }

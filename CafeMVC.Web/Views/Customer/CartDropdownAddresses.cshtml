@@ -1,5 +1,8 @@
 ﻿@using CafeMVC.Application.ViewModels.Customer;
 @model List<AddressForOrderViewVm>
+@{
+    var customerId = ViewBag.CustomerId;
+}
 
 @if (Model != null && Model.Any())
 {
@@ -11,6 +14,5 @@
             <option value="@item.Id">@item.Address</option>
         }
     </select>
-    <input type="hidden" name="customerId" value="@Model[0].CustomerId">
-
+    
 }

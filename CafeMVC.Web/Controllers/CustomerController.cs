@@ -101,6 +101,22 @@ namespace CafeMVC.Web.Controllers
 
             return RedirectToAction("index", "Home");
         }
+        public IActionResult GetCustomerId()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId != null)
+            {
+                UserCustomerDetails currentUser = _userManager.FindByIdAsync(userId).Result;
+                if (currentUser != null)
+                {
+                    int customerId = currentUser.CustomerId.Value;
+                    return PartialView("GetCustomerId", customerId);
+                }
+            }
+
+            return View("UserNotFound");
+        }
+
         ///****Contact Detail****\\\\\\
         [HttpGet]
         public IActionResult AddNewContactDetail(int customerId)
@@ -233,11 +249,14 @@ namespace CafeMVC.Web.Controllers
                 if (currentUser != null)
                 {
                     List<AddressForOrderViewVm> list = _addressService.GetCustmersDeliveryAddresses(currentUser.CustomerId.Value);
+                    ViewBag.CustomerId = currentUser.CustomerId.Value;
                     return PartialView("CartDropdownAddresses", list);
                 }
             }
 
             return View("UserNotFound");
         }
+
+
     }
 }

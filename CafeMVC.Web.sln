@@ -31,6 +31,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CafeApi", "CafeApi\CafeApi.csproj", "{050B25C1-D809-4E72-A427-D94853E670EC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,6 +81,14 @@ Global
 		{B28F9759-C2BE-453E-B788-2C033428043D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B28F9759-C2BE-453E-B788-2C033428043D}.Release|x64.ActiveCfg = Release|x64
 		{B28F9759-C2BE-453E-B788-2C033428043D}.Release|x64.Build.0 = Release|x64
+		{050B25C1-D809-4E72-A427-D94853E670EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{050B25C1-D809-4E72-A427-D94853E670EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{050B25C1-D809-4E72-A427-D94853E670EC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{050B25C1-D809-4E72-A427-D94853E670EC}.Debug|x64.Build.0 = Debug|Any CPU
+		{050B25C1-D809-4E72-A427-D94853E670EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{050B25C1-D809-4E72-A427-D94853E670EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{050B25C1-D809-4E72-A427-D94853E670EC}.Release|x64.ActiveCfg = Release|Any CPU
+		{050B25C1-D809-4E72-A427-D94853E670EC}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -89,6 +99,7 @@ Global
 		{D1D9F7FB-6D62-4225-B13F-5549B9CD214C} = {99FAB062-37B4-48E8-9F73-80EED74679D0}
 		{298F34E9-446C-49C5-94DD-E14E80DB772B} = {61B20A9C-AA80-4ED2-AEFA-E82103EE418A}
 		{B28F9759-C2BE-453E-B788-2C033428043D} = {D4B40319-9ACB-4E6D-9A94-FF5D85C12873}
+		{050B25C1-D809-4E72-A427-D94853E670EC} = {4C5159AB-65AA-44E7-92BE-1D2BF46409D2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B2A75E61-FD48-4694-9B68-9A13C3CE940A}
